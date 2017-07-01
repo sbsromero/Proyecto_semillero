@@ -1,3 +1,18 @@
+diplomados:
+    resource: "@DiplomadosBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+mentores:
+    resource: "@MentoresBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+semillas:
+    resource: "@SemillasBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 app:
     resource: '@AppBundle/Controller/'
     type: annotation

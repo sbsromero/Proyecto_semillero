@@ -1,0 +1,4 @@
+services:
+#    diplomados.example:
+#        class: Semillero\DiplomadosBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
