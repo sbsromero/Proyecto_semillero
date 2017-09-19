@@ -1,3 +1,8 @@
+data:
+    resource: "@DataBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 diplomados:
     resource: "@DiplomadosBundle/Controller/"
     type:     annotation
