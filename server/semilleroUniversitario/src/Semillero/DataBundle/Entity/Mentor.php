@@ -4,12 +4,17 @@ namespace Semillero\DataBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
 * Mentor
 *
 * @ORM\Table(name="mentor")
 * @ORM\Entity(repositoryClass="Semillero\DataBundle\Repository\MentorRepository")
+* @UniqueEntity("email")
+* @UniqueEntity("numeroDocumento")
 */
 class Mentor implements AdvancedUserInterface
 {
@@ -26,6 +31,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="nombres", type="string", length=255)
+  * @Assert\NotBlank()
   */
   private $nombres;
 
@@ -33,6 +39,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="apellidos", type="string", length=255)
+  * @Assert\NotBlank()
   */
   private $apellidos;
 
@@ -40,6 +47,8 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="tipoDocumentoIdentidad", type="string", columnDefinition="ENUM('T.I','C.C')", length=255)
+  * @Assert\NotBlank()
+  * @Assert\Choice(choices = {"T.I", "C.C"}, message = "Seleccione un tipo de documento valido")
   */
   private $tipoDocumentoIdentidad;
 
@@ -47,6 +56,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="numeroDocumento", type="string", length=255, unique=true)
+  * @Assert\NotBlank()
   */
   private $numeroDocumento;
 
@@ -54,6 +64,7 @@ class Mentor implements AdvancedUserInterface
   * @var \DateTime
   *
   * @ORM\Column(name="fechaNacimiento", type="datetime")
+  * @Assert\NotBlank()
   */
   private $fechaNacimiento;
 
@@ -61,6 +72,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="direccion", type="string", length=255)
+  * @Assert\NotBlank()
   */
   private $direccion;
 
@@ -68,6 +80,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="municipio", type="string", length=255)
+  * @Assert\NotBlank()
   */
   private $municipio;
 
@@ -75,6 +88,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="departamento", type="string", length=255)
+  * @Assert\NotBlank()
   */
   private $departamento;
 
@@ -82,6 +96,8 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="email", type="string", length=255)
+  * @Assert\NotBlank()
+  * @Assert\Email()
   */
   private $email;
 
@@ -89,6 +105,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="numeroMovil", type="string", length=255)
+  * @Assert\NotBlank()
   */
   private $numeroMovil;
 
@@ -103,6 +120,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="password", type="string", length=255)
+  * @Assert\NotBlank()
   */
   private $password;
 
@@ -110,6 +128,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="eps", type="string", length=255)
+  * @Assert\NotBlank()
   */
   private $eps;
 
@@ -117,6 +136,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="tipoSangre", type="string", length=255)
+  * @Assert\NotBlank()
   */
   private $tipoSangre;
 
@@ -131,6 +151,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="tipoMentor", type="string", length=255)
+  * @Assert\NotBlank()
   */
   private $tipoMentor;
 
