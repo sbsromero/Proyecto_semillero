@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class MentorRepository extends EntityRepository
 {
+    public function recoverPass($numeroDocumento)
+     {
+        return $this->getEntityManager()->createQuery("SELECT m.password FROM DataBundle:Mentor m
+          WHERE m.numeroDocumento = :query")->setParameter("query",$numeroDocumento)->getResult();
+     }
 }

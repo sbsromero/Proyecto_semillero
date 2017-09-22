@@ -6,6 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\FormError;
+
 use Semillero\DataBundle\Entity\Mentor;
 use Semillero\DataBundle\Form\MentorType;
 
@@ -29,7 +33,7 @@ class MentoresController extends Controller
 
       // $misMentores = $em->getRepository('DataBundle:Mentor')->findAll();
 
-      $dql = "SELECT m FROM DataBundle:Mentor m";
+      $dql = "SELECT m FROM DataBundle:Mentor m ORDER BY m.id DESC";
       $mentores = $em->createQuery($dql);
 
       $paginator = $this->get('knp_paginator');
@@ -103,35 +107,112 @@ class MentoresController extends Controller
         // dump($request->request->all());
         $password = $form->get('password')->getData();
 
-        $encoder = $this->container->get('security.password_encoder');
-        $encoded = $encoder->encodePassword($mentor, $password);
-        // dump($encoded);exit();
+        //Validamos de que la contraseña no se guarde vacia
+        $passwordConstraint = new Assert\NotBlank();
+        $errorList = $this->get('validator')->validate($password, $passwordConstraint);
 
+        //Si no hay ningun error con la contraseña, entonces procedemos a crearla
+        if(count($errorList) == 0)
+        {
+          $encoder = $this->container->get('security.password_encoder');
+          $encoded = $encoder->encodePassword($mentor, $password);
 
-        $mentor->setPassword($encoded);
+          $mentor->setPassword($encoded);
 
+          $em = $this->getDoctrine()->getManager();
+          $em -> persist($mentor);
+          $em -> flush();
 
-        $em = $this->getDoctrine()->getManager();
-        $em -> persist($mentor);
-        $em -> flush();
+          $this->addFlash('mensaje','¡El mentor ha sido creado satisfactoriamente!');
 
-        $this->addFlash('mensaje','¡El mentor ha sido creado satisfactoriamente!');
+          return $this->redirectToRoute('semillero_mentores_index');
+        }
+        else //Si la contraseña esta vacia o presenta algun error, se notifica
+        {
+            $errorMessage = new FormError($errorList[0]->getMessage());
+            $form->get('password')->addError($errorMessage);
+        }
 
-        return $this->redirectToRoute('semillero_mentores_index');
       }
       #Renderizamos al forumlario si existe algun problema
         return $this->render('MentoresBundle:Mentor:add.html.twig',array('form' =>$form->createView()));
+    }
 
+//------------------ Metodo edit, editar un MENTOR de la base de datos --------------------
+
+    /**
+    * @Route("/mentores/edit/{numeroDocumento}",name="semillero_mentores_edit")
+    */
+    public function editAction($numeroDocumento)
+    {
+      #$Repository = $this->getDoctrine()->getRepository('DataBundle:Mentor');
+
+      #Para buscar un mentor por cualquier atributo, entonces realizamos la siguiente modificación teniendo en cuenta que toca modificar todo el parametro a dicho atributo.
+      #$mentor = $Repository->findOneByNumeroDocumento($numeroDocumento);
+
+      $em = $this->getDoctrine()->getManager();
+      $mentor = $em->getRepository('DataBundle:Mentor')->findOneByNumeroDocumento($numeroDocumento);
+
+      if(!$mentor)
+      {
+        throw $this->createNotFoundException('El Mentor a Editar NO Existe');
+      }
+
+      $form = $this->createEditForm($mentor);
+
+      return $this->render('MentoresBundle:Mentor:edit.html.twig', array('mentor'=>$mentor, 'form'=>$form->createView()));
+    }
+
+    private function createEditForm(Mentor $entity)
+    {
+      $form = $this->createForm(new MentorType(), $entity, array('action' => $this->generateUrl('semillero_mentores_update', array('numeroDocumento' => $entity->getNumeroDocumento())), 'method' => 'PUT'));
+      return $form;
+    }
+
+    /**
+    * @Route("/mentores/update/{numeroDocumento}",name="semillero_mentores_update")
+    * @Method({"POST","PUT"})
+    */
+    public function updateAction($numeroDocumento, Request $request)
+    {
+      $em = $this->getDoctrine()->getManager();
+
+      $mentor = $em->getRepository('DataBundle:Mentor')->findOneByNumeroDocumento($numeroDocumento);
+      if(!$mentor)
+      {
+        throw $this->createNotFoundException('El Mentor a Editar NO Existe');
+      }
+
+      $form = $this->createEditForm($mentor);
+      $form->handleRequest($request);
+
+      if($form->isSubmitted() && $form->isValid())
+      {
+
+        $password = $form->get('password')->getData();
+        // print_r($password);
+        // exit();
+        //Verificamos si se puso una nueva contraseña
+        if(!empty($password))
+        {
+          $encoder = $this->container->get('security.password_encoder');
+          $encoded = $encoder->encodePassword($mentor, $password);
+          $mentor->setPassword($encoded);
+        }
+        else
+        {
+          $pass = $em->getRepository('DataBundle:Mentor')->recoverPass($numeroDocumento);
+          $mentor->setPassword($pass[0]['password']);
+        }
+
+        $em -> flush();
+        $this->addFlash('mensaje','¡El mentor ha sido modificado satisfactoriamente!');
+          return $this->redirectToRoute('semillero_mentores_index', array('numeroDocumento' => $mentor->getNumeroDocumento()));
+      }
+      return $this->render('MentoresBundle:Mentor:edit.html.twig',array('mentor' => $mentor, 'form' =>$form->createView()));
     }
 
 
-    /**
-    * @Route("/mentores/create",name="semillero_mentores_create")
-    */
-
-    /**
-    * @Route("/mentores/edit",name="semillero_mentores_edit")
-    */
 
     /**
     * @Route("/mentores/delete",name="semillero_mentores_delete")

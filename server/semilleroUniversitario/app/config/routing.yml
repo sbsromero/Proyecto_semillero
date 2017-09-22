@@ -21,3 +21,10 @@ semillas:
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+
+semillero_mentores_redirect_edit:
+  path: /mentores/update/{numeroDocumento}
+  defaults:
+    _controller: MentoresBundle:Mentor:edit
+    path: /mentores/edit/{numeroDocumento}
+    permanent: true
