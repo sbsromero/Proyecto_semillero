@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Semillero\MentoresBundle\MentoresBundle(),
             new Semillero\DiplomadosBundle\DiplomadosBundle(),
             new Semillero\DataBundle\DataBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

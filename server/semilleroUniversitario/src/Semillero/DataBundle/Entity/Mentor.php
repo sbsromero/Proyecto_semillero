@@ -31,7 +31,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="nombres", type="string", length=255)
-  * @Assert\NotBlank()
+  * @Assert\NotBlank(message="Por favor ingrese el nombre del mentor")
   */
   private $nombres;
 

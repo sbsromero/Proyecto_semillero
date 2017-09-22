@@ -2,29 +2,31 @@
 
 {% block body %}
 
-{{ parent() }}
+	{{ parent() }}
+  {{ include('MentoresBundle:Mentor:messages/success.html.twig' )}}
 	<div class="container">
 		<div class="col-md-12">
 			<div class="page-header margin-none">
 				<h2 class="padding-none">Mentores</h2>
 			</div>
 			<div class="table-responsive">
+			Total Mentores: {{ pagination.getTotalItemCount }}
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-                <th>Nombres</th>
-								<th>Apellidos</th>
-                <th>Tipo De Documento</th>
-                <th>Número De Documento</th>
-                <th>Fecha De Nacimiento</th>
-								<th>Número Celular</th>
-								<th>Tipo De Mentor</th>
-								<th>Estado</th>
+								<th> {{ knp_pagination_sortable(pagination, 'Nombres', 'm.nombres') }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Apellidos', 'm.apellidos') }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Tipo De Documento', 'm.tipoDocumentoIdentidad') }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Número De Documento', 'm.numeroDocumento') }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Fecha De Nacimiento', 'm.fechaNacimiento') }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Número Celular', 'm.numeroMovil') }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Tipo De Mentor', 'm.tipoMentor') }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Estado', 'm.activo') }} </th>
 								<th>Acción</th>
 						</tr>
 					</thead>
 					<tbody>
-            {% for mentor in Mentor %}
+            {% for mentor in pagination %}
               <tr>
                 <td>{{ mentor.nombres}}</td>
                 <td>{{ mentor.apellidos}}</td>
@@ -58,6 +60,10 @@
 				        {% endfor %}
 					</tbody>
 				</table>
+				{# display navigation #}
+				<div class="navigation">
+						{{ knp_pagination_render(pagination) }}
+				</div>
 			</div>
 		</div>
 	</div>

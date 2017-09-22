@@ -23,14 +23,26 @@ class MentoresController extends Controller
     * @Route("/mentores/index",name="semillero_mentores_index")
     */
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
       $em=$this->getDoctrine()->getManager();
-      $misMentores = $em->getRepository('DataBundle:Mentor')->findAll();
+
+      // $misMentores = $em->getRepository('DataBundle:Mentor')->findAll();
+
+      $dql = "SELECT m FROM DataBundle:Mentor m";
+      $mentores = $em->createQuery($dql);
+
+      $paginator = $this->get('knp_paginator');
+      $pagination = $paginator->paginate(
+        $mentores, $request->query->getInt('page',1),
+        5
+      );
+
+      return $this->render('MentoresBundle:Mentor:index.html.twig',array('pagination' => $pagination));
 
       #Estructura: Bundle, Carpeta que contiene la vista, accion que se redirijira, tiene el mismo nombre de la plantilla
       #El array contiene el valor que nosostros queremos mandar a la plantilla, Lo que posee misMntores().
-      return $this->render('MentoresBundle:Mentor:index.html.twig',array('Mentor' => $misMentores));
+      #return $this->render('MentoresBundle:Mentor:index.html.twig',array('Mentor' => $misMentores));
     }
 
 //------------------ Metodo view, carga un MENTOR seleccionado por parametro NumeroDocumento --------------------
@@ -102,6 +114,8 @@ class MentoresController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em -> persist($mentor);
         $em -> flush();
+
+        $this->addFlash('mensaje','¡El mentor ha sido creado satisfactoriamente!');
 
         return $this->redirectToRoute('semillero_mentores_index');
       }
