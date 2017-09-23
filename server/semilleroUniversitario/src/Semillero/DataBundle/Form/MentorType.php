@@ -6,6 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 class MentorType extends AbstractType
 {
   /**
@@ -16,8 +19,11 @@ class MentorType extends AbstractType
       $builder
       ->add('nombres')
       ->add('apellidos')
-      ->add('tipoDocumentoIdentidad','choice',array('choices'=>array('T.I' => 'Tarjeta De Identidad','C.C' => 'Cedula'),
-       'placeholder' => 'Seleccionar Tipo de Documento'))
+      ->add('tipoDocumentoIdentidad','entity',array(
+        'class' => 'DataBundle:TipoDocumento',
+        'query_builder' => function(EntityRepository $er){
+          return $er->createQueryBuilder('d')->orderBy('d.id','ASC');
+        },'choice_label'=>'getNombre','placeholder'=>'Seleccione una opcion'))
       ->add('numeroDocumento')
       ->add('fechaNacimiento')
       ->add('direccion')
@@ -31,8 +37,7 @@ class MentorType extends AbstractType
       ->add('tipoSangre')
       ->add('activo', 'checkbox')
       ->add('tipoMentor')
-      ->add('save','submit', array('label' => 'Guardar Mentor'))
-      ;
+      ->add('save','submit', array('label' => 'Guardar Mentor'));
   }
 
   /**

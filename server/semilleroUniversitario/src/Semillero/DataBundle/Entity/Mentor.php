@@ -44,11 +44,9 @@ class Mentor implements AdvancedUserInterface
   private $apellidos;
 
   /**
-  * @var string
-  *
-  * @ORM\Column(name="tipoDocumentoIdentidad", type="string", columnDefinition="ENUM('T.I','C.C')", length=255)
-  * @Assert\NotBlank()
-  * @Assert\Choice(choices = {"T.I", "C.C"}, message = "Seleccione un tipo de documento valido")
+  * @ORM\ManyToOne(targetEntity="TipoDocumento", inversedBy="mentores")
+  * @ORM\JoinColumn(name="id_tipo_documento", referencedColumnName="id")
+  * @Assert\NotBlank(message="Seleccione un tipo de documento")
   */
   private $tipoDocumentoIdentidad;
 
@@ -211,28 +209,6 @@ class Mentor implements AdvancedUserInterface
     return $this->apellidos;
   }
 
-  /**
-  * Set tipoDocumentoIdentidad
-  *
-  * @param string $tipoDocumentoIdentidad
-  * @return Mentor
-  */
-  public function setTipoDocumentoIdentidad($tipoDocumentoIdentidad)
-  {
-    $this->tipoDocumentoIdentidad = $tipoDocumentoIdentidad;
-
-    return $this;
-  }
-
-  /**
-  * Get tipoDocumentoIdentidad
-  *
-  * @return string
-  */
-  public function getTipoDocumentoIdentidad()
-  {
-    return $this->tipoDocumentoIdentidad;
-  }
 
   /**
   * Set numeroDocumento
@@ -575,4 +551,27 @@ class Mentor implements AdvancedUserInterface
 
 
 
+
+    /**
+     * Set tipoDocumentoIdentidad
+     *
+     * @param \Semillero\DataBundle\Entity\TipoDocumento $tipoDocumentoIdentidad
+     * @return Mentor
+     */
+    public function setTipoDocumentoIdentidad(\Semillero\DataBundle\Entity\TipoDocumento $tipoDocumentoIdentidad = null)
+    {
+        $this->tipoDocumentoIdentidad = $tipoDocumentoIdentidad;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoDocumentoIdentidad
+     *
+     * @return \Semillero\DataBundle\Entity\TipoDocumento
+     */
+    public function getTipoDocumentoIdentidad()
+    {
+        return $this->tipoDocumentoIdentidad;
+    }
 }

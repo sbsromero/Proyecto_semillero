@@ -30,22 +30,16 @@
               <tr>
                 <td>{{ mentor.nombres}}</td>
                 <td>{{ mentor.apellidos}}</td>
-								<td>
-									{% if mentor.tipoDocumentoIdentidad == 'T.I'%}
-											<strong>Tarjeta Identidad</strong>
-									{% elseif mentor.tipoDocumentoIdentidad == 'C.C'%}
-											<strong>Cedula</strong>
-									{% endif %}
-								</td>
+								<td>{{ mentor.tipoDocumentoIdentidad.nombre }}
 								<td>{{ mentor.numeroDocumento}}</td>
 		            <td>{{ mentor.fechaNacimiento | date('d-m-Y') }}</td>
 								<td>{{ mentor.numeroMovil}}</td>
 								<td>{{ mentor.tipoMentor}}</td>
 								<td>
                   {% if mentor.activo == '1'%}
-                      <strong>Activo</strong>
-                  {% elseif mentor.activo == '0'%}
-                      <strong>Inactivo</strong>
+									<button type="button" class="btn btn-success">Activo</button>
+                  {% else %}
+									<button type="button" class="btn btn-default">Inactivo</button>
                   {% endif %}
                 </td>
 
