@@ -49,21 +49,6 @@ class MentoresController extends Controller
       #return $this->render('MentoresBundle:Mentor:index.html.twig',array('Mentor' => $misMentores));
     }
 
-//------------------ Metodo view, carga un MENTOR seleccionado por parametro NumeroDocumento --------------------
-
-    /**
-    * @Route("/mentores/view/{NumeroDocumento}",name="semillero_mentores_viewx")
-    */
-    public function viewAction($NumeroDocumento)
-    {
-      $Repository = $this->getDoctrine()->getRepository('DataBundle:Mentor');
-
-      #Para buscar un mentor por cualquier atributo, entonces realizamos la siguiente modificación teniendo en cuenta que toca modificar todo el parametro a dicho atributo.
-      #$mentor = $Repository->find($numId);
-      #$mentor = $Repository->findOneByNombres($nombres);
-      $mentor = $Repository->findOneByNumeroDocumento($NumeroDocumento);
-      return new Response('Mentor: ' . $mentor->getNombres() .' '.$mentor->getApellidos() . '  Cc: '.$mentor->getNumeroDocumento());
-    }
 
 //------------------ Metodo add, agregar un MENTOR a la base de datos --------------------
     /**
@@ -213,10 +198,94 @@ class MentoresController extends Controller
     }
 
 
+    //------------------ Metodo view, carga un MENTOR seleccionado por parametro NumeroDocumento --------------------
+
+        /**
+        * @Route("/mentores/view/{numeroDocumento}",name="semillero_mentores_view")
+        */
+        public function viewAction($numeroDocumento)
+        {
+          $Repository = $this->getDoctrine()->getRepository('DataBundle:Mentor');
+
+          #Para buscar un mentor por cualquier atributo, entonces realizamos la siguiente modificación teniendo en cuenta que toca modificar todo el parametro a dicho atributo.
+          #$mentor = $Repository->find($numId);
+          #$mentor = $Repository->findOneByNombres($nombres);
+          $mentor = $Repository->findOneByNumeroDocumento($numeroDocumento);
+
+          if(!$mentor)
+          {
+            throw $this->createNotFoundException('El Mentor a Editar NO Existe');
+          }
+
+          $deleteForm = $this->createDeleteForm($mentor);
+
+          return $this->render('MentoresBundle:Mentor:view.html.twig',array('mentor' => $mentor, 'delete_form' => $deleteForm->createView()));
+          //return new Response('Mentor: ' . $mentor->getNombres() .' '.$mentor->getApellidos() . '  Cc: '.$mentor->getNumeroDocumento());
+        }
+
+        private function createDeleteForm($mentor)
+        {
+          return $this->createFormBuilder()
+            ->setAction($this->generateUrl('semillero_mentores_delete',array('id' => $mentor->getId())))
+            ->setMethod('DELETE')
+            ->getForm();
+        }
+
+//------------------ Metodo delete, eliminar un MENTOR de la base de datos --------------------
 
     /**
-    * @Route("/mentores/delete",name="semillero_mentores_delete")
+    * @Route("/mentores/delete/{id}",name="semillero_mentores_delete")
+    * @Method({"POST","DELETE"})
     */
+
+    public function deleteAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $mentor = $em->getRepository('DataBundle:Mentor')->find($id);
+
+        if(!$mentor)
+        {
+            // $messageException = $this->get('translator')->trans('Mentor not found.');
+            // throw $this->createNotFoundException($messageException);
+            throw $this->createNotFoundException('El Mentor a eliminar NO Existe');
+        }
+
+        // $allMentors = $em->getRepository('DataBundle:Mentor')->findAll();
+        // $countUsers = count($allMentors);
+
+        // $form = $this->createDeleteForm($user);
+        //$form = $this->createCustomForm($mentor->getId(), 'DELETE', 'semillero_mentores_delete');
+        $form = $this->createDeleteForm($mentor);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+
+          $em->remove($mentor);
+          $em -> flush();
+
+          $this->addFlash('mensaje','¡El mentor ha sido eliminado satisfactoriamente!');
+            return $this->redirectToRoute('semillero_mentores_index', array('numeroDocumento' => $mentor->getNumeroDocumento()));
+
+            // if($request->isXMLHttpRequest())
+            // {
+            //     $res = $this->deleteUser($user->getRole(), $em, $user);
+            //
+            //     return new Response(
+            //         json_encode(array('removed' => $res['removed'], 'message' => $res['message'], 'countUsers' => $countUsers)),
+            //         200,
+            //         array('Content-Type' => 'application/json')
+            //     );
+            // }
+            //
+            // $res = $this->deleteUser($user->getRole(), $em, $user);
+            // $this->addFlash($res['alert'], $res['message']);
+            // return $this->redirectToRoute('emm_user_index');
+        }
+    }
+
+
 
 
 }

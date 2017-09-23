@@ -50,7 +50,7 @@
                 </td>
 
                 <td class="actions">
-                  <a href="#" class="btn btn-sm btn-info">Ver</a>
+                  <a href="{{ path('semillero_mentores_view', {numeroDocumento: mentor.numeroDocumento}) }}" class="btn btn-sm btn-info">Ver</a>
 
                   <a href="{{ path('semillero_mentores_edit', {numeroDocumento: mentor.numeroDocumento}) }}" class="btn btn-sm btn-primary">Editar</a>
 

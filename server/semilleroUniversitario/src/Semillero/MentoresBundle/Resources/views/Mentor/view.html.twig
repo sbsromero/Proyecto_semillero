@@ -1,0 +1,139 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block body %}
+	{{ parent() }}
+	<div class="container well">
+	    <div class="col-md-9">
+	    <h2>{{ mentor.nombres }} {{ mentor.apellidos }}</h2>
+	        <br>
+	        <dl>
+	            <dt>{{'Nombres:'}}</dt>
+	            <dd>
+	                {{ mentor.nombres }}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+	            <dt>{{'Apellidos:'}}</dt>
+	            <dd>
+	                {{ mentor.apellidos }}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+							<dt>{{ 'Tipo De Documento:' }}</dt>
+						 <dd>
+								 {% if mentor.tipoDocumentoIdentidad == 'T.I' %}
+									 Tarjeta De Identidad
+								 {% elseif mentor.tipoDocumentoIdentidad == 'C.C' %}
+									 Cedula
+								 {% endif %}
+								 &nbsp;
+						 </dd>
+						 <br>
+
+						 <dt>{{'Número De Documento:'}}</dt>
+						 <dd>
+								 {{ mentor.numeroDocumento }}
+								 &nbsp;
+						 </dd>
+						 <br>
+
+						 <dt>{{'fecha De Nacimiento:'}}</dt>
+							<dd>
+									{{ mentor.fechaNacimiento|date('d-m-Y') }}
+									&nbsp;
+							</dd>
+							<br>
+
+							<dt>{{'Dirección:'}}</dt>
+	            <dd>
+	                {{ mentor.direccion }}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+							<dt>{{'Municipio:'}}</dt>
+	            <dd>
+	                {{ mentor.municipio }}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+							<dt>{{'Departamento:'}}</dt>
+	            <dd>
+	                {{ mentor.departamento }}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+							<dt>{{'Correo Electronico:'}}</dt>
+	            <dd>
+	                {{ mentor.email }}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+							<dt>{{'Número De Celular:'}}</dt>
+	            <dd>
+	                {{ mentor.numeroMovil }}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+							<dt>{{'Número De Telefono:'}}</dt>
+	            <dd>
+	                {{ mentor.numeroTelefono }}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+							<dt>{{'EPS:'}}</dt>
+	            <dd>
+	                {{ mentor.eps }}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+							<dt>{{'Tipo De Sangre:'}}</dt>
+	            <dd>
+	                {{ mentor.tipoSangre }}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+							<dt>{{'Tipo De Mentor:'}}</dt>
+	            <dd>
+	                {{ mentor.tipoMentor }}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+	            <dt>{{'Activo'}}</dt>
+	            <dd>
+                	{% if mentor.getActivo() == 1 %}
+						<span class="text-success">Si</span>
+									{% elseif mentor.getActivo() == 0 %}
+						<span class="text-warning">No</span>
+                	{% endif %}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+
+	        </dl>
+	    </div>
+	    <div class="col-md-3">
+	    	<h3>{{ 'Acción a Realizar' }}:</h3>
+			<p>
+		    	<a href="{{ path('semillero_mentores_edit', { numeroDocumento: mentor.numeroDocumento }) }}" class="btn btn-primary btn-lg btn-block">
+		    		<span class="glyphicon glyphicon-edit"></span>
+		        	{{ 'Editar Mentor' }}
+				 </a>
+			</p>
+			<p>
+				    {{ include('MentoresBundle:Mentor:forms/form.html.twig', { form: delete_form, message: '¿Estas Seguro de Eliminar al Mentor?'}) }}
+			</p>
+	    </div>
+	</div>
+{% endblock %}
