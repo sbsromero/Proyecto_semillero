@@ -10,7 +10,7 @@
 					<h2>{% trans %}New Mentor{% endtrans %}</h2>
 				</div>
                 {{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form'} }) }}
-
+        <fieldset>
           <div class="form-group">
               {{ form_label(form.nombres) }}
               {{ form_widget(form.nombres, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Nombres Mentor'} }) }}

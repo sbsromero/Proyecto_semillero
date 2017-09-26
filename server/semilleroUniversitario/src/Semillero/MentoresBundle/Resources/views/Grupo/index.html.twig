@@ -1,0 +1,57 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block body %}
+
+	{{ parent() }}
+  {{ include('MentoresBundle:Grupo:messages/success.html.twig' )}}
+	<div class="container">
+		<div class="col-md-12">
+			<div class="page-header margin-none">
+				<h2 class="padding-none">Grupos</h2>
+			</div>
+			<div class="table-responsive">
+			Total Grupos: {{ pagination.getTotalItemCount }}
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+								<th> {{ knp_pagination_sortable(pagination, 'Nombre', 'g.nombre') }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Jornada', 'g.jornada') }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Fecha De Creación', 'g.fechaCreacion') }} </th>
+								<th> {{ 'mentor' }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Estado', 'g.activo') }} </th>
+								<th>Acción</th>
+						</tr>
+					</thead>
+					<tbody>
+            {% for grupo in pagination %}
+              <tr data-id="{{ grupo.id }}">
+                <td>{{ grupo.nombre}}</td>
+                <td>{{ grupo.jornada}}</td>
+		            <td>{{ grupo.fechaCreacion | date('d-m-Y') }}</td>
+								 <td>{{ grupo.mentor.fullName }}</td>
+								 <td>
+									 {% if grupo.activo == '1'%}
+ 									<button type="button" class="btn btn-success">Activo</button>
+                   {% else %}
+ 									<button type="button" class="btn btn-default">Inactivo</button>
+                   {% endif %}
+	 								</td>
+                <td class="actions">
+                  <a href="#" class="btn btn-sm btn-info">Ver</a>
+
+                  <a href="#" class="btn btn-sm btn-primary">Editar</a>
+
+                  {# <a href="#" class="btn btn-sm btn-danger btn-delete">Eliminar</a>  #}
+                </td>
+               </tr>
+				        {% endfor %}
+					</tbody>
+				</table>
+				{# display navigation #}
+				<div class="navigation">
+						{{ knp_pagination_render(pagination) }}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

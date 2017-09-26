@@ -241,16 +241,9 @@ class MentoresController extends Controller
 
     if(!$mentor)
     {
-      // $messageException = $this->get('translator')->trans('Mentor not found.');
-      // throw $this->createNotFoundException($messageException);
       throw $this->createNotFoundException('El Mentor a eliminar NO Existe');
     }
-
-    // $allMentors = $em->getRepository('DataBundle:Mentor')->findAll();
-    // $countUsers = count($allMentors);
-
-    // $form = $this->createDeleteForm($user);
-    //$form = $this->createCustomForm($mentor->getId(), 'DELETE', 'semillero_mentores_delete');
+    
     $form = $this->createDeleteForm($mentor);
     $form->handleRequest($request);
 
@@ -263,20 +256,6 @@ class MentoresController extends Controller
       $this->addFlash('mensaje','¡El mentor ha sido eliminado satisfactoriamente!');
       return $this->redirectToRoute('semillero_mentores_index', array('numeroDocumento' => $mentor->getNumeroDocumento()));
 
-      // if($request->isXMLHttpRequest())
-      // {
-      //     $res = $this->deleteUser($user->getRole(), $em, $user);
-      //
-      //     return new Response(
-      //         json_encode(array('removed' => $res['removed'], 'message' => $res['message'], 'countUsers' => $countUsers)),
-      //         200,
-      //         array('Content-Type' => 'application/json')
-      //     );
-      // }
-      //
-      // $res = $this->deleteUser($user->getRole(), $em, $user);
-      // $this->addFlash($res['alert'], $res['message']);
-      // return $this->redirectToRoute('emm_user_index');
     }
   }
 

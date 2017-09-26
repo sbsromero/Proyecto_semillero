@@ -117,7 +117,7 @@ class Mentor implements AdvancedUserInterface
   /**
   * @var string
   *
-  * @ORM\Column(name="numeroTelefono", type="string", length=255, nullable=true)
+  * @ORM\Column(name="numeroTelefono", type="string", length=255)
   */
   private $numeroTelefono;
 
@@ -580,43 +580,5 @@ class Mentor implements AdvancedUserInterface
     public function __construct()
     {
       $this->grupos = new ArrayCollection();
-    }
-
-    /**
-     * Add grupos
-     *
-     * @param \Semillero\DataBundle\Entity\Grupo $grupos
-     * @return Mentor
-     */
-    public function addGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
-    {
-        $this->grupos[] = $grupos;
-
-        return $this;
-    }
-
-    /**
-     * Remove grupos
-     *
-     * @param \Semillero\DataBundle\Entity\Grupo $grupos
-     */
-    public function removeGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
-    {
-        $this->grupos->removeElement($grupos);
-    }
-
-    /**
-     * Get grupos
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getGrupos()
-    {
-        return $this->grupos;
-    }
-
-    public function getFullName()
-    {
-      return $this->nombres . " " . $this->apellidos;
     }
 }
