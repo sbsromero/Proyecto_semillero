@@ -23,11 +23,7 @@
 
 							<dt>{{ 'Tipo De Documento:' }}</dt>
 						 <dd>
-								 {% if mentor.tipoDocumentoIdentidad == 'T.I' %}
-									 Tarjeta De Identidad
-								 {% elseif mentor.tipoDocumentoIdentidad == 'C.C' %}
-									 Cedula
-								 {% endif %}
+								 {{mentor.tipoDocumentoIdentidad.nombre}}
 								 &nbsp;
 						 </dd>
 						 <br>

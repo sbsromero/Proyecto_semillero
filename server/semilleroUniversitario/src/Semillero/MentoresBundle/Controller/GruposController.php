@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Semillero\DataBundle\Entity\Grupo;
 use Semillero\DataBundle\Form\GrupoType;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 class GruposController extends Controller
 {
 
@@ -20,7 +22,12 @@ class GruposController extends Controller
   public function indexAction(Request $request)
   {
     $em = $this->getDoctrine()->getManager();
-    $grupos = $em->getRepository('DataBundle:Grupo')->findAll();
+    //$grupos = $em->getRepository('DataBundle:Grupo')->findAll();
+
+    //------------------------------------------------------
+    $dql = "SELECT g FROM DataBundle:Grupo g";
+    $grupos = $em->createQuery($dql);
+    //------------------------------------------------------
 
     $paginator = $this->get('knp_paginator');
     $pagination = $paginator->paginate(
@@ -66,7 +73,7 @@ class GruposController extends Controller
     if($form->isValid())
     {
 
-      $grupo->setActivo(0);
+      //$grupo->setActivo(0);
       $em = $this->getDoctrine()->getManager();
       $em -> persist($grupo);
       $em -> flush();
@@ -77,5 +84,114 @@ class GruposController extends Controller
     }
     #Renderizamos al forumlario si existe algun problema
     return $this->render('MentoresBundle:Grupo:add.html.twig',array('form' =>$form->createView()));
+  }
+
+  //------------------ Metodo edit, editar un MENTOR de la base de datos --------------------
+
+  /**
+  * @Route("/grupos/edit/{id}",name="semillero_grupos_edit")
+  */
+  public function editAction($id)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $grupo = $em->getRepository('DataBundle:Grupo')->find($id);
+
+    if(!$grupo)
+    {
+      throw $this->createNotFoundException('El Grupo a Editar NO Existe');
+    }
+    $form = $this->createEditForm($grupo);
+
+    return $this->render('MentoresBundle:Grupo:edit.html.twig', array('grupo'=>$grupo, 'form'=>$form->createView()));
+  }
+
+  private function createEditForm(Grupo $entity)
+  {
+    $form = $this->createForm(new GrupoType(), $entity, array('action' => $this->generateUrl('semillero_grupos_update', array('id' => $entity->getId())), 'method' => 'PUT'));
+    return $form;
+  }
+
+  /**
+  * @Route("/grupos/update/{id}",name="semillero_grupos_update")
+  * @Method({"POST","PUT"})
+  */
+  public function updateAction($id, Request $request)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $grupo = $em->getRepository('DataBundle:Grupo')->find($id);
+
+    if(!$grupo)
+    {
+      throw $this->createNotFoundException('El Grupo a Editar NO Existe');
+    }
+
+    $form = $this->createEditForm($grupo);
+    $form->handleRequest($request);
+
+    if($form->isSubmitted() && $form->isValid())
+    {
+      $em -> flush();
+      $this->addFlash('mensaje','¡El Grupo ha sido modificado satisfactoriamente!');
+      return $this->redirectToRoute('semillero_grupos_index', array('id' => $grupo->getId()));
+    }
+    return $this->render('MentoresBundle:Grupo:edit.html.twig',array('grupo' => $grupo, 'form' =>$form->createView()));
+  }
+
+  //------------------ Metodo view, carga un GRUPÓ seleccionado por parametro Id --------------------
+  /**
+  * @Route("/grupos/view/{id}",name="semillero_grupos_view")
+  */
+  public function viewAction($id)
+  {
+    $Repository = $this->getDoctrine()->getRepository('DataBundle:Grupo');
+    $grupo = $Repository->find($id);
+    if(!$grupo)
+    {
+      throw $this->createNotFoundException('El Grupo a Editar NO Existe');
+    }
+    $mentor = $grupo->getMentor();
+    $deleteForm = $this->createDeleteForm($grupo);
+    return $this->render('MentoresBundle:Grupo:view.html.twig',array('grupo' => $grupo,'mentor' => $mentor, 'delete_form' => $deleteForm->createView()));
+  }
+
+  private function createDeleteForm($grupo)
+  {
+    return $this->createFormBuilder()
+    ->setAction($this->generateUrl('semillero_grupos_delete',array('id' => $grupo->getId())))
+    ->setMethod('DELETE')
+    ->getForm();
+  }
+
+  //------------------ Metodo delete, eliminar un GRUPÓ de la base de datos --------------------
+
+  /**
+  * @Route("/grupos/delete/{id}",name="semillero_grupos_delete")
+  * @Method({"POST","DELETE"})
+  */
+
+  public function deleteAction(Request $request, $id)
+  {
+    $em = $this->getDoctrine()->getManager();
+
+    $grupo = $em->getRepository('DataBundle:Grupo')->find($id);
+
+    if(!$grupo)
+    {
+      throw $this->createNotFoundException('El Grupo a eliminar NO Existe');
+    }
+
+    $form = $this->createDeleteForm($grupo);
+    $form->handleRequest($request);
+
+    if($form->isSubmitted() && $form->isValid())
+    {
+
+      $em->remove($grupo);
+      $em -> flush();
+
+      $this->addFlash('mensaje','¡El grupo ha sido eliminado satisfactoriamente!');
+      return $this->redirectToRoute('semillero_grupos_index', array('id' => $grupo->getId()));
+
+    }
   }
 }

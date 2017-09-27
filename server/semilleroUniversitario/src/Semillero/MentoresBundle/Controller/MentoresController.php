@@ -29,8 +29,14 @@ class MentoresController extends Controller
 
   public function indexAction(Request $request)
   {
+
     $em = $this->getDoctrine()->getManager();
-    $mentores = $em->getRepository('DataBundle:Mentor')->findAll();
+    //$mentores = $em->getRepository('DataBundle:Mentor')->findAll();
+
+    //------------------------------------------------------
+    $dql = "SELECT m FROM DataBundle:Mentor m";
+    $mentores = $em->createQuery($dql);
+    //------------------------------------------------------
 
     $paginator = $this->get('knp_paginator');
     $pagination = $paginator->paginate(
@@ -243,7 +249,7 @@ class MentoresController extends Controller
     {
       throw $this->createNotFoundException('El Mentor a eliminar NO Existe');
     }
-    
+
     $form = $this->createDeleteForm($mentor);
     $form->handleRequest($request);
 

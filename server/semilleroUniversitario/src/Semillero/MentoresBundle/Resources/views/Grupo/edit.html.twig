@@ -1,0 +1,49 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    {{ include('MentoresBundle:Grupo:messages/success.html.twig' )}}
+	<div class="main container">
+		<div class="row well">
+			<div class="col-md-6">
+				<div class="page-header">
+					<h2>Editando Grupo</h2>
+				</div>
+                {{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form'} }) }}
+                <h4 class="text-danger">{{form_errors(form) }} </h4>
+                <fieldset>
+          <div class="form-group">
+              {{ form_label(form.nombre) }}
+              {{ form_widget(form.nombre, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Nuevo nombre'} }) }}
+              <span class="text-danger">{{ form_errors(form.nombre) }}</span>
+          </div>
+
+          <div class="form-group">
+			        {{ form_label(form.jornada) }}
+			        {{ form_widget(form.jornada, {'attr': {'class': 'form-control', 'placeholder' : 'Jornada'}}) }}
+			        <span class="text-danger">{{ form_errors(form.jornada) }}</span>
+          </div>
+
+          <div class="form-group">
+              {{ form_label(form.mentor) }}
+              {{ form_widget(form.mentor, {'attr': {'class': 'form-control', 'placeholder' : 'Mentor'}}) }}
+              <span class="text-danger">{{ form_errors(form.mentor) }}</span>
+          </div>
+
+          <div class="checkbox">
+				    <label>
+						{{ form_widget(form.activo) }}Activo
+						<span class="text-danger">{{ form_errors(form.activo) }}</span>
+				    </label>
+				  </div>
+			</fieldset>
+
+		    <p>
+		        {{ form_widget(form.save, {'label' : 'Actualizar Grupo', 'attr': {'class': 'btn btn-success'}}) }}
+		    </p>
+
+                {{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

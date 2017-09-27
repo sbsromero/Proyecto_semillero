@@ -9,7 +9,7 @@
 				<div class="page-header">
 					<h2>Nuevo Grupo</h2>
 				</div>
-                {{ form_start(form, { 'attr' : {'role' : 'form'} }) }}
+                {{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form'} }) }}
         <fieldset>
               <div class="form-group">
                   {{ form_label(form.nombre) }}
@@ -23,7 +23,7 @@
 
               <div class="form-group">
                   {{ form_label(form.mentor) }}
-                  {{ form_widget(form.mentor, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Mentor del grupo'} }) }}
+                  {{ form_widget(form.mentor, { 'attr' : {'class' : 'form-control'} }) }}
               </div>
 
               <div class="checkbox">
