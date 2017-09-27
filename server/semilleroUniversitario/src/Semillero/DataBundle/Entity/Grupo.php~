@@ -3,12 +3,15 @@
 namespace Semillero\DataBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Grupo
  *
  * @ORM\Table(name="grupo")
  * @ORM\Entity(repositoryClass="Semillero\DataBundle\Repository\GrupoRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Grupo
 {
@@ -35,10 +38,10 @@ class Grupo
     private $nombre;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="jornada", type="string", length=2)
-     */
+    * @ORM\ManyToOne(targetEntity="Jornada", inversedBy="grupos")
+    * @ORM\JoinColumn(name="id_jornada", referencedColumnName="id")
+    * @Assert\NotBlank(message="Seleccione jornada del grupo")
+    */
     private $jornada;
 
     /**
@@ -136,6 +139,15 @@ class Grupo
     }
 
     /**
+      * @ORM\PrePersist
+      */
+     public function setCreatedAtValue()
+     {
+         $this->fechaCreacion = new \DateTime();
+     }
+
+
+    /**
      * Set activo
      *
      * @param boolean $activo
@@ -156,5 +168,28 @@ class Grupo
     public function getActivo()
     {
         return $this->activo;
+    }
+
+    /**
+     * Set mentor
+     *
+     * @param \Semillero\DataBundle\Entity\Mentor $mentor
+     * @return Grupo
+     */
+    public function setMentor(\Semillero\DataBundle\Entity\Mentor $mentor = null)
+    {
+        $this->mentor = $mentor;
+
+        return $this;
+    }
+
+    /**
+     * Get mentor
+     *
+     * @return \Semillero\DataBundle\Entity\Mentor
+     */
+    public function getMentor()
+    {
+        return $this->mentor;
     }
 }

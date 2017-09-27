@@ -3,6 +3,8 @@
 namespace Semillero\DataBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Grupo
@@ -32,14 +34,15 @@ class Grupo
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=255)
+     * @Assert\NotBlank(message="Por favor ingrese el nombre del grupo")
      */
     private $nombre;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="jornada", type="string", length=2)
-     */
+    * @ORM\ManyToOne(targetEntity="Jornada", inversedBy="grupos")
+    * @ORM\JoinColumn(name="id_jornada", referencedColumnName="id")
+    * @Assert\NotBlank(message="Seleccione jornada del grupo")
+    */
     private $jornada;
 
     /**

@@ -53,7 +53,7 @@ class Mentor implements AdvancedUserInterface
   /**
   * @ORM\ManyToOne(targetEntity="TipoDocumento", inversedBy="mentores")
   * @ORM\JoinColumn(name="id_tipo_documento", referencedColumnName="id")
-  * @Assert\NotBlank(message="Seleccione un tipo de documento")
+  * @Assert\NotBlank(message="¡Seleccione un tipo de documento!")
   */
   private $tipoDocumentoIdentidad;
 

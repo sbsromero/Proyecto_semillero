@@ -26,7 +26,7 @@
             {% for grupo in pagination %}
               <tr data-id="{{ grupo.id }}">
                 <td>{{ grupo.nombre}}</td>
-                <td>{{ grupo.jornada}}</td>
+                <td>{{ grupo.jornada.nombre}}</td>
 		            <td>{{ grupo.fechaCreacion | date('d-m-Y') }}</td>
 								 <td>{{ grupo.mentor.fullName }}</td>
 								 <td>

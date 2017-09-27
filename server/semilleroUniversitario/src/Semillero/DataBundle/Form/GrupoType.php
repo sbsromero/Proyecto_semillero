@@ -17,7 +17,11 @@ class GrupoType extends AbstractType
     {
         $builder
             ->add('nombre')
-            ->add('jornada')
+            ->add('jornada','entity',array(
+              'class' => 'DataBundle:Jornada',
+              'query_builder' => function(EntityRepository $er){
+                return $er->createQueryBuilder('j')->orderBy('j.id','ASC');
+              },'choice_label'=>'getNombre','placeholder'=>'Seleccione una opcion'))
             ->add('mentor','entity',array(
               'class' => 'DataBundle:Mentor',
               'query_builder' => function (EntityRepository $er){

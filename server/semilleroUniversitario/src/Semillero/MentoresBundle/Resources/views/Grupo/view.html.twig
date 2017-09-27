@@ -4,7 +4,7 @@
 	{{ parent() }}
 	<div class="container well">
 	    <div class="col-md-9">
-	    <h2>{{ grupo.nombre }} {{ grupo.jornada }}</h2>
+	    <h2>{{ grupo.nombre }} {{ grupo.jornada.nombre }}</h2>
 	        <br>
 	        <dl>
 	            <dt>{{'Nombre:'}}</dt>
@@ -16,7 +16,7 @@
 
 	            <dt>{{'Jornada:'}}</dt>
 	            <dd>
-	                {{ grupo.jornada }}
+	                {{ grupo.jornada.nombre }}
 	                &nbsp;
 	            </dd>
 	            <br>
