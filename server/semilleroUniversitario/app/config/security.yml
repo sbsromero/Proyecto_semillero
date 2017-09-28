@@ -4,14 +4,48 @@ security:
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory:
-            memory: ~
+      # mentor_provider:
+      #   entity:
+      #     class: DataBundle:Mentor
+      #     property: numeroDocumento
+      administrativos_provider:
+        entity:
+          class: DataBundle:Administrativo
+          property: numeroDocumento
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        # admin_secured_area:
+        #   pattern: ^/admin
+        #   provider: admin_provider
+        #   anonymous: ~
+        #
+        #   form_login:
+        #     login_path: /admin/login
+        #     check_path: /admin/login_check
+        #     username_parameter: _username
+        #     password_parameter: _password
+        #   logout:
+        #     path: /admin/logout
+        #     target: /admin/login
+
+        administrativos_secured_area:
+          pattern: ^/administrativos
+          provider: administrativos_provider
+          anonymous: ~
+
+          form_login:
+            login_path: /administrativos/login
+            check_path: /administrativos/login_check
+            username_parameter: _numeroDocumento
+            password_parameter: _password
+          logout:
+            path: /administrativos/logout
+            target: /administrativos/login
 
         main:
             anonymous: ~
@@ -25,5 +59,8 @@ security:
 
     encoders:
      Semillero\DataBundle\Entity\Mentor:
+      algorithm: bcrypt
+      cost: 12
+     Semillero\DataBundle\Entity\Administrador:
       algorithm: bcrypt
       cost: 12

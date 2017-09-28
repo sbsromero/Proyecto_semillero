@@ -1,3 +1,18 @@
+administrativos:
+    resource: "@AdministrativosBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+admin:
+    resource: "@AdminBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+seguridad:
+    resource: "@SeguridadBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 data:
     resource: "@DataBundle/Controller/"
     type:     annotation

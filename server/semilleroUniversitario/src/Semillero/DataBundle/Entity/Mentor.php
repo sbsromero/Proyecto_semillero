@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 * @UniqueEntity("email")
 * @UniqueEntity("numeroDocumento")
 */
-class Mentor implements AdvancedUserInterface
+class Mentor implements AdvancedUserInterface, \Serializable
 {
   /**
   * @var int
@@ -509,20 +509,30 @@ class Mentor implements AdvancedUserInterface
     return $this->tipoMentor;
   }
 
-  public function getRoles()
+  /**
+  * Set tipoDocumentoIdentidad
+  *
+  * @param \Semillero\DataBundle\Entity\TipoDocumento $tipoDocumentoIdentidad
+  * @return Mentor
+  */
+  public function setTipoDocumentoIdentidad(\Semillero\DataBundle\Entity\TipoDocumento $tipoDocumentoIdentidad = null)
   {
+    $this->tipoDocumentoIdentidad = $tipoDocumentoIdentidad;
 
+    return $this;
   }
 
-  public function getSalt()
+  /**
+  * Get tipoDocumentoIdentidad
+  *
+  * @return \Semillero\DataBundle\Entity\TipoDocumento
+  */
+  public function getTipoDocumentoIdentidad()
   {
-
+    return $this->tipoDocumentoIdentidad;
   }
 
-  public function eraseCredentials()
-  {
-
-  }
+  //---------------Metodos AdvancedUserInterface---------------
   public function isAccountNonExpired()
   {
     return true;
@@ -538,40 +548,50 @@ class Mentor implements AdvancedUserInterface
     return true;
   }
 
+  public function getUsername()
+  {
+    return $this->numeroDocumento;
+  }
+
   public function isEnabled()
-   {
-     return true;
-   }
+  {
+    return $this->activo;
+  }
 
-   public function getUsername(){
-       return $this->$numeroDocumento;
-   }
+  // serialize and unserialize must be updated - see below
+  public function serialize()
+  {
+    return serialize(array(
+      // ...
+      $this->id,
+      $this->numeroDocumento,
+      $this->password,
+      $this->activo
+    ));
+  }
 
+  public function unserialize($serialized)
+  {
+    list (
+      // ...
+      $this->id,
+      $this->numeroDocumento,
+      $this->password,
+      $this->activo
+      ) = unserialize($serialized);
+  }
 
+  public function eraseCredentials()
+  {
+  }
 
+  public function getSalt()
+  {
+    return null;
+  }
 
-
-
-    /**
-     * Set tipoDocumentoIdentidad
-     *
-     * @param \Semillero\DataBundle\Entity\TipoDocumento $tipoDocumentoIdentidad
-     * @return Mentor
-     */
-    public function setTipoDocumentoIdentidad(\Semillero\DataBundle\Entity\TipoDocumento $tipoDocumentoIdentidad = null)
-    {
-        $this->tipoDocumentoIdentidad = $tipoDocumentoIdentidad;
-
-        return $this;
-    }
-
-    /**
-     * Get tipoDocumentoIdentidad
-     *
-     * @return \Semillero\DataBundle\Entity\TipoDocumento
-     */
-    public function getTipoDocumentoIdentidad()
-    {
-        return $this->tipoDocumentoIdentidad;
-    }
+  public function getRoles()
+  {
+    return array('ROLE_ADMINISTRATIVO');
+  }
 }
