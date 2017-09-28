@@ -46,7 +46,7 @@ class SecurityController extends Controller
   public function loginAdminAction()
   {
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
-      return $this->redirectToRoute("adminHome");
+      return $this->redirectToRoute("dashboardAdmin");
     }
     $authenticationUtils = $this->get('security.authentication_utils');
     $error = $authenticationUtils->getLastAuthenticationError();

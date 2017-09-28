@@ -147,423 +147,423 @@ class Usuarios implements AdvancedUserInterface, \Serializable
   */
   private $activo;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
+  /**
+  * Get id
+  *
+  * @return integer
+  */
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  /**
+  * Set nombre
+  *
+  * @param string $nombre
+  * @return Usuarios
+  */
+  public function setNombre($nombre)
+  {
+    $this->nombre = $nombre;
+
+    return $this;
+  }
+
+  /**
+  * Get nombre
+  *
+  * @return string
+  */
+  public function getNombre()
+  {
+    return $this->nombre;
+  }
+
+  /**
+  * Set apellidos
+  *
+  * @param string $apellidos
+  * @return Usuarios
+  */
+  public function setApellidos($apellidos)
+  {
+    $this->apellidos = $apellidos;
+
+    return $this;
+  }
+
+  /**
+  * Get apellidos
+  *
+  * @return string
+  */
+  public function getApellidos()
+  {
+    return $this->apellidos;
+  }
+
+  /**
+  * Set numeroDocumento
+  *
+  * @param string $numeroDocumento
+  * @return Usuarios
+  */
+  public function setNumeroDocumento($numeroDocumento)
+  {
+    $this->numeroDocumento = $numeroDocumento;
+
+    return $this;
+  }
+
+  /**
+  * Get numeroDocumento
+  *
+  * @return string
+  */
+  public function getNumeroDocumento()
+  {
+    return $this->numeroDocumento;
+  }
+
+  /**
+  * Set fechaNacimiento
+  *
+  * @param \DateTime $fechaNacimiento
+  * @return Usuarios
+  */
+  public function setFechaNacimiento($fechaNacimiento)
+  {
+    $this->fechaNacimiento = $fechaNacimiento;
+
+    return $this;
+  }
+
+  /**
+  * Get fechaNacimiento
+  *
+  * @return \DateTime
+  */
+  public function getFechaNacimiento()
+  {
+    return $this->fechaNacimiento;
+  }
+
+  /**
+  * Set direccion
+  *
+  * @param string $direccion
+  * @return Usuarios
+  */
+  public function setDireccion($direccion)
+  {
+    $this->direccion = $direccion;
+
+    return $this;
+  }
+
+  /**
+  * Get direccion
+  *
+  * @return string
+  */
+  public function getDireccion()
+  {
+    return $this->direccion;
+  }
+
+  /**
+  * Set municipio
+  *
+  * @param string $municipio
+  * @return Usuarios
+  */
+  public function setMunicipio($municipio)
+  {
+    $this->municipio = $municipio;
+
+    return $this;
+  }
+
+  /**
+  * Get municipio
+  *
+  * @return string
+  */
+  public function getMunicipio()
+  {
+    return $this->municipio;
+  }
+
+  /**
+  * Set departamento
+  *
+  * @param string $departamento
+  * @return Usuarios
+  */
+  public function setDepartamento($departamento)
+  {
+    $this->departamento = $departamento;
+
+    return $this;
+  }
+
+  /**
+  * Get departamento
+  *
+  * @return string
+  */
+  public function getDepartamento()
+  {
+    return $this->departamento;
+  }
+
+  /**
+  * Set email
+  *
+  * @param string $email
+  * @return Usuarios
+  */
+  public function setEmail($email)
+  {
+    $this->email = $email;
+
+    return $this;
+  }
+
+  /**
+  * Get email
+  *
+  * @return string
+  */
+  public function getEmail()
+  {
+    return $this->email;
+  }
+
+  /**
+  * Set numeroCelular
+  *
+  * @param string $numeroCelular
+  * @return Usuarios
+  */
+  public function setNumeroCelular($numeroCelular)
+  {
+    $this->numeroCelular = $numeroCelular;
+
+    return $this;
+  }
+
+  /**
+  * Get numeroCelular
+  *
+  * @return string
+  */
+  public function getNumeroCelular()
+  {
+    return $this->numeroCelular;
+  }
+
+  /**
+  * Set numeroTelefono
+  *
+  * @param string $numeroTelefono
+  * @return Usuarios
+  */
+  public function setNumeroTelefono($numeroTelefono)
+  {
+    $this->numeroTelefono = $numeroTelefono;
+
+    return $this;
+  }
+
+  /**
+  * Get numeroTelefono
+  *
+  * @return string
+  */
+  public function getNumeroTelefono()
+  {
+    return $this->numeroTelefono;
+  }
+
+  /**
+  * Set password
+  *
+  * @param string $password
+  * @return Usuarios
+  */
+  public function setPassword($password)
+  {
+    $this->password = $password;
+
+    return $this;
+  }
+
+  /**
+  * Get password
+  *
+  * @return string
+  */
+  public function getPassword()
+  {
+    return $this->password;
+  }
+
+
+  /**
+  * Set eps
+  *
+  * @param string $eps
+  * @return Usuarios
+  */
+  public function setEps($eps)
+  {
+    $this->eps = $eps;
+
+    return $this;
+  }
+
+  /**
+  * Get eps
+  *
+  * @return string
+  */
+  public function getEps()
+  {
+    return $this->eps;
+  }
+
+  /**
+  * Set tipoSangre
+  *
+  * @param string $tipoSangre
+  * @return Usuarios
+  */
+  public function setTipoSangre($tipoSangre)
+  {
+    $this->tipoSangre = $tipoSangre;
+
+    return $this;
+  }
+
+  /**
+  * Get tipoSangre
+  *
+  * @return string
+  */
+  public function getTipoSangre()
+  {
+    return $this->tipoSangre;
+  }
+
+  /**
+  * Set activo
+  *
+  * @param boolean $activo
+  * @return Usuarios
+  */
+  public function setActivo($activo)
+  {
+    $this->activo = $activo;
+
+    return $this;
+  }
+
+  /**
+  * Get activo
+  *
+  * @return boolean
+  */
+  public function getActivo()
+  {
+    return $this->activo;
+  }
+
+  /**
+  * Set tipoDocumento
+  *
+  * @param \Semillero\DataBundle\Entity\TipoDocumento $tipoDocumento
+  * @return Usuarios
+  */
+  public function setTipoDocumento(\Semillero\DataBundle\Entity\TipoDocumento $tipoDocumento = null)
+  {
+    $this->tipoDocumento = $tipoDocumento;
+
+    return $this;
+  }
+
+  /**
+  * Get tipoDocumento
+  *
+  * @return \Semillero\DataBundle\Entity\TipoDocumento
+  */
+  public function getTipoDocumento()
+  {
+    return $this->tipoDocumento;
+  }
+
+
+  //---------------Metodos AdvancedUserInterface---------------
+  public function isAccountNonExpired()
+  {
+    return true;
+  }
+
+  public function isAccountNonLocked()
+  {
+    return true;
+  }
+
+  public function isCredentialsNonExpired()
+  {
+    return true;
+  }
+
+  public function getUsername()
+  {
+    return $this->numeroDocumento;
+  }
+
+  public function isEnabled()
+  {
+    return $this->activo;
+  }
+
+  // serialize and unserialize must be updated - see below
+  public function serialize()
+  {
+    return serialize(array(
+      // ...
+      $this->id,
+      $this->numeroDocumento,
+      $this->password,
+      $this->activo
+    ));
+  }
+
+  public function unserialize($serialized)
+  {
+    list (
+      // ...
+      $this->id,
+      $this->numeroDocumento,
+      $this->password,
+      $this->activo
+      ) = unserialize($serialized);
     }
 
-    /**
-     * Set nombre
-     *
-     * @param string $nombre
-     * @return Usuarios
-     */
-    public function setNombre($nombre)
+    public function eraseCredentials()
     {
-        $this->nombre = $nombre;
-
-        return $this;
     }
 
-    /**
-     * Get nombre
-     *
-     * @return string
-     */
-    public function getNombre()
+    public function getSalt()
     {
-        return $this->nombre;
+      return null;
     }
 
-    /**
-     * Set apellidos
-     *
-     * @param string $apellidos
-     * @return Usuarios
-     */
-    public function setApellidos($apellidos)
+    public function getRoles()
     {
-        $this->apellidos = $apellidos;
-
-        return $this;
+      return array('ROLE_USER');
     }
-
-    /**
-     * Get apellidos
-     *
-     * @return string
-     */
-    public function getApellidos()
-    {
-        return $this->apellidos;
-    }
-
-    /**
-     * Set numeroDocumento
-     *
-     * @param string $numeroDocumento
-     * @return Usuarios
-     */
-    public function setNumeroDocumento($numeroDocumento)
-    {
-        $this->numeroDocumento = $numeroDocumento;
-
-        return $this;
-    }
-
-    /**
-     * Get numeroDocumento
-     *
-     * @return string
-     */
-    public function getNumeroDocumento()
-    {
-        return $this->numeroDocumento;
-    }
-
-    /**
-     * Set fechaNacimiento
-     *
-     * @param \DateTime $fechaNacimiento
-     * @return Usuarios
-     */
-    public function setFechaNacimiento($fechaNacimiento)
-    {
-        $this->fechaNacimiento = $fechaNacimiento;
-
-        return $this;
-    }
-
-    /**
-     * Get fechaNacimiento
-     *
-     * @return \DateTime
-     */
-    public function getFechaNacimiento()
-    {
-        return $this->fechaNacimiento;
-    }
-
-    /**
-     * Set direccion
-     *
-     * @param string $direccion
-     * @return Usuarios
-     */
-    public function setDireccion($direccion)
-    {
-        $this->direccion = $direccion;
-
-        return $this;
-    }
-
-    /**
-     * Get direccion
-     *
-     * @return string
-     */
-    public function getDireccion()
-    {
-        return $this->direccion;
-    }
-
-    /**
-     * Set municipio
-     *
-     * @param string $municipio
-     * @return Usuarios
-     */
-    public function setMunicipio($municipio)
-    {
-        $this->municipio = $municipio;
-
-        return $this;
-    }
-
-    /**
-     * Get municipio
-     *
-     * @return string
-     */
-    public function getMunicipio()
-    {
-        return $this->municipio;
-    }
-
-    /**
-     * Set departamento
-     *
-     * @param string $departamento
-     * @return Usuarios
-     */
-    public function setDepartamento($departamento)
-    {
-        $this->departamento = $departamento;
-
-        return $this;
-    }
-
-    /**
-     * Get departamento
-     *
-     * @return string
-     */
-    public function getDepartamento()
-    {
-        return $this->departamento;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     * @return Usuarios
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set numeroCelular
-     *
-     * @param string $numeroCelular
-     * @return Usuarios
-     */
-    public function setNumeroCelular($numeroCelular)
-    {
-        $this->numeroCelular = $numeroCelular;
-
-        return $this;
-    }
-
-    /**
-     * Get numeroCelular
-     *
-     * @return string
-     */
-    public function getNumeroCelular()
-    {
-        return $this->numeroCelular;
-    }
-
-    /**
-     * Set numeroTelefono
-     *
-     * @param string $numeroTelefono
-     * @return Usuarios
-     */
-    public function setNumeroTelefono($numeroTelefono)
-    {
-        $this->numeroTelefono = $numeroTelefono;
-
-        return $this;
-    }
-
-    /**
-     * Get numeroTelefono
-     *
-     * @return string
-     */
-    public function getNumeroTelefono()
-    {
-        return $this->numeroTelefono;
-    }
-
-    /**
-     * Set password
-     *
-     * @param string $password
-     * @return Usuarios
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-    * Get password
-    *
-    * @return string
-    */
-    public function getPassword()
-    {
-      return $this->password;
-    }
-
-
-    /**
-     * Set eps
-     *
-     * @param string $eps
-     * @return Usuarios
-     */
-    public function setEps($eps)
-    {
-        $this->eps = $eps;
-
-        return $this;
-    }
-
-    /**
-     * Get eps
-     *
-     * @return string
-     */
-    public function getEps()
-    {
-        return $this->eps;
-    }
-
-    /**
-     * Set tipoSangre
-     *
-     * @param string $tipoSangre
-     * @return Usuarios
-     */
-    public function setTipoSangre($tipoSangre)
-    {
-        $this->tipoSangre = $tipoSangre;
-
-        return $this;
-    }
-
-    /**
-     * Get tipoSangre
-     *
-     * @return string
-     */
-    public function getTipoSangre()
-    {
-        return $this->tipoSangre;
-    }
-
-    /**
-     * Set activo
-     *
-     * @param boolean $activo
-     * @return Usuarios
-     */
-    public function setActivo($activo)
-    {
-        $this->activo = $activo;
-
-        return $this;
-    }
-
-    /**
-     * Get activo
-     *
-     * @return boolean
-     */
-    public function getActivo()
-    {
-        return $this->activo;
-    }
-
-    /**
-     * Set tipoDocumento
-     *
-     * @param \Semillero\DataBundle\Entity\TipoDocumento $tipoDocumento
-     * @return Usuarios
-     */
-    public function setTipoDocumento(\Semillero\DataBundle\Entity\TipoDocumento $tipoDocumento = null)
-    {
-        $this->tipoDocumento = $tipoDocumento;
-
-        return $this;
-    }
-
-    /**
-     * Get tipoDocumento
-     *
-     * @return \Semillero\DataBundle\Entity\TipoDocumento
-     */
-    public function getTipoDocumento()
-    {
-        return $this->tipoDocumento;
-    }
-
-
-      //---------------Metodos AdvancedUserInterface---------------
-      public function isAccountNonExpired()
-      {
-        return true;
-      }
-
-      public function isAccountNonLocked()
-      {
-        return true;
-      }
-
-      public function isCredentialsNonExpired()
-      {
-        return true;
-      }
-
-      public function getUsername()
-      {
-        return $this->numeroDocumento;
-      }
-
-      public function isEnabled()
-      {
-        return $this->activo;
-      }
-
-      // serialize and unserialize must be updated - see below
-      public function serialize()
-      {
-        return serialize(array(
-          // ...
-          $this->id,
-          $this->numeroDocumento,
-          $this->password,
-          $this->activo
-        ));
-      }
-
-      public function unserialize($serialized)
-      {
-        list (
-          // ...
-          $this->id,
-          $this->numeroDocumento,
-          $this->password,
-          $this->activo
-          ) = unserialize($serialized);
-      }
-
-      public function eraseCredentials()
-      {
-      }
-
-      public function getSalt()
-      {
-        return null;
-      }
-
-      public function getRoles()
-      {
-        return array('ROLE_USER');
-      }
-}
+  }

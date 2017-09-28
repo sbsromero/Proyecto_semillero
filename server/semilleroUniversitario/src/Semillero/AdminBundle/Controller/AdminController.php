@@ -5,14 +5,25 @@ namespace Semillero\AdminBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+/**
+* @Route("admin")
+*/
 class AdminController extends Controller
 {
 
   /**
-  * @Route("/admin/home", name="homeAdmin")
+  * @Route("/dashboard", name="dashboardAdmin")
   */
-  public function homeAdmin()
+  public function dashboardAdmin()
   {
-    return $this->render('AdminBundle:Admin:homeAdmin.html.twig');
+    return $this->render('AdminBundle:Admin:dashboardAdmin.html.twig');
+  }
+
+  /**
+  * @Route("/administracion", name="indexAdmin")
+  */
+  public function administracion()
+  {
+    return $this->render('AdminBundle:Admin:indexAdmin.html.twig');
   }
 }
