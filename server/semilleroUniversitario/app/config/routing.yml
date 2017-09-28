@@ -1,5 +1,5 @@
-administrativos:
-    resource: "@AdministrativosBundle/Controller/"
+usuarios:
+    resource: "@UsuariosBundle/Controller/"
     type:     annotation
     prefix:   /
 

@@ -18,9 +18,9 @@ class MentorRepository extends EntityRepository
       WHERE m.numeroDocumento = :query")->setParameter("query",$numeroDocumento)->getResult();
     }
 
-    //Retorna todos los mentores
+    // //Retorna todos los mentores
     public function findAll()
     {
-      return $this->findBy(array(), array('nombres' => 'DESC'));
+      return $this->findBy(array(), array('nombre' => 'DESC'));
     }
   }

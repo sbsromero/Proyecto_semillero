@@ -4,12 +4,12 @@
 	{{ parent() }}
 	<div class="container well">
 	    <div class="col-md-9">
-	    <h2>{{ mentor.nombres }} {{ mentor.apellidos }}</h2>
+	    <h2>{{ mentor.nombre }} {{ mentor.apellidos }}</h2>
 	        <br>
 	        <dl>
 	            <dt>{{'Nombres:'}}</dt>
 	            <dd>
-	                {{ mentor.nombres }}
+	                {{ mentor.nombre }}
 	                &nbsp;
 	            </dd>
 	            <br>
@@ -23,9 +23,9 @@
 
 							<dt>{{ 'Tipo De Documento:' }}</dt>
 						 <dd>
-								 {% if mentor.tipoDocumentoIdentidad == 'T.I' %}
+								 {% if mentor.tipoDocumento == 'T.I' %}
 									 Tarjeta De Identidad
-								 {% elseif mentor.tipoDocumentoIdentidad == 'C.C' %}
+								 {% elseif mentor.tipoDocumento == 'C.C' %}
 									 Cedula
 								 {% endif %}
 								 &nbsp;
@@ -76,7 +76,7 @@
 
 							<dt>{{'Número De Celular:'}}</dt>
 	            <dd>
-	                {{ mentor.numeroMovil }}
+	                {{ mentor.numeroCelular }}
 	                &nbsp;
 	            </dd>
 	            <br>

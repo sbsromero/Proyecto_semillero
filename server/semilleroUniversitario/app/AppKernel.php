@@ -23,7 +23,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Semillero\SeguridadBundle\SeguridadBundle(),
             new Semillero\AdminBundle\AdminBundle(),
-            new Semillero\AdministrativosBundle\AdministrativosBundle(),
+            new Semillero\UsuariosBundle\UsuariosBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

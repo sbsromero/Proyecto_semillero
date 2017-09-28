@@ -9,39 +9,39 @@ use Symfony\Component\HttpFoundation\Request;
 class SecurityController extends Controller
 {
 
-  //--------------Metodos de inicio de sesion para el mentor------------------
+  //--------------Metodos de inicio de sesion para los usuarios (mentor, semillas)------------------
   /**
-  * @Route("/semillas/login", name="mentorLogin")
+  * @Route("/usuarios/login", name="usuariosLogin")
   */
   public function loginMentorAction()
   {
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
-      return $this->redirectToRoute("homeMentor");
+      return $this->redirectToRoute("dashboardUsuarios");
     }
     $authenticationUtils = $this->get('security.authentication_utils');
     $error = $authenticationUtils->getLastAuthenticationError();
     $lastUsername = $authenticationUtils->getLastUsername();
 
-    return $this->render('SeguridadBundle:Mentor:loginMentor.html.twig', array('last_username' => $lastUsername, 'error' => $error));
+    return $this->render('SeguridadBundle:Usuarios:loginUsuarios.html.twig', array('last_username' => $lastUsername, 'error' => $error));
   }
 
   /**
-  * @Route("/semillas/login_check", name="mentorLogin_check")
+  * @Route("/usuarios/login_check", name="usuariosLogin_check")
   */
-  public function mentorLoginCheckAction()
+  public function usuariosLoginCheckAction()
   {
   }
 
   /**
-  * @Route("/semillas/logout", name="mentorLogout")
+  * @Route("/usuarios/logout", name="usuariosLogout")
   */
-  public function mentorLogoutAction()
+  public function usuariosLogoutAction()
   {
   }
 
   //---------------Metodos para inicio de sesion del administrador-----------------
   /**
-  * @Route("/administrativos/login", name="administrativosLogin")
+  * @Route("/admin/login", name="adminLogin")
   */
   public function loginAdminAction()
   {
@@ -52,18 +52,18 @@ class SecurityController extends Controller
     $error = $authenticationUtils->getLastAuthenticationError();
     $lastUsername = $authenticationUtils->getLastUsername();
 
-    return $this->render('SeguridadBundle:Administrativos:loginAdministrativos.html.twig', array('last_username' => $lastUsername, 'error' => $error));
+    return $this->render('SeguridadBundle:Admin:loginAdmin.html.twig', array('last_username' => $lastUsername, 'error' => $error));
   }
 
   /**
-  * @Route("/administrativos/login_check", name="administrativosLogin_check")
+  * @Route("/admin/login_check", name="adminLogin_check")
   */
   public function adminLoginCheckAction()
   {
   }
 
   /**
-  * @Route("/administrativos/logout", name="administrativosLogout")
+  * @Route("/admin/logout", name="adminLogout")
   */
   public function adminLogoutAction()
   {

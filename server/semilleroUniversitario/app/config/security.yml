@@ -8,10 +8,19 @@ security:
       #   entity:
       #     class: DataBundle:Mentor
       #     property: numeroDocumento
-      administrativos_provider:
+      # administrativos_provider:
+      #   entity:
+      #     class: DataBundle:Administrativo
+      #     property: numeroDocumento
+      usuarios_provider:
         entity:
-          class: DataBundle:Administrativo
+          class: DataBundle:Usuarios
           property: numeroDocumento
+
+      admin_provider:
+        entity:
+          class: DataBundle:Administrador
+          property: username
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -19,33 +28,33 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        # admin_secured_area:
-        #   pattern: ^/admin
-        #   provider: admin_provider
-        #   anonymous: ~
-        #
-        #   form_login:
-        #     login_path: /admin/login
-        #     check_path: /admin/login_check
-        #     username_parameter: _username
-        #     password_parameter: _password
-        #   logout:
-        #     path: /admin/logout
-        #     target: /admin/login
-
-        administrativos_secured_area:
-          pattern: ^/administrativos
-          provider: administrativos_provider
+        admin_secured_area:
+          pattern: ^/admin
+          provider: admin_provider
           anonymous: ~
 
           form_login:
-            login_path: /administrativos/login
-            check_path: /administrativos/login_check
+            login_path: /admin/login
+            check_path: /admin/login_check
+            username_parameter: _username
+            password_parameter: _password
+          logout:
+            path: /admin/logout
+            target: /admin/login
+
+        usuarios_secured_area:
+          pattern: ^/usuarios
+          provider: usuarios_provider
+          anonymous: ~
+
+          form_login:
+            login_path: /usuarios/login
+            check_path: /usuarios/login_check
             username_parameter: _numeroDocumento
             password_parameter: _password
           logout:
-            path: /administrativos/logout
-            target: /administrativos/login
+            path: /usuarios/logout
+            target: /usuarios/login
 
         main:
             anonymous: ~
