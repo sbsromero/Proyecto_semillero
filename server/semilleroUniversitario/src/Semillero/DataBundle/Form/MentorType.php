@@ -17,9 +17,9 @@ class MentorType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
       $builder
-      ->add('nombres')
+      ->add('nombre')
       ->add('apellidos')
-      ->add('tipoDocumentoIdentidad','entity',array(
+      ->add('tipoDocumento','entity',array(
         'class' => 'DataBundle:TipoDocumento',
         'query_builder' => function(EntityRepository $er){
           return $er->createQueryBuilder('d')->orderBy('d.id','ASC');
@@ -30,7 +30,7 @@ class MentorType extends AbstractType
       ->add('municipio')
       ->add('departamento')
       ->add('email', 'email')
-      ->add('numeroMovil')
+      ->add('numeroCelular')
       ->add('numeroTelefono')
       ->add('password', 'password')
       ->add('eps')

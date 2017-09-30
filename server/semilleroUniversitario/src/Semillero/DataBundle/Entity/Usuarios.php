@@ -3,28 +3,22 @@
 namespace Semillero\DataBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 
 /**
-* Mentor
-*
-* @ORM\Table(name="mentor")
-* @ORM\Entity(repositoryClass="Semillero\DataBundle\Repository\MentorRepository")
+* @ORM\Entity
+* @ORM\Table(name="usuarios")
+* @ORM\InheritanceType("SINGLE_TABLE")
+* @ORM\DiscriminatorColumn(name="discr", type="string")
+* @ORM\DiscriminatorMap({"mentor" = "Mentor", "semilla" = "Semilla"})
 * @UniqueEntity("email")
 * @UniqueEntity("numeroDocumento")
 */
-class Mentor implements AdvancedUserInterface
+class Usuarios implements AdvancedUserInterface, \Serializable
 {
-
-  /**
-  * @ORM\OneToMany(targetEntity="Grupo", mappedBy="Mentor")
-  */
-  protected $grupos;
-
   /**
   * @var int
   *
@@ -37,31 +31,31 @@ class Mentor implements AdvancedUserInterface
   /**
   * @var string
   *
-  * @ORM\Column(name="nombres", type="string", length=255)
-  * @Assert\NotBlank(message="Por favor ingrese el nombre del mentor")
+  * @ORM\Column(name="nombre", type="string", length=255)
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
-  private $nombres;
+  private $nombre;
 
   /**
   * @var string
   *
   * @ORM\Column(name="apellidos", type="string", length=255)
-  * @Assert\NotBlank()
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $apellidos;
 
   /**
-  * @ORM\ManyToOne(targetEntity="TipoDocumento", inversedBy="mentores")
+  * @ORM\ManyToOne(targetEntity="TipoDocumento", inversedBy="usuarios")
   * @ORM\JoinColumn(name="id_tipo_documento", referencedColumnName="id")
   * @Assert\NotBlank(message="Seleccione un tipo de documento")
   */
-  private $tipoDocumentoIdentidad;
+  private $tipoDocumento;
 
   /**
   * @var string
   *
   * @ORM\Column(name="numeroDocumento", type="string", length=255, unique=true)
-  * @Assert\NotBlank()
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $numeroDocumento;
 
@@ -69,7 +63,7 @@ class Mentor implements AdvancedUserInterface
   * @var \DateTime
   *
   * @ORM\Column(name="fechaNacimiento", type="datetime")
-  * @Assert\NotBlank()
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $fechaNacimiento;
 
@@ -77,7 +71,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="direccion", type="string", length=255)
-  * @Assert\NotBlank()
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $direccion;
 
@@ -85,7 +79,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="municipio", type="string", length=255)
-  * @Assert\NotBlank()
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $municipio;
 
@@ -93,15 +87,15 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="departamento", type="string", length=255)
-  * @Assert\NotBlank()
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $departamento;
 
   /**
   * @var string
   *
-  * @ORM\Column(name="email", type="string", length=255)
-  * @Assert\NotBlank()
+  * @ORM\Column(name="email", type="string", length=255, unique=true)
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   * @Assert\Email()
   */
   private $email;
@@ -109,15 +103,16 @@ class Mentor implements AdvancedUserInterface
   /**
   * @var string
   *
-  * @ORM\Column(name="numeroMovil", type="string", length=255)
-  * @Assert\NotBlank()
+  * @ORM\Column(name="numeroCelular", type="string", length=255)
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
-  private $numeroMovil;
+  private $numeroCelular;
 
   /**
   * @var string
   *
-  * @ORM\Column(name="numeroTelefono", type="string", length=255, nullable=true)
+  * @ORM\Column(name="numeroTelefono", type="string", length=255)
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $numeroTelefono;
 
@@ -125,6 +120,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="password", type="string", length=255)
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $password;
 
@@ -132,7 +128,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="eps", type="string", length=255)
-  * @Assert\NotBlank()
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $eps;
 
@@ -140,7 +136,7 @@ class Mentor implements AdvancedUserInterface
   * @var string
   *
   * @ORM\Column(name="tipoSangre", type="string", length=255)
-  * @Assert\NotBlank()
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $tipoSangre;
 
@@ -150,15 +146,6 @@ class Mentor implements AdvancedUserInterface
   * @ORM\Column(name="activo", type="boolean")
   */
   private $activo;
-
-  /**
-  * @var string
-  *
-  * @ORM\Column(name="tipoMentor", type="string", length=255)
-  * @Assert\NotBlank()
-  */
-  private $tipoMentor;
-
 
   /**
   * Get id
@@ -171,33 +158,33 @@ class Mentor implements AdvancedUserInterface
   }
 
   /**
-  * Set nombres
+  * Set nombre
   *
-  * @param string $nombres
-  * @return Mentor
+  * @param string $nombre
+  * @return Usuarios
   */
-  public function setNombres($nombres)
+  public function setNombre($nombre)
   {
-    $this->nombres = $nombres;
+    $this->nombre = $nombre;
 
     return $this;
   }
 
   /**
-  * Get nombres
+  * Get nombre
   *
   * @return string
   */
-  public function getNombres()
+  public function getNombre()
   {
-    return $this->nombres;
+    return $this->nombre;
   }
 
   /**
   * Set apellidos
   *
   * @param string $apellidos
-  * @return Mentor
+  * @return Usuarios
   */
   public function setApellidos($apellidos)
   {
@@ -216,12 +203,11 @@ class Mentor implements AdvancedUserInterface
     return $this->apellidos;
   }
 
-
   /**
   * Set numeroDocumento
   *
   * @param string $numeroDocumento
-  * @return Mentor
+  * @return Usuarios
   */
   public function setNumeroDocumento($numeroDocumento)
   {
@@ -244,7 +230,7 @@ class Mentor implements AdvancedUserInterface
   * Set fechaNacimiento
   *
   * @param \DateTime $fechaNacimiento
-  * @return Mentor
+  * @return Usuarios
   */
   public function setFechaNacimiento($fechaNacimiento)
   {
@@ -267,7 +253,7 @@ class Mentor implements AdvancedUserInterface
   * Set direccion
   *
   * @param string $direccion
-  * @return Mentor
+  * @return Usuarios
   */
   public function setDireccion($direccion)
   {
@@ -290,7 +276,7 @@ class Mentor implements AdvancedUserInterface
   * Set municipio
   *
   * @param string $municipio
-  * @return Mentor
+  * @return Usuarios
   */
   public function setMunicipio($municipio)
   {
@@ -313,7 +299,7 @@ class Mentor implements AdvancedUserInterface
   * Set departamento
   *
   * @param string $departamento
-  * @return Mentor
+  * @return Usuarios
   */
   public function setDepartamento($departamento)
   {
@@ -336,7 +322,7 @@ class Mentor implements AdvancedUserInterface
   * Set email
   *
   * @param string $email
-  * @return Mentor
+  * @return Usuarios
   */
   public function setEmail($email)
   {
@@ -356,33 +342,33 @@ class Mentor implements AdvancedUserInterface
   }
 
   /**
-  * Set numeroMovil
+  * Set numeroCelular
   *
-  * @param string $numeroMovil
-  * @return Mentor
+  * @param string $numeroCelular
+  * @return Usuarios
   */
-  public function setNumeroMovil($numeroMovil)
+  public function setNumeroCelular($numeroCelular)
   {
-    $this->numeroMovil = $numeroMovil;
+    $this->numeroCelular = $numeroCelular;
 
     return $this;
   }
 
   /**
-  * Get numeroMovil
+  * Get numeroCelular
   *
   * @return string
   */
-  public function getNumeroMovil()
+  public function getNumeroCelular()
   {
-    return $this->numeroMovil;
+    return $this->numeroCelular;
   }
 
   /**
   * Set numeroTelefono
   *
   * @param string $numeroTelefono
-  * @return Mentor
+  * @return Usuarios
   */
   public function setNumeroTelefono($numeroTelefono)
   {
@@ -405,7 +391,7 @@ class Mentor implements AdvancedUserInterface
   * Set password
   *
   * @param string $password
-  * @return Mentor
+  * @return Usuarios
   */
   public function setPassword($password)
   {
@@ -424,11 +410,12 @@ class Mentor implements AdvancedUserInterface
     return $this->password;
   }
 
+
   /**
   * Set eps
   *
   * @param string $eps
-  * @return Mentor
+  * @return Usuarios
   */
   public function setEps($eps)
   {
@@ -451,7 +438,7 @@ class Mentor implements AdvancedUserInterface
   * Set tipoSangre
   *
   * @param string $tipoSangre
-  * @return Mentor
+  * @return Usuarios
   */
   public function setTipoSangre($tipoSangre)
   {
@@ -474,7 +461,7 @@ class Mentor implements AdvancedUserInterface
   * Set activo
   *
   * @param boolean $activo
-  * @return Mentor
+  * @return Usuarios
   */
   public function setActivo($activo)
   {
@@ -494,42 +481,30 @@ class Mentor implements AdvancedUserInterface
   }
 
   /**
-  * Set tipoMentor
+  * Set tipoDocumento
   *
-  * @param string $tipoMentor
-  * @return Mentor
+  * @param \Semillero\DataBundle\Entity\TipoDocumento $tipoDocumento
+  * @return Usuarios
   */
-  public function setTipoMentor($tipoMentor)
+  public function setTipoDocumento(\Semillero\DataBundle\Entity\TipoDocumento $tipoDocumento = null)
   {
-    $this->tipoMentor = $tipoMentor;
+    $this->tipoDocumento = $tipoDocumento;
 
     return $this;
   }
 
   /**
-  * Get tipoMentor
+  * Get tipoDocumento
   *
-  * @return string
+  * @return \Semillero\DataBundle\Entity\TipoDocumento
   */
-  public function getTipoMentor()
+  public function getTipoDocumento()
   {
-    return $this->tipoMentor;
+    return $this->tipoDocumento;
   }
 
-  public function getRoles()
-  {
 
-  }
-
-  public function getSalt()
-  {
-
-  }
-
-  public function eraseCredentials()
-  {
-
-  }
+  //---------------Metodos AdvancedUserInterface---------------
   public function isAccountNonExpired()
   {
     return true;
@@ -545,78 +520,50 @@ class Mentor implements AdvancedUserInterface
     return true;
   }
 
+  public function getUsername()
+  {
+    return $this->numeroDocumento;
+  }
+
   public function isEnabled()
-   {
-     return true;
-   }
+  {
+    return $this->activo;
+  }
 
-   public function getUsername(){
-       return $this->$numeroDocumento;
-   }
+  // serialize and unserialize must be updated - see below
+  public function serialize()
+  {
+    return serialize(array(
+      // ...
+      $this->id,
+      $this->numeroDocumento,
+      $this->password,
+      $this->activo
+    ));
+  }
 
-    /**
-     * Set tipoDocumentoIdentidad
-     *
-     * @param \Semillero\DataBundle\Entity\TipoDocumento $tipoDocumentoIdentidad
-     * @return Mentor
-     */
-    public function setTipoDocumentoIdentidad(\Semillero\DataBundle\Entity\TipoDocumento $tipoDocumentoIdentidad = null)
-    {
-        $this->tipoDocumentoIdentidad = $tipoDocumentoIdentidad;
-
-        return $this;
+  public function unserialize($serialized)
+  {
+    list (
+      // ...
+      $this->id,
+      $this->numeroDocumento,
+      $this->password,
+      $this->activo
+      ) = unserialize($serialized);
     }
 
-    /**
-     * Get tipoDocumentoIdentidad
-     *
-     * @return \Semillero\DataBundle\Entity\TipoDocumento
-     */
-    public function getTipoDocumentoIdentidad()
+    public function eraseCredentials()
     {
-        return $this->tipoDocumentoIdentidad;
     }
 
-    public function __construct()
+    public function getSalt()
     {
-      $this->grupos = new ArrayCollection();
+      return null;
     }
 
-    /**
-     * Add grupos
-     *
-     * @param \Semillero\DataBundle\Entity\Grupo $grupos
-     * @return Mentor
-     */
-    public function addGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
+    public function getRoles()
     {
-        $this->grupos[] = $grupos;
-
-        return $this;
+      return array('ROLE_USER');
     }
-
-    /**
-     * Remove grupos
-     *
-     * @param \Semillero\DataBundle\Entity\Grupo $grupos
-     */
-    public function removeGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
-    {
-        $this->grupos->removeElement($grupos);
-    }
-
-    /**
-     * Get grupos
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getGrupos()
-    {
-        return $this->grupos;
-    }
-
-    public function getFullName()
-    {
-      return $this->nombres . " " . $this->apellidos;
-    }
-}
+  }

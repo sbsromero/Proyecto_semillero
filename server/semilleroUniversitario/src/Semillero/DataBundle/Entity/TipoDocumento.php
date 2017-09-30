@@ -29,9 +29,9 @@ class TipoDocumento
     private $nombre;
 
     /**
-   * @ORM\OneToMany(targetEntity="Mentor", mappedBy="tipoDocumentoIdentidad")
+   * @ORM\OneToMany(targetEntity="Usuarios", mappedBy="tipoDocumento")
    **/
-    private $mentores;
+    private $usuarios;
 
     /**
      * Get id
@@ -105,5 +105,38 @@ class TipoDocumento
     public function getMentores()
     {
         return $this->mentores;
+    }
+
+    /**
+     * Add usuarios
+     *
+     * @param \Semillero\DataBundle\Entity\Usuarios $usuarios
+     * @return TipoDocumento
+     */
+    public function addUsuario(\Semillero\DataBundle\Entity\Usuarios $usuarios)
+    {
+        $this->usuarios[] = $usuarios;
+
+        return $this;
+    }
+
+    /**
+     * Remove usuarios
+     *
+     * @param \Semillero\DataBundle\Entity\Usuarios $usuarios
+     */
+    public function removeUsuario(\Semillero\DataBundle\Entity\Usuarios $usuarios)
+    {
+        $this->usuarios->removeElement($usuarios);
+    }
+
+    /**
+     * Get usuarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsuarios()
+    {
+        return $this->usuarios;
     }
 }

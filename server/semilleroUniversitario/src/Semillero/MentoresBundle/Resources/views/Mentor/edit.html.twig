@@ -13,9 +13,9 @@
                 <h4 class="text-danger">{{form_errors(form) }} </h4>
                 <fieldset>
           <div class="form-group">
-              {{ form_label(form.nombres) }}
-              {{ form_widget(form.nombres, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Nuevo nombre'} }) }}
-              <span class="text-danger">{{ form_errors(form.nombres) }}</span>
+              {{ form_label(form.nombre) }}
+              {{ form_widget(form.nombre, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Nuevo nombre'} }) }}
+              <span class="text-danger">{{ form_errors(form.nombre) }}</span>
           </div>
 
           <div class="form-group">
@@ -25,9 +25,9 @@
           </div>
 
           <div class="form-group">
-              {{ form_label(form.tipoDocumentoIdentidad) }}
-              {{ form_widget(form.tipoDocumentoIdentidad, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Tipo De Documento'} }) }}
-              <span class="text-danger">{{ form_errors(form.tipoDocumentoIdentidad) }}</span>
+              {{ form_label(form.tipoDocumento) }}
+              {{ form_widget(form.tipoDocumento, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Tipo De Documento'} }) }}
+              <span class="text-danger">{{ form_errors(form.tipoDocumento) }}</span>
           </div>
 
           <div class="form-group">
@@ -67,9 +67,9 @@
           </div>
 
           <div class="form-group">
-              {{ form_label(form.numeroMovil) }}
-              {{ form_widget(form.numeroMovil, {'attr': {'class': 'form-control', 'placeholder' : 'Numero Movil'}}) }}
-              <span class="text-danger">{{ form_errors(form.numeroMovil) }}</span>
+              {{ form_label(form.numeroCelular) }}
+              {{ form_widget(form.numeroCelular, {'attr': {'class': 'form-control', 'placeholder' : 'Numero Movil'}}) }}
+              <span class="text-danger">{{ form_errors(form.numeroCelular) }}</span>
           </div>
 
           <div class="form-group">

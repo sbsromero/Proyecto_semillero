@@ -22,6 +22,7 @@ class MentoresController extends Controller
 
   #Definición de rutas las rutas para el sistema CRUD MENTORES
 
+
   //------------------Metodo index, carga todos los mentores registrados en la base de datos --------------------
   /**
   * @Route("/mentores/index",name="semillero_mentores_index")
@@ -63,7 +64,6 @@ class MentoresController extends Controller
     $mentor = new Mentor();
     #Variable que llama al metodo creaCreateForm, creado luego
     $form = $this-> createCreateForm($mentor);
-
     return $this->render('MentoresBundle:Mentor:add.html.twig',array('form' =>$form->createView()));
   }
 

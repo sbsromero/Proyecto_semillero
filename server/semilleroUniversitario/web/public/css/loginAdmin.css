@@ -1,0 +1,25 @@
+.rowContainer{
+  margin:0 auto; width:30%; -webkit-box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.75);
+  border-radius: 15px 15px 15px 15px;
+  -moz-border-radius: 15px 15px 15px 15px;
+  -webkit-border-radius: 15px 15px 15px 15px;
+  border: 0px solid #000000;
+}
+.input-login{
+  position: relative;
+  display: table;
+  border-collapse: separate;
+  padding-top:15px;
+  padding-left:10px;
+  padding-right:10px
+}
+.text-login{
+  text-align: center;
+  height:80px;
+  line-height:80px;
+  font-size: 25px;
+  padding-left: 0px;
+  color:#939393
+}

@@ -14,12 +14,12 @@
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-								<th> {{ knp_pagination_sortable(pagination, 'Nombres', 'm.nombres') }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Nombre', 'm.nombre') }} </th>
 								<th> {{ knp_pagination_sortable(pagination, 'Apellidos', 'm.apellidos') }} </th>
-								<th> {{ knp_pagination_sortable(pagination, 'Tipo De Documento', 'm.tipoDocumentoIdentidad') }} </th>
-								<th> {{ 'Número De Documento' }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Tipo De Documento', 'm.tipoDocumento') }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Número De Documento', 'm.numeroDocumento') }} </th>
 								<th> {{ knp_pagination_sortable(pagination, 'Fecha De Nacimiento', 'm.fechaNacimiento') }} </th>
-								<th> {{ knp_pagination_sortable(pagination, 'Número Celular', 'm.numeroMovil') }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Número Celular', 'm.numeroCelular') }} </th>
 								<th> {{ knp_pagination_sortable(pagination, 'Tipo De Mentor', 'm.tipoMentor') }} </th>
 								<th> {{ knp_pagination_sortable(pagination, 'Estado', 'm.activo') }} </th>
 								<th>Acción</th>
@@ -28,12 +28,12 @@
 					<tbody>
             {% for mentor in pagination %}
               <tr>
-                <td>{{ mentor.nombres}}</td>
+                <td>{{ mentor.nombre}}</td>
                 <td>{{ mentor.apellidos}}</td>
-								<td>{{ mentor.tipoDocumentoIdentidad.nombre }}
+								<td>{{ mentor.tipoDocumento.nombre }}
 								<td>{{ mentor.numeroDocumento}}</td>
 		            <td>{{ mentor.fechaNacimiento | date('d-m-Y') }}</td>
-								<td>{{ mentor.numeroMovil}}</td>
+								<td>{{ mentor.numeroCelular}}</td>
 								<td>{{ mentor.tipoMentor}}</td>
 								<td>
                   {% if mentor.activo == '1'%}
