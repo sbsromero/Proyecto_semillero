@@ -16,7 +16,9 @@ use Semillero\DataBundle\Form\MentorType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 
-
+/**
+* @Route("/admin")
+*/
 class MentoresController extends Controller
 {
 
@@ -25,7 +27,7 @@ class MentoresController extends Controller
 
   //------------------Metodo index, carga todos los mentores registrados en la base de datos --------------------
   /**
-  * @Route("/mentores/index",name="semillero_mentores_index")
+  * @Route("/mentores/index",name="indexMentores")
   */
 
   public function indexAction(Request $request)
@@ -38,7 +40,7 @@ class MentoresController extends Controller
       $mentores, $request->query->getInt('page',1),
       5
     );
-
+    //
     return $this->render('MentoresBundle:Mentor:index.html.twig',array('pagination' => $pagination));
 
     #Estructura: Bundle, Carpeta que contiene la vista, accion que se redirijira, tiene el mismo nombre de la plantilla

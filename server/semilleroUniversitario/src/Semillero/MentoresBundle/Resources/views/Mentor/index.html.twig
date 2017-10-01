@@ -1,64 +1,71 @@
-{% extends 'layout/layout.html.twig' %}
+{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
 
 {% block body %}
-
-	{{ parent() }}
-  {{ include('MentoresBundle:Mentor:messages/success.html.twig' )}}
-	<div class="container">
-		<div class="col-md-12">
-			<div class="page-header margin-none">
-				<h2 class="padding-none">Mentores</h2>
-			</div>
-			<div class="table-responsive">
-			Total Mentores: {{ pagination.getTotalItemCount }}
-				<table class="table table-striped table-hover">
-					<thead>
-						<tr>
-								<th> {{ knp_pagination_sortable(pagination, 'Nombre', 'm.nombre') }} </th>
-								<th> {{ knp_pagination_sortable(pagination, 'Apellidos', 'm.apellidos') }} </th>
-								<th> {{ knp_pagination_sortable(pagination, 'Tipo De Documento', 'm.tipoDocumento') }} </th>
-								<th> {{ knp_pagination_sortable(pagination, 'Número De Documento', 'm.numeroDocumento') }} </th>
-								<th> {{ knp_pagination_sortable(pagination, 'Fecha De Nacimiento', 'm.fechaNacimiento') }} </th>
-								<th> {{ knp_pagination_sortable(pagination, 'Número Celular', 'm.numeroCelular') }} </th>
-								<th> {{ knp_pagination_sortable(pagination, 'Tipo De Mentor', 'm.tipoMentor') }} </th>
-								<th> {{ knp_pagination_sortable(pagination, 'Estado', 'm.activo') }} </th>
-								<th>Acción</th>
-						</tr>
-					</thead>
-					<tbody>
+{{ parent() }}
+<div class="container">
+{% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
+{% block tab_mentores %}active{% endblock %}
+{% endembed %}
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="row" style="margin:0px">
+      <div class="table-responsive">
+        Total Mentores: {{ pagination.getTotalItemCount }}
+        <table class="table table-striped table-border table-hover table-responsive ">
+          <thead>
+            <tr>
+              <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Nombre', 'm.nombre') }} </th>
+              <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Apellidos', 'm.apellidos') }} </th>
+              <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Tipo De Documento', 'm.tipoDocumento') }} </th>
+              <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Número De Documento', 'm.numeroDocumento') }} </th>
+              <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Fecha De Nacimiento', 'm.fechaNacimiento') }} </th>
+              <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Número Celular', 'm.numeroCelular') }} </th>
+              <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Tipo De Mentor', 'm.tipoMentor') }} </th>
+              <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Estado', 'm.activo') }} </th>
+              <th rowspan="1" colspan="3" style="text-align:center">Acciones</th>
+            </tr>
+            <tr>
+              <th rowspan="1" style="text-align:center">Ver</th>
+              <th rowspan="1" style="text-align:center">Editar</th>
+              <th rowspan="1" style="text-align:center">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody >
             {% for mentor in pagination %}
-              <tr>
-                <td>{{ mentor.nombre}}</td>
-                <td>{{ mentor.apellidos}}</td>
-								<td>{{ mentor.tipoDocumento.nombre }}
-								<td>{{ mentor.numeroDocumento}}</td>
-		            <td>{{ mentor.fechaNacimiento | date('d-m-Y') }}</td>
-								<td>{{ mentor.numeroCelular}}</td>
-								<td>{{ mentor.tipoMentor}}</td>
-								<td>
-                  {% if mentor.activo == '1'%}
-									<button type="button" class="btn btn-success">Activo</button>
-                  {% else %}
-									<button type="button" class="btn btn-default">Inactivo</button>
-                  {% endif %}
-                </td>
-
-                <td class="actions">
-                  <a href="{{ path('semillero_mentores_view', {numeroDocumento: mentor.numeroDocumento}) }}" class="btn btn-sm btn-info">Ver</a>
-
-                  <a href="{{ path('semillero_mentores_edit', {numeroDocumento: mentor.numeroDocumento}) }}" class="btn btn-sm btn-primary">Editar</a>
-
-                  <a href="#" class="btn btn-sm btn-danger btn-delete">Eliminar</a>
-                </td>
-               </tr>
-				        {% endfor %}
-					</tbody>
-				</table>
-				{# display navigation #}
-				<div class="navigation">
-						{{ knp_pagination_render(pagination) }}
-				</div>
-			</div>
-		</div>
-	</div>
+            <tr>
+              <td>{{ mentor.nombre}}</td>
+              <td>{{ mentor.apellidos}}</td>
+              <td>{{ mentor.tipoDocumento.nombre }}
+              <td>{{ mentor.numeroDocumento}}</td>
+              <td>{{ mentor.fechaNacimiento | date('d-m-Y') }}</td>
+              <td>{{ mentor.numeroCelular}}</td>
+              <td>{{ mentor.tipoMentor}}</td>
+              <td>
+                {% if mentor.activo == '1'%}
+                <button type="button" class="btn btn-success">Activo</button>
+                {% else %}
+                <button type="button" class="btn btn-default">Inactivo</button>
+                {% endif %}
+              </td>
+              <td>
+                <a href="{{ path('semillero_mentores_view', {numeroDocumento: mentor.numeroDocumento}) }}" class="btn btn-sm btn-info">Ver</a>
+              </td>
+              <td>
+                <a href="{{ path('semillero_mentores_edit', {numeroDocumento: mentor.numeroDocumento}) }}" class="btn btn-sm btn-primary">Editar</a>
+              </td>
+              <td>
+                <a href="#" class="btn btn-sm btn-danger btn-delete">Eliminar</a>
+              </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="navigation">
+          {{ knp_pagination_render(pagination) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

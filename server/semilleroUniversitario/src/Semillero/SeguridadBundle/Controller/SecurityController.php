@@ -13,7 +13,7 @@ class SecurityController extends Controller
   /**
   * @Route("/usuarios/login", name="usuariosLogin")
   */
-  public function loginMentorAction()
+  public function loginUsersAction()
   {
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
       return $this->redirectToRoute("dashboardUsuarios");
