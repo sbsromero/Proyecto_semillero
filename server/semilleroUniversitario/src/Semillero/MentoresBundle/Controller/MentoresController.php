@@ -129,11 +129,6 @@ class MentoresController extends Controller
   */
   public function editAction($numeroDocumento)
   {
-    #$Repository = $this->getDoctrine()->getRepository('DataBundle:Mentor');
-
-    #Para buscar un mentor por cualquier atributo, entonces realizamos la siguiente modificación teniendo en cuenta que toca modificar todo el parametro a dicho atributo.
-    #$mentor = $Repository->findOneByNumeroDocumento($numeroDocumento);
-
     $em = $this->getDoctrine()->getManager();
     $mentor = $em->getRepository('DataBundle:Mentor')->findOneByNumeroDocumento($numeroDocumento);
 
@@ -143,7 +138,6 @@ class MentoresController extends Controller
     }
 
     $form = $this->createEditForm($mentor);
-
     return $this->render('MentoresBundle:Mentor:edit.html.twig', array('mentor'=>$mentor, 'form'=>$form->createView()));
   }
 
@@ -199,25 +193,25 @@ class MentoresController extends Controller
   //------------------ Metodo view, carga un MENTOR seleccionado por parametro NumeroDocumento --------------------
 
   /**
-  * @Route("/mentores/view/{numeroDocumento}",name="viewMentores")
+  * @Route("/mentores/view/{id}",name="viewMentores")
   */
-  public function viewAction($numeroDocumento)
+  public function viewAction($id)
   {
+    $em = $this->getDoctrine()->getManager();
     $Repository = $this->getDoctrine()->getRepository('DataBundle:Mentor');
-
-    #Para buscar un mentor por cualquier atributo, entonces realizamos la siguiente modificación teniendo en cuenta que toca modificar todo el parametro a dicho atributo.
-    #$mentor = $Repository->find($numId);
-    #$mentor = $Repository->findOneByNombres($nombres);
-    $mentor = $Repository->findOneByNumeroDocumento($numeroDocumento);
+    $mentor = $em->getRepository('DataBundle:Mentor')->findById($id)[0];
 
     if(!$mentor)
     {
       throw $this->createNotFoundException('El Mentor a Editar NO Existe');
     }
 
-    $deleteForm = $this->createDeleteForm($mentor);
+    return $this->render('MentoresBundle:Mentor:view.html.twig',array(
+      'mentor' => $mentor
+    ));
+    // $deleteForm = $this->createDeleteForm($mentor);
 
-    return $this->render('MentoresBundle:Mentor:view.html.twig',array('mentor' => $mentor, 'delete_form' => $deleteForm->createView()));
+    // return $this->render('MentoresBundle:Mentor:view.html.twig',array('mentor' => $mentor, 'delete_form' => $deleteForm->createView()));
     //return new Response('Mentor: ' . $mentor->getNombres() .' '.$mentor->getApellidos() . '  Cc: '.$mentor->getNumeroDocumento());
   }
 

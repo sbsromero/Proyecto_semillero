@@ -3,6 +3,7 @@ usuarios:
     type:     annotation
     prefix:   /
 
+
 admin:
     resource: "@AdminBundle/Controller/"
     type:     annotation
@@ -27,6 +28,8 @@ mentores:
     resource: "@MentoresBundle/Controller/"
     type:     annotation
     prefix:   /
+    options:
+        expose: true
 
 semillas:
     resource: "@SemillasBundle/Controller/"
@@ -36,6 +39,9 @@ semillas:
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
 semillero_mentores_redirect_edit:
   path: /mentores/update/{numeroDocumento}
