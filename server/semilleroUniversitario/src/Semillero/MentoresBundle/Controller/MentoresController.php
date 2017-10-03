@@ -34,12 +34,7 @@ class MentoresController extends Controller
   {
 
     $em = $this->getDoctrine()->getManager();
-    //$mentores = $em->getRepository('DataBundle:Mentor')->findAll();
-
-    //------------------------------------------------------
-    $dql = "SELECT m FROM DataBundle:Mentor m";
-    $mentores = $em->createQuery($dql);
-    //------------------------------------------------------
+    $mentores = $em->getRepository('DataBundle:Mentor')->findAll();
 
     $paginator = $this->get('knp_paginator');
     $pagination = $paginator->paginate(
