@@ -1,0 +1,35 @@
+{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
+{% block body %}
+{{ parent() }}
+	<div class="main container">
+    {% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
+    {% block tab_mentores %}active{% endblock %}
+    {% endembed %}
+		<div class="row well">
+			<div class="col-md-6">
+				<div class="page-header">
+					<h2>Nuevo Dipĺomado</h2>
+				</div>
+                {{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form'} }) }}
+        <fieldset>
+              <div class="form-group">
+                  {{ form_label(form.nombre) }}
+                  {{ form_widget(form.nombre, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Nombre del diplomado'} }) }}
+                  <span class="text-danger">{{ form_errors(form.nombre) }}</span>
+              </div>
+
+              <div class="checkbox">
+    				    <label>
+    						{{ form_widget(form.activo) }}Activo
+    				    </label>
+    				  </div>
+			</fieldset>
+
+		    <p>
+		        {{ form_widget(form.save, {'label' : 'Crear Diplomado', 'attr': {'class': 'btn btn-success'}}) }}
+		    </p>
+                {{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

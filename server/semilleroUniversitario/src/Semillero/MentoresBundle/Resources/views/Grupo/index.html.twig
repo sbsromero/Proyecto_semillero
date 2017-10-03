@@ -16,10 +16,11 @@
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
+								<th> {{ 'Diplomado' }} </th>
 								<th> {{ knp_pagination_sortable(pagination, 'Nombre', 'g.nombre') }} </th>
 								<th> {{ knp_pagination_sortable(pagination, 'Jornada', 'g.jornada') }} </th>
 								<th> {{ knp_pagination_sortable(pagination, 'Fecha De Creación', 'g.fechaCreacion') }} </th>
-								<th> {{ 'mentor' }} </th>
+								<th> {{ 'Mentor' }} </th>
 								<th> {{ knp_pagination_sortable(pagination, 'Estado', 'g.activo') }} </th>
 								<th>Acción</th>
 						</tr>
@@ -27,7 +28,8 @@
 					<tbody>
             {% for grupo in pagination %}
               <tr data-id="{{ grupo.id }}">
-                <td>{{ grupo.nombre}}</td>
+								<td>{{ grupo.diplomado.nombre }}</td>
+                <td>{{grupo.diplomado.nombre}} {{ grupo.nombre}}</td>
                 <td>{{ grupo.jornada.nombre}}</td>
 		            <td>{{ grupo.fechaCreacion | date('d-m-Y') }}</td>
 								 <td>{{ grupo.mentor.fullName }}</td>

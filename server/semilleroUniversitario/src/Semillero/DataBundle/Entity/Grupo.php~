@@ -201,27 +201,4 @@ class Grupo
     {
         return $this->mentor;
     }
-
-    /**
-     * Set diplomado
-     *
-     * @param \Semillero\DataBundle\Entity\Diplomado $diplomado
-     * @return Grupo
-     */
-    public function setDiplomado(\Semillero\DataBundle\Entity\Diplomado $diplomado = null)
-    {
-        $this->diplomado = $diplomado;
-
-        return $this;
-    }
-
-    /**
-     * Get diplomado
-     *
-     * @return \Semillero\DataBundle\Entity\Diplomado 
-     */
-    public function getDiplomado()
-    {
-        return $this->diplomado;
-    }
 }

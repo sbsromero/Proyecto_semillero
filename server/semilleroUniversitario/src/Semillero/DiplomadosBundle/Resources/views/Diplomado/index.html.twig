@@ -1,0 +1,57 @@
+{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
+
+{% block body %}
+{{ parent() }}
+{{ include('DiplomadosBundle:Diplomado:messages/success.html.twig' )}}
+<div class="container">
+{% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
+{% block tab_mentores %}active{% endblock %}
+{% endembed %}
+		<div class="col-md-12">
+			<div class="page-header margin-none">
+				<h2 class="padding-none">Diplomados</h2>
+			</div>
+			<div class="table-responsive">
+			Total Diplomados: {{ pagination.getTotalItemCount }}
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+								<th> {{ knp_pagination_sortable(pagination, 'Nombre', 'd.nombre') }} </th>
+								<th> {{ 'Cantidad De Grupos' }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Fecha De Creación', 'd.fechaCreacion') }} </th>
+								<th> {{ knp_pagination_sortable(pagination, 'Estado', 'd.activo') }} </th>
+								<th>Acción</th>
+						</tr>
+					</thead>
+					<tbody>
+            {% for diplomado in pagination %}
+              <tr data-id="{{ diplomado.id }}">
+                <td>{{ diplomado.nombre}}</td>
+								<td>{{ '#' }}</td>
+		            <td>{{ diplomado.fechaCreacion | date('d-m-Y') }}</td>
+								 <td>
+									 {% if diplomado.activo == '1'%}
+ 									<button type="button" class="btn btn-success">Activo</button>
+                   {% else %}
+ 									<button type="button" class="btn btn-default">Inactivo</button>
+                   {% endif %}
+	 								</td>
+                <td class="actions">
+                  <a href="{{ path('viewDiplomados', {id: diplomado.id}) }}" class="btn btn-sm btn-info">Ver</a>
+
+                  <a href="{{ path('editDiplomados', {id: diplomado.id}) }}" class="btn btn-sm btn-primary">Editar</a>
+
+                  {# <a href="#" class="btn btn-sm btn-danger btn-delete">Eliminar</a>  #}
+                </td>
+               </tr>
+				        {% endfor %}
+					</tbody>
+				</table>
+				{# display navigation #}
+				<div class="navigation">
+						{{ knp_pagination_render(pagination) }}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

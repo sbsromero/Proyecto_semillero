@@ -89,7 +89,7 @@ class GruposController extends Controller
     return $this->render('MentoresBundle:Grupo:add.html.twig',array('form' =>$form->createView()));
   }
 
-  //------------------ Metodo edit, editar un MENTOR de la base de datos --------------------
+  //------------------ Metodo edit, editar un GRUPO de la base de datos --------------------
 
   /**
   * @Route("/grupos/edit/{id}",name="editGrupos")

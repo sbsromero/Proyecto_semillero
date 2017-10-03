@@ -20,12 +20,18 @@
 
            <li class="nav-item dropdown">
              <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               Grupos
-             </a>
+               Diplomados </a>
              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-               <div>
-               <a class="dropdown-item" href="{{ path('indexGrupos') }}">Ver Grupos</a>
+               <div> <a class="dropdown-item" href="{{ path('indexDiplomados') }}">Ver Diplomados</a> </div>
+               <a class="dropdown-item" href="{{ path('addDiplomados') }}">Agregar Diplomados</a>
              </div>
+           </li>
+
+           <li class="nav-item dropdown">
+             <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Grupos </a>
+             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+               <div> <a class="dropdown-item" href="{{ path('indexGrupos') }}">Ver Grupos</a> </div>
                <a class="dropdown-item" href="{{ path('addGrupos') }}">Agregar Grupo</a>
              </div>
            </li>

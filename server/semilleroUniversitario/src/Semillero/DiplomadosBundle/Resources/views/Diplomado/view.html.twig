@@ -1,0 +1,52 @@
+{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
+{% block body %}
+{{ parent() }}
+	<div class="container well">
+		{% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
+		{% block tab_mentores %}active{% endblock %}
+		{% endembed %}
+	    <div class="col-md-9">
+	    <h2>{{ diplomado.nombre }}</h2>
+	        <br>
+	        <dl>
+	            <dt>{{'Nombre:'}}</dt>
+	            <dd>
+	                {{ diplomado.nombre }}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+						 <dt>{{'fecha De Creacion:'}}</dt>
+							<dd>
+									{{ diplomado.fechaCreacion|date('d-m-Y') }}
+									&nbsp;
+							</dd>
+							<br>
+
+	            <dt>{{'Estado'}}</dt>
+	            <dd>
+                	{% if diplomado.getActivo() == 1 %}
+						<span class="text-success">ACTIVO</span>
+									{% elseif diplomado.getActivo() == 0 %}
+						<span class="text-warning">INACTIVO</span>
+                	{% endif %}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+	        </dl>
+	    </div>
+	    <div class="col-md-3">
+	    	<h3>{{ 'Acción a Realizar' }}:</h3>
+			<p>
+		    	<a href="{{ path('editDiplomados', { id: diplomado.id }) }}" class="btn btn-primary btn-lg btn-block">
+		    		<span class="glyphicon glyphicon-edit"></span>
+		        	{{ 'Editar Diplomado' }}
+				 </a>
+			</p>
+			<p>
+				    {{ include('DiplomadosBundle:Diplomado:forms/form.html.twig', { form: delete_form, message: '¿Estas Seguro de Eliminar al diplomado?'}) }}
+			</p>
+	    </div>
+	</div>
+{% endblock %}

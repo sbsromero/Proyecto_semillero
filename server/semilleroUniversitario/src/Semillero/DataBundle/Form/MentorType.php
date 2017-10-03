@@ -22,7 +22,7 @@ class MentorType extends AbstractType
       ->add('tipoDocumento','entity',array(
         'class' => 'DataBundle:TipoDocumento',
         'query_builder' => function(EntityRepository $er){
-          return $er->createQueryBuilder('d')->orderBy('d.id','ASC');
+          return $er->createQueryBuilder('d');//->orderBy('d.id','ASC');
         },'choice_label'=>'getNombre','placeholder'=>'Seleccione una opcion'))
       ->add('numeroDocumento')
       ->add('fechaNacimiento')
@@ -36,7 +36,11 @@ class MentorType extends AbstractType
       ->add('eps')
       ->add('tipoSangre')
       ->add('activo', 'checkbox')
-      ->add('tipoMentor')
+      ->add('tipoMentor','entity',array(
+        'class' => 'DataBundle:TipoMentor',
+        'query_builder' => function(EntityRepository $er){
+          return $er->createQueryBuilder('t');
+        },'choice_label'=>'getNombre','placeholder'=>'Seleccione una opcion'))
       ->add('save','submit', array('label' => 'Guardar Mentor'));
   }
 

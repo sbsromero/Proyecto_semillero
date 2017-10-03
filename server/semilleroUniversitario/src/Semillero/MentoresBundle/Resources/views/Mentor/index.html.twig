@@ -20,7 +20,7 @@
               <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Número De Documento', 'm.numeroDocumento') }} </th>
               <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Fecha De Nacimiento', 'm.fechaNacimiento') }} </th>
               <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Número Celular', 'm.numeroCelular') }} </th>
-              <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Tipo De Mentor', 'm.tipoMentor') }} </th>
+              <th rowspan="2"> {{ 'Tipo De Mentor' }} </th>
               <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Estado', 'm.activo') }} </th>
               <th rowspan="1" colspan="3" style="text-align:center">Acciones</th>
             </tr>
@@ -39,7 +39,7 @@
               <td>{{ mentor.numeroDocumento}}</td>
               <td>{{ mentor.fechaNacimiento | date('d-m-Y') }}</td>
               <td>{{ mentor.numeroCelular}}</td>
-              <td>{{ mentor.tipoMentor}}</td>
+              <td>{{ mentor.tipoMentor.nombre}}</td>
               <td>
                 {% if mentor.activo == '1'%}
                 <button type="button" class="btn btn-success">Activo</button>
