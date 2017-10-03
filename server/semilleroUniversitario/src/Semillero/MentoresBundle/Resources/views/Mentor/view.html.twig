@@ -1,8 +1,10 @@
-{% extends 'layout/layout.html.twig' %}
-
+{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
 {% block body %}
-	{{ parent() }}
+{{ parent() }}
 	<div class="container well">
+		{% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
+		{% block tab_mentores %}active{% endblock %}
+		{% endembed %}
 	    <div class="col-md-9">
 	    <h2>{{ mentor.nombre }} {{ mentor.apellidos }}</h2>
 	        <br>
@@ -23,11 +25,13 @@
 
 							<dt>{{ 'Tipo De Documento:' }}</dt>
 						 <dd>
-								 {% if mentor.tipoDocumento == 'T.I' %}
+							 {{ mentor.tipoDocumento.nombre }}
+
+								<!-- {% if mentor.tipoDocumento.nombre == 'Tarjeta' %}
 									 Tarjeta De Identidad
-								 {% elseif mentor.tipoDocumento == 'C.C' %}
+								 {% elseif mentor.tipoDocumento.nombre == 'Cedula' %}
 									 Cedula
-								 {% endif %}
+								 {% endif %} -->
 								 &nbsp;
 						 </dd>
 						 <br>
@@ -126,7 +130,7 @@
 	    <div class="col-md-3">
 	    	<h3>{{ 'Acción a Realizar' }}:</h3>
 			<p>
-		    	<a href="{{ path('semillero_mentores_edit', { numeroDocumento: mentor.numeroDocumento }) }}" class="btn btn-primary btn-lg btn-block">
+		    	<a href="{{ path('editMentores', { numeroDocumento: mentor.numeroDocumento }) }}" class="btn btn-primary btn-lg btn-block">
 		    		<span class="glyphicon glyphicon-edit"></span>
 		        	{{ 'Editar Mentor' }}
 				 </a>

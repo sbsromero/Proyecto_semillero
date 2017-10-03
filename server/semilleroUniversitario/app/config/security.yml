@@ -4,14 +4,6 @@ security:
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-      # mentor_provider:
-      #   entity:
-      #     class: DataBundle:Mentor
-      #     property: numeroDocumento
-      # administrativos_provider:
-      #   entity:
-      #     class: DataBundle:Administrativo
-      #     property: numeroDocumento
       usuarios_provider:
         entity:
           class: DataBundle:Usuarios
@@ -67,7 +59,7 @@ security:
             #form_login: ~
 
     encoders:
-     Semillero\DataBundle\Entity\Mentor:
+     Semillero\DataBundle\Entity\Usuarios:
       algorithm: bcrypt
       cost: 12
      Semillero\DataBundle\Entity\Administrador:

@@ -1,10 +1,12 @@
-{% extends 'layout/layout.html.twig' %}
+{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
 
 {% block body %}
-
-	{{ parent() }}
-  {{ include('MentoresBundle:Grupo:messages/success.html.twig' )}}
-	<div class="container">
+{{ parent() }}
+{{ include('MentoresBundle:Grupo:messages/success.html.twig' )}}
+<div class="container">
+{% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
+{% block tab_mentores %}active{% endblock %}
+{% endembed %}
 		<div class="col-md-12">
 			<div class="page-header margin-none">
 				<h2 class="padding-none">Grupos</h2>
@@ -37,9 +39,9 @@
                    {% endif %}
 	 								</td>
                 <td class="actions">
-                  <a href="{{ path('semillero_grupos_view', {id: grupo.id}) }}" class="btn btn-sm btn-info">Ver</a>
+                  <a href="{{ path('viewGrupos', {id: grupo.id}) }}" class="btn btn-sm btn-info">Ver</a>
 
-                  <a href="{{ path('semillero_grupos_edit', {id: grupo.id}) }}" class="btn btn-sm btn-primary">Editar</a>
+                  <a href="{{ path('editGrupos', {id: grupo.id}) }}" class="btn btn-sm btn-primary">Editar</a>
 
                   {# <a href="#" class="btn btn-sm btn-danger btn-delete">Eliminar</a>  #}
                 </td>

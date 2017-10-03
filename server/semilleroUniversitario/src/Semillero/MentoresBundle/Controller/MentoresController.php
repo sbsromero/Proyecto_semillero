@@ -16,7 +16,9 @@ use Semillero\DataBundle\Form\MentorType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 
-
+/**
+* @Route("/admin")
+*/
 class MentoresController extends Controller
 {
 
@@ -25,7 +27,7 @@ class MentoresController extends Controller
 
   //------------------Metodo index, carga todos los mentores registrados en la base de datos --------------------
   /**
-  * @Route("/mentores/index",name="semillero_mentores_index")
+  * @Route("/mentores/index",name="indexMentores")
   */
 
   public function indexAction(Request $request)
@@ -44,7 +46,7 @@ class MentoresController extends Controller
       $mentores, $request->query->getInt('page',1),
       5
     );
-
+    //
     return $this->render('MentoresBundle:Mentor:index.html.twig',array('pagination' => $pagination));
 
     #Estructura: Bundle, Carpeta que contiene la vista, accion que se redirijira, tiene el mismo nombre de la plantilla
@@ -55,7 +57,7 @@ class MentoresController extends Controller
 
   //------------------ Metodo add, agregar un MENTOR a la base de datos --------------------
   /**
-  * @Route("/mentores/add",name="semillero_mentores_add")
+  * @Route("/mentores/add",name="addMentores")
   */
 
   public function addAction()
@@ -70,7 +72,7 @@ class MentoresController extends Controller
   private function createCreateForm(Mentor $entity)
   {
     $form = $this-> createForm(new MentorType(),$entity, array (
-      'action' => $this->generateUrl('semillero_mentores_create'),
+      'action' => $this->generateUrl('createMentores'),
       'method' => 'POST'
     ));
 
@@ -78,7 +80,7 @@ class MentoresController extends Controller
   }
 
   /**
-  * @Route("/mentores/create",name="semillero_mentores_create")
+  * @Route("/mentores/create",name="createMentores")
   * @Method({"POST"})
   */
 
@@ -112,7 +114,7 @@ class MentoresController extends Controller
 
         $this->addFlash('mensaje','¡El mentor ha sido creado satisfactoriamente!');
 
-        return $this->redirectToRoute('semillero_mentores_index');
+        return $this->redirectToRoute('indexMentores');
       }
       else //Si la contraseña esta vacia o presenta algun error, se notifica
       {
@@ -128,7 +130,7 @@ class MentoresController extends Controller
   //------------------ Metodo edit, editar un MENTOR de la base de datos --------------------
 
   /**
-  * @Route("/mentores/edit/{numeroDocumento}",name="semillero_mentores_edit")
+  * @Route("/mentores/edit/{numeroDocumento}",name="editMentores")
   */
   public function editAction($numeroDocumento)
   {
@@ -152,12 +154,12 @@ class MentoresController extends Controller
 
   private function createEditForm(Mentor $entity)
   {
-    $form = $this->createForm(new MentorType(), $entity, array('action' => $this->generateUrl('semillero_mentores_update', array('numeroDocumento' => $entity->getNumeroDocumento())), 'method' => 'PUT'));
+    $form = $this->createForm(new MentorType(), $entity, array('action' => $this->generateUrl('updateMentores', array('numeroDocumento' => $entity->getNumeroDocumento())), 'method' => 'PUT'));
     return $form;
   }
 
   /**
-  * @Route("/mentores/update/{numeroDocumento}",name="semillero_mentores_update")
+  * @Route("/mentores/update/{numeroDocumento}",name="updateMentores")
   * @Method({"POST","PUT"})
   */
   public function updateAction($numeroDocumento, Request $request)
@@ -193,7 +195,7 @@ class MentoresController extends Controller
 
       $em -> flush();
       $this->addFlash('mensaje','¡El mentor ha sido modificado satisfactoriamente!');
-      return $this->redirectToRoute('semillero_mentores_index', array('numeroDocumento' => $mentor->getNumeroDocumento()));
+      return $this->redirectToRoute('indexMentores', array('numeroDocumento' => $mentor->getNumeroDocumento()));
     }
     return $this->render('MentoresBundle:Mentor:edit.html.twig',array('mentor' => $mentor, 'form' =>$form->createView()));
   }
@@ -202,7 +204,7 @@ class MentoresController extends Controller
   //------------------ Metodo view, carga un MENTOR seleccionado por parametro NumeroDocumento --------------------
 
   /**
-  * @Route("/mentores/view/{numeroDocumento}",name="semillero_mentores_view")
+  * @Route("/mentores/view/{numeroDocumento}",name="viewMentores")
   */
   public function viewAction($numeroDocumento)
   {
@@ -227,7 +229,7 @@ class MentoresController extends Controller
   private function createDeleteForm($mentor)
   {
     return $this->createFormBuilder()
-    ->setAction($this->generateUrl('semillero_mentores_delete',array('id' => $mentor->getId())))
+    ->setAction($this->generateUrl('deleteMentores',array('id' => $mentor->getId())))
     ->setMethod('DELETE')
     ->getForm();
   }
@@ -235,7 +237,7 @@ class MentoresController extends Controller
   //------------------ Metodo delete, eliminar un MENTOR de la base de datos --------------------
 
   /**
-  * @Route("/mentores/delete/{id}",name="semillero_mentores_delete")
+  * @Route("/mentores/delete/{id}",name="deleteMentores")
   * @Method({"POST","DELETE"})
   */
 
@@ -260,7 +262,7 @@ class MentoresController extends Controller
       $em -> flush();
 
       $this->addFlash('mensaje','¡El mentor ha sido eliminado satisfactoriamente!');
-      return $this->redirectToRoute('semillero_mentores_index', array('numeroDocumento' => $mentor->getNumeroDocumento()));
+      return $this->redirectToRoute('indexMentores', array('numeroDocumento' => $mentor->getNumeroDocumento()));
 
     }
   }

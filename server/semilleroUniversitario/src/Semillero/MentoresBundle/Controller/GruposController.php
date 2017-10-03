@@ -11,12 +11,15 @@ use Semillero\DataBundle\Form\GrupoType;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
+/**
+* @Route("/admin")
+*/
 class GruposController extends Controller
 {
 
   //------------------Metodo index, carga todos los grupos registrados en la base de datos --------------------
   /**
-  * @Route("/grupos/index",name="semillero_grupos_index")
+  * @Route("/grupos/index",name="indexGrupos")
   */
 
   public function indexAction(Request $request)
@@ -40,7 +43,7 @@ class GruposController extends Controller
 
   //------------------ Metodo add, agregar un GRUPO a la base de datos --------------------
   /**
-  * @Route("/grupos/add",name="semillero_grupos_add")
+  * @Route("/grupos/add",name="addGrupos")
   */
   public function addAction()
   {
@@ -52,7 +55,7 @@ class GruposController extends Controller
   private function createCreateForm(Grupo $entity)
   {
     $form = $this->createForm(new GrupoType(), $entity, array(
-      'action' => $this->generateUrl('semillero_grupos_create'),
+      'action' => $this->generateUrl('createGrupos'),
       'method' => 'POST'
     ));
 
@@ -60,7 +63,7 @@ class GruposController extends Controller
   }
 
   /**
-  * @Route("/grupos/create",name="semillero_grupos_create")
+  * @Route("/grupos/create",name="createGrupos")
   *
   */
   public function createAction(Request $request)
@@ -80,7 +83,7 @@ class GruposController extends Controller
 
       $this->addFlash('mensaje','¡El grupo ha sido creado satisfactoriamente!');
 
-      return $this->redirectToRoute('semillero_grupos_index');
+      return $this->redirectToRoute('indexGrupos');
     }
     #Renderizamos al forumlario si existe algun problema
     return $this->render('MentoresBundle:Grupo:add.html.twig',array('form' =>$form->createView()));
@@ -89,7 +92,7 @@ class GruposController extends Controller
   //------------------ Metodo edit, editar un MENTOR de la base de datos --------------------
 
   /**
-  * @Route("/grupos/edit/{id}",name="semillero_grupos_edit")
+  * @Route("/grupos/edit/{id}",name="editGrupos")
   */
   public function editAction($id)
   {
@@ -107,12 +110,12 @@ class GruposController extends Controller
 
   private function createEditForm(Grupo $entity)
   {
-    $form = $this->createForm(new GrupoType(), $entity, array('action' => $this->generateUrl('semillero_grupos_update', array('id' => $entity->getId())), 'method' => 'PUT'));
+    $form = $this->createForm(new GrupoType(), $entity, array('action' => $this->generateUrl('updateGrupos', array('id' => $entity->getId())), 'method' => 'PUT'));
     return $form;
   }
 
   /**
-  * @Route("/grupos/update/{id}",name="semillero_grupos_update")
+  * @Route("/grupos/update/{id}",name="updateGrupos")
   * @Method({"POST","PUT"})
   */
   public function updateAction($id, Request $request)
@@ -132,14 +135,14 @@ class GruposController extends Controller
     {
       $em -> flush();
       $this->addFlash('mensaje','¡El Grupo ha sido modificado satisfactoriamente!');
-      return $this->redirectToRoute('semillero_grupos_index', array('id' => $grupo->getId()));
+      return $this->redirectToRoute('indexGrupos', array('id' => $grupo->getId()));
     }
     return $this->render('MentoresBundle:Grupo:edit.html.twig',array('grupo' => $grupo, 'form' =>$form->createView()));
   }
 
   //------------------ Metodo view, carga un GRUPÓ seleccionado por parametro Id --------------------
   /**
-  * @Route("/grupos/view/{id}",name="semillero_grupos_view")
+  * @Route("/grupos/view/{id}",name="viewGrupos")
   */
   public function viewAction($id)
   {
@@ -157,7 +160,7 @@ class GruposController extends Controller
   private function createDeleteForm($grupo)
   {
     return $this->createFormBuilder()
-    ->setAction($this->generateUrl('semillero_grupos_delete',array('id' => $grupo->getId())))
+    ->setAction($this->generateUrl('deleteGrupos',array('id' => $grupo->getId())))
     ->setMethod('DELETE')
     ->getForm();
   }
@@ -165,7 +168,7 @@ class GruposController extends Controller
   //------------------ Metodo delete, eliminar un GRUPÓ de la base de datos --------------------
 
   /**
-  * @Route("/grupos/delete/{id}",name="semillero_grupos_delete")
+  * @Route("/grupos/delete/{id}",name="deleteGrupos")
   * @Method({"POST","DELETE"})
   */
 
@@ -190,7 +193,7 @@ class GruposController extends Controller
       $em -> flush();
 
       $this->addFlash('mensaje','¡El grupo ha sido eliminado satisfactoriamente!');
-      return $this->redirectToRoute('semillero_grupos_index', array('id' => $grupo->getId()));
+      return $this->redirectToRoute('indexGrupos', array('id' => $grupo->getId()));
 
     }
   }

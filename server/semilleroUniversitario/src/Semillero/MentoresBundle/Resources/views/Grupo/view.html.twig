@@ -1,8 +1,10 @@
-{% extends 'layout/layout.html.twig' %}
-
+{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
 {% block body %}
-	{{ parent() }}
+{{ parent() }}
 	<div class="container well">
+		{% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
+		{% block tab_mentores %}active{% endblock %}
+		{% endembed %}
 	    <div class="col-md-9">
 	    <h2>{{ grupo.nombre }} {{ grupo.jornada.nombre }}</h2>
 	        <br>
@@ -51,7 +53,7 @@
 	    <div class="col-md-3">
 	    	<h3>{{ 'Acción a Realizar' }}:</h3>
 			<p>
-		    	<a href="{{ path('semillero_grupos_edit', { id: grupo.id }) }}" class="btn btn-primary btn-lg btn-block">
+		    	<a href="{{ path('editGrupos', { id: grupo.id }) }}" class="btn btn-primary btn-lg btn-block">
 		    		<span class="glyphicon glyphicon-edit"></span>
 		        	{{ 'Editar Grupo' }}
 				 </a>

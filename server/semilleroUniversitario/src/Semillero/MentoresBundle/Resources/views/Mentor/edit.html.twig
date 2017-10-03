@@ -1,9 +1,11 @@
-{% extends 'layout/layout.html.twig' %}
-
+{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
 {% block body %}
-    {{ parent() }}
-    {{ include('MentoresBundle:Mentor:messages/success.html.twig' )}}
+{{ parent() }}
 	<div class="main container">
+    {% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
+    {% block tab_mentores %}active{% endblock %}
+    {% endembed %}
+
 		<div class="row well">
 			<div class="col-md-6">
 				<div class="page-header">
