@@ -32,21 +32,22 @@ class MentoresController extends Controller
 
   public function indexAction(Request $request)
   {
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $em = $this->getDoctrine()->getManager();
+      // $mentores = $em->getRepository('DataBundle:Mentor')->findAll();
 
-    $em = $this->getDoctrine()->getManager();
-    $mentores = $em->getRepository('DataBundle:Mentor')->findAll();
+      $dql = "SELECT m FROM DataBundle:Mentor m";
+      $mentores = $em->createQuery($dql);
 
-    $paginator = $this->get('knp_paginator');
-    $pagination = $paginator->paginate(
-      $mentores, $request->query->getInt('page',1),
-      5
-    );
-    //
-    return $this->render('MentoresBundle:Mentor:index.html.twig',array('pagination' => $pagination));
-
-    #Estructura: Bundle, Carpeta que contiene la vista, accion que se redirijira, tiene el mismo nombre de la plantilla
-    #El array contiene el valor que nosostros queremos mandar a la plantilla, Lo que posee misMntores().
-    #return $this->render('MentoresBundle:Mentor:index.html.twig',array('Mentor' => $misMentores));
+      $paginator = $this->get('knp_paginator');
+      $pagination = $paginator->paginate(
+        $mentores, $request->query->getInt('page',1),
+        5
+      );
+      //
+      return $this->render('MentoresBundle:Mentor:index.html.twig',array('pagination' => $pagination));
+    }
+    return $this->redirectToRoute('adminLogin');
   }
 
 
@@ -57,11 +58,14 @@ class MentoresController extends Controller
 
   public function addAction()
   {
-    #Creamos nuestro objeto mentor para poder acceder a cada una de las propiedades y metodos de nuestra entidad (mentor)
-    $mentor = new Mentor();
-    #Variable que llama al metodo creaCreateForm, creado luego
-    $form = $this-> createCreateForm($mentor);
-    return $this->render('MentoresBundle:Mentor:add.html.twig',array('form' =>$form->createView()));
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      #Creamos nuestro objeto mentor para poder acceder a cada una de las propiedades y metodos de nuestra entidad (mentor)
+      $mentor = new Mentor();
+      #Variable que llama al metodo creaCreateForm, creado luego
+      $form = $this-> createCreateForm($mentor);
+      return $this->render('MentoresBundle:Mentor:add.html.twig',array('form' =>$form->createView()));
+    }
+    return $this->redirectToRoute('adminLogin');
   }
 
   private function createCreateForm(Mentor $entity)
@@ -88,37 +92,22 @@ class MentoresController extends Controller
     #Validamos si el formulario se envio correctamente
     if($form->isValid())
     {
-      // dump($request->request->all());
       $password = $form->get('password')->getData();
+      $encoder = $this->container->get('security.password_encoder');
+      $encoded = $encoder->encodePassword($mentor, $password);
 
-      //Validamos de que la contraseña no se guarde vacia
-      $passwordConstraint = new Assert\NotBlank();
-      $errorList = $this->get('validator')->validate($password, $passwordConstraint);
+      $mentor->setPassword($encoded);
+      $mentor->setActivo(true);
 
-      //Si no hay ningun error con la contraseña, entonces procedemos a crearla
-      if(count($errorList) == 0)
-      {
-        $encoder = $this->container->get('security.password_encoder');
-        $encoded = $encoder->encodePassword($mentor, $password);
+      $em = $this->getDoctrine()->getManager();
+      $em -> persist($mentor);
+      $em -> flush();
 
-        $mentor->setPassword($encoded);
+      $this->addFlash('mensaje','¡El mentor ha sido creado satisfactoriamente!');
 
-        $em = $this->getDoctrine()->getManager();
-        $em -> persist($mentor);
-        $em -> flush();
-
-        $this->addFlash('mensaje','¡El mentor ha sido creado satisfactoriamente!');
-
-        return $this->redirectToRoute('indexMentores');
-      }
-      else //Si la contraseña esta vacia o presenta algun error, se notifica
-      {
-        $errorMessage = new FormError($errorList[0]->getMessage());
-        $form->get('password')->addError($errorMessage);
-      }
-
+      return $this->redirectToRoute('indexMentores');
     }
-    #Renderizamos al forumlario si existe algun problema
+    #Renderizamos al formulario si existe algun problema
     return $this->render('MentoresBundle:Mentor:add.html.twig',array('form' =>$form->createView()));
   }
 
@@ -129,16 +118,19 @@ class MentoresController extends Controller
   */
   public function editAction($numeroDocumento)
   {
-    $em = $this->getDoctrine()->getManager();
-    $mentor = $em->getRepository('DataBundle:Mentor')->findOneByNumeroDocumento($numeroDocumento);
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $em = $this->getDoctrine()->getManager();
+      $mentor = $em->getRepository('DataBundle:Mentor')->findOneByNumeroDocumento($numeroDocumento);
 
-    if(!$mentor)
-    {
-      throw $this->createNotFoundException('El Mentor a Editar NO Existe');
+      if(!$mentor)
+      {
+        return $this->redirectToRoute('indexMentores');
+      }
+
+      $form = $this->createEditForm($mentor);
+      return $this->render('MentoresBundle:Mentor:edit.html.twig', array('mentor'=>$mentor, 'form'=>$form->createView()));
     }
-
-    $form = $this->createEditForm($mentor);
-    return $this->render('MentoresBundle:Mentor:edit.html.twig', array('mentor'=>$mentor, 'form'=>$form->createView()));
+    return $this->redirectToRoute('adminLogin');
   }
 
   private function createEditForm(Mentor $entity)
@@ -195,32 +187,23 @@ class MentoresController extends Controller
   /**
   * @Route("/mentores/view/{id}",name="viewMentores")
   */
-  public function viewAction($id)
+  public function viewAction(Request $request,$id)
   {
-    $em = $this->getDoctrine()->getManager();
-    $Repository = $this->getDoctrine()->getRepository('DataBundle:Mentor');
-    $mentor = $em->getRepository('DataBundle:Mentor')->findById($id)[0];
+    if ($request->isXmlHttpRequest()) {
+      $em = $this->getDoctrine()->getManager();
+      $Repository = $this->getDoctrine()->getRepository('DataBundle:Mentor');
+      $mentor = $em->getRepository('DataBundle:Mentor')->findById($id);
 
-    if(!$mentor)
-    {
-      throw $this->createNotFoundException('El Mentor a Editar NO Existe');
+      if(!$mentor)
+      {
+        return $this->redirectToRoute('indexMentores');
+      }
+
+      return $this->render('MentoresBundle:Mentor:view.html.twig',array(
+        'mentor' => $mentor[0]
+      ));
     }
-
-    return $this->render('MentoresBundle:Mentor:view.html.twig',array(
-      'mentor' => $mentor
-    ));
-    // $deleteForm = $this->createDeleteForm($mentor);
-
-    // return $this->render('MentoresBundle:Mentor:view.html.twig',array('mentor' => $mentor, 'delete_form' => $deleteForm->createView()));
-    //return new Response('Mentor: ' . $mentor->getNombres() .' '.$mentor->getApellidos() . '  Cc: '.$mentor->getNumeroDocumento());
-  }
-
-  private function createDeleteForm($mentor)
-  {
-    return $this->createFormBuilder()
-    ->setAction($this->generateUrl('deleteMentores',array('id' => $mentor->getId())))
-    ->setMethod('DELETE')
-    ->getForm();
+    return $this->redirectToRoute('indexMentores');
   }
 
   //------------------ Metodo delete, eliminar un MENTOR de la base de datos --------------------
@@ -229,34 +212,17 @@ class MentoresController extends Controller
   * @Route("/mentores/delete/{id}",name="deleteMentores")
   * @Method({"POST","DELETE"})
   */
-
   public function deleteAction(Request $request, $id)
   {
-    $em = $this->getDoctrine()->getManager();
-
-    $mentor = $em->getRepository('DataBundle:Mentor')->find($id);
-
-    if(!$mentor)
-    {
-      throw $this->createNotFoundException('El Mentor a eliminar NO Existe');
-    }
-
-    $form = $this->createDeleteForm($mentor);
-    $form->handleRequest($request);
-
-    if($form->isSubmitted() && $form->isValid())
-    {
-
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $em = $this->getDoctrine()->getManager();
+      $mentor = $em->getRepository('DataBundle:Mentor')->find($id);
       $em->remove($mentor);
-      $em -> flush();
-
-      $this->addFlash('mensaje','¡El mentor ha sido eliminado satisfactoriamente!');
-      return $this->redirectToRoute('indexMentores', array('numeroDocumento' => $mentor->getNumeroDocumento()));
+      $em->flush();
+      return new Response(Response::HTTP_OK);
+      return $this->redirectToRoute('indexMentores');
 
     }
+    return new Response('user not loggin',Response::HTTP_NOT_FOUND);
   }
-
-
-
-
 }

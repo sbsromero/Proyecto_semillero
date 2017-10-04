@@ -1,77 +1,80 @@
 
+<div class="panel panel-default">
+	<div class="panel-body" style="padding:0px">
+		<div class="row" style="margin:0px;padding-right: 30px;padding-top: 20px;">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
 
-	<div class="panel panel-default">
-	  <div class="panel-body" style="padding:0px">
-	    <div class="row" style="margin:0px">
-				<div class="" align="center">
-					<h2>{{ mentor.nombre }} {{ mentor.apellidos }}</h2>
+		</div>
+		<div class="row" style="margin:0px">
+			<div class="" align="center">
+				<h2 style="margin-top:10px">{{ mentor.nombre }} {{ mentor.apellidos }}</h2>
+			</div>
+			<div class="col-md-4" align="center">
+				<div class="" style="background: grey; height: 150px; width: 40%;">
+					imagen
 				</div>
-				<div class="col-md-4" align="center">
-					<div class="" style="background: grey; height: 150px; width: 40%;">
-						imagen
-					</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<dl>
+						<dt>Nombres:</dt>
+						<dd>{{mentor.nombre}}</dd>
+						<br>
+						<dt>Apellidos:</dt>
+						<dd>{{mentor.apellidos}}</dd>
+						<br>
+						<dt>Tipo de documento:</dt>
+						<dd>{{mentor.tipoDocumento.nombre}}</dd>
+						<br>
+						<dt>Numero de documento:</dt>
+						<dd>{{mentor.numeroDocumento}}</dd>
+						<br>
+						<dt>Fecha de nacimiento:</dt>
+						<dd>{{mentor.fechaNacimiento|date('d/m/Y')}}</dd>
+						<br>
+						<dt>Dirección:</dt>
+						<dd>{{mentor.direccion}}</dd>
+						<br>
+						<dt>Municipio:</dt>
+						<dd>{{mentor.municipio}}</dd>
+						<br>
+						<dt>Departamento:</dt>
+						<dd>{{mentor.departamento}}</dd>
+					</dl>
 				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<dl>
-							<dt>Nombres:</dt>
-							<dd>{{mentor.nombre}}</dd>
-							<br>
-							<dt>Apellidos:</dt>
-							<dd>{{mentor.apellidos}}</dd>
-							<br>
-							<dt>Tipo de documento:</dt>
-							<dd>{{mentor.tipoDocumento.nombre}}</dd>
-							<br>
-							<dt>Numero de documento:</dt>
-							<dd>{{mentor.numeroDocumento}}</dd>
-							<br>
-							<dt>Fecha de nacimiento:</dt>
-							<dd>{{mentor.fechaNacimiento|date('d/m/Y')}}</dd>
-							<br>
-							<dt>Dirección:</dt>
-							<dd>{{mentor.direccion}}</dd>
-							<br>
-							<dt>Municipio:</dt>
-							<dd>{{mentor.municipio}}</dd>
-							<br>
-							<dt>Departamento:</dt>
-							<dd>{{mentor.departamento}}</dd>
-						</dl>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<dl>
-							<dt>Correo electrónico:</dt>
-							<dd>{{mentor.email}}</dd>
-							<br>
-							<dt>Número de celular:</dt>
-							<dd>{{mentor.numeroCelular}}</dd>
-							<br>
-							<dt>Número de teléfono:</dt>
-							<dd>{{mentor.numeroTelefono}}</dd>
-							<br>
-							<dt>Eps:</dt>
-							<dd>{{mentor.eps}}</dd>
-							<br>
-							<dt>Tipo de sangre:</dt>
-							<dd>{{mentor.tipoSangre}}</dd>
-							<br>
-							<dt>Tipo de mentor:</dt>
-							<dd>{{mentor.tipoMentor.nombre}}</dd>
-							<br>
-							<dt>Activo:</dt>
-							<dd>
-								{% if mentor.getActivo() == 1 %}
-									<span class="text-success">Si</span>
-								{% elseif mentor.getActivo() == 0 %}
-									<span class="text-warning">No</span>
-								{% endif %}
-							</dd>
-						</dl>
-					</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<dl>
+						<dt>Correo electrónico:</dt>
+						<dd>{{mentor.email}}</dd>
+						<br>
+						<dt>Número de celular:</dt>
+						<dd>{{mentor.numeroCelular}}</dd>
+						<br>
+						<dt>Número de teléfono:</dt>
+						<dd>{{mentor.numeroTelefono}}</dd>
+						<br>
+						<dt>Eps:</dt>
+						<dd>{{mentor.eps}}</dd>
+						<br>
+						<dt>Tipo de sangre:</dt>
+						<dd>{{mentor.tipoSangre}}</dd>
+						<br>
+						<dt>Tipo de mentor:</dt>
+						<dd>{{mentor.tipoMentor.nombre}}</dd>
+						<br>
+						<dt>Activo:</dt>
+						<dd>
+							{% if mentor.getActivo() == 1 %}
+							<span class="text-success">Si</span>
+							{% elseif mentor.getActivo() == 0 %}
+							<span class="text-warning">No</span>
+							{% endif %}
+						</dd>
+					</dl>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>

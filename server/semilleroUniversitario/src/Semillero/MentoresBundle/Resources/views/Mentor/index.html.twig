@@ -8,11 +8,22 @@
 {% endembed %}
 <div class="panel panel-default">
   <div class="panel-body">
+    <div class="row" style="margin:0px;margin-bottom:20px">
+      <div class="col-md-9">
+        <div class="form-group form-inline">
+          <i class="glyphicon glyphicon-search"></i>
+          <input type="text" name="" value="" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-3" align="center">
+        <a href="{{path('addMentores')}}" class="btn btn-default">Agregar mentor</a>
+      </div>
+    </div>
     <div class="row" style="margin:0px">
       <div class="table-responsive">
-        Total Mentores: {{ pagination.getTotalItemCount }}
+        <!-- Total Mentores: {#{ pagination.getTotalItemCount }#} -->
         <table class="table table-striped table-border table-hover table-responsive ">
-          <thead>
+          <thead style="background-color:#f8f8f8">
             <tr >
               <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Nombre', 'm.nombre') }} </th>
               <th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Apellidos', 'm.apellidos') }} </th>
@@ -36,7 +47,7 @@
               <td>{{ mentor.nombre}}</td>
               <td>{{ mentor.apellidos}}</td>
               <td>{{ mentor.tipoDocumento.nombre }}
-              <td>{{ mentor.numeroDocumento}}</td>
+              <td id="dniMentor" value="{{mentor.numeroDocumento}}">{{ mentor.numeroDocumento}}</td>
               <td>{{ mentor.fechaNacimiento | date('d-m-Y') }}</td>
               <td>{{ mentor.numeroCelular}}</td>
               <td>{{ mentor.tipoMentor.nombre}}</td>
@@ -54,7 +65,7 @@
                 <a href="{{ path('editMentores', {numeroDocumento: mentor.numeroDocumento}) }}" class="btn btn-sm btn-primary">Editar</a>
               </td>
               <td>
-                <a href="#" class="btn btn-sm btn-danger btn-delete">Eliminar</a>
+                <a class="btn btn-sm btn-danger btnDelMentor">Eliminar</a>
               </td>
               </tr>
               {% endfor %}
@@ -84,4 +95,6 @@
 {% block javascript %}
   {{parent()}}
   <script src="{{asset('public/js/mentor.js')}}"></script>
+  <script src="{{asset('public/js/bootstrap-datepicker.min.js')}}"></script>
+  <script src="{{asset('public/js/bootstrap-datepicker.es.min.js')}}" charset="UTF-8"></script>
 {% endblock %}
