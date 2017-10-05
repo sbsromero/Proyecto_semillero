@@ -4,9 +4,12 @@ namespace Semillero\DiplomadosBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\FormError;
+
 use Semillero\DataBundle\Entity\Diplomado;
 use Semillero\DataBundle\Form\DiplomadoType;
 
@@ -31,7 +34,7 @@ class DiplomadoController extends Controller
       $dql = "SELECT d FROM DataBundle:Diplomado d";
       $diplomados = $em->createQuery($dql);
       //------------------------------------------------------
-      
+
 
       $paginator = $this->get('knp_paginator');
       $pagination = $paginator->paginate(
@@ -100,6 +103,7 @@ class DiplomadoController extends Controller
 
       if(!$diplomado)
       { throw $this->createNotFoundException('El Diplomado a Editar NO Existe'); }
+
       $form = $this->createEditForm($diplomado);
       return $this->render('DiplomadosBundle:Diplomado:edit.html.twig', array('diplomado'=>$diplomado, 'form'=>$form->createView()));
     }
@@ -170,27 +174,33 @@ class DiplomadoController extends Controller
 
     public function deleteAction(Request $request, $id)
     {
-      $em = $this->getDoctrine()->getManager();
+      // $em = $this->getDoctrine()->getManager();
+      // $diplomado = $em->getRepository('DataBundle:Diplomado')->find($id);
+      //
+      // if(!$diplomado)
+      // {
+      //   throw $this->createNotFoundException('El Diplomado a eliminar NO Existe');
+      // }
+      //
+      // $form = $this->createDeleteForm($diplomado);
+      // $form->handleRequest($request);
+      //
+      // if($form->isSubmitted() && $form->isValid())
+      // {
+      //   $em->remove($diplomado);
+      //   $em -> flush();
+      //
+      //   $this->addFlash('mensaje','¡El Diplomado ha sido eliminado satisfactoriamente!');
+      //   return $this->redirectToRoute('indexDiplomados', array('id' => $grupo->getId()));
 
-      $diplomado = $em->getRepository('DataBundle:Diplomado')->find($id);
-
-      if(!$diplomado)
-      {
-        throw $this->createNotFoundException('El Diplomado a eliminar NO Existe');
+        if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+          $em = $this->getDoctrine()->getManager();
+          $diplomado = $em->getRepository('DataBundle:Diplomado')->find($id);
+          $em->remove($diplomado);
+          $em->flush();
+          return new Response(Response::HTTP_OK);
+          return $this->redirectToRoute('indexDiplomados');
+        }
+      return new Response('user not loggin',Response::HTTP_NOT_FOUND);
       }
-
-      $form = $this->createDeleteForm($diplomado);
-      $form->handleRequest($request);
-
-      if($form->isSubmitted() && $form->isValid())
-      {
-
-        $em->remove($diplomado);
-        $em -> flush();
-
-        $this->addFlash('mensaje','¡El Diplomado ha sido eliminado satisfactoriamente!');
-        return $this->redirectToRoute('indexDiplomados', array('id' => $grupo->getId()));
-
-      }
-    }
 }

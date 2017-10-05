@@ -1,5 +1,4 @@
 {% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
-
 {% block body %}
 {{ parent() }}
 {{ include('DiplomadosBundle:Diplomado:messages/success.html.twig' )}}
@@ -7,51 +6,86 @@
 {% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
 {% block tab_mentores %}active{% endblock %}
 {% endembed %}
-		<div class="col-md-12">
-			<div class="page-header margin-none">
-				<h2 class="padding-none">Diplomados</h2>
-			</div>
-			<div class="table-responsive">
-			Total Diplomados: {{ pagination.getTotalItemCount }}
-				<table class="table table-striped table-hover">
-					<thead>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="row" style="margin:0px;margin-bottom:20px">
+      <div class="col-md-9">
+        <div class="form-group form-inline">
+          <i class="glyphicon glyphicon-search"></i>
+          <input type="text" name="" value="" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-3" align="right">
+        <a href="{{path('addDiplomados')}}" class="btn btn-default">Agregar Diplomado</a>
+      </div>
+    </div>
+    <div class="row" style="margin:0px">
+      <div class="table-responsive">
+         Total Diplomados: {{ pagination.getTotalItemCount }}
+        <table class="table table-striped table-border table-hover table-responsive ">
+          <thead style="background-color:#f8f8f8">
 						<tr>
-								<th> {{ knp_pagination_sortable(pagination, 'Nombre', 'd.nombre') }} </th>
-								<th> {{ 'Cantidad De Grupos' }} </th>
-								<th> {{ knp_pagination_sortable(pagination, 'Fecha De Creación', 'd.fechaCreacion') }} </th>
-								<th> {{ knp_pagination_sortable(pagination, 'Estado', 'd.activo') }} </th>
-								<th>Acción</th>
+								<th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Nombre', 'd.nombre') }} </th>
+								<th rowspan="2"> {{ 'Cantidad De Grupos' }} </th>
+								<th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Fecha De Creación', 'd.fechaCreacion') }} </th>
+								<th rowspan="2"> {{ knp_pagination_sortable(pagination, 'Estado', 'd.activo') }} </th>
+								<th rowspan="1" colspan="3" style="text-align:center">Acciónes</th>
 						</tr>
-					</thead>
-					<tbody>
+            <tr>
+              <th rowspan="1" style="text-align:center">Ver</th>
+              <th rowspan="1" style="text-align:center">Editar</th>
+              <th rowspan="1" style="text-align:center">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody >
             {% for diplomado in pagination %}
-              <tr data-id="{{ diplomado.id }}">
-                <td>{{ diplomado.nombre}}</td>
-								<td>{{ '#' }}</td>
-		            <td>{{ diplomado.fechaCreacion | date('d-m-Y') }}</td>
-								 <td>
-									 {% if diplomado.activo == '1'%}
- 									<button type="button" class="btn btn-success">Activo</button>
-                   {% else %}
- 									<button type="button" class="btn btn-default">Inactivo</button>
-                   {% endif %}
-	 								</td>
-                <td class="actions">
-                  <a href="{{ path('viewDiplomados', {id: diplomado.id}) }}" class="btn btn-sm btn-info">Ver</a>
+            <tr id="tr" class="color-cells" data-id="{{diplomado.id}}">
+              <td id="nombreDiplomado" value="{{diplomado.nombre}}">{{diplomado.nombre}}</td>
+							<td>{{ '#' }}</td>
+	            <td>{{ diplomado.fechaCreacion | date('d-m-Y') }}</td>
+							 <td>
+								 {% if diplomado.activo == '1'%}
+									<button type="button" class="btn btn-success">Activo</button>
+                 {% else %}
+									<button type="button" class="btn btn-default">Inactivo</button>
+                 {% endif %}
+ 								</td>
+              <td>
+								<a href="{{ path('viewDiplomados', {id: diplomado.id}) }}" class="btn btn-sm btn-info">Ver</a>
+              </td>
+              <td>
+                <a href="{{ path('editDiplomados', {id: diplomado.id}) }}" class="btn btn-sm btn-primary">Editar</a>
+              </td>
+              <td>
+                <a class="btn btn-sm btn-danger btnDelDiplomado">Eliminar</a>
+              </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="navigation">
+          {{ knp_pagination_render(pagination) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-                  <a href="{{ path('editDiplomados', {id: diplomado.id}) }}" class="btn btn-sm btn-primary">Editar</a>
+<!--Modal visualizar mentor-->
+<!--<div class="modal fade" id="modalViewDiplomado">
+  <div class="modal-dialog"  style="width: 800px" role="document">
+    <div class="modal-content">
+      <div class="modal-body body-modal" id ="contentViewDiplomado">
 
-                  {# <a href="#" class="btn btn-sm btn-danger btn-delete">Eliminar</a>  #}
-                </td>
-               </tr>
-				        {% endfor %}
-					</tbody>
-				</table>
-				{# display navigation #}
-				<div class="navigation">
-						{{ knp_pagination_render(pagination) }}
-				</div>
-			</div>
-		</div>
-	</div>
+      </div>
+    </div>
+  </div>
+</div> -->
+{% endblock %}
+{% block javascript %}
+  {{parent()}}
+  <script src="{{asset('public/js/diplomado.js')}}"></script>
+  <script src="{{asset('public/js/bootstrap-datepicker.min.js')}}"></script>
+  <script src="{{asset('public/js/bootstrap-datepicker.es.min.js')}}" charset="UTF-8"></script>
 {% endblock %}

@@ -108,7 +108,6 @@ class GruposController extends Controller
       throw $this->createNotFoundException('El Grupo a Editar NO Existe');
     }
     $form = $this->createEditForm($grupo);
-
     return $this->render('MentoresBundle:Grupo:edit.html.twig', array('grupo'=>$grupo, 'form'=>$form->createView()));
   }
 
