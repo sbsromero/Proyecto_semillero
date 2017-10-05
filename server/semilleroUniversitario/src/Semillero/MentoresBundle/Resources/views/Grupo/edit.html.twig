@@ -1,20 +1,33 @@
 {% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('public/css/bootstrap-datepicker.min.css')}}">
+{% endblock %}
 {% block body %}
 {{ parent() }}
-{{ include('MentoresBundle:Grupo:messages/success.html.twig' )}}
-	<div class="main container">
+
+	<div class="container">
     {% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
     {% block tab_mentores %}active{% endblock %}
     {% endembed %}
 
-		<div class="row well">
-			<div class="col-md-6">
-				<div class="page-header">
-					<h2>Editando Grupo</h2>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="row" style="margin:0px">
+					<div class="page-header" align="center">
+						<h3>Edición de Grupo</h3>
+					</div>
 				</div>
-                {{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form'} }) }}
-                <h4 class="text-danger">{{form_errors(form) }} </h4>
-                <fieldset>
+        {{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form'} }) }}
+			<div class="row" style="margin:0px">
+				<div class="col-md-6">
+
+					<div class="form-group">
+							{{ form_label(form.diplomado) }}
+							{{ form_widget(form.diplomado, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Nuevo Diplomado'} }) }}
+							<span class="text-danger">{{ form_errors(form.diplomado) }}</span>
+					</div>
+
           <div class="form-group">
               {{ form_label(form.nombre) }}
               {{ form_widget(form.nombre, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Nuevo nombre'} }) }}
@@ -39,14 +52,19 @@
 						<span class="text-danger">{{ form_errors(form.activo) }}</span>
 				    </label>
 				  </div>
-			</fieldset>
-
-		    <p>
-		        {{ form_widget(form.save, {'label' : 'Actualizar Grupo', 'attr': {'class': 'btn btn-success'}}) }}
-		    </p>
-
-                {{ form_end(form) }}
 			</div>
 		</div>
+		<p aling="center">
+				{{ form_widget(form.save, {'label' : 'Actualizar Grupo', 'attr': {'class': 'btn btn-success'}}) }}
+		</p>
+		  {{ form_end(form) }}
 	</div>
+ </div>
+</div>
+{% endblock %}
+{% block javascript %}
+  {{parent()}}
+  <script src="{{asset('public/js/grupo.js')}}"></script>
+  <script src="{{asset('public/js/bootstrap-datepicker.min.js')}}"></script>
+  <script src="{{asset('public/js/bootstrap-datepicker.es.min.js')}}" charset="UTF-8"></script>
 {% endblock %}

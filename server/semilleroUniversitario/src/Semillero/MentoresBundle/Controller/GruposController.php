@@ -6,6 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\FormError;
+
 use Semillero\DataBundle\Entity\Grupo;
 use Semillero\DataBundle\Form\GrupoType;
 
@@ -144,26 +148,37 @@ class GruposController extends Controller
   /**
   * @Route("/grupos/view/{id}",name="viewGrupos")
   */
-  public function viewAction($id)
+  public function viewAction(Request $request,$id)
   {
-    $Repository = $this->getDoctrine()->getRepository('DataBundle:Grupo');
-    $grupo = $Repository->find($id);
-    if(!$grupo)
-    {
-      throw $this->createNotFoundException('El Grupo a Editar NO Existe');
+    if ($request->isXmlHttpRequest()) {
+      // $Repository = $this->getDoctrine()->getRepository('DataBundle:Grupo');
+      // $grupo = $Repository->find($id);
+
+      $em = $this->getDoctrine()->getManager();
+      $Repository = $this->getDoctrine()->getRepository('DataBundle:Grupo');
+      $grupo = $em->getRepository('DataBundle:Grupo')->find/*ById*/($id);
+      if(!$grupo)
+      {
+        //throw $this->createNotFoundException('El Grupo a Editar NO Existe');
+        return $this->redirectToRoute('indexGrupos');
+      }
+      $mentor = $grupo->getMentor();
+      //$deleteForm = $this->createDeleteForm($grupo);
+      //return $this->render('MentoresBundle:Grupo:view.html.twig',array('grupo' => $grupo,'mentor' => $mentor, 'delete_form' => $deleteForm->createView()));
+      return $this->render('MentoresBundle:Grupo:view.html.twig',array(
+        'grupo' => $grupo,'mentor' => $mentor));
     }
-    $mentor = $grupo->getMentor();
-    $deleteForm = $this->createDeleteForm($grupo);
-    return $this->render('MentoresBundle:Grupo:view.html.twig',array('grupo' => $grupo,'mentor' => $mentor, 'delete_form' => $deleteForm->createView()));
+        return $this->redirectToRoute('indexGrupos');
   }
 
-  private function createDeleteForm($grupo)
-  {
-    return $this->createFormBuilder()
-    ->setAction($this->generateUrl('deleteGrupos',array('id' => $grupo->getId())))
-    ->setMethod('DELETE')
-    ->getForm();
-  }
+
+  // private function createDeleteForm($grupo)
+  // {
+  //   return $this->createFormBuilder()
+  //   ->setAction($this->generateUrl('deleteGrupos',array('id' => $grupo->getId())))
+  //   ->setMethod('DELETE')
+  //   ->getForm();
+  // }
 
   //------------------ Metodo delete, eliminar un GRUPÓ de la base de datos --------------------
 
@@ -174,27 +189,35 @@ class GruposController extends Controller
 
   public function deleteAction(Request $request, $id)
   {
-    $em = $this->getDoctrine()->getManager();
+    // $em = $this->getDoctrine()->getManager();
+    // $grupo = $em->getRepository('DataBundle:Grupo')->find($id);
+    // if(!$grupo)
+    // {
+    //   throw $this->createNotFoundException('El Grupo a eliminar NO Existe');
+    // }
+    //
+    // $form = $this->createDeleteForm($grupo);
+    // $form->handleRequest($request);
+    //
+    // if($form->isSubmitted() && $form->isValid())
+    // {
+    //
+    //   $em->remove($grupo);
+    //   $em -> flush();
+    //
+    //   $this->addFlash('mensaje','¡El grupo ha sido eliminado satisfactoriamente!');
+    //   return $this->redirectToRoute('indexGrupos', array('id' => $grupo->getId()));
+    //
+    // }
+  if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+  $em = $this->getDoctrine()->getManager();
+  $grupo = $em->getRepository('DataBundle:Grupo')->find($id);
+  $em->remove($grupo);
+  $em->flush();
+  return new Response(Response::HTTP_OK);
+  return $this->redirectToRoute('indexGrupos');
 
-    $grupo = $em->getRepository('DataBundle:Grupo')->find($id);
-
-    if(!$grupo)
-    {
-      throw $this->createNotFoundException('El Grupo a eliminar NO Existe');
-    }
-
-    $form = $this->createDeleteForm($grupo);
-    $form->handleRequest($request);
-
-    if($form->isSubmitted() && $form->isValid())
-    {
-
-      $em->remove($grupo);
-      $em -> flush();
-
-      $this->addFlash('mensaje','¡El grupo ha sido eliminado satisfactoriamente!');
-      return $this->redirectToRoute('indexGrupos', array('id' => $grupo->getId()));
-
-    }
+  }
+  return new Response('user not loggin',Response::HTTP_NOT_FOUND);
   }
 }

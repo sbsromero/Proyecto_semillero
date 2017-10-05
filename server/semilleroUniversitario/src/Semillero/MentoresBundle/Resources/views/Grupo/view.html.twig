@@ -1,42 +1,33 @@
-{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
-{% block body %}
-{{ parent() }}
-	<div class="container well">
-		{% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
-		{% block tab_mentores %}active{% endblock %}
-		{% endembed %}
-	    <div class="col-md-9">
-	    <h2>{{ grupo.nombre }} {{ grupo.jornada.nombre }}</h2>
-	        <br>
-	        <dl>
+
+<div class="panel panel-default">
+	<div class="panel-body" style="padding:0px">
+		<div class="row" style="margin:0px;padding-right: 30px;padding-top: 20px;">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+		</div>
+		<div class="row" style="margin:0px">
+			<div class="" align="center">
+				<h2 style="margin-top:10px">{{ grupo.nombre }} {{ grupo.jornada.nombre }}</h2>
+			</div>
+			<div class="col-md-4" align="center">
+				<div class="" style="background: grey; height: 150px; width: 40%;">
+					imagen
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<dl>
 	            <dt>{{'Nombre:'}}</dt>
-	            <dd>
-	                {{ grupo.nombre }}
-	                &nbsp;
-	            </dd>
+	            <dd>{{grupo.nombre }}</dd>
 	            <br>
-
 	            <dt>{{'Jornada:'}}</dt>
-	            <dd>
-	                {{ grupo.jornada.nombre }}
-	                &nbsp;
-	            </dd>
+	            <dd>{{ grupo.jornada.nombre }}</dd>
 	            <br>
-
-						 <dt>{{'fecha De Creacion:'}}</dt>
-							<dd>
-									{{ grupo.fechaCreacion|date('d-m-Y') }}
-									&nbsp;
-							</dd>
+						  <dt>{{'fecha De Creacion:'}}</dt>
+							<dd>{{ grupo.fechaCreacion|date('d-m-Y') }}</dd>
 							<br>
-
 							<dt>{{'Mentor:'}}</dt>
-	            <dd>
-	                {{ mentor.getFullName() }}
-	                &nbsp;
-	            </dd>
+	            <dd>{{mentor.getFullName()}}</dd>
 	            <br>
-
 	            <dt>{{'Estado'}}</dt>
 	            <dd>
                 	{% if grupo.getActivo() == 1 %}
@@ -44,23 +35,10 @@
 									{% elseif grupo.getActivo() == 0 %}
 						<span class="text-warning">INACTIVO</span>
                 	{% endif %}
-	                &nbsp;
 	            </dd>
-	            <br>
-
 	        </dl>
-	    </div>
-	    <div class="col-md-3">
-	    	<h3>{{ 'Acción a Realizar' }}:</h3>
-			<p>
-		    	<a href="{{ path('editGrupos', { id: grupo.id }) }}" class="btn btn-primary btn-lg btn-block">
-		    		<span class="glyphicon glyphicon-edit"></span>
-		        	{{ 'Editar Grupo' }}
-				 </a>
-			</p>
-			<p>
-				    {{ include('MentoresBundle:Grupo:forms/form.html.twig', { form: delete_form, message: '¿Estas Seguro de Eliminar al Grupo?'}) }}
-			</p>
-	    </div>
+				</div>
+			</div>
+  	</div>
 	</div>
-{% endblock %}
+</div>
