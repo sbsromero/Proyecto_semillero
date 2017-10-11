@@ -28,6 +28,11 @@ class Grupo
     */
     private $diplomado;
 
+    /**
+    * @ORM\OneToMany(targetEntity="Semilla", mappedBy="Grupo")
+    */
+    private $semillas;
+
 
     /**
      * @var int
@@ -200,5 +205,36 @@ class Grupo
     public function getMentor()
     {
         return $this->mentor;
+    }
+
+    /**
+     * Set diplomado
+     *
+     * @param \Semillero\DataBundle\Entity\Diplomado $diplomado
+     * @return Grupo
+     */
+    public function setDiplomado(\Semillero\DataBundle\Entity\Diplomado $diplomado = null)
+    {
+        $this->diplomado = $diplomado;
+
+        return $this;
+    }
+
+    /**
+     * Get diplomado
+     *
+     * @return \Semillero\DataBundle\Entity\Diplomado
+     */
+    public function getDiplomado()
+    {
+        return $this->diplomado;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->semillas = new \Doctrine\Common\Collections\ArrayCollection();
     }
 }

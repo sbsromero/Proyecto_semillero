@@ -1,0 +1,79 @@
+
+<div class="panel panel-default">
+	<div class="panel-body" style="padding:0px">
+		<div class="row" style="margin:0px;padding-right: 30px;padding-top: 20px;">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+		</div>
+		<div class="row" style="margin:0px">
+			<div class="" align="center">
+				<h2 style="margin-top:10px">{{ semilla.nombre }} {{ semilla.apellidos }}</h2>
+			</div>
+			<div class="col-md-4" align="center">
+				<div class="" style="background: grey; height: 150px; width: 40%;">
+					imagen
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<dl>
+						<dt>Nombres:</dt>
+						<dd>{{semilla.nombre}}</dd>
+						<br>
+						<dt>Apellidos:</dt>
+						<dd>{{semilla.apellidos}}</dd>
+						<br>
+						<dt>Tipo de documento:</dt>
+						<dd>{{semilla.tipoDocumento.nombre}}</dd>
+						<br>
+						<dt>Numero de documento:</dt>
+						<dd>{{semilla.numeroDocumento}}</dd>
+						<br>
+						<dt>Fecha de nacimiento:</dt>
+						<dd>{{semilla.fechaNacimiento|date('d/m/Y')}}</dd>
+						<br>
+						<dt>Dirección:</dt>
+						<dd>{{semilla.direccion}}</dd>
+						<br>
+						<dt>Municipio:</dt>
+						<dd>{{semilla.municipio}}</dd>
+						<br>
+						<dt>Departamento:</dt>
+						<dd>{{semilla.departamento}}</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<dl>
+						<dt>Correo electrónico:</dt>
+						<dd>{{semilla.email}}</dd>
+						<br>
+						<dt>Número de celular:</dt>
+						<dd>{{semilla.numeroCelular}}</dd>
+						<br>
+						<dt>Número de teléfono:</dt>
+						<dd>{{semilla.numeroTelefono}}</dd>
+						<br>
+						<dt>Eps:</dt>
+						<dd>{{semilla.eps}}</dd>
+						<br>
+						<dt>Tipo de sangre:</dt>
+						<dd>{{semilla.tipoSangre}}</dd>
+						<br>
+						<dt>Tipo de mentor:</dt>
+						<dd>{{semilla.tipoMentor.nombre}}</dd>
+						<br>
+						<dt>Posee Facebook:</dt>
+						<dd>
+							{% if semilla.getIsFacebook() == 1 %}
+							<span class="text-success">Si</span>
+							{% elseif semilla.getIsFacebook() == 0 %}
+							<span class="text-warning">No</span>
+							{% endif %}
+						</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

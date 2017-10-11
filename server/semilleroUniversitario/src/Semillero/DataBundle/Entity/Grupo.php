@@ -28,6 +28,11 @@ class Grupo
     */
     private $diplomado;
 
+    /**
+    * @ORM\OneToMany(targetEntity="Semilla", mappedBy="Grupo")
+    */
+    private $semillas;
+
 
     /**
      * @var int
@@ -218,10 +223,57 @@ class Grupo
     /**
      * Get diplomado
      *
-     * @return \Semillero\DataBundle\Entity\Diplomado 
+     * @return \Semillero\DataBundle\Entity\Diplomado
      */
     public function getDiplomado()
     {
         return $this->diplomado;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->semillas = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add semillas
+     *
+     * @param \Semillero\DataBundle\Entity\Semilla $semillas
+     * @return Grupo
+     */
+    public function addSemilla(\Semillero\DataBundle\Entity\Semilla $semillas)
+    {
+        $this->semillas[] = $semillas;
+
+        return $this;
+    }
+
+    /**
+     * Remove semillas
+     *
+     * @param \Semillero\DataBundle\Entity\Semilla $semillas
+     */
+    public function removeSemilla(\Semillero\DataBundle\Entity\Semilla $semillas)
+    {
+        $this->semillas->removeElement($semillas);
+    }
+
+    /**
+     * Get semillas
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSemillas()
+    {
+        return $this->semillas;
+    }
+
+    public function getFullNameGrupo()
+    {
+      //return $this->diplomado.nombre . " " . $this->nombre;
+      return $this->nombre;
     }
 }

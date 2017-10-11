@@ -1,0 +1,210 @@
+{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
+{% block stylesheets %}
+{{parent()}}
+<link rel="stylesheet" href="{{ asset('public/css/bootstrap-datepicker.min.css')}}">
+{% endblock %}
+{% block body %}
+{{ parent() }}
+
+<div class="container">
+	{% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
+	{% block tab_semillas %}active{% endblock %}
+	{% endembed %}
+
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="row" style="margin:0px">
+				<div class="page-header" align="center">
+					<h3>Edición de Semilla</h3>
+					<h4>Datos De La Semilla</h4>
+				</div>
+			</div>
+			{{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form'} }) }}
+			<div class="row" style="margin:0px">
+				<div class="col-md-6">
+					<div class="form-group">
+						{{ form_label(form.nombre)  }}
+						{{ form_widget(form.nombre, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Nombre'} }) }}
+						<span class="text-danger">{{ form_errors(form.nombre) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.tipoDocumento) }}
+						{{ form_widget(form.tipoDocumento, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Tipo De Documento'} }) }}
+						<span class="text-danger">{{ form_errors(form.tipoDocumento) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.fechaNacimiento) }}
+						{{ form_widget(form.fechaNacimiento, {'attr': {'class': 'form-control js-datepicker', 'placeholder' : 'dd/mm/yyyy'}}) }}
+						<span class="text-danger">{{ form_errors(form.fechaNacimiento) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.departamento) }}
+						{{ form_widget(form.departamento, {'attr': {'class': 'form-control', 'placeholder' : 'Departamento'}}) }}
+						<span class="text-danger">{{ form_errors(form.departamento) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.municipio) }}
+						{{ form_widget(form.municipio, {'attr': {'class': 'form-control', 'placeholder' : 'Municipio'}}) }}
+						<span class="text-danger">{{ form_errors(form.municipio) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.direccion) }}
+						{{ form_widget(form.direccion, {'attr': {'class': 'form-control', 'placeholder' : 'Dirección'}}) }}
+						<span class="text-danger">{{ form_errors(form.direccion) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.tipoSangre) }}
+						{{ form_widget(form.tipoSangre, {'attr': {'class': 'form-control', 'placeholder' : 'Tipo De Sangre'}}) }}
+						<span class="text-danger">{{ form_errors(form.tipoSangre) }}</span>
+					</div>
+					<div class="checkbox">
+						<label>
+						{{ form_widget(form.isFacebook) }} ¿Posee facebook?
+						</label>
+					</div>
+					<div class="checkbox">
+						<label>
+						{{ form_widget(form.isWhatsapp) }} ¿Posee WhatsApp?
+						</label>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.colegio) }}
+						{{ form_widget(form.colegio, {'attr': {'class': 'form-control', 'placeholder' : 'Institución Educativa'}}) }}
+						<span class="text-danger">{{ form_errors(form.colegio) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.gradoEscolarActual) }}
+						{{ form_widget(form.gradoEscolarActual, {'attr': {'class': 'form-control', 'placeholder' : 'Grado escolar actual'}}) }}
+						<span class="text-danger">{{ form_errors(form.eps) }}</span>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group">
+						{{ form_label(form.apellidos) }}
+						{{ form_widget(form.apellidos, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Apellidos'} }) }}
+						<span class="text-danger">{{ form_errors(form.apellidos) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.numeroDocumento) }}
+						{{ form_widget(form.numeroDocumento, {'attr': {'class': 'form-control', 'placeholder' : 'Número De Documento'}}) }}
+						<span class="text-danger">{{ form_errors(form.numeroDocumento) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.email) }}
+						{{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder' : 'Email'}}) }}
+						<span class="text-danger">{{ form_errors(form.email) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.numeroCelular) }}
+						{{ form_widget(form.numeroCelular, {'attr': {'class': 'form-control', 'placeholder' : 'Numero Movil'}}) }}
+						<span class="text-danger">{{ form_errors(form.numeroCelular) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.numeroTelefono) }}
+						{{ form_widget(form.numeroTelefono, {'attr': {'class': 'form-control', 'placeholder' : 'Número De Telefono'}}) }}
+						<span class="text-danger">{{ form_errors(form.numeroTelefono) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.password) }}
+						{{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder' : 'Contraseña'}}) }}
+						<span class="text-danger">{{ form_errors(form.password) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.eps) }}
+						{{ form_widget(form.eps, {'attr': {'class': 'form-control', 'placeholder' : 'EPS'}}) }}
+						<span class="text-danger">{{ form_errors(form.eps) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.emailFacebook) }}
+						{{ form_widget(form.emailFacebook, {'attr': {'class': 'form-control', 'placeholder' : 'Usuario de Facebbok'}}) }}
+						<span class="text-danger">{{ form_errors(form.emailFacebook) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.enfermedades) }}
+						{{ form_widget(form.enfermedades, {'attr': {'class': 'form-control', 'placeholder' : 'Enfermedades que padece'}}) }}
+						<span class="text-danger">{{ form_errors(form.enfermedades) }}</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" style="margin:0px">
+				<div class="page-header" align="center">
+					<h4>DATOS DE LOS ACUDIENTES</h4>
+				</div>
+			</div>
+			{{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form'} }) }}
+			<div class="row" style="margin:0px">
+				<div class="col-md-6">
+					<h4>ACUDIENTE 1</h4>
+					<div class="form-group">
+						{{ form_label(form.acudienteUno) }}
+						{{ form_widget(form.acudienteUno, {'attr': {'class': 'form-control', 'placeholder' : 'Nombres y Apellidos del Acudiente Número 1'}}) }}
+						<span class="text-danger">{{ form_errors(form.acudienteUno) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.telefonoAcudienteUno) }}
+						{{ form_widget(form.telefonoAcudienteUno, {'attr': {'class': 'form-control', 'placeholder' : 'Número Telefonico del Acudiente Número 1'}}) }}
+						<span class="text-danger">{{ form_errors(form.telefonoAcudienteUno) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.direccionAcudienteUno) }}
+						{{ form_widget(form.direccionAcudienteUno, {'attr': {'class': 'form-control', 'placeholder' : 'Direccion Del Acudiente 1'}}) }}
+						<span class="text-danger">{{ form_errors(form.direccionAcudienteUno) }}</span>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<h4>ACUDIENTE 2</h4>
+					<div class="form-group">
+						{{ form_label(form.acudienteDos) }}
+						{{ form_widget(form.acudienteDos, {'attr': {'class': 'form-control', 'placeholder' : 'Nombres y Apellidos del Acudiente Número 2'}}) }}
+						<span class="text-danger">{{ form_errors(form.acudienteDos) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.telefonoAcudienteDos) }}
+						{{ form_widget(form.telefonoAcudienteDos, {'attr': {'class': 'form-control', 'placeholder' : 'Número Telefonico del Acudiente Número 2'}}) }}
+						<span class="text-danger">{{ form_errors(form.telefonoAcudienteDos) }}</span>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.direccionAcudienteDos) }}
+						{{ form_widget(form.direccionAcudienteDos, {'attr': {'class': 'form-control', 'placeholder' : 'Direccion Del Acudiente 2'}}) }}
+						<span class="text-danger">{{ form_errors(form.direccionAcudienteDos) }}</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" style="margin:0px">
+				<div class="page-header" align="center">
+					<h3>SELECCIÓN DE GRUPO</h3>
+				</div>
+			</div>
+			{{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form'} }) }}
+			<div class="row" style="margin:0px">
+				<div class="col-md-6" align="center">
+					<div class="form-group">
+							{{ form_label(form.grupo) }}
+							{{ form_widget(form.grupo, { 'attr' : {'class' : 'form-control'} }) }}
+							<span class="text-danger">{{ form_errors(form.grupo) }}</span>
+					</div>
+					<h3>OBERVACIONES</h3>
+					<div class="form-group">
+						{{ form_label(form.observaciones) }}
+						{{ form_widget(form.observaciones, {'attr': {'class': 'form-control', 'placeholder' : '¿Alguna Observación a realizar?'}}) }}
+						<span class="text-danger">{{ form_errors(form.observaciones) }}</span>
+					</div>
+				</div>
+			</div>
+			<p align="center">
+				{{ form_widget(form.save, {'label' : 'Actualizar Semilla', 'attr': {'class': 'btn btn-success'}}) }}
+			</p>
+			{{ form_end(form) }}
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block javascript %}
+  {{parent()}}
+  <script src="{{asset('public/js/semilla.js')}}"></script>
+  <script src="{{asset('public/js/bootstrap-datepicker.min.js')}}"></script>
+  <script src="{{asset('public/js/bootstrap-datepicker.es.min.js')}}" charset="UTF-8"></script>
+{% endblock %}
