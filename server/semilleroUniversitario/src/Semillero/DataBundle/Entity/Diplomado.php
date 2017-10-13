@@ -4,6 +4,7 @@ namespace Semillero\DataBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Diplomado
@@ -131,7 +132,7 @@ class Diplomado
     /**
      * Get activo
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getActivo()
     {
@@ -171,7 +172,7 @@ class Diplomado
     /**
      * Get grupos
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getGrupos()
     {

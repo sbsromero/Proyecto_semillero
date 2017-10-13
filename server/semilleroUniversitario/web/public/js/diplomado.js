@@ -1,6 +1,20 @@
 $(document).ready(function(){
 
-  //Permite eliminar un grupo
+  //Permite visualizar en modal los detalles de un diplomado
+  $('body').on("click",'.btnVerDiplomado',function(e){
+    var row = $(this).parents('tr');
+    var id = row.data('id');
+    $.ajax({
+      type:'GET',
+      url: Routing.generate('viewDiplomados',{id:id}),
+      success: function(html){
+        $("#contentViewDiplomado").html(html);
+        $("#modalViewDiplomado").modal('show');
+      }
+    })
+  })
+
+  //Permite eliminar un diplomado
   $('body').on('click','.btnDelDiplomado',function(e){
     var row = $(this).parents('tr');
     var id = row.data('id');

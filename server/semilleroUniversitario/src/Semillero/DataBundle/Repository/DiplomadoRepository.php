@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class DiplomadoRepository extends EntityRepository
 {
+  //Retorna todos los diplomados
+  public function findAll()
+  {
+    return $this->findBy(array(), array('nombre' => 'DESC'));
+  }
 }

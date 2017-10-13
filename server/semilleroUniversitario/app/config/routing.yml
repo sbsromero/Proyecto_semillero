@@ -27,6 +27,8 @@ diplomados:
     resource: "@DiplomadosBundle/Controller/"
     type:     annotation
     prefix:   /
+    options:
+        expose: true
 
 mentores:
     resource: "@MentoresBundle/Controller/"
@@ -39,6 +41,8 @@ semillas:
     resource: "@SemillasBundle/Controller/"
     type:     annotation
     prefix:   /
+    options:
+        expose: true
 
 app:
     resource: '@AppBundle/Controller/'

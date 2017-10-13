@@ -8,14 +8,17 @@
 			<div class="" align="center">
 				<h2 style="margin-top:10px">{{ semilla.nombre }} {{ semilla.apellidos }}</h2>
 			</div>
-			<div class="col-md-4" align="center">
-				<div class="" style="background: grey; height: 150px; width: 40%;">
-					imagen
-				</div>
-			</div>
+
 			<div class="col-md-4">
-				<div class="form-group">
+				<div class="form-group" >
 					<dl>
+						<!--<dt>Foto:</dt>-->
+						<dd align="center">
+							<div class="" align="center" style="background: grey; height: 150px; width: 40%;">
+								imagen
+							</div>
+						</dd>
+						<br>
 						<dt>Nombres:</dt>
 						<dd>{{semilla.nombre}}</dd>
 						<br>
@@ -27,7 +30,12 @@
 						<br>
 						<dt>Numero de documento:</dt>
 						<dd>{{semilla.numeroDocumento}}</dd>
-						<br>
+					</dl>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<dl>
 						<dt>Fecha de nacimiento:</dt>
 						<dd>{{semilla.fechaNacimiento|date('d/m/Y')}}</dd>
 						<br>
@@ -35,33 +43,36 @@
 						<dd>{{semilla.direccion}}</dd>
 						<br>
 						<dt>Municipio:</dt>
-						<dd>{{semilla.municipio}}</dd>
+						<dd>{{semilla.municipio}} - {{semilla.departamento}}</dd>
 						<br>
-						<dt>Departamento:</dt>
-						<dd>{{semilla.departamento}}</dd>
-					</dl>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="form-group">
-					<dl>
 						<dt>Correo electrónico:</dt>
 						<dd>{{semilla.email}}</dd>
 						<br>
 						<dt>Número de celular:</dt>
 						<dd>{{semilla.numeroCelular}}</dd>
 						<br>
+						<dt>Posee WhastApp:</dt>
+						<dd>
+							{% if semilla.getIsWhatsapp() == 1 %}
+							<span class="text-success">Si</span>
+							{% elseif semilla.getIsWhatsapp() == 0 %}
+							<span class="text-warning">No</span>
+							{% endif %}
+						</dd>
+						<br>
 						<dt>Número de teléfono:</dt>
 						<dd>{{semilla.numeroTelefono}}</dd>
-						<br>
+					</dl>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<dl>
 						<dt>Eps:</dt>
 						<dd>{{semilla.eps}}</dd>
 						<br>
 						<dt>Tipo de sangre:</dt>
 						<dd>{{semilla.tipoSangre}}</dd>
-						<br>
-						<dt>Tipo de mentor:</dt>
-						<dd>{{semilla.tipoMentor.nombre}}</dd>
 						<br>
 						<dt>Posee Facebook:</dt>
 						<dd>
@@ -71,6 +82,64 @@
 							<span class="text-warning">No</span>
 							{% endif %}
 						</dd>
+						<br>
+						<dt>FaceBook:</dt>
+						<dd>{{semilla.emailFacebook}}</dd>
+						<br>
+						<dt>Grado Escolar:</dt>
+						<dd>{{semilla.gradoEscolarActual}}</dd>
+						<br>
+						<dt>Institucion Educativa:</dt>
+						<dd>{{semilla.colegio}}</dd>
+						<br>
+						<dt>Enfermedades:</dt>
+						<dd>{{semilla.enfermedades}}</dd>
+						<br>
+					</dl>
+				</div>
+			</div>
+		</div>
+
+		<div class="row" style="margin:0px">
+			<div class="" align="center">
+				<h2 style="margin-top:10px">Acudientes</h2>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group" >
+					<dl>
+						<dt>Nombres Acudiene 1:</dt>
+						<dd>{{semilla.acudienteUno}}</dd>
+						<br>
+						<dt>Número de Telefono:</dt>
+						<dd>{{semilla.telefonoAcudienteUno}}</dd>
+						<br>
+						<dt>direccion:</dt>
+						<dd>{{semilla.direccionAcudienteUno}}</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<dl>
+						<dt>Nombres Acudiene 2:</dt>
+						<dd>{{semilla.acudienteDos}}</dd>
+						<br>
+						<dt>Número de Telefono:</dt>
+						<dd>{{semilla.telefonoAcudienteDos}}</dd>
+						<br>
+						<dt>direccion:</dt>
+						<dd>{{semilla.direccionAcudienteDos}}</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<dl>
+						<h4><dt>Observaciones:</dt></h4>
+						<dd>{{semilla.observaciones}}</dd>
+						<br>
+						<h4><dt>Grupo:</dt></h4>
+						<dd>{{semilla.grupo.nombre}}</dd>
 					</dl>
 				</div>
 			</div>

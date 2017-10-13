@@ -102,7 +102,9 @@ class DiplomadoController extends Controller
       $diplomado = $em->getRepository('DataBundle:Diplomado')->find($id);
 
       if(!$diplomado)
-      { throw $this->createNotFoundException('El Diplomado a Editar NO Existe'); }
+      {
+        throw $this->createNotFoundException('El Diplomado a Editar NO Existe');
+      }
 
       $form = $this->createEditForm($diplomado);
       return $this->render('DiplomadosBundle:Diplomado:edit.html.twig', array('diplomado'=>$diplomado, 'form'=>$form->createView()));
@@ -134,36 +136,36 @@ class DiplomadoController extends Controller
       if($form->isSubmitted() && $form->isValid())
       {
         $em -> flush();
-        $this->addFlash('mensaje','¡El DIplomado ha sido modificado satisfactoriamente!');
+        $this->addFlash('mensaje','¡El Diplomado ha sido modificado satisfactoriamente!');
         return $this->redirectToRoute('indexDiplomados', array('id' => $diplomado->getId()));
       }
       return $this->render('DiplomadosBundle:Diplomado:edit.html.twig',array('grupo' => $diplomado, 'form' =>$form->createView()));
     }
 
     //------------------ Metodo view, carga un DIPLOMADO seleccionado por parametro Id --------------------
+
     /**
     * @Route("/diplomados/view/{id}",name="viewDiplomados")
     */
-    public function viewAction($id)
+    public function viewAction(Request $request,$id)
     {
-      $Repository = $this->getDoctrine()->getRepository('DataBundle:Diplomado');
-      $diplomado = $Repository->find($id);
-      if(!$diplomado)
-      {
-        throw $this->createNotFoundException('El Diplomado a Editar NO Existe');
+      if ($request->isXmlHttpRequest()) {
+        $em = $this->getDoctrine()->getManager();
+        $Repository = $this->getDoctrine()->getRepository('DataBundle:Diplomado');
+        $diplomado = $em->getRepository('DataBundle:Diplomado')->findById($id);
+
+        if(!$diplomado)
+        {
+          return $this->redirectToRoute('indexDiplomados');
+        }
+
+        return $this->render('DiplomadosBundle:Diplomado:view.html.twig',array(
+          'diplomado' => $diplomado[0]
+        ));
       }
-      //$mentor = $grupo->getMentor();
-      $deleteForm = $this->createDeleteForm($diplomado);
-      return $this->render('DiplomadosBundle:Diplomado:view.html.twig',array('diplomado' => $diplomado,/*'mentor' => $mento,*/ 'delete_form' => $deleteForm->createView()));
+      return $this->redirectToRoute('indexDiplomados');
     }
 
-    private function createDeleteForm($diplomado)
-    {
-      return $this->createFormBuilder()
-      ->setAction($this->generateUrl('deleteDiplomados',array('id' => $diplomado->getId())))
-      ->setMethod('DELETE')
-      ->getForm();
-    }
 
     //------------------ Metodo delete, eliminar un DIPLOMADO de la base de datos --------------------
 
@@ -174,33 +176,14 @@ class DiplomadoController extends Controller
 
     public function deleteAction(Request $request, $id)
     {
-      // $em = $this->getDoctrine()->getManager();
-      // $diplomado = $em->getRepository('DataBundle:Diplomado')->find($id);
-      //
-      // if(!$diplomado)
-      // {
-      //   throw $this->createNotFoundException('El Diplomado a eliminar NO Existe');
-      // }
-      //
-      // $form = $this->createDeleteForm($diplomado);
-      // $form->handleRequest($request);
-      //
-      // if($form->isSubmitted() && $form->isValid())
-      // {
-      //   $em->remove($diplomado);
-      //   $em -> flush();
-      //
-      //   $this->addFlash('mensaje','¡El Diplomado ha sido eliminado satisfactoriamente!');
-      //   return $this->redirectToRoute('indexDiplomados', array('id' => $grupo->getId()));
-
-        if($this->isGranted('IS_AUTHENTICATED_FULLY')){
-          $em = $this->getDoctrine()->getManager();
-          $diplomado = $em->getRepository('DataBundle:Diplomado')->find($id);
-          $em->remove($diplomado);
-          $em->flush();
-          return new Response(Response::HTTP_OK);
-          return $this->redirectToRoute('indexDiplomados');
-        }
+      if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+        $em = $this->getDoctrine()->getManager();
+        $diplomado = $em->getRepository('DataBundle:Diplomado')->find($id);
+        $em->remove($diplomado);
+        $em->flush();
+        return new Response(Response::HTTP_OK);
+        return $this->redirectToRoute('indexDiplomados');
+      }
       return new Response('user not loggin',Response::HTTP_NOT_FOUND);
       }
 }
