@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new Semillero\DiplomadosBundle\DiplomadosBundle(),
             new Semillero\DataBundle\DataBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Semillero\SeguridadBundle\SeguridadBundle(),
             new Semillero\AdminBundle\AdminBundle(),
             new Semillero\UsuariosBundle\UsuariosBundle(),

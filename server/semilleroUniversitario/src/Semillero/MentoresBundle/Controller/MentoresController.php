@@ -32,41 +32,46 @@ class MentoresController extends Controller
 
   public function indexAction(Request $request)
   {
-    $em = $this->getDoctrine()->getManager();
-    $mentores = $em->getRepository('DataBundle:Mentor')->findAll();
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $em = $this->getDoctrine()->getManager();
+      // $mentores = $em->getRepository('DataBundle:Mentor')->findAll();
 
-    $paginator = $this->get('knp_paginator');
-    $pagination = $paginator->paginate(
-      $mentores, $request->query->getInt('page',1),
-      5
-    );
-    //
-    return $this->render('MentoresBundle:Mentor:index.html.twig',array('pagination' => $pagination));
+      $dql = "SELECT m FROM DataBundle:Mentor m";
+      $mentores = $em->createQuery($dql);
 
-    #Estructura: Bundle, Carpeta que contiene la vista, accion que se redirijira, tiene el mismo nombre de la plantilla
-    #El array contiene el valor que nosostros queremos mandar a la plantilla, Lo que posee misMntores().
-    #return $this->render('MentoresBundle:Mentor:index.html.twig',array('Mentor' => $misMentores));
+      $paginator = $this->get('knp_paginator');
+      $pagination = $paginator->paginate(
+        $mentores, $request->query->getInt('page',1),
+        5
+      );
+      //
+      return $this->render('MentoresBundle:Mentor:index.html.twig',array('pagination' => $pagination));
+    }
+    return $this->redirectToRoute('adminLogin');
   }
 
 
   //------------------ Metodo add, agregar un MENTOR a la base de datos --------------------
   /**
-  * @Route("/mentores/add",name="semillero_mentores_add")
+  * @Route("/mentores/add",name="addMentores")
   */
 
   public function addAction()
   {
-    #Creamos nuestro objeto mentor para poder acceder a cada una de las propiedades y metodos de nuestra entidad (mentor)
-    $mentor = new Mentor();
-    #Variable que llama al metodo creaCreateForm, creado luego
-    $form = $this-> createCreateForm($mentor);
-    return $this->render('MentoresBundle:Mentor:add.html.twig',array('form' =>$form->createView()));
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      #Creamos nuestro objeto mentor para poder acceder a cada una de las propiedades y metodos de nuestra entidad (mentor)
+      $mentor = new Mentor();
+      #Variable que llama al metodo creaCreateForm, creado luego
+      $form = $this-> createCreateForm($mentor);
+      return $this->render('MentoresBundle:Mentor:add.html.twig',array('form' =>$form->createView()));
+    }
+    return $this->redirectToRoute('adminLogin');
   }
 
   private function createCreateForm(Mentor $entity)
   {
     $form = $this-> createForm(new MentorType(),$entity, array (
-      'action' => $this->generateUrl('semillero_mentores_create'),
+      'action' => $this->generateUrl('createMentores'),
       'method' => 'POST'
     ));
 
@@ -74,7 +79,7 @@ class MentoresController extends Controller
   }
 
   /**
-  * @Route("/mentores/create",name="semillero_mentores_create")
+  * @Route("/mentores/create",name="createMentores")
   * @Method({"POST"})
   */
 
@@ -87,73 +92,55 @@ class MentoresController extends Controller
     #Validamos si el formulario se envio correctamente
     if($form->isValid())
     {
-      // dump($request->request->all());
       $password = $form->get('password')->getData();
+      $encoder = $this->container->get('security.password_encoder');
+      $encoded = $encoder->encodePassword($mentor, $password);
 
-      //Validamos de que la contraseña no se guarde vacia
-      $passwordConstraint = new Assert\NotBlank();
-      $errorList = $this->get('validator')->validate($password, $passwordConstraint);
+      $mentor->setPassword($encoded);
+      $mentor->setActivo(true);
 
-      //Si no hay ningun error con la contraseña, entonces procedemos a crearla
-      if(count($errorList) == 0)
-      {
-        $encoder = $this->container->get('security.password_encoder');
-        $encoded = $encoder->encodePassword($mentor, $password);
+      $em = $this->getDoctrine()->getManager();
+      $em -> persist($mentor);
+      $em -> flush();
 
-        $mentor->setPassword($encoded);
+      $this->addFlash('mensaje','¡El mentor ha sido creado satisfactoriamente!');
 
-        $em = $this->getDoctrine()->getManager();
-        $em -> persist($mentor);
-        $em -> flush();
-
-        $this->addFlash('mensaje','¡El mentor ha sido creado satisfactoriamente!');
-
-        return $this->redirectToRoute('semillero_mentores_index');
-      }
-      else //Si la contraseña esta vacia o presenta algun error, se notifica
-      {
-        $errorMessage = new FormError($errorList[0]->getMessage());
-        $form->get('password')->addError($errorMessage);
-      }
-
+      return $this->redirectToRoute('indexMentores');
     }
-    #Renderizamos al forumlario si existe algun problema
+    #Renderizamos al formulario si existe algun problema
     return $this->render('MentoresBundle:Mentor:add.html.twig',array('form' =>$form->createView()));
   }
 
   //------------------ Metodo edit, editar un MENTOR de la base de datos --------------------
 
   /**
-  * @Route("/mentores/edit/{numeroDocumento}",name="semillero_mentores_edit")
+  * @Route("/mentores/edit/{numeroDocumento}",name="editMentores")
   */
   public function editAction($numeroDocumento)
   {
-    #$Repository = $this->getDoctrine()->getRepository('DataBundle:Mentor');
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $em = $this->getDoctrine()->getManager();
+      $mentor = $em->getRepository('DataBundle:Mentor')->findOneByNumeroDocumento($numeroDocumento);
 
-    #Para buscar un mentor por cualquier atributo, entonces realizamos la siguiente modificación teniendo en cuenta que toca modificar todo el parametro a dicho atributo.
-    #$mentor = $Repository->findOneByNumeroDocumento($numeroDocumento);
+      if(!$mentor)
+      {
+        return $this->redirectToRoute('indexMentores');
+      }
 
-    $em = $this->getDoctrine()->getManager();
-    $mentor = $em->getRepository('DataBundle:Mentor')->findOneByNumeroDocumento($numeroDocumento);
-
-    if(!$mentor)
-    {
-      throw $this->createNotFoundException('El Mentor a Editar NO Existe');
+      $form = $this->createEditForm($mentor);
+      return $this->render('MentoresBundle:Mentor:edit.html.twig', array('mentor'=>$mentor, 'form'=>$form->createView()));
     }
-
-    $form = $this->createEditForm($mentor);
-
-    return $this->render('MentoresBundle:Mentor:edit.html.twig', array('mentor'=>$mentor, 'form'=>$form->createView()));
+    return $this->redirectToRoute('adminLogin');
   }
 
   private function createEditForm(Mentor $entity)
   {
-    $form = $this->createForm(new MentorType(), $entity, array('action' => $this->generateUrl('semillero_mentores_update', array('numeroDocumento' => $entity->getNumeroDocumento())), 'method' => 'PUT'));
+    $form = $this->createForm(new MentorType(), $entity, array('action' => $this->generateUrl('updateMentores', array('numeroDocumento' => $entity->getNumeroDocumento())), 'method' => 'PUT'));
     return $form;
   }
 
   /**
-  * @Route("/mentores/update/{numeroDocumento}",name="semillero_mentores_update")
+  * @Route("/mentores/update/{numeroDocumento}",name="updateMentores")
   * @Method({"POST","PUT"})
   */
   public function updateAction($numeroDocumento, Request $request)
@@ -189,7 +176,7 @@ class MentoresController extends Controller
 
       $em -> flush();
       $this->addFlash('mensaje','¡El mentor ha sido modificado satisfactoriamente!');
-      return $this->redirectToRoute('semillero_mentores_index', array('numeroDocumento' => $mentor->getNumeroDocumento()));
+      return $this->redirectToRoute('indexMentores', array('numeroDocumento' => $mentor->getNumeroDocumento()));
     }
     return $this->render('MentoresBundle:Mentor:edit.html.twig',array('mentor' => $mentor, 'form' =>$form->createView()));
   }
@@ -198,91 +185,44 @@ class MentoresController extends Controller
   //------------------ Metodo view, carga un MENTOR seleccionado por parametro NumeroDocumento --------------------
 
   /**
-  * @Route("/mentores/view/{numeroDocumento}",name="semillero_mentores_view")
+  * @Route("/mentores/view/{id}",name="viewMentores")
   */
-  public function viewAction($numeroDocumento)
+  public function viewAction(Request $request,$id)
   {
-    $Repository = $this->getDoctrine()->getRepository('DataBundle:Mentor');
+    if ($request->isXmlHttpRequest()) {
+      $em = $this->getDoctrine()->getManager();
+      $Repository = $this->getDoctrine()->getRepository('DataBundle:Mentor');
+      $mentor = $em->getRepository('DataBundle:Mentor')->findById($id);
 
-    #Para buscar un mentor por cualquier atributo, entonces realizamos la siguiente modificación teniendo en cuenta que toca modificar todo el parametro a dicho atributo.
-    #$mentor = $Repository->find($numId);
-    #$mentor = $Repository->findOneByNombres($nombres);
-    $mentor = $Repository->findOneByNumeroDocumento($numeroDocumento);
+      if(!$mentor)
+      {
+        return $this->redirectToRoute('indexMentores');
+      }
 
-    if(!$mentor)
-    {
-      throw $this->createNotFoundException('El Mentor a Editar NO Existe');
+      return $this->render('MentoresBundle:Mentor:view.html.twig',array(
+        'mentor' => $mentor[0]
+      ));
     }
-
-    $deleteForm = $this->createDeleteForm($mentor);
-
-    return $this->render('MentoresBundle:Mentor:view.html.twig',array('mentor' => $mentor, 'delete_form' => $deleteForm->createView()));
-    //return new Response('Mentor: ' . $mentor->getNombres() .' '.$mentor->getApellidos() . '  Cc: '.$mentor->getNumeroDocumento());
-  }
-
-  private function createDeleteForm($mentor)
-  {
-    return $this->createFormBuilder()
-    ->setAction($this->generateUrl('semillero_mentores_delete',array('id' => $mentor->getId())))
-    ->setMethod('DELETE')
-    ->getForm();
+    return $this->redirectToRoute('indexMentores');
   }
 
   //------------------ Metodo delete, eliminar un MENTOR de la base de datos --------------------
 
   /**
-  * @Route("/mentores/delete/{id}",name="semillero_mentores_delete")
+  * @Route("/mentores/delete/{id}",name="deleteMentores")
   * @Method({"POST","DELETE"})
   */
-
   public function deleteAction(Request $request, $id)
   {
-    $em = $this->getDoctrine()->getManager();
-
-    $mentor = $em->getRepository('DataBundle:Mentor')->find($id);
-
-    if(!$mentor)
-    {
-      // $messageException = $this->get('translator')->trans('Mentor not found.');
-      // throw $this->createNotFoundException($messageException);
-      throw $this->createNotFoundException('El Mentor a eliminar NO Existe');
-    }
-
-    // $allMentors = $em->getRepository('DataBundle:Mentor')->findAll();
-    // $countUsers = count($allMentors);
-
-    // $form = $this->createDeleteForm($user);
-    //$form = $this->createCustomForm($mentor->getId(), 'DELETE', 'semillero_mentores_delete');
-    $form = $this->createDeleteForm($mentor);
-    $form->handleRequest($request);
-
-    if($form->isSubmitted() && $form->isValid())
-    {
-
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $em = $this->getDoctrine()->getManager();
+      $mentor = $em->getRepository('DataBundle:Mentor')->find($id);
       $em->remove($mentor);
-      $em -> flush();
+      $em->flush();
+      return new Response(Response::HTTP_OK);
+      return $this->redirectToRoute('indexMentores');
 
-      $this->addFlash('mensaje','¡El mentor ha sido eliminado satisfactoriamente!');
-      return $this->redirectToRoute('semillero_mentores_index', array('numeroDocumento' => $mentor->getNumeroDocumento()));
-
-      // if($request->isXMLHttpRequest())
-      // {
-      //     $res = $this->deleteUser($user->getRole(), $em, $user);
-      //
-      //     return new Response(
-      //         json_encode(array('removed' => $res['removed'], 'message' => $res['message'], 'countUsers' => $countUsers)),
-      //         200,
-      //         array('Content-Type' => 'application/json')
-      //     );
-      // }
-      //
-      // $res = $this->deleteUser($user->getRole(), $em, $user);
-      // $this->addFlash($res['alert'], $res['message']);
-      // return $this->redirectToRoute('emm_user_index');
     }
+    return new Response('user not loggin',Response::HTTP_NOT_FOUND);
   }
-
-
-
-
 }

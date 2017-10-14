@@ -12,4 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class SemillaRepository extends EntityRepository
 {
+
+    public function recoverPass($numeroDocumento)
+    {
+      return $this->getEntityManager()->createQuery("SELECT s.password FROM DataBundle:Semilla s
+        WHERE s.numeroDocumento = :query")->setParameter("query",$numeroDocumento)->getResult();
+      }
+
+      // //Retorna todos las semillas
+      public function findAll()
+      {
+        return $this->findBy(array(), array('nombre' => 'DESC'));
+      }
+
 }

@@ -16,10 +16,21 @@
           Mentores
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="{{ path('semillero_mentores_index') }}">Ver Lista De Mentores</a>
-          <a class="dropdown-item" href="{{ path('semillero_mentores_add') }}">Agregar Un Nuevo Mentor</a>
+          <a class="dropdown-item" href="{{ path('indexMentores') }}">Ver Lista De Mentores</a>
+          <a class="dropdown-item" href="{{ path('addMentores') }}">Agregar Un Nuevo Mentor</a>
+        </div>
+
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Grupos
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="{{ path('indexMentores') }}">Ver Lista De Grupos</a>
+          <a class="dropdown-item" href="{{ path('addMentores') }}">Agregar Nuevo Grupo</a>
         </div>
       </li>
+
       <li class="nav-item">
         <a class="nav-link" href="#">Features</a>
       </li>

@@ -6,6 +6,15 @@
            <a href="{{path('indexMentores')}}">Mentores
            </a>
          </li>
+         <li class="{% block tab_diplomados %}{% endblock %}">
+           <a href="{{ path('indexDiplomados') }}">Diplomados</a>
+         </li>
+         <li class="{% block tab_grupos %}{% endblock %}">
+           <a href="{{ path('indexGrupos') }}">Grupos</a>
+         </li>
+         <li class="{% block tab_semillas %}{% endblock %}">
+           <a href="{{ path('indexSemillas') }}">Semillas</a>
+         </li>
       </ul>
     </div>
   </div>

@@ -3,15 +3,20 @@ usuarios:
     type:     annotation
     prefix:   /
 
+
 admin:
     resource: "@AdminBundle/Controller/"
     type:     annotation
     prefix:   /
+    options:
+        expose: true
 
 seguridad:
     resource: "@SeguridadBundle/Controller/"
     type:     annotation
     prefix:   /
+    options:
+        expose: true
 
 data:
     resource: "@DataBundle/Controller/"
@@ -22,20 +27,29 @@ diplomados:
     resource: "@DiplomadosBundle/Controller/"
     type:     annotation
     prefix:   /
+    options:
+        expose: true
 
 mentores:
     resource: "@MentoresBundle/Controller/"
     type:     annotation
     prefix:   /
+    options:
+        expose: true
 
 semillas:
     resource: "@SemillasBundle/Controller/"
     type:     annotation
     prefix:   /
+    options:
+        expose: true
 
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
 semillero_mentores_redirect_edit:
   path: /mentores/update/{numeroDocumento}

@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Semillero\DataBundle\Entity\Usuarios;
 
 /**
@@ -13,19 +14,21 @@ use Semillero\DataBundle\Entity\Usuarios;
 *
 * @ORM\Table(name="mentor")
 * @ORM\Entity(repositoryClass="Semillero\DataBundle\Repository\MentorRepository")
-* @UniqueEntity("email")
-* @UniqueEntity("numeroDocumento")
 */
 class Mentor extends Usuarios
 {
 
   /**
-  * @var string
-  *
-  * @ORM\Column(name="tipoMentor", type="string", length=255)
-  * @Assert\NotBlank()
+  * @ORM\ManyToOne(targetEntity="TipoMentor", inversedBy="mentores")
+  * @ORM\JoinColumn(name="id_tipo_mentor", referencedColumnName="id")
+  * @Assert\NotBlank(message="Seleccione el tipo de mentor")
   */
   private $tipoMentor;
+
+  /**
+  * @ORM\OneToMany(targetEntity="Grupo", mappedBy="Mentor")
+  */
+  private $grupos;
 
   /**
   * Set tipoMentor
@@ -49,4 +52,44 @@ class Mentor extends Usuarios
   {
     return $this->tipoMentor;
   }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add grupos
+     *
+     * @param \Semillero\DataBundle\Entity\Grupo $grupos
+     * @return Mentor
+     */
+    public function addGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
+    {
+        $this->grupos[] = $grupos;
+
+        return $this;
+    }
+
+    /**
+     * Remove grupos
+     *
+     * @param \Semillero\DataBundle\Entity\Grupo $grupos
+     */
+    public function removeGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
+    {
+        $this->grupos->removeElement($grupos);
+    }
+
+    /**
+     * Get grupos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGrupos()
+    {
+        return $this->grupos;
+    }
 }

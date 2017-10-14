@@ -3,6 +3,11 @@
 namespace Semillero\DataBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Semillero\DataBundle\Entity\Usuarios;
 
 /**
 * Semilla
@@ -13,6 +18,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Semilla extends Usuarios
 {
 
+  /**
+  * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="semillas")
+  * @ORM\JoinColumn(name="grupo_id", referencedColumnName="id")
+  */
+    protected $grupo;
 
   /**
   * @var bool
@@ -405,4 +415,27 @@ class Semilla extends Usuarios
   {
     return $this->observaciones;
   }
+
+    /**
+     * Set grupo
+     *
+     * @param \Semillero\DataBundle\Entity\Grupo $grupo
+     * @return Semilla
+     */
+    public function setGrupo(\Semillero\DataBundle\Entity\Grupo $grupo = null)
+    {
+        $this->grupo = $grupo;
+
+        return $this;
+    }
+
+    /**
+     * Get grupo
+     *
+     * @return \Semillero\DataBundle\Entity\Grupo
+     */
+    public function getGrupo()
+    {
+        return $this->grupo;
+    }
 }

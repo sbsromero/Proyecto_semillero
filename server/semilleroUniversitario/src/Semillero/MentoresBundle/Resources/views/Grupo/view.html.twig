@@ -1,0 +1,44 @@
+
+<div class="panel panel-default">
+	<div class="panel-body" style="padding:0px">
+		<div class="row" style="margin:0px;padding-right: 30px;padding-top: 20px;">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+		</div>
+		<div class="row" style="margin:0px">
+			<div class="" align="center">
+				<h2 style="margin-top:10px">{{ grupo.nombre }} {{ grupo.jornada.nombre }}</h2>
+			</div>
+			<!--<div class="col-md-4" align="center">
+				<div class="" style="background: grey; height: 150px; width: 40%;">
+					imagen
+				</div>
+			</div>-->
+			<div class="col-md-4">
+				<div class="form-group">
+					<dl>
+	            <dt>{{'Nombre:'}}</dt>
+	            <dd>{{grupo.nombre }}</dd>
+	            <br>
+	            <dt>{{'Jornada:'}}</dt>
+	            <dd>{{ grupo.jornada.nombre }}</dd>
+	            <br>
+						  <dt>{{'fecha De Creacion:'}}</dt>
+							<dd>{{ grupo.fechaCreacion|date('d-m-Y') }}</dd>
+							<br>
+							<dt>{{'Mentor:'}}</dt>
+	            <dd>{{mentor.getFullName()}}</dd>
+	            <br>
+	            <dt>{{'Estado'}}</dt>
+	            <dd>
+                	{% if grupo.getActivo() == 1 %}
+						<span class="text-success">ACTIVO</span>
+									{% elseif grupo.getActivo() == 0 %}
+						<span class="text-warning">INACTIVO</span>
+                	{% endif %}
+	            </dd>
+	        </dl>
+				</div>
+			</div>
+  	</div>
+	</div>
+</div>
