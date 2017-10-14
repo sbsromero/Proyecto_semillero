@@ -28,41 +28,39 @@ class DiplomadoController extends Controller
 
     public function indexAction(Request $request)
     {
-      $em = $this->getDoctrine()->getManager();
-
-      //------------------------------------------------------
-      $dql = "SELECT d FROM DataBundle:Diplomado d";
-      $diplomados = $em->createQuery($dql);
-      //------------------------------------------------------
-
-
-      $paginator = $this->get('knp_paginator');
-      $pagination = $paginator->paginate(
-        $diplomados, $request->query->getInt('page',1),
-        5
-      );
-
-      return $this->render('DiplomadosBundle:Diplomado:index.html.twig',array('pagination' => $pagination));
+      if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+        $em = $this->getDoctrine()->getManager();
+        //------------------------------------------------------
+        $dql = "SELECT d FROM DataBundle:Diplomado d";
+        $diplomados = $em->createQuery($dql);
+        //------------------------------------------------------
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+          $diplomados, $request->query->getInt('page',1),
+          5
+        );
+        return $this->render('DiplomadosBundle:Diplomado:index.html.twig',array('pagination' => $pagination));
+      }
+      return $this->redirectToRoute('adminLogin');
     }
 
       //------------------ Metodo add, agregar un DIPLOMADO a la base de datos --------------------
     /**
     * @Route("/diplomados/add",name="addDiplomados")
     */
-    public function addAction()
+    public function addAction(Request $request)
     {
-      $diplomado = new Diplomado();
-      $form = $this->createCreateForm($diplomado);
-      return $this->render('DiplomadosBundle:Diplomado:add.html.twig',array('form' =>$form->createView()));
+      if ($request->isXmlHttpRequest()) {
+        $diplomado = new Diplomado();
+        $form = $this->createCreateForm($diplomado);
+        return $this->render('DiplomadosBundle:Diplomado:add.html.twig',array('form' =>$form->createView()));
+      }
+      return $this->redirectToRoute('indexDiplomados');
     }
 
     private function createCreateForm(Diplomado $entity)
     {
-      $form = $this->createForm(new DiplomadoType(), $entity, array(
-        'action' => $this->generateUrl('createDiplomados'),
-        'method' => 'POST'
-      ));
-
+      $form = $this->createForm(new DiplomadoType(), $entity, array('method' => 'POST'));
       return $form;
     }
 
@@ -88,7 +86,9 @@ class DiplomadoController extends Controller
         return $this->redirectToRoute('indexDiplomados');
       }
       #Renderizamos al forumlario si existe algun problema
-      return $this->render('DiplomadosBundle:Diplomado:add.html.twig',array('form' =>$form->createView()));
+      return new Response($this->renderView('DiplomadosBundle:Diplomado:add.html.twig',array(
+        'form' =>$form->createView()
+      )),400);
     }
 
     //------------------ Metodo edit, editar un DIPLOMADO de la base de datos --------------------

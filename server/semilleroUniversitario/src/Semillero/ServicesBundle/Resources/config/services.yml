@@ -1,0 +1,4 @@
+services:
+#    services.example:
+#        class: Semillero\ServicesBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

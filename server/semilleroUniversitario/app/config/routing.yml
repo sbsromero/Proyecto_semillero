@@ -1,3 +1,8 @@
+services:
+    resource: "@ServicesBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 usuarios:
     resource: "@UsuariosBundle/Controller/"
     type:     annotation

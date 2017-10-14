@@ -1,5 +1,35 @@
 $(document).ready(function(){
 
+  $('body').on('click','.btn-AddDiplomado',function(e){
+    e.preventDefault();
+    $.ajax({
+      type:"GET",
+      url: Routing.generate('addDiplomados'),
+      success: function(html){
+        $('#contentAddDiplomado').html(html);
+      }
+    });
+  })
+
+  $('body').on('click','.btn-crearDiplomado',function(e){
+    e.preventDefault();
+    var data = $('#form_add_Diplomado').serialize();
+    $.ajax({
+      type:"POST",
+      url: Routing.generate('createDiplomados'),
+      data: data,
+      success:function(html){
+        // toastr.success("El diplomado ha sido creado exitosamente");
+        // setTimeout(function () {
+        //   window.location.href = Routing.generate("indexDiplomados");
+        // },2000);
+      },
+      error:function(html){
+        $('#contentAddDiplomado').html(html.responseText);
+      }
+    })
+  })
+
   //Permite visualizar en modal los detalles de un diplomado
   $('body').on("click",'.btnVerDiplomado',function(e){
     var row = $(this).parents('tr');
@@ -54,13 +84,5 @@ $(document).ready(function(){
       url: Routing.generate('deleteDiplomados',{id:id}),
     })
   }
-
-  $('.js-datepicker').datepicker({
-    format: 'dd/mm/yyyy',
-    language: "es",
-    todayHighlight: true,
-    endDate: "today",
-    autoclose: true
-  });
 
 })

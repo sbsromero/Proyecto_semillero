@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="diplomado")
  * @ORM\Entity(repositoryClass="Semillero\DataBundle\Repository\DiplomadoRepository")
-  * @ORM\HasLifecycleCallbacks()
+ * @ORM\HasLifecycleCallbacks()
  */
 class Diplomado
 {
@@ -28,6 +28,8 @@ class Diplomado
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=255)
+     * @Assert\NotBlank()
+     *
      */
     private $nombre;
 
