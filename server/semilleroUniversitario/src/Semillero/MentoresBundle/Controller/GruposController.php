@@ -49,20 +49,19 @@ class GruposController extends Controller
   /**
   * @Route("/grupos/add",name="addGrupos")
   */
-  public function addAction()
+  public function addAction(Request $request)
   {
-    $grupo = new Grupo();
-    $form = $this->createCreateForm($grupo);
-    return $this->render('MentoresBundle:Grupo:add.html.twig',array('form' =>$form->createView()));
+    if ($request->isXmlHttpRequest()) {
+      $grupo = new Grupo();
+      $form = $this->createCreateForm($grupo);
+      return $this->render('MentoresBundle:Grupo:add.html.twig',array('form' =>$form->createView()));
+    }
+    return $this->redirectToRoute('indexGrupos');
   }
 
   private function createCreateForm(Grupo $entity)
   {
-    $form = $this->createForm(new GrupoType(), $entity, array(
-      'action' => $this->generateUrl('createGrupos'),
-      'method' => 'POST'
-    ));
-
+    $form = $this->createForm(new GrupoType(), $entity, array('method' => 'POST'));
     return $form;
   }
 
@@ -79,7 +78,6 @@ class GruposController extends Controller
     #Validamos si el formulario se envio correctamente
     if($form->isValid())
     {
-
       //$grupo->setActivo(0);
       $em = $this->getDoctrine()->getManager();
       $em -> persist($grupo);
@@ -90,7 +88,10 @@ class GruposController extends Controller
       return $this->redirectToRoute('indexGrupos');
     }
     #Renderizamos al forumlario si existe algun problema
-    return $this->render('MentoresBundle:Grupo:add.html.twig',array('form' =>$form->createView()));
+    //return $this->render('MentoresBundle:Grupo:add.html.twig',array('form' =>$form->createView()));
+    return new Response($this->render('MentoresBundle:Grupo:add.html.twig',array(
+      'form' =>$form->createView()
+    )),400);
   }
 
   //------------------ Metodo edit, editar un GRUPO de la base de datos --------------------

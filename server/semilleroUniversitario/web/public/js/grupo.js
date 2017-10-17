@@ -1,5 +1,35 @@
 $(document).ready(function(){
 
+  $('body').on('click','.btn-AddGrupo',function(e){
+    e.preventDefault();
+    $.ajax({
+      type:"GET",
+      url: Routing.generate('addGrupos'),
+      success: function(html){
+        $('#contentAddGrupo').html(html);
+      }
+    });
+  })
+
+  $('body').on('click','.btn-crearGrupo',function(e){
+    e.preventDefault();
+    var data = $('#form_add_Grupo').serialize();
+    $.ajax({
+      type:"POST",
+      url: Routing.generate('createGrupos'),
+      data: data,
+      success:function(html){
+        // toastr.success("El grupo ha sido creado exitosamente");
+        // setTimeout(function () {
+        //   window.location.href = Routing.generate("indexGrupos");
+        // },2000);
+      },
+      error:function(html){
+        $('#contentAddGrupo').html(html.responseText);
+      }
+    })
+  })
+
   //Permite visualizar en modal los detalles de un grupo
   $('body').on("click",'.btnVerGrupo',function(e){
     var row = $(this).parents('tr');
@@ -54,13 +84,5 @@ $(document).ready(function(){
       url: Routing.generate('deleteGrupos',{id:id}),
     })
   }
-
-  $('.js-datepicker').datepicker({
-    format: 'dd/mm/yyyy',
-    language: "es",
-    todayHighlight: true,
-    endDate: "today",
-    autoclose: true
-  });
 
 })
