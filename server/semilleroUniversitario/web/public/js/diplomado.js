@@ -19,10 +19,10 @@ $(document).ready(function(){
       url: Routing.generate('createDiplomados'),
       data: data,
       success:function(html){
-        // toastr.success("El diplomado ha sido creado exitosamente");
-        // setTimeout(function () {
-        //   window.location.href = Routing.generate("indexDiplomados");
-        // },2000);
+        toastr.success("El diplomado ha sido creado exitosamente");
+        setTimeout(function () {
+        window.location.href = Routing.generate("indexDiplomados");
+        },2000);
       },
       error:function(html){
         $('#contentAddDiplomado').html(html.responseText);
