@@ -18,7 +18,7 @@ $(document).ready(function(){
   $('body').on('click','.btnDelMentor',function(e){
     var row = $(this).parents('tr');
     var id = row.data('id');
-    var dni = $('#dniMentor').html();
+    var dni = $('#dniMentor-'+id).html();
     bootbox.confirm({
       message: "Esta seguro que desea eliminar al mentor con número de documento: "+"<b>"+dni+"</b>",
       buttons: {

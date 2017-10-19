@@ -158,7 +158,6 @@ class MentoresController extends Controller
 
     if($form->isSubmitted() && $form->isValid())
     {
-
       $password = $form->get('password')->getData();
 
       //Verificamos si se puso una nueva contraseña
