@@ -48,7 +48,7 @@ $(document).ready(function(){
   $('body').on('click','.btnDelGrupo',function(e){
     var row = $(this).parents('tr');
     var id = row.data('id');
-    var nombreGrupo = $('#nombreGrupo').html();
+    var nombreGrupo = $('#nombreGrupo-'+id).html();
     bootbox.confirm({
       message: "¿Esta seguro que desea eliminar al grupo: "+"<b>"+nombreGrupo+"?</b>",
       buttons: {

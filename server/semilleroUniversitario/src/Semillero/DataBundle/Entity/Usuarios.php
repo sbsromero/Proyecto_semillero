@@ -120,7 +120,6 @@ class Usuarios implements AdvancedUserInterface, \Serializable
   * @var string
   *
   * @ORM\Column(name="password", type="string", length=255)
-  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $password;
 

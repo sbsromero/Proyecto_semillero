@@ -48,7 +48,7 @@ $(document).ready(function(){
   $('body').on('click','.btnDelDiplomado',function(e){
     var row = $(this).parents('tr');
     var id = row.data('id');
-    var nombreDiplomado = $('#nombreDiplomado').html();
+    var nombreDiplomado = $('#nombreDiplomado-'+id).html();
     bootbox.confirm({
       message: "¿Esta seguro que desea eliminar al diplomado: "+"<b>"+nombreDiplomado+"?</b>",
       buttons: {

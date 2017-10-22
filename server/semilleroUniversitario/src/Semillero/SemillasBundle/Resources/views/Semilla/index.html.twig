@@ -43,11 +43,11 @@
           </thead>
           <tbody >
             {% for semilla in pagination %}
-            <tr id="tr" class="color-cells" data-id="{{semilla.id}}">
+            <tr class="color-cells" data-id="{{semilla.id}}">
               <td>{{ semilla.nombre}}</td>
               <td>{{ semilla.apellidos}}</td>
               <td>{{ semilla.tipoDocumento.nombre }}
-              <td id="dniSemilla" value="{{semilla.numeroDocumento}}">{{ semilla.numeroDocumento}}</td>
+              <td id="dniSemilla-{{semilla.id}}" value="{{semilla.numeroDocumento}}">{{ semilla.numeroDocumento}}</td>
               <td>{{ semilla.fechaNacimiento | date('d-m-Y') }}</td>
               <td>{{ semilla.numeroCelular}}</td>
               <td>{{ semilla.grupo.diplomado.nombre}} {{ semilla.grupo.nombre}}</td>

@@ -42,9 +42,9 @@
           </thead>
           <tbody >
             {% for grupo in pagination %}
-            <tr id="tr" class="color-cells" data-id="{{grupo.id}}">
+            <tr class="color-cells" data-id="{{grupo.id}}">
               <td>{{ grupo.diplomado.nombre }}</td>
-              <td id="nombreGrupo" value="{{grupo.diplomado.nombre}}">{{grupo.diplomado.nombre}} {{ grupo.nombre}}</td>
+              <td id="nombreGrupo-{{grupo.id}}" value="{{ grupo.nombre}}">{{grupo.diplomado.nombre}} {{ grupo.nombre}}</td>
               <td>{{ grupo.jornada.nombre}}</td>
 	            <td>{{ grupo.fechaCreacion | date('d-m-Y') }}</td>
 							<td>{{ grupo.mentor.fullName }}</td>

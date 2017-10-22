@@ -18,7 +18,7 @@ $(document).ready(function(){
   $('body').on('click','.btnDelSemilla',function(e){
     var row = $(this).parents('tr');
     var id = row.data('id');
-    var dni = $('#dniSemilla').html();
+    var dni = $('#dniSemilla-'+id).html();
     bootbox.confirm({
       message: "Esta seguro que desea eliminar a la semilla con número de documento: "+"<b>"+dni+"</b>",
       buttons: {

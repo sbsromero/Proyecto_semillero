@@ -40,8 +40,8 @@
           </thead>
           <tbody >
             {% for diplomado in pagination %}
-            <tr id="tr" class="color-cells" data-id="{{diplomado.id}}">
-              <td id="nombreDiplomado" value="{{diplomado.nombre}}">{{diplomado.nombre}}</td>
+            <tr class="color-cells" data-id="{{diplomado.id}}">
+              <td id="nombreDiplomado-{{diplomado.id}}" value="{{diplomado.nombre}}">{{diplomado.nombre}}</td>
               <td>{{ '#' }}</td>
               <td>{{ diplomado.fechaCreacion | date('d-m-Y') }}</td>
               <td align="center">
