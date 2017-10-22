@@ -47,7 +47,7 @@
               <td>{{ mentor.nombre}}</td>
               <td>{{ mentor.apellidos}}</td>
               <td>{{ mentor.tipoDocumento.nombre }}
-              <td id="dniMentor" value="{{mentor.numeroDocumento}}">{{ mentor.numeroDocumento}}</td>
+              <td id="dniMentor-{{mentor.id}}" value="{{mentor.numeroDocumento}}">{{ mentor.numeroDocumento}}</td>
               <td>{{ mentor.fechaNacimiento | date('d-m-Y') }}</td>
               <td>{{ mentor.numeroCelular}}</td>
               <td>{{ mentor.tipoMentor.nombre}}</td>
