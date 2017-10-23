@@ -17,7 +17,6 @@
       </div>
       <div class="col-md-3" align="right">
         <a class="btn btn-default btn-AddGrupo" data-toggle="modal" data-target="#modalAddGrupo">Agregar Grupo</a>
-        <!--<a href="{{path('addGrupos')}}" class="btn btn-default">Agregar Grupo</a>-->
       </div>
     </div>
     <div class="row" style="margin:0px">
@@ -59,7 +58,8 @@
                 <a class="btn btn-sm btn-info btnVerGrupo">Ver</a>
               </td>
               <td>
-                <a href="{{ path('editGrupos', {id: grupo.id}) }}" class="btn btn-sm btn-primary">Editar</a>
+                <a class="btn btn-sm btn-primary btn-editGrupo" data-toggle="modal" data-target="#modalEditGrupo">Editar</a>
+                <!-- <a href="{#{ path('editGrupos', {id: grupo.id}) }#}" class="btn btn-sm btn-primary">Editar</a> -->
               </td>
               <td>
                 <a class="btn btn-sm btn-danger btnDelGrupo">Eliminar</a>
@@ -82,6 +82,17 @@
   <div class="modal-dialog"  style="width: 800px" role="document">
     <div class="modal-content">
       <div class="modal-body body-modal" id ="contentAddGrupo">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal editar grupo-->
+<div class="modal fade" id="modalEditGrupo">
+  <div class="modal-dialog"  style="width: 800px" role="document">
+    <div class="modal-content">
+      <div class="modal-body body-modal" id ="contentEditGrupo">
 
       </div>
     </div>

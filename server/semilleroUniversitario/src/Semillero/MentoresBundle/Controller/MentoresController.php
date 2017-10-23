@@ -217,13 +217,14 @@ class MentoresController extends Controller
   public function deleteAction(Request $request, $id)
   {
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
-      $em = $this->getDoctrine()->getManager();
-      $mentor = $em->getRepository('DataBundle:Mentor')->find($id);
-      $em->remove($mentor);
-      $em->flush();
-      return new Response(Response::HTTP_OK);
+      if ($request->isXmlHttpRequest()) {
+        $em = $this->getDoctrine()->getManager();
+        $mentor = $em->getRepository('DataBundle:Mentor')->find($id);
+        $em->remove($mentor);
+        $em->flush();
+        return new Response(Response::HTTP_OK);
+      }
       return $this->redirectToRoute('indexMentores');
-
     }
     return new Response('user not loggin',Response::HTTP_NOT_FOUND);
   }

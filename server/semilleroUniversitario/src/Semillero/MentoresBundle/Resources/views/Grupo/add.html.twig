@@ -10,35 +10,35 @@
     </div>
     <div class="row" style="margin:0px">
       {{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form','id':'form_add_Grupo'} }) }}
-						<div class="form-group">
-								{{ form_label(form.diplomado) }}
-								{{ form_widget(form.diplomado, { 'attr' : {'class' : 'form-control'} }) }}
-								<span class="text-danger">{{ form_errors(form.diplomado) }}</span>
-						</div>
-              <div class="form-group">
-                  {{ form_label(form.nombre) }}
-                  {{ form_widget(form.nombre, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Nombre del grupo'} }) }}
-                  <span class="text-danger">{{ form_errors(form.nombre) }}</span>
-              </div>
-              <div class="form-group">
-                  {{ form_label(form.jornada) }}
-                  {{ form_widget(form.jornada, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Jornada del grupo'} }) }}
-                  <span class="text-danger">{{ form_errors(form.jornada) }}</span>
-              </div>
-              <div class="form-group">
-                  {{ form_label(form.mentor) }}
-                  {{ form_widget(form.mentor, { 'attr' : {'class' : 'form-control'} }) }}
-                  <span class="text-danger">{{ form_errors(form.mentor) }}</span>
-              </div>
-              <div class="checkbox">
-    				    <label>
-    						{{ form_widget(form.activo) }}Activo
-    				    </label>
-    				  </div>
-							<p align="center">
-			            {{ form_widget(form.save, {'label' : 'Agregar Grupo', 'attr': {'class': 'btn btn-success btn-crearGrupo'}}) }}
-			        </p>
-			      {{ form_end(form) }}
-			    </div>
-			  </div>
-			</div>
+      <div class="form-group">
+        {{ form_label(form.diplomado) }}
+        {{ form_widget(form.diplomado, { 'attr' : {'class' : 'form-control'} }) }}
+        <span class="text-danger">{{ form_errors(form.diplomado) }}</span>
+      </div>
+      <div class="form-group">
+        {{ form_label(form.nombre) }}
+        {{ form_widget(form.nombre, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Nombre del grupo'} }) }}
+        <span class="text-danger">{{ form_errors(form.nombre) }}</span>
+      </div>
+      <div class="form-group">
+        {{ form_label(form.jornada) }}
+        {{ form_widget(form.jornada, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Jornada del grupo'} }) }}
+        <span class="text-danger">{{ form_errors(form.jornada) }}</span>
+      </div>
+      <div class="form-group">
+        {{ form_label(form.mentor) }}
+        {{ form_widget(form.mentor, { 'attr' : {'class' : 'form-control'} }) }}
+        <span class="text-danger">{{ form_errors(form.mentor) }}</span>
+      </div>
+      <div class="checkbox">
+        <label>
+          {{ form_widget(form.activo) }}Activo
+        </label>
+      </div>
+      <p align="center">
+        {{ form_widget(form.save, {'label' : 'Agregar Grupo', 'attr': {'class': 'btn btn-success btn-crearGrupo'}}) }}
+      </p>
+      {{ form_end(form) }}
+    </div>
+  </div>
+</div>

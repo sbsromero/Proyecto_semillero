@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+  //Muestra la modal para agregar grupos
   $('body').on('click','.btn-AddGrupo',function(e){
     e.preventDefault();
     $.ajax({
@@ -11,6 +12,7 @@ $(document).ready(function(){
     });
   })
 
+  //Envia la información para crear un grupo
   $('body').on('click','.btn-crearGrupo',function(e){
     e.preventDefault();
     var data = $('#form_add_Grupo').serialize();
@@ -19,13 +21,27 @@ $(document).ready(function(){
       url: Routing.generate('createGrupos'),
       data: data,
       success:function(html){
+        $('#modalAddGrupo').modal('hide');
         toastr.success("El grupo ha sido creado exitosamente");
         setTimeout(function () {
         window.location.href = Routing.generate("indexGrupos");
-        },2000);
+      },1000);
       },
       error:function(html){
         $('#contentAddGrupo').html(html.responseText);
+      }
+    })
+  })
+
+  //Muestra la modal de edición de grupos
+  $('body').on('click','.btn-editGrupo',function(e){
+    var row = $(this).parents('tr');
+    var id = row.data('id');
+    $.ajax({
+      type:"GET",
+      url: Routing.generate('editGrupos',{id:id}),
+      success: function(html){
+        $('#modalEditGrupo').html(html);
       }
     })
   })
