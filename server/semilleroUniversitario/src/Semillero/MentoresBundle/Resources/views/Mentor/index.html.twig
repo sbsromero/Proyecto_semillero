@@ -1,11 +1,12 @@
 {% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
 {% block body %}
 {{ parent() }}
-{{ include('MentoresBundle:Mentor:messages/success.html.twig' )}}
+{#{ include('MentoresBundle:Mentor:messages/success.html.twig' )}#}
 <div class="container">
 {% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
 {% block tab_mentores %}active{% endblock %}
 {% endembed %}
+<input type="hidden" id="mensajeMentor" value="{{app.session.flashbag.get('mensajeMentor')|join}}">
 <div class="panel panel-default">
   <div class="panel-body">
     <div class="row" style="margin:0px;margin-bottom:20px">

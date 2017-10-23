@@ -103,7 +103,7 @@ class MentoresController extends Controller
       $em -> persist($mentor);
       $em -> flush();
 
-      $this->addFlash('mensaje','¡El mentor ha sido creado satisfactoriamente!');
+      $this->addFlash('mensajeMentor','¡El mentor ha sido creado satisfactoriamente!');
 
       return $this->redirectToRoute('indexMentores');
     }
@@ -174,7 +174,7 @@ class MentoresController extends Controller
       }
 
       $em -> flush();
-      $this->addFlash('mensaje','¡El mentor ha sido modificado satisfactoriamente!');
+      $this->addFlash('mensajeMentor','¡El mentor ha sido modificado satisfactoriamente!');
       return $this->redirectToRoute('indexMentores', array('numeroDocumento' => $mentor->getNumeroDocumento()));
     }
     return $this->render('MentoresBundle:Mentor:edit.html.twig',array('mentor' => $mentor, 'form' =>$form->createView()));

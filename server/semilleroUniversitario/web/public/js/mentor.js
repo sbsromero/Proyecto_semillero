@@ -63,4 +63,9 @@ $(document).ready(function(){
     autoclose: true
   });
 
+  var mensajeMentor = $('#mensajeMentor').val();
+  if(mensajeMentor!="" && mensajeMentor!=undefined){
+    toastr.success(mensajeMentor);
+  }
+
 })
