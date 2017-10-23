@@ -1,39 +1,31 @@
-{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
-{% block body %}
-{{ parent() }}
-{{ include('DiplomadosBundle:Diplomado:messages/success.html.twig' )}}
-	<div class="main container">
-    {% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
-    {% block tab_mentores %}active{% endblock %}
-    {% endembed %}
-
-		<div class="row well">
-			<div class="col-md-6">
-				<div class="page-header">
-					<h2>Editando Diplomado</h2>
-				</div>
-                {{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form'} }) }}
-                <h4 class="text-danger">{{form_errors(form) }} </h4>
-                <fieldset>
-          <div class="form-group">
-              {{ form_label(form.nombre) }}
-              {{ form_widget(form.nombre, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Nuevo nombre'} }) }}
-              <span class="text-danger">{{ form_errors(form.nombre) }}</span>
-          </div>
-
-          <div class="checkbox">
-				    <label>
-						{{ form_widget(form.activo) }}Activo
-						<span class="text-danger">{{ form_errors(form.activo) }}</span>
-				    </label>
-				  </div>
-			</fieldset>
-
-		    <p>
-		        {{ form_widget(form.save, {'label' : 'Actualizar Diplomado', 'attr': {'class': 'btn btn-success'}}) }}
-		    </p>
-                {{ form_end(form) }}
-			</div>
-		</div>
-	</div>
-{% endblock %}
+<div class="panel panel-default">
+	<input type="hidden" id="idDiplomado" value="{{idDiplomado}}">
+  <div class="panel-body">
+    <div class="row" style="margin:0px;padding-right: 30px;padding-top: 20px;">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+    </div>
+    <div class="row" style="margin:0px">
+      <div class="page-header" align="center">
+        <h3>Editar diplomado</h3>
+      </div>
+    </div>
+    <div class="row" style="margin:0px">
+      {{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form','id':'form_edit_diplomado'} }) }}
+        <div class="form-group">
+            {{ form_label(form.nombre) }}
+            {{ form_widget(form.nombre, { 'attr' : {'class' : 'form-control'} }) }}
+            <span class="text-danger">{{ form_errors(form.nombre) }}</span>
+        </div>
+        <div class="checkbox">
+          <label>
+          {{ form_widget(form.activo) }}Activo
+          </label>
+          <span class="text-danger">{{ form_errors(form.activo) }}</span>
+        </div>
+        <p align="center">
+            {{ form_widget(form.save, {'label' : 'Agregar Diplomado', 'attr': {'class': 'btn btn-success btn-editarDiplomado'}}) }}
+        </p>
+      {{ form_end(form) }}
+    </div>
+  </div>
+</div>

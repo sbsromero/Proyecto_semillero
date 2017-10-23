@@ -50,12 +50,15 @@ class DiplomadoController extends Controller
     */
     public function addAction(Request $request)
     {
-      if ($request->isXmlHttpRequest()) {
-        $diplomado = new Diplomado();
-        $form = $this->createCreateForm($diplomado);
-        return $this->render('DiplomadosBundle:Diplomado:add.html.twig',array('form' =>$form->createView()));
+      if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+        if ($request->isXmlHttpRequest() ) {
+          $diplomado = new Diplomado();
+          $form = $this->createCreateForm($diplomado);
+          return $this->render('DiplomadosBundle:Diplomado:add.html.twig',array('form' =>$form->createView()));
+        }
+        return $this->redirectToRoute('indexDiplomados');
       }
-      return $this->redirectToRoute('indexDiplomados');
+      return $this->redirectToRoute('adminLogin');
     }
 
     private function createCreateForm(Diplomado $entity)
@@ -81,7 +84,7 @@ class DiplomadoController extends Controller
         $em -> persist($diplomado);
         $em -> flush();
 
-        $this->addFlash('mensaje','¡El diplomado ha sido creado satisfactoriamente!');
+        $this->addFlash('mensajeDiplomados','¡El diplomado ha sido creado satisfactoriamente!');
 
         return $this->redirectToRoute('indexDiplomados');
       }
@@ -96,18 +99,24 @@ class DiplomadoController extends Controller
     /**
     * @Route("/diplomados/edit/{id}",name="editDiplomados")
     */
-    public function editAction($id)
+    public function editAction($id,Request $request)
     {
-      $em = $this->getDoctrine()->getManager();
-      $diplomado = $em->getRepository('DataBundle:Diplomado')->find($id);
-
-      if(!$diplomado)
-      {
-        throw $this->createNotFoundException('El Diplomado a Editar NO Existe');
+      if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+        if ($request->isXmlHttpRequest()) {
+          $em = $this->getDoctrine()->getManager();
+          $diplomado = $em->getRepository('DataBundle:Diplomado')->find($id);
+          if(!$diplomado)
+          {
+            return $this->redirectToRoute('indexDiplomados');
+          }
+          $form = $this->createEditForm($diplomado);
+          return $this->render('DiplomadosBundle:Diplomado:edit.html.twig', array(
+            'idDiplomado'=>$id,
+            'form'=>$form->createView()));
+        }
+        return $this->redirectToRoute('indexDiplomados');
       }
-
-      $form = $this->createEditForm($diplomado);
-      return $this->render('DiplomadosBundle:Diplomado:edit.html.twig', array('diplomado'=>$diplomado, 'form'=>$form->createView()));
+      return $this->redirectToRoute('adminLogin');
     }
 
     private function createEditForm(Diplomado $entity)
@@ -132,14 +141,16 @@ class DiplomadoController extends Controller
 
       $form = $this->createEditForm($diplomado);
       $form->handleRequest($request);
-
       if($form->isSubmitted() && $form->isValid())
       {
         $em -> flush();
-        $this->addFlash('mensaje','¡El Diplomado ha sido modificado satisfactoriamente!');
+        $this->addFlash('mensajeDiplomados','¡El Diplomado ha sido modificado satisfactoriamente!');
         return $this->redirectToRoute('indexDiplomados', array('id' => $diplomado->getId()));
       }
-      return $this->render('DiplomadosBundle:Diplomado:edit.html.twig',array('grupo' => $diplomado, 'form' =>$form->createView()));
+      return new Response($this->renderView('DiplomadosBundle:Diplomado:edit.html.twig',array(
+        'idDiplomado'=>$id,
+        'form' =>$form->createView()
+      )),400);
     }
 
     //------------------ Metodo view, carga un DIPLOMADO seleccionado por parametro Id --------------------

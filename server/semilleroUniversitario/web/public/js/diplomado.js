@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+  //Permite agregar un diplomado
   $('body').on('click','.btn-AddDiplomado',function(e){
     e.preventDefault();
     $.ajax({
@@ -11,6 +12,21 @@ $(document).ready(function(){
     });
   })
 
+  //Permite editar un diplomado
+  $('body').on('click','.btn-editDiplomado',function(e){
+    var row = $(this).parents('tr');
+    var id = row.data('id');
+    e.preventDefault();
+    $.ajax({
+      type:"GET",
+      url: Routing.generate('editDiplomados',{id:id}),
+      success:function(html){
+        $('#contentEditDiplomado').html(html);
+      }
+    })
+  })
+
+  //Creación del diplomado
   $('body').on('click','.btn-crearDiplomado',function(e){
     e.preventDefault();
     var data = $('#form_add_Diplomado').serialize();
@@ -19,13 +35,36 @@ $(document).ready(function(){
       url: Routing.generate('createDiplomados'),
       data: data,
       success:function(html){
+        $('#modalAddDiplomado').modal('hide');
         toastr.success("El diplomado ha sido creado exitosamente");
         setTimeout(function () {
         window.location.href = Routing.generate("indexDiplomados");
-        },2000);
+        },1000);
       },
       error:function(html){
         $('#contentAddDiplomado').html(html.responseText);
+      }
+    })
+  })
+
+  //Actualización del diplomado
+  $('body').on('click','.btn-editarDiplomado',function(e){
+    var id = $('#idDiplomado').val();
+    e.preventDefault();
+    var data = $('#form_edit_diplomado').serialize();
+    $.ajax({
+      type:"POST",
+      url: Routing.generate('updateDiplomados',{id:id}),
+      data: data,
+      success: function(html){
+        $('#modalEditDiplomado').modal('hide');
+        toastr.success("El diplomado ha sido editado exitosamente");
+        setTimeout(function () {
+        window.location.href = Routing.generate("indexDiplomados");
+        },1000);
+      },
+      error:function(html){
+        $('#contentEditDiplomado').html(html.responseText);
       }
     })
   })
@@ -83,6 +122,11 @@ $(document).ready(function(){
       type:'DELETE',
       url: Routing.generate('deleteDiplomados',{id:id}),
     })
+  }
+
+  var mensajeDiplomados = $('#mensajeDiplomados').val();
+  if(mensajeDiplomados!="" && mensajeDiplomados!=undefined){
+    toastr.success(mensajeDiplomados);
   }
 
 })

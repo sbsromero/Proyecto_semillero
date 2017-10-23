@@ -188,21 +188,24 @@ class MentoresController extends Controller
   */
   public function viewAction(Request $request,$id)
   {
-    if ($request->isXmlHttpRequest()) {
-      $em = $this->getDoctrine()->getManager();
-      $Repository = $this->getDoctrine()->getRepository('DataBundle:Mentor');
-      $mentor = $em->getRepository('DataBundle:Mentor')->findById($id);
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      if ($request->isXmlHttpRequest()) {
+        $em = $this->getDoctrine()->getManager();
+        $Repository = $this->getDoctrine()->getRepository('DataBundle:Mentor');
+        $mentor = $em->getRepository('DataBundle:Mentor')->findById($id);
 
-      if(!$mentor)
-      {
-        return $this->redirectToRoute('indexMentores');
+        if(!$mentor)
+        {
+          return $this->redirectToRoute('indexMentores');
+        }
+
+        return $this->render('MentoresBundle:Mentor:view.html.twig',array(
+          'mentor' => $mentor[0]
+        ));
       }
-
-      return $this->render('MentoresBundle:Mentor:view.html.twig',array(
-        'mentor' => $mentor[0]
-      ));
+      return $this->redirectToRoute('indexMentores');
     }
-    return $this->redirectToRoute('indexMentores');
+    return $this->redirectToRoute('adminLogin');
   }
 
   //------------------ Metodo delete, eliminar un MENTOR de la base de datos --------------------

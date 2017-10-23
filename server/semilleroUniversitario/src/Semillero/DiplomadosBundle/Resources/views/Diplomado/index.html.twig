@@ -1,11 +1,11 @@
 {% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
 {% block body %}
 {{ parent() }}
-{{ include('DiplomadosBundle:Diplomado:messages/success.html.twig' )}}
 <div class="container">
 {% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
 {% block tab_diplomados %}active{% endblock %}
 {% endembed %}
+<input type="hidden" id="mensajeDiplomados" value="{{app.session.flashbag.get('mensajeDiplomados')|join}}">
 <div class="panel panel-default">
   <div class="panel-body">
     <div class="row" style="margin:0px;margin-bottom:20px">
@@ -55,7 +55,8 @@
                 <a class="btn btn-sm btn-info btnVerDiplomado">Ver</a>
               </td>
               <td align="center">
-                <a href="{{ path('editDiplomados', {id: diplomado.id}) }}" class="btn btn-sm btn-primary">Editar</a>
+                <a class="btn btn-sm btn-primary btn-editDiplomado" data-toggle="modal" data-target="#modalEditDiplomado">Editar</a>
+                <!-- <a href="{#{ path('editDiplomados', {id: diplomado.id}) }#}" class="btn btn-sm btn-primary">Editar</a> -->
               </td>
               <td align="center">
                 <a class="btn btn-sm btn-danger btnDelDiplomado">Eliminar</a>
@@ -88,6 +89,16 @@
   <div class="modal-dialog"  style="width: 800px" role="document">
     <div class="modal-content">
       <div class="modal-body body-modal" id ="contentViewDiplomado">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal editar diplomado-->
+<div class="modal fade" id="modalEditDiplomado">
+  <div class="modal-dialog"  style="width: 800px" role="document">
+    <div class="modal-content">
+      <div class="modal-body body-modal" id ="contentEditDiplomado">
 
       </div>
     </div>
