@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
   //Permite visualizar en modal los detalles de un mentor
-  $('body').on("click",'.btnVerMentor',function(e){
+  $('body').on('click','.btnVerMentor',function(e){
     var row = $(this).parents('tr');
     var id = row.data('id');
     $.ajax({
@@ -54,6 +54,7 @@ $(document).ready(function(){
     })
   }
 
+  //Calendario para las fechas en la vista de mentores
   $('.js-datepicker').datepicker({
     format: 'dd/mm/yyyy',
     language: "es",
@@ -62,9 +63,55 @@ $(document).ready(function(){
     autoclose: true
   });
 
+  //Imprime los menajes de exito
   var mensajeMentor = $('#mensajeMentor').val();
   if(mensajeMentor!="" && mensajeMentor!=undefined){
     toastr.success(mensajeMentor);
   }
+
+  //Metodo que crea el paginador de los mentores
+  var crearPaginadorMentores = function(){
+    var totalPages = $('#tabla_mentores').attr('data-pageCount');
+    if(totalPages != 0){
+      $('#paginationMentores').twbsPagination({
+        startPage: 1,
+        totalPages: totalPages,
+        visiblePages: 6,
+        initiateStartPageClick: false,
+        first:'Primero',
+        last: 'Último',
+        prev: '<span aria-hidden="true">&laquo;</span>',
+        next: '<span aria-hidden="true">&raquo;</span>',
+        onPageClick: function (event, page) {
+          $.ajax({
+            type: "GET",
+            url: Routing.generate('indexMentores'),
+            data:{
+              pageActive: page,
+            },
+            success:function(html){
+              $('#tabla_mentores').replaceWith($(html).find('#tabla_mentores'));
+              headerSorter();
+            }
+          })
+        }
+      })
+    }
+    headerSorter();
+
+  }
+
+  crearPaginadorMentores();
+
+  //Metodo que implementa el ordenamiento en las cabeceras de la tabla de mentores
+  function headerSorter(){
+    $('#tableItemsMentores').tablesorter({
+      headers:{
+        7:{sorter:false},8:{sorter:false},9:{sorter:false},10:{sorter:false},11:{sorter:false}
+      }
+    });
+
+  }
+
 
 })

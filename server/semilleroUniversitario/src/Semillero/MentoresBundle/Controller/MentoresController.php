@@ -39,13 +39,17 @@ class MentoresController extends Controller
       $dql = "SELECT m FROM DataBundle:Mentor m";
       $mentores = $em->createQuery($dql);
 
+      $page= $request->query->get('pageActive');
+      $page = empty($page) ? 1 : $page;
+
       $paginator = $this->get('knp_paginator');
-      $pagination = $paginator->paginate(
-        $mentores, $request->query->getInt('page',1),
-        5
-      );
-      //
-      return $this->render('MentoresBundle:Mentor:index.html.twig',array('pagination' => $pagination));
+      $pagination = $paginator->paginate($mentores,$page,5);
+      $items = $pagination->getItems();
+      $pageCount = $pagination->getPageCount();
+
+      return $this->render('MentoresBundle:Mentor:index.html.twig',array(
+        'pageCount' => $pageCount,
+        'pagination' => $pagination));
     }
     return $this->redirectToRoute('adminLogin');
   }

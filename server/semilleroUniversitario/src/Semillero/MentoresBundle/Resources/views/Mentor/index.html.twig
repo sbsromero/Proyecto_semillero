@@ -21,25 +21,25 @@
       </div>
     </div>
     <div class="row" style="margin:0px">
-      <div class="table-responsive">
+      <div class="table-responsive" id="tabla_mentores" data-pageCount="{{pageCount}}">
         <!-- Total Mentores: {#{ pagination.getTotalItemCount }#} -->
-        <table class="table table-striped table-border table-hover table-responsive ">
+        <table id="tableItemsMentores" class="table table-striped table-border table-hover table-responsive tablesorter" style="font-size:14px">
           <thead style="background-color:#f8f8f8">
             <tr >
-              <th rowspan="2" > {{ knp_pagination_sortable(pagination, 'Nombre', 'm.nombre') }} </th>
-              <th rowspan="2" > {{ knp_pagination_sortable(pagination, 'Apellidos', 'm.apellidos') }} </th>
-              <th rowspan="2" > {{ 'Tipo De Documento' }} </th>
-              <th rowspan="2" > {{ knp_pagination_sortable(pagination, 'Número De Documento', 'm.numeroDocumento') }} </th>
-              <th rowspan="2" > {{ knp_pagination_sortable(pagination, 'Fecha De Nacimiento', 'm.fechaNacimiento') }} </th>
-              <th rowspan="2" > {{ knp_pagination_sortable(pagination, 'Número Celular', 'm.numeroCelular') }} </th>
-              <th rowspan="2" > {{ 'Tipo De Mentor' }} </th>
-              <th rowspan="2" style="text-align:center"> {{ knp_pagination_sortable(pagination, 'Estado', 'm.activo') }} </th>
-              <th rowspan="1" colspan="3" style="text-align:center">Acciones</th>
+              <th rowspan="2" style="font-size:14px"> Nombre</th>
+              <th rowspan="2" style="font-size:14px"> Apellidos</th>
+              <th rowspan="2" style="font-size:14px"> {{ 'Tipo De Documento' }} </th>
+              <th rowspan="2" style="font-size:14px"> Número De Documento</th>
+              <th rowspan="2" style="font-size:14px"> Fecha De Nacimiento</th>
+              <th rowspan="2" style="font-size:14px"> Número Celular</th>
+              <th rowspan="2" style="font-size:14px"> {{ 'Tipo De Mentor' }} </th>
+              <th rowspan="2" style="text-align:center;font-size:14px">Estado</th>
+              <th rowspan="1" colspan="3" style="text-align:center;font-size:14px">Acciones</th>
             </tr>
             <tr>
-              <th rowspan="1" style="text-align:center">Ver</th>
-              <th rowspan="1" style="text-align:center">Editar</th>
-              <th rowspan="1" style="text-align:center">Eliminar</th>
+              <th rowspan="1" style="text-align:center;font-size:14px">Ver</th>
+              <th rowspan="1" style="text-align:center;font-size:14px">Editar</th>
+              <th rowspan="1" style="text-align:center;font-size:14px">Eliminar</th>
             </tr>
           </thead>
           <tbody >
@@ -73,8 +73,11 @@
             </tbody>
           </table>
         </div>
-        <div class="navigation">
-          {{ knp_pagination_render(pagination) }}
+        <!-- <div class="navigation">
+          {#{ knp_pagination_render(pagination) }#}
+        </div> -->
+        <div class="" align="center">
+          <ul id="paginationMentores" class="pagination-sm"></ul>
         </div>
       </div>
     </div>
@@ -95,7 +98,9 @@
 
 {% block javascript %}
   {{parent()}}
+  <script src="{{asset('public/js/jquery.tablesorter.js')}}"></script>
   <script src="{{asset('public/js/mentor.js')}}"></script>
   <script src="{{asset('public/js/bootstrap-datepicker.min.js')}}"></script>
   <script src="{{asset('public/js/bootstrap-datepicker.es.min.js')}}" charset="UTF-8"></script>
+  <script src="{{asset('public/js/jquery.twbsPagination.min.js')}}"></script>
 {% endblock %}
