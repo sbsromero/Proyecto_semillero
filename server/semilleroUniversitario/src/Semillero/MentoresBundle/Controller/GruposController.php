@@ -88,7 +88,7 @@ class GruposController extends Controller
       $em -> persist($grupo);
       $em -> flush();
 
-      return $this->redirectToRoute('indexGrupos');
+      return new Response(Response::HTTP_OK);
     }
     #Renderizamos al forumlario si existe algun problema
     return new Response($this->renderView('MentoresBundle:Grupo:add.html.twig',array(
@@ -101,22 +101,31 @@ class GruposController extends Controller
   /**
   * @Route("/grupos/edit/{id}",name="editGrupos")
   */
-  public function editAction($id)
+  public function editAction($id, Request $request)
   {
-    $em = $this->getDoctrine()->getManager();
-    $grupo = $em->getRepository('DataBundle:Grupo')->find($id);
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      if($request->isXmlHttpRequest()){
+        $em = $this->getDoctrine()->getManager();
+        $grupo = $em->getRepository('DataBundle:Grupo')->find($id);
 
-    if(!$grupo)
-    {
-      throw $this->createNotFoundException('El Grupo a Editar NO Existe');
+        if(!$grupo)
+        {
+          throw $this->createNotFoundException('El Grupo a Editar NO Existe');
+        }
+        $form = $this->createEditForm($grupo);
+        return $this->render('MentoresBundle:Grupo:edit.html.twig', array(
+          'idGrupo'=>$id,
+          'form'=>$form->createView()));
+      }
+      return $this->redirectToRoute('indexDiplomados');
     }
-    $form = $this->createEditForm($grupo);
-    return $this->render('MentoresBundle:Grupo:edit.html.twig', array('grupo'=>$grupo, 'form'=>$form->createView()));
+    return $this->redirectToRoute('adminLogin');
   }
 
   private function createEditForm(Grupo $entity)
   {
-    $form = $this->createForm(new GrupoType(), $entity, array('action' => $this->generateUrl('updateGrupos', array('id' => $entity->getId())), 'method' => 'PUT'));
+    $form = $this->createForm(new GrupoType(), $entity, array('method' => 'PUT'));
+    // $form = $this->createForm(new GrupoType(), $entity, array('action' => $this->generateUrl('updateGrupos', array('id' => $entity->getId())), 'method' => 'PUT'));
     return $form;
   }
 
@@ -140,10 +149,13 @@ class GruposController extends Controller
     if($form->isSubmitted() && $form->isValid())
     {
       $em -> flush();
-      $this->addFlash('mensaje','¡El Grupo ha sido modificado satisfactoriamente!');
-      return $this->redirectToRoute('indexGrupos', array('id' => $grupo->getId()));
+      return new Response(Response::HTTP_OK);
     }
-    return $this->render('MentoresBundle:Grupo:edit.html.twig',array('grupo' => $grupo, 'form' =>$form->createView()));
+
+    return new Response($this->renderView('MentoresBundle:Grupo:edit.html.twig',array(
+      'idGrupo' => $id,
+      'form' =>$form->createView()
+    )),400);
   }
 
   //------------------ Metodo view, carga un GRUPÓ seleccionado por parametro Id --------------------

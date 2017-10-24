@@ -8,7 +8,7 @@
 
 <div class="container">
 	{% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
-	{% block tab_mentores %}active{% endblock %}
+	{% block tab_semillas %}active{% endblock %}
 	{% endembed %}
 	<div class="panel panel-default">
 		<div class="panel-body">
@@ -133,7 +133,7 @@
 					<h3>DATOS DE LOS ACUDIENTES</h3>
 				</div>
 			</div>
-			{{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form'} }) }}
+
 			<div class="row" style="margin:0px">
 				<div class="col-md-6">
 					<h4>ACUDIENTE 1</h4>
@@ -178,9 +178,9 @@
 					<h3>SELECCIÓN DE GRUPO</h3>
 				</div>
 			</div>
-			{{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form'} }) }}
-			<div class="row" style="margin:0px">
-				<div class="col-md-6" align="center">
+
+			<div class="row" style="margin:0px" align="center">
+				<div class="col-md-6" style="float:none">
 					<div class="form-group">
 							{{ form_label(form.grupo) }}
 							{{ form_widget(form.grupo, { 'attr' : {'class' : 'form-control'} }) }}
@@ -197,6 +197,7 @@
 			<p align="center">
 				{{ form_widget(form.save, {'label' : 'Crear Semilla', 'attr': {'class': 'btn btn-success'}}) }}
 			</p>
+
 			{{ form_end(form) }}
 		</div>
 	</div>

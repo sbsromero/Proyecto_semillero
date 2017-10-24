@@ -69,7 +69,7 @@ class DiplomadoController extends Controller
 
     /**
     * @Route("/diplomados/create",name="createDiplomados")
-    *
+    * @Method({"POST"})
     */
     public function createAction(Request $request)
     {
@@ -84,9 +84,7 @@ class DiplomadoController extends Controller
         $em -> persist($diplomado);
         $em -> flush();
 
-        $this->addFlash('mensajeDiplomados','¡El diplomado ha sido creado satisfactoriamente!');
-
-        return $this->redirectToRoute('indexDiplomados');
+        return new Response(Response::HTTP_OK);
       }
       #Renderizamos al forumlario si existe algun problema
       return new Response($this->renderView('DiplomadosBundle:Diplomado:add.html.twig',array(
@@ -121,7 +119,8 @@ class DiplomadoController extends Controller
 
     private function createEditForm(Diplomado $entity)
     {
-      $form = $this->createForm(new DiplomadoType(), $entity, array('action' => $this->generateUrl('updateDiplomados', array('id' => $entity->getId())), 'method' => 'PUT'));
+      $form = $this->createForm(new DiplomadoType(), $entity, array('method' => 'PUT'));
+      // $form = $this->createForm(new DiplomadoType(), $entity, array('action' => $this->generateUrl('updateDiplomados', array('id' => $entity->getId())), 'method' => 'PUT'));
       return $form;
     }
 
@@ -144,8 +143,7 @@ class DiplomadoController extends Controller
       if($form->isSubmitted() && $form->isValid())
       {
         $em -> flush();
-        $this->addFlash('mensajeDiplomados','¡El Diplomado ha sido modificado satisfactoriamente!');
-        return $this->redirectToRoute('indexDiplomados', array('id' => $diplomado->getId()));
+        return new Response(Response::HTTP_OK);
       }
       return new Response($this->renderView('DiplomadosBundle:Diplomado:edit.html.twig',array(
         'idDiplomado'=>$id,
@@ -163,7 +161,7 @@ class DiplomadoController extends Controller
       if ($request->isXmlHttpRequest()) {
         $em = $this->getDoctrine()->getManager();
         $Repository = $this->getDoctrine()->getRepository('DataBundle:Diplomado');
-        $diplomado = $em->getRepository('DataBundle:Diplomado')->findById($id);
+        $diplomado = $em->getRepository('DataBundle:Diplomado')->findById($id)[0];
 
         if(!$diplomado)
         {
@@ -171,7 +169,7 @@ class DiplomadoController extends Controller
         }
 
         return $this->render('DiplomadosBundle:Diplomado:view.html.twig',array(
-          'diplomado' => $diplomado[0]
+          'diplomado' => $diplomado
         ));
       }
       return $this->redirectToRoute('indexDiplomados');
@@ -190,11 +188,14 @@ class DiplomadoController extends Controller
       if($this->isGranted('IS_AUTHENTICATED_FULLY')){
         $em = $this->getDoctrine()->getManager();
         $diplomado = $em->getRepository('DataBundle:Diplomado')->find($id);
-        $em->remove($diplomado);
-        $em->flush();
-        return new Response(Response::HTTP_OK);
-        return $this->redirectToRoute('indexDiplomados');
+        if(empty($diplomado->getGrupos())){
+          $em->remove($diplomado);
+          $em->flush();
+          return new Response(Response::HTTP_OK);
+        }
+        return new Response('grupos assignados al diplomado',Response::HTTP_NOT_FOUND);
       }
-      return new Response('user not loggin',Response::HTTP_NOT_FOUND);
+      return $this->redirectToRoute('adminLogin');
+      // return new Response('user not loggin',Response::HTTP_NOT_FOUND);
       }
 }

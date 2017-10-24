@@ -9,7 +9,6 @@ $(document).ready(function(){
       url: Routing.generate('viewMentores',{id:id}),
       success: function(html){
         $("#contentViewMentor").html(html);
-        $("#modalViewMentor").modal('show');
       }
     })
   })
@@ -39,7 +38,7 @@ $(document).ready(function(){
               window.location.href = Routing.generate('indexMentores');
             }, 1000);
           }).fail(function(data){
-            window.location.href = Routing.generate('adminLogin');
+            toastr.error('No se pudo eliminar el mentor, tiene grupos asignados');
           })
         }
       }

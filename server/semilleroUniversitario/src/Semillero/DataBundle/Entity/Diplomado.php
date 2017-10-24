@@ -34,7 +34,7 @@ class Diplomado
     private $nombre;
 
     /**
-     * @ORM\OneToMany(targetEntity="Grupo", mappedBy="id")
+     * @ORM\OneToMany(targetEntity="Grupo", mappedBy="diplomado")
      **/
     private $grupos;
 

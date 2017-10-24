@@ -49,11 +49,11 @@ $(document).ready(function(){
 
   //Actualización del diplomado
   $('body').on('click','.btn-editarDiplomado',function(e){
-    var id = $('#idDiplomado').val();
     e.preventDefault();
+    var id = $('#idDiplomado').val();
     var data = $('#form_edit_diplomado').serialize();
     $.ajax({
-      type:"POST",
+      type:"PUT",
       url: Routing.generate('updateDiplomados',{id:id}),
       data: data,
       success: function(html){
@@ -71,6 +71,7 @@ $(document).ready(function(){
 
   //Permite visualizar en modal los detalles de un diplomado
   $('body').on("click",'.btnVerDiplomado',function(e){
+    e.preventDefault();
     var row = $(this).parents('tr');
     var id = row.data('id');
     $.ajax({
@@ -78,13 +79,13 @@ $(document).ready(function(){
       url: Routing.generate('viewDiplomados',{id:id}),
       success: function(html){
         $("#contentViewDiplomado").html(html);
-        $("#modalViewDiplomado").modal('show');
       }
     })
   })
 
   //Permite eliminar un diplomado
   $('body').on('click','.btnDelDiplomado',function(e){
+    e.preventDefault();
     var row = $(this).parents('tr');
     var id = row.data('id');
     var nombreDiplomado = $('#nombreDiplomado-'+id).html();
@@ -108,7 +109,7 @@ $(document).ready(function(){
               window.location.href = Routing.generate('indexDiplomados');
             }, 1000);
           }).fail(function(data){
-            window.location.href = Routing.generate('adminLogin');
+            toastr.error("No se puede eliminar este diplomado, tiene grupos asignados");
           })
         }
       }
@@ -122,11 +123,6 @@ $(document).ready(function(){
       type:'DELETE',
       url: Routing.generate('deleteDiplomados',{id:id}),
     })
-  }
-
-  var mensajeDiplomados = $('#mensajeDiplomados').val();
-  if(mensajeDiplomados!="" && mensajeDiplomados!=undefined){
-    toastr.success(mensajeDiplomados);
   }
 
 })

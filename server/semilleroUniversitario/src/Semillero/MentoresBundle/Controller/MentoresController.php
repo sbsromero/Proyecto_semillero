@@ -175,7 +175,7 @@ class MentoresController extends Controller
 
       $em -> flush();
       $this->addFlash('mensajeMentor','¡El mentor ha sido modificado satisfactoriamente!');
-      return $this->redirectToRoute('indexMentores', array('numeroDocumento' => $mentor->getNumeroDocumento()));
+      return $this->redirectToRoute('indexMentores');
     }
     return $this->render('MentoresBundle:Mentor:edit.html.twig',array('mentor' => $mentor, 'form' =>$form->createView()));
   }
@@ -220,9 +220,12 @@ class MentoresController extends Controller
       if ($request->isXmlHttpRequest()) {
         $em = $this->getDoctrine()->getManager();
         $mentor = $em->getRepository('DataBundle:Mentor')->find($id);
-        $em->remove($mentor);
-        $em->flush();
-        return new Response(Response::HTTP_OK);
+        if(empty($mentor->getGrupos())){
+          $em->remove($mentor);
+          $em->flush();
+          return new Response(Response::HTTP_OK);
+        }
+        return new Response('grupos assignados al mentor',Response::HTTP_NOT_FOUND);
       }
       return $this->redirectToRoute('indexMentores');
     }

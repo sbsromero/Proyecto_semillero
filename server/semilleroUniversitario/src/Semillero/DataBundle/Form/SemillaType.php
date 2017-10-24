@@ -55,10 +55,9 @@ class SemillaType extends AbstractType
         ->add('observaciones')
         ->add('grupo','entity',array(
           'class' => 'DataBundle:Grupo',
-          'query_builder' => function (EntityRepository $er){
-            return $er->createQueryBuilder('g');
-          },
-          'choice_label' => 'getFullNameGrupo'
+          'choice_label' => function ($grupo) {
+            return $grupo->getFullNameGrupo()." - ".$grupo->getDiplomado()->getNombre();
+          }
         ))
         ->add('save','submit', array('label' => 'Guardar Semilla'));
     }

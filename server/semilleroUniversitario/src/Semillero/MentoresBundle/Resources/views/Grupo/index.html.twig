@@ -54,14 +54,13 @@
 									<button type="button" class="btn btn-default">Inactivo</button>
                  {% endif %}
  								</td>
-              <td>
-                <a class="btn btn-sm btn-info btnVerGrupo">Ver</a>
+              <td align="center">
+                <a class="btn btn-sm btn-info btnVerGrupo" data-toggle="modal" data-target="#modalViewGrupo">Ver</a>
               </td>
-              <td>
+              <td align="center">
                 <a class="btn btn-sm btn-primary btn-editGrupo" data-toggle="modal" data-target="#modalEditGrupo">Editar</a>
-                <!-- <a href="{#{ path('editGrupos', {id: grupo.id}) }#}" class="btn btn-sm btn-primary">Editar</a> -->
               </td>
-              <td>
+              <td align="center">
                 <a class="btn btn-sm btn-danger btnDelGrupo">Eliminar</a>
               </td>
               </tr>

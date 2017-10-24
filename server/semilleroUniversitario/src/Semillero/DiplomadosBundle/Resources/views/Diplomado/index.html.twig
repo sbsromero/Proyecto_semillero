@@ -42,7 +42,7 @@
             {% for diplomado in pagination %}
             <tr class="color-cells" data-id="{{diplomado.id}}">
               <td id="nombreDiplomado-{{diplomado.id}}" value="{{diplomado.nombre}}">{{diplomado.nombre}}</td>
-              <td>{{ '#' }}</td>
+              <td>{{ diplomado.grupos | length }}</td>
               <td>{{ diplomado.fechaCreacion | date('d-m-Y') }}</td>
               <td align="center">
                 {% if diplomado.activo == '1'%}
@@ -52,7 +52,7 @@
                 {% endif %}
               </td>
               <td align="center">
-                <a class="btn btn-sm btn-info btnVerDiplomado">Ver</a>
+                <a class="btn btn-sm btn-info btnVerDiplomado" data-toggle="modal" data-target="#modalViewDiplomado">Ver</a>
               </td>
               <td align="center">
                 <a class="btn btn-sm btn-primary btn-editDiplomado" data-toggle="modal" data-target="#modalEditDiplomado">Editar</a>

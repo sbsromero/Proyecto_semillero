@@ -35,13 +35,36 @@ $(document).ready(function(){
 
   //Muestra la modal de edición de grupos
   $('body').on('click','.btn-editGrupo',function(e){
+    e.preventDefault();
     var row = $(this).parents('tr');
     var id = row.data('id');
     $.ajax({
       type:"GET",
       url: Routing.generate('editGrupos',{id:id}),
       success: function(html){
-        $('#modalEditGrupo').html(html);
+        $('#contentEditGrupo').html(html);
+      }
+    })
+  })
+
+  //Actualización de grupo
+  $('body').on('click','.btn-editarGrupo',function(e){
+    e.preventDefault();
+    var id = $('#idGrupo').val();
+    var data = $('#form_edit_grupo').serialize();
+    $.ajax({
+      type: "PUT",
+      url: Routing.generate('updateGrupos',{id:id}),
+      data:data,
+      success: function(html){
+        $('#modalEditGrupo').modal('hide');
+        toastr.success("El grupo ha sido editado exitosamente");
+        setTimeout(function () {
+        window.location.href = Routing.generate("indexGrupos");
+        },1000);
+      },
+      error: function(html){
+        $('#contentEditGrupo').html(html.responseText);
       }
     })
   })
@@ -55,7 +78,6 @@ $(document).ready(function(){
       url: Routing.generate('viewGrupos',{id:id}),
       success: function(html){
         $("#contentViewGrupo").html(html);
-        $("#modalViewGrupo").modal('show');
       }
     })
   })

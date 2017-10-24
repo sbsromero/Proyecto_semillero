@@ -57,7 +57,8 @@ class SemillaController extends Controller
       $semilla = new Semilla();
       #Variable que llama al metodo creaCreateForm, creado luego
       $form = $this-> createCreateForm($semilla);
-      return $this->render('SemillasBundle:Semilla:add.html.twig',array('form' =>$form->createView()));
+      return $this->render('SemillasBundle:Semilla:add.html.twig',array(
+        'form' =>$form->createView()));
     }
     return $this->redirectToRoute('adminLogin');
   }

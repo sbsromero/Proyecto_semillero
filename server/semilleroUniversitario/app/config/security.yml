@@ -33,6 +33,7 @@ security:
           logout:
             path: /admin/logout
             target: /admin/login
+            invalidate_session: false
 
         usuarios_secured_area:
           pattern: ^/usuarios
@@ -47,6 +48,7 @@ security:
           logout:
             path: /usuarios/logout
             target: /usuarios/login
+            invalidate_session: false
 
         main:
             anonymous: ~
