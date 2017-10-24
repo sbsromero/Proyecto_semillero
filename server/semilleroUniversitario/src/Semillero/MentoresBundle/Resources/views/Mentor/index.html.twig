@@ -1,7 +1,6 @@
 {% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
 {% block body %}
 {{ parent() }}
-{#{ include('MentoresBundle:Mentor:messages/success.html.twig' )}#}
 <div class="container">
 {% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
 {% block tab_mentores %}active{% endblock %}
@@ -72,9 +71,6 @@
             </tbody>
           </table>
         </div>
-        <!-- <div class="navigation">
-          {#{ knp_pagination_render(pagination) }#}
-        </div> -->
         <div class="" align="center">
           <ul id="paginationMentores" class="pagination-sm"></ul>
         </div>
