@@ -12,7 +12,7 @@
       <div class="col-md-9">
         <div class="form-group form-inline">
           <i class="glyphicon glyphicon-search"></i>
-          <input type="text" name="" value="" class="form-control">
+          <input type="text" id="queryBusquedaMentor" name="" value="" class="form-control">
         </div>
       </div>
       <div class="col-md-3" align="right">
@@ -21,6 +21,7 @@
     </div>
     <div class="row" style="margin:0px">
       <div class="table-responsive" id="tabla_mentores" data-pageCount="{{pageCount}}">
+        {% if pagination | length %}
         <table id="tableItemsMentores" class="table table-striped table-border table-hover table-responsive tablesorter" style="font-size:14px">
           <thead style="background-color:#f8f8f8">
             <tr >
@@ -46,30 +47,33 @@
               <td>{{ mentor.nombre}}</td>
               <td>{{ mentor.apellidos}}</td>
               <td>{{ mentor.tipoDocumento.nombre }}
-              <td id="dniMentor-{{mentor.id}}" value="{{mentor.numeroDocumento}}">{{ mentor.numeroDocumento}}</td>
-              <td>{{ mentor.fechaNacimiento | date('d-m-Y') }}</td>
-              <td>{{ mentor.numeroCelular}}</td>
-              <td>{{ mentor.tipoMentor.nombre}}</td>
-              <td align="center">
-                {% if mentor.activo == '1'%}
-                <button type="button" class="btn btn-success">Activo</button>
-                {% else %}
-                <button type="button" class="btn btn-default">Inactivo</button>
-                {% endif %}
-              </td>
-              <td align="center">
-                <a class="btn btn-sm btn-info btnVerMentor" data-toggle="modal" data-target="#modalViewMentor">Ver</a>
-              </td>
-              <td align="center">
-                <a href="{{ path('editMentores', {numeroDocumento: mentor.numeroDocumento}) }}" class="btn btn-sm btn-primary">Editar</a>
-              </td>
-              <td align="center">
-                <a class="btn btn-sm btn-danger btnDelMentor">Eliminar</a>
-              </td>
+                <td id="dniMentor-{{mentor.id}}" value="{{mentor.numeroDocumento}}">{{ mentor.numeroDocumento}}</td>
+                <td>{{ mentor.fechaNacimiento | date('d-m-Y') }}</td>
+                <td>{{ mentor.numeroCelular}}</td>
+                <td>{{ mentor.tipoMentor.nombre}}</td>
+                <td align="center">
+                  {% if mentor.activo == '1'%}
+                  <button type="button" class="btn btn-success">Activo</button>
+                  {% else %}
+                  <button type="button" class="btn btn-default">Inactivo</button>
+                  {% endif %}
+                </td>
+                <td align="center">
+                  <a class="btn btn-sm btn-info btnVerMentor" data-toggle="modal" data-target="#modalViewMentor">Ver</a>
+                </td>
+                <td align="center">
+                  <a href="{{ path('editMentores', {numeroDocumento: mentor.numeroDocumento}) }}" class="btn btn-sm btn-primary">Editar</a>
+                </td>
+                <td align="center">
+                  <a class="btn btn-sm btn-danger btnDelMentor">Eliminar</a>
+                </td>
               </tr>
               {% endfor %}
             </tbody>
           </table>
+          {% else %}
+          <h3>No se encontraron resultados</h3>
+          {% endif %}
         </div>
         <div class="" align="center">
           <ul id="paginationMentores" class="pagination-sm"></ul>
@@ -92,10 +96,10 @@
 {% endblock %}
 
 {% block javascript %}
-  {{parent()}}
-  <script src="{{asset('public/js/jquery.tablesorter.js')}}"></script>
-  <script src="{{asset('public/js/mentor.js')}}"></script>
-  <script src="{{asset('public/js/bootstrap-datepicker.min.js')}}"></script>
-  <script src="{{asset('public/js/bootstrap-datepicker.es.min.js')}}" charset="UTF-8"></script>
-  <script src="{{asset('public/js/jquery.twbsPagination.min.js')}}"></script>
+{{parent()}}
+<script src="{{asset('public/js/jquery.tablesorter.js')}}"></script>
+<script src="{{asset('public/js/mentor.js')}}"></script>
+<script src="{{asset('public/js/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{asset('public/js/bootstrap-datepicker.es.min.js')}}" charset="UTF-8"></script>
+<script src="{{asset('public/js/jquery.twbsPagination.min.js')}}"></script>
 {% endblock %}

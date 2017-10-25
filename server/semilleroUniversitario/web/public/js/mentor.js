@@ -45,6 +45,24 @@ $(document).ready(function(){
     });
   })
 
+  $('body').on('keyup','#queryBusquedaMentor',function(e){
+    e.preventDefault();
+    var busqueda = $(this).val();
+    $.ajax({
+      type:"GET",
+      url: Routing.generate('indexMentores'),
+      data:{
+        valorBusqueda: busqueda
+      },
+      success:function(html){
+          $('#tabla_mentores').replaceWith($(html).find('#tabla_mentores'));
+          $('#paginationMentores').twbsPagination('destroy');
+          crearPaginadorMentores();
+      }
+    })
+
+  })
+
   //funcion que realiza el llamado al metodo de eliminar el mentor
   function eliminarMentor(id)
   {
@@ -98,7 +116,6 @@ $(document).ready(function(){
       })
     }
     headerSorter();
-
   }
 
   crearPaginadorMentores();
@@ -110,8 +127,5 @@ $(document).ready(function(){
         7:{sorter:false},8:{sorter:false},9:{sorter:false},10:{sorter:false},11:{sorter:false}
       }
     });
-
   }
-
-
 })

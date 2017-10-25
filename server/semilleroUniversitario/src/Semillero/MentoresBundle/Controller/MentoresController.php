@@ -35,9 +35,14 @@ class MentoresController extends Controller
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
       $em = $this->getDoctrine()->getManager();
       // $mentores = $em->getRepository('DataBundle:Mentor')->findAll();
+      $valorBusqueda = $request->query->get('valorBusqueda');
 
-      $dql = "SELECT m FROM DataBundle:Mentor m";
-      $mentores = $em->createQuery($dql);
+      $valorBusqueda = empty($valorBusqueda) ? "" : $valorBusqueda;
+
+      // $dql = "SELECT m FROM DataBundle:Mentor m";
+      // $mentores = $em->createQuery($dql);
+
+      $mentores = $em->getRepository('DataBundle:Mentor')->getAllMentores($valorBusqueda);
 
       $page= $request->query->get('pageActive');
       $page = empty($page) ? 1 : $page;
@@ -49,7 +54,7 @@ class MentoresController extends Controller
 
       return $this->render('MentoresBundle:Mentor:index.html.twig',array(
         'pageCount' => $pageCount,
-        'pagination' => $pagination));
+        'pagination' => $items));
     }
     return $this->redirectToRoute('adminLogin');
   }
