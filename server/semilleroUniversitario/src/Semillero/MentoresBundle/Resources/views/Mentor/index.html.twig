@@ -54,9 +54,13 @@
                 <td>{{ mentor.tipoMentor.nombre}}</td>
                 <td align="center">
                   {% if mentor.activo == '1'%}
-                  <button type="button" class="btn btn-success">Activo</button>
+                    <span data-toggle="tooltip" data-original-title="Activo" style="color:green">
+                      <i class="glyphicon glyphicon-ok-circle"></i>
+                    </span>
                   {% else %}
-                  <button type="button" class="btn btn-default">Inactivo</button>
+                    <span data-toggle="tooltip" data-original-title="Inactivo" style="color:red">
+                      <i class="glyphicon glyphicon-ban-circle"></i>
+                    </span>
                   {% endif %}
                 </td>
                 <td align="center">

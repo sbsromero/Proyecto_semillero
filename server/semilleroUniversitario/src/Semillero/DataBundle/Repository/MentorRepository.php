@@ -20,8 +20,6 @@ class MentorRepository extends EntityRepository
     ->getResult();
   }
 
-    // CONCAT(CONCAT('0',CAST(DAY(m.fechaNacimiento)),'-',CAST(MONTH(m.fechaNacimiento)),'-',CAST(YEAR(m.fechaNacimiento))));
-
   //Metodo que lista todos los mentores, tambien es utilizado para cuando
   //Se realizan busquedas
   //@param $querySearch : busqueda a realizar
