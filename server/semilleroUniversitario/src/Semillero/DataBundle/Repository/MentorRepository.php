@@ -15,33 +15,30 @@ class MentorRepository extends EntityRepository
   public function recoverPass($numeroDocumento)
   {
     return $this->getEntityManager()
-    ->createQuery("SELECT m.password FROM DataBundle:Mentor mWHERE m.numeroDocumento = :query")
+    ->createQuery("SELECT m.password FROM DataBundle:Mentor m WHERE m.numeroDocumento = :query")
     ->setParameter("query",$numeroDocumento)
     ->getResult();
   }
+
+    // CONCAT(CONCAT('0',CAST(DAY(m.fechaNacimiento)),'-',CAST(MONTH(m.fechaNacimiento)),'-',CAST(YEAR(m.fechaNacimiento))));
 
   //Metodo que lista todos los mentores, tambien es utilizado para cuando
   //Se realizan busquedas
   //@param $querySearch : busqueda a realizar
   public function getAllMentores($querySearch)
   {
-    // $em = $this->getEntityManager();
-    // $emConfig = $em->getConfiguration();
-    // $emConfig->addCustomDatetimeFunction('CAST', 'Oro\ORM\Query\AST\Functions\Cast');
-    // $emConfig->addCustomDatetimeFunction('YEAR', 'Oro\ORM\Query\AST\Functions\SimpleFunction');
-    // $emConfig->addCustomDatetimeFunction('MONTH', 'Oro\ORM\Query\AST\Functions\SimpleFunction');
-    // $emConfig->addCustomDatetimeFunction('DAY', 'Oro\ORM\Query\AST\Functions\SimpleFunction');
-    // OR CAST(YEAR(m.fechaNacimiento) as string) like :querySearch)
-
-
     return $this->getEntityManager()
     ->createQuery("SELECT m FROM DataBundle:Mentor m JOIN m.tipoMentor tm JOIN m.tipoDocumento td WHERE
       (upper(m.nombre) like upper(:querySearch) OR upper(m.apellidos) like upper(:querySearch)
       OR upper(m.numeroDocumento) like upper(:querySearch) OR upper(m.numeroCelular)
       like upper(:querySearch) OR upper(tm.nombre) like upper(:querySearch)
-      OR upper(td.nombre) like upper(:querySearch))")
+      OR upper(td.nombre) like upper(:querySearch) OR CAST(YEAR(m.fechaNacimiento) as string) like :querySearch
+      OR CONCAT('0',CAST(MONTH(m.fechaNacimiento) as string)) like :querySearch
+      OR CONCAT('0',CAST(DAY(m.fechaNacimiento) as string)) like :querySearch
+      OR CONCAT(CONCAT('0',CAST(DAY(m.fechaNacimiento) as string)),'-',
+      CONCAT('0',CAST(MONTH(m.fechaNacimiento) as string)),'-',
+      CAST(YEAR(m.fechaNacimiento) as string)) like :querySearch)")
     ->setParameter('querySearch','%'.$querySearch.'%');
-    // ->getResult();
   }
 
   // //Retorna todos los mentores

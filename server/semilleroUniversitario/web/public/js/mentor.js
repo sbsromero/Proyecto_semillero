@@ -45,6 +45,7 @@ $(document).ready(function(){
     });
   })
 
+  //Permite realizar la busqueda en la pestaña de mentores
   $('body').on('keyup','#queryBusquedaMentor',function(e){
     e.preventDefault();
     var busqueda = $(this).val();
@@ -60,8 +61,27 @@ $(document).ready(function(){
           crearPaginadorMentores();
       }
     })
-
   })
+
+  //Permite obtener todos los mentores cuando se le da click en
+  //mostrar todos
+  $('body').on('click','.btnMostrarMentores',function(e){
+    e.preventDefault();
+    $('#queryBusquedaMentor').val('');
+    $.ajax({
+      type:"GET",
+      url: Routing.generate('indexMentores'),
+      data:{
+        btnMostrarMentores: "btnMostrarMentores"
+      },
+      success:function(html){
+        $('#tabla_mentores').replaceWith($(html).find('#tabla_mentores'));
+        $('#paginationMentores').twbsPagination('destroy');
+        crearPaginadorMentores();
+      }
+    })
+  })
+
 
   //funcion que realiza el llamado al metodo de eliminar el mentor
   function eliminarMentor(id)

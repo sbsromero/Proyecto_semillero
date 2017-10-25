@@ -36,8 +36,17 @@ class MentoresController extends Controller
       $em = $this->getDoctrine()->getManager();
       // $mentores = $em->getRepository('DataBundle:Mentor')->findAll();
       $valorBusqueda = $request->query->get('valorBusqueda');
+      $btnMostrarMentores = $request->query->get('btnMostrarMentores');
 
       $valorBusqueda = empty($valorBusqueda) ? "" : $valorBusqueda;
+      // $btnMostrarMentores = !empty($btnMostrarMentores) ? $valorBusqueda="" : ;
+
+      if(empty($btnMostrarMentores)){
+        $valorBusqueda = $valorBusqueda;
+      }
+      else{
+        $valorBusqueda = "";
+      }
 
       // $dql = "SELECT m FROM DataBundle:Mentor m";
       // $mentores = $em->createQuery($dql);
@@ -164,6 +173,7 @@ class MentoresController extends Controller
 
     $form = $this->createEditForm($mentor);
     $form->handleRequest($request);
+    // dump($mentor,$numeroDocumento,$request->request->all(),$form->isValid());exit();
 
     if($form->isSubmitted() && $form->isValid())
     {
