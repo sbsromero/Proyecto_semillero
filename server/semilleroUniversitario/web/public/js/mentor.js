@@ -149,7 +149,9 @@ $(document).ready(function(){
     });
   }
 
-  $('[data-toggle="tooltip"]').tooltip({
-    placement : 'top'
+  //tooltip
+  $(document).tooltip({
+    selector:'[data-toggle="tooltip"]',
+    placement:'top'
   });
 })

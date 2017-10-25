@@ -116,6 +116,43 @@ $(document).ready(function(){
     });
   })
 
+  //Permite realizar la busqueda en la pestaña de diplomados
+  $('body').on('keyup','#queryBusquedaDiplomado',function(e){
+    e.preventDefault();
+    var busqueda = $(this).val();
+    $.ajax({
+      type:"GET",
+      url: Routing.generate('indexDiplomados'),
+      data:{
+        valorBusqueda: busqueda
+      },
+      success:function(html){
+        $('#tabla_diplomados').replaceWith($(html).find('#tabla_diplomados'));
+        $('#paginationDiplomados').twbsPagination('destroy');
+        crearPaginadorDiplomados();
+      }
+    })
+  })
+
+  //Permite obtener todos los diplomados cuando se le da click en
+  //mostrar todos
+  $('body').on('click','.btnMostrarDiplomados',function(e){
+    e.preventDefault();
+    $('#queryBusquedaDiplomado').val('');
+    $.ajax({
+      type:"GET",
+      url: Routing.generate('indexDiplomados'),
+      data:{
+        btnMostrarMentores: "btnMostrarDiplomados"
+      },
+      success:function(html){
+        $('#tabla_diplomados').replaceWith($(html).find('#tabla_diplomados'));
+        $('#paginationDiplomados').twbsPagination('destroy');
+        crearPaginadorDiplomados();
+      }
+    })
+  })
+
   //funcion que realiza el llamado al metodo de eliminar el diplomado
   function eliminarDiplomado(id)
   {
@@ -124,5 +161,53 @@ $(document).ready(function(){
       url: Routing.generate('deleteDiplomados',{id:id}),
     })
   }
+
+  //Metodo que crea el paginador de los diplomados
+  var crearPaginadorDiplomados = function(){
+    var totalPages = $('#tabla_diplomados').attr('data-pageCount');
+    if(totalPages != 0){
+      $('#paginationDiplomados').twbsPagination({
+        startPage: 1,
+        totalPages: totalPages,
+        visiblePages: 6,
+        initiateStartPageClick: false,
+        first:'Primero',
+        last: 'Último',
+        prev: '<span aria-hidden="true">&laquo;</span>',
+        next: '<span aria-hidden="true">&raquo;</span>',
+        onPageClick: function (event, page) {
+          $.ajax({
+            type: "GET",
+            url: Routing.generate('indexDiplomados'),
+            data:{
+              pageActive: page,
+            },
+            success:function(html){
+              $('#tabla_diplomados').replaceWith($(html).find('#tabla_diplomados'));
+              headerSorter();
+            }
+          })
+        }
+      })
+    }
+    headerSorter();
+  }
+
+  crearPaginadorDiplomados();
+
+  //Metodo que implementa el ordenamiento en las cabeceras de la tabla de mentores
+  function headerSorter(){
+    $('#tableItemsDiplomados').tablesorter({
+      headers:{
+        4:{sorter:false},5:{sorter:false},6:{sorter:false},7:{sorter:false}
+      }
+    });
+  }
+  
+  //tooltip
+  $(document).tooltip({
+    selector:'[data-toggle="tooltip"]',
+    placement:'top'
+  });
 
 })

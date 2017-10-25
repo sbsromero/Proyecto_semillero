@@ -53,12 +53,12 @@
                 <td>{{ mentor.numeroCelular}}</td>
                 <td>{{ mentor.tipoMentor.nombre}}</td>
                 <td align="center">
-                  {% if mentor.activo == '1'%}
-                    <span data-toggle="tooltip" data-original-title="Activo" style="color:green">
+                  {% if mentor.activo  %}
+                    <span id="tooltipActivo" data-toggle="tooltip" data-original-title="Activo" style="color:green">
                       <i class="glyphicon glyphicon-ok-circle"></i>
                     </span>
                   {% else %}
-                    <span data-toggle="tooltip" data-original-title="Inactivo" style="color:red">
+                    <span data-toggle="tooltip" data-original-title="Inactivo" style="color:#f16565">
                       <i class="glyphicon glyphicon-ban-circle"></i>
                     </span>
                   {% endif %}
@@ -102,9 +102,7 @@
 
 {% block javascript %}
 {{parent()}}
-<script src="{{asset('public/js/jquery.tablesorter.js')}}"></script>
 <script src="{{asset('public/js/mentor.js')}}"></script>
 <script src="{{asset('public/js/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{asset('public/js/bootstrap-datepicker.es.min.js')}}" charset="UTF-8"></script>
-<script src="{{asset('public/js/jquery.twbsPagination.min.js')}}"></script>
 {% endblock %}

@@ -34,22 +34,13 @@ class MentoresController extends Controller
   {
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
       $em = $this->getDoctrine()->getManager();
-      // $mentores = $em->getRepository('DataBundle:Mentor')->findAll();
       $valorBusqueda = $request->query->get('valorBusqueda');
       $btnMostrarMentores = $request->query->get('btnMostrarMentores');
-
       $valorBusqueda = empty($valorBusqueda) ? "" : $valorBusqueda;
-      // $btnMostrarMentores = !empty($btnMostrarMentores) ? $valorBusqueda="" : ;
 
-      if(empty($btnMostrarMentores)){
-        $valorBusqueda = $valorBusqueda;
-      }
-      else{
+      if(!empty($btnMostrarMentores)){
         $valorBusqueda = "";
       }
-
-      // $dql = "SELECT m FROM DataBundle:Mentor m";
-      // $mentores = $em->createQuery($dql);
 
       $mentores = $em->getRepository('DataBundle:Mentor')->getAllMentores($valorBusqueda);
 

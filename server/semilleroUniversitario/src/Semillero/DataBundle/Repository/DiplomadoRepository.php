@@ -17,4 +17,36 @@ class DiplomadoRepository extends EntityRepository
   {
     return $this->findBy(array(), array('nombre' => 'DESC'));
   }
+
+  //Metodo que lista todos los diplomados, tambien es utilizado para cuando
+  //Se realizan busquedas
+  //@param $querySearch : busqueda a realizar
+  public function getAllDiplomados($querySearch)
+  {
+    return $this->getEntityManager()
+    ->createQuery("SELECT d FROM DataBundle:Diplomado d WHERE upper(d.nombre)
+    like upper(:querySearch)")
+  //   return $this->getEntityManager()
+  //   ->createQuery("SELECT d FROM DataBundle:Diplomado d JOIN d.grupos dg WHERE upper(d.nombre)
+  //   like upper(:querySearch) OR ( CONCAT('0',CAST(DAY(d.fechaCreacion) as string)) like :querySearch
+  //   OR CAST(MONTH(d.fechaCreacion) as string) like :querySearch
+  //   OR CAST(YEAR(d.fechaCreacion) as string) like :querySearch
+  //   OR CONCAT(CONCAT('0',CAST(DAY(d.fechaCreacion) as string)),'-',
+  //   CONCAT('0',CAST(MONTH(d.fechaCreacion) as string)),'-',
+  //   CAST(YEAR(d.fechaCreacion) as string)) like :querySearch
+  // )")
+    ->setParameter('querySearch','%'.$querySearch.'%');
+    // return $this->getEntityManager()
+    // ->createQuery("SELECT m FROM DataBundle:Mentor m JOIN m.tipoMentor tm JOIN m.tipoDocumento td WHERE
+    //   (upper(m.nombre) like upper(:querySearch) OR upper(m.apellidos) like upper(:querySearch)
+    //   OR upper(m.numeroDocumento) like upper(:querySearch) OR upper(m.numeroCelular)
+    //   like upper(:querySearch) OR upper(tm.nombre) like upper(:querySearch)
+    //   OR upper(td.nombre) like upper(:querySearch) OR CAST(YEAR(m.fechaNacimiento) as string) like :querySearch
+    //   OR CONCAT('0',CAST(MONTH(m.fechaNacimiento) as string)) like :querySearch
+    //   OR CONCAT('0',CAST(DAY(m.fechaNacimiento) as string)) like :querySearch
+    //   OR CONCAT(CONCAT('0',CAST(DAY(m.fechaNacimiento) as string)),'-',
+    //   CONCAT('0',CAST(MONTH(m.fechaNacimiento) as string)),'-',
+    //   CAST(YEAR(m.fechaNacimiento) as string)) like :querySearch)")
+    // ->setParameter('querySearch','%'.$querySearch.'%');
+  }
 }

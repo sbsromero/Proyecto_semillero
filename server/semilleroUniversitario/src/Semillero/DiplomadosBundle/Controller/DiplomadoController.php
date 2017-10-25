@@ -30,16 +30,25 @@ class DiplomadoController extends Controller
     {
       if($this->isGranted('IS_AUTHENTICATED_FULLY')){
         $em = $this->getDoctrine()->getManager();
-        //------------------------------------------------------
-        $dql = "SELECT d FROM DataBundle:Diplomado d";
-        $diplomados = $em->createQuery($dql);
-        //------------------------------------------------------
+        $valorBusqueda = $request->query->get('valorBusqueda');
+        $btnMostrarDiplomados = $request->query->get('btnMostrarDiplomados');
+        $valorBusqueda = empty($valorBusqueda) ? "" : $valorBusqueda;
+
+        if(!empty($btnMostrarDiplomados)){
+          $valorBusqueda = "";
+        }
+
+        $diplomados = $em->getRepository('DataBundle:Diplomado')->getAllDiplomados($valorBusqueda);
+        $page= $request->query->get('pageActive');
+        $page = empty($page) ? 1 : $page;
+
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-          $diplomados, $request->query->getInt('page',1),
-          5
-        );
-        return $this->render('DiplomadosBundle:Diplomado:index.html.twig',array('pagination' => $pagination));
+        $pagination = $paginator->paginate($diplomados,$page,5);
+        $items = $pagination->getItems();
+        $pageCount = $pagination->getPageCount();
+        return $this->render('DiplomadosBundle:Diplomado:index.html.twig',array(
+          'pageCount' => $pageCount,
+          'pagination' => $items));
       }
       return $this->redirectToRoute('adminLogin');
     }
