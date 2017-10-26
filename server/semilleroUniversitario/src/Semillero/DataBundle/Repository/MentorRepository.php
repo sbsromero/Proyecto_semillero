@@ -31,10 +31,10 @@ class MentorRepository extends EntityRepository
       OR upper(m.numeroDocumento) like upper(:querySearch) OR upper(m.numeroCelular)
       like upper(:querySearch) OR upper(tm.nombre) like upper(:querySearch)
       OR upper(td.nombre) like upper(:querySearch) OR CAST(YEAR(m.fechaNacimiento) as string) like :querySearch
-      OR CONCAT('0',CAST(MONTH(m.fechaNacimiento) as string)) like :querySearch
-      OR CONCAT('0',CAST(DAY(m.fechaNacimiento) as string)) like :querySearch
-      OR CONCAT(CONCAT('0',CAST(DAY(m.fechaNacimiento) as string)),'-',
-      CONCAT('0',CAST(MONTH(m.fechaNacimiento) as string)),'-',
+      OR CAST(MONTH(m.fechaNacimiento) as string) like :querySearch
+      OR CAST(DAY(m.fechaNacimiento) as string) like :querySearch
+      OR CONCAT(CAST(DAY(m.fechaNacimiento) as string),'-',
+      CAST(MONTH(m.fechaNacimiento) as string),'-',
       CAST(YEAR(m.fechaNacimiento) as string)) like :querySearch)")
     ->setParameter('querySearch','%'.$querySearch.'%');
   }
