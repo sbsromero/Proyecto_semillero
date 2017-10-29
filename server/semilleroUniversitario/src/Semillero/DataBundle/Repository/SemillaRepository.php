@@ -13,16 +13,48 @@ use Doctrine\ORM\EntityRepository;
 class SemillaRepository extends EntityRepository
 {
 
+    // public function recoverPass($numeroDocumento)
+    // {
+    //   return $this->getEntityManager()->createQuery("SELECT s.password FROM DataBundle:Semilla s
+    //     WHERE s.numeroDocumento = :query")->setParameter("query",$numeroDocumento)->getResult();
+    //   }
+    //
+    //   // //Retorna todos las semillas
+    //   public function findAll()
+    //   {
+    //     return $this->findBy(array(), array('nombre' => 'DESC'));
+    //   }
+
     public function recoverPass($numeroDocumento)
     {
-      return $this->getEntityManager()->createQuery("SELECT s.password FROM DataBundle:Semilla s
-        WHERE s.numeroDocumento = :query")->setParameter("query",$numeroDocumento)->getResult();
-      }
+      return $this->getEntityManager()
+      ->createQuery("SELECT m.password FROM DataBundle:Mentor m WHERE m.numeroDocumento = :query")
+      ->setParameter("query",$numeroDocumento)
+      ->getResult();
+    }
 
-      // //Retorna todos las semillas
-      public function findAll()
-      {
-        return $this->findBy(array(), array('nombre' => 'DESC'));
-      }
+    //Metodo que lista todos las semillas, tambien es utilizado para cuando
+    //Se realizan busquedas
+    //@param $querySearch : busqueda a realizar
+    public function getAllSemillas($querySearch)
+    {
+      return $this->getEntityManager()
+      ->createQuery("SELECT s FROM DataBundle:Semilla s JOIN s.tipoDocumento td WHERE
+        (upper(s.nombre) like upper(:querySearch) OR upper(s.apellidos) like upper(:querySearch)
+        OR upper(s.numeroDocumento) like upper(:querySearch) OR upper(s.numeroCelular)
+        like upper(:querySearch) OR upper(td.nombre) like upper(:querySearch) OR CAST(YEAR(s.fechaNacimiento) as string) like :querySearch
+        OR CAST(MONTH(s.fechaNacimiento) as string) like :querySearch
+        OR CAST(DAY(s.fechaNacimiento) as string) like :querySearch
+        OR CONCAT(CAST(DAY(s.fechaNacimiento) as string),'-',
+        CAST(MONTH(s.fechaNacimiento) as string),'-',
+        CAST(YEAR(s.fechaNacimiento) as string)) like :querySearch)")
+      ->setParameter('querySearch','%'.$querySearch.'%');
+    }
+
+    // //Retorna todas las semillas
+    public function findAll()
+    {
+      return $this->findBy(array(), array('nombre' => 'DESC'));
+    }
 
 }

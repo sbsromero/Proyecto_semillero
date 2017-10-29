@@ -4,7 +4,6 @@ namespace Semillero\SemillasBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,19 +27,44 @@ class SemillaController extends Controller
 
   public function indexAction(Request $request)
   {
+    // if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+    //   $em = $this->getDoctrine()->getManager();
+    //
+    //   $dql = "SELECT s FROM DataBundle:Semilla s";
+    //   $semillas = $em->createQuery($dql);
+    //
+    //   $paginator = $this->get('knp_paginator');
+    //   $pagination = $paginator->paginate(
+    //     $semillas, $request->query->getInt('page',1),
+    //     5
+    //   );
+    //   //
+    //   return $this->render('SemillasBundle:Semilla:index.html.twig',array('pagination' => $pagination));
+    // }
+    // return $this->redirectToRoute('adminLogin');
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
       $em = $this->getDoctrine()->getManager();
+      $valorBusqueda = $request->query->get('valorBusqueda');
+      $btnMostrarSemillas = $request->query->get('btnMostrarSemillas');
+      $valorBusqueda = empty($valorBusqueda) ? "" : $valorBusqueda;
 
-      $dql = "SELECT s FROM DataBundle:Semilla s";
-      $semillas = $em->createQuery($dql);
+      if(!empty($btnMostrarSemillas)){
+        $valorBusqueda = "";
+      }
+
+      $semillas = $em->getRepository('DataBundle:Semilla')->getAllSemillas($valorBusqueda);
+
+      $page= $request->query->get('pageActive');
+      $page = empty($page) ? 1 : $page;
 
       $paginator = $this->get('knp_paginator');
-      $pagination = $paginator->paginate(
-        $semillas, $request->query->getInt('page',1),
-        5
-      );
-      //
-      return $this->render('SemillasBundle:Semilla:index.html.twig',array('pagination' => $pagination));
+      $pagination = $paginator->paginate($semillas,$page,5);
+      $items = $pagination->getItems();
+      $pageCount = $pagination->getPageCount();
+
+      return $this->render('SemillasBundle:Semilla:index.html.twig',array(
+        'pageCount' => $pageCount,
+        'pagination' => $items));
     }
     return $this->redirectToRoute('adminLogin');
   }
