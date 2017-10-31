@@ -114,6 +114,43 @@ $(document).ready(function(){
     });
   })
 
+  //Permite realizar la busqueda en la pestaña de grupos
+  $('body').on('keyup','#queryBusquedaGrupo',function(e){
+    e.preventDefault();
+    var busqueda = $(this).val();
+    $.ajax({
+      type:"GET",
+      url: Routing.generate('indexGrupos'),
+      data:{
+        valorBusqueda: busqueda
+      },
+      success:function(html){
+        $('#tabla_grupos').replaceWith($(html).find('#tabla_grupos'));
+        $('#paginationGrupos').twbsPagination('destroy');
+        crearPaginadorGrupos();
+      }
+    })
+  })
+
+  //Permite obtener todos los grupos cuando se le da click en
+  //mostrar todos
+  $('body').on('click','.btnMostrarGrupos',function(e){
+    e.preventDefault();
+    $('#queryBusquedaGrupo').val('');
+    $.ajax({
+      type:"GET",
+      url: Routing.generate('indexGrupos'),
+      data:{
+        btnMostrarGrupos: "btnMostrarGrupos"
+      },
+      success:function(html){
+        $('#tabla_grupos').replaceWith($(html).find('#tabla_grupos'));
+        $('#paginationGrupos').twbsPagination('destroy');
+        crearPaginadorGrupos();
+      }
+    })
+  })
+
   //funcion que realiza el llamado al metodo de eliminar el grupo
   function eliminarGrupo(id)
   {
@@ -123,4 +160,52 @@ $(document).ready(function(){
     })
   }
 
-})
+  //Metodo que crea el paginador de los grupos
+  var crearPaginadorGrupos = function(){
+    var totalPages = $('#tabla_grupos').attr('data-pageCount');
+    if(totalPages != 0){
+      $('#paginationGrupos').twbsPagination({
+        startPage: 1,
+        totalPages: totalPages,
+        visiblePages: 6,
+        initiateStartPageClick: false,
+        first:'Primero',
+        last: 'Último',
+        prev: '<span aria-hidden="true">&laquo;</span>',
+        next: '<span aria-hidden="true">&raquo;</span>',
+        onPageClick: function (event, page) {
+          $.ajax({
+            type: "GET",
+            url: Routing.generate('indexGrupos'),
+            data:{
+              pageActive: page,
+            },
+            success:function(html){
+              $('#tabla_grupos').replaceWith($(html).find('#tabla_grupos'));
+              headerSorter();
+            }
+          })
+        }
+      })
+    }
+    headerSorter();
+  }
+
+  crearPaginadorGrupos();
+
+  //Metodo que implementa el ordenamiento en las cabeceras de la tabla de grupos
+  function headerSorter(){
+    $('#tableItemsGrupos').tablesorter({
+      headers:{
+        4:{sorter:false},5:{sorter:false},6:{sorter:false},7:{sorter:false}
+      }
+    });
+  }
+
+  //tooltip
+  $(document).tooltip({
+    selector:'[data-toggle="tooltip"]',
+    placement:'top'
+  });
+
+  })

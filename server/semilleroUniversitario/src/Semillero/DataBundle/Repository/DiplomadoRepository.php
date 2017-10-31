@@ -22,7 +22,6 @@ class DiplomadoRepository extends EntityRepository
   //Se realizan busquedas
   //@param $querySearch : busqueda a realizar
   public function getAllDiplomados($querySearch)
-
   {
     return $this->getEntityManager()
     ->createQuery("SELECT d FROM DataBundle:Diplomado d LEFT JOIN d.grupos dg WHERE upper(d.nombre)

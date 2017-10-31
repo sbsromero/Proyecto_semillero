@@ -27,21 +27,6 @@ class SemillaController extends Controller
 
   public function indexAction(Request $request)
   {
-    // if($this->isGranted('IS_AUTHENTICATED_FULLY')){
-    //   $em = $this->getDoctrine()->getManager();
-    //
-    //   $dql = "SELECT s FROM DataBundle:Semilla s";
-    //   $semillas = $em->createQuery($dql);
-    //
-    //   $paginator = $this->get('knp_paginator');
-    //   $pagination = $paginator->paginate(
-    //     $semillas, $request->query->getInt('page',1),
-    //     5
-    //   );
-    //   //
-    //   return $this->render('SemillasBundle:Semilla:index.html.twig',array('pagination' => $pagination));
-    // }
-    // return $this->redirectToRoute('adminLogin');
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
       $em = $this->getDoctrine()->getManager();
       $valorBusqueda = $request->query->get('valorBusqueda');

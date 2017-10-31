@@ -12,6 +12,26 @@ use Doctrine\ORM\EntityRepository;
  */
 class GrupoRepository extends EntityRepository
 {
+  //Metodo que lista todos los mentores, tambien es utilizado para cuando
+  //Se realizan busquedas
+  //@param $querySearch : busqueda a realizar
+  public function getAllGrupos($querySearch)
+  {
+    return $this->getEntityManager()
+    ->createQuery("SELECT g FROM DataBundle:Grupo g LEFT JOIN g.jornada gj LEFT JOIN g.diplomado gd LEFT JOIN g.mentor gm WHERE upper(g.nombre)
+    like upper(:querySearch)
+     OR upper(gd.nombre) like upper(:querySearch)
+     OR upper(gj.nombre) like upper(:querySearch)
+     OR upper(gm.nombre) like upper(:querySearch)
+     OR (CAST(YEAR(g.fechaCreacion) as string) like :querySearch
+     OR CAST(MONTH(g.fechaCreacion) as string) like :querySearch
+     OR CAST(DAY(g.fechaCreacion) as string) like :querySearch
+     OR CONCAT(CONCAT('0',CAST(DAY(g.fechaCreacion) as string)),'-',
+      CAST(MONTH(g.fechaCreacion) as string),'-',
+      CAST(YEAR(g.fechaCreacion) as string)) like :querySearch)")
+    ->setParameter('querySearch','%'.$querySearch.'%');
+  }
+
   //Retorna todos los grupos
   public function findAll()
   {

@@ -28,21 +28,46 @@ class GruposController extends Controller
 
   public function indexAction(Request $request)
   {
+    // if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+    //   $em = $this->getDoctrine()->getManager();
+    //   //$grupos = $em->getRepository('DataBundle:Grupo')->findAll();
+    //
+    //   //------------------------------------------------------
+    //   $dql = "SELECT g FROM DataBundle:Grupo g";
+    //   $grupos = $em->createQuery($dql);
+    //   //------------------------------------------------------
+    //
+    //   $paginator = $this->get('knp_paginator');
+    //   $pagination = $paginator->paginate(
+    //     $grupos, $request->query->getInt('page',1),
+    //     5
+    //   );
+    //   return $this->render('MentoresBundle:Grupo:index.html.twig',array('pagination' => $pagination));
+    // }
+    // return $this->redirectToRoute('adminLogin');
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
       $em = $this->getDoctrine()->getManager();
-      //$grupos = $em->getRepository('DataBundle:Grupo')->findAll();
+      $valorBusqueda = $request->query->get('valorBusqueda');
+      $btnMostrarGrupos = $request->query->get('btnMostrarGrupos');
+      $valorBusqueda = empty($valorBusqueda) ? "" : $valorBusqueda;
 
-      //------------------------------------------------------
-      $dql = "SELECT g FROM DataBundle:Grupo g";
-      $grupos = $em->createQuery($dql);
-      //------------------------------------------------------
+      if(!empty($btnMostrarGrupos)){
+        $valorBusqueda = "";
+      }
+
+      $grupos = $em->getRepository('DataBundle:Grupo')->getAllGrupos($valorBusqueda);
+
+      $page= $request->query->get('pageActive');
+      $page = empty($page) ? 1 : $page;
 
       $paginator = $this->get('knp_paginator');
-      $pagination = $paginator->paginate(
-        $grupos, $request->query->getInt('page',1),
-        5
-      );
-      return $this->render('MentoresBundle:Grupo:index.html.twig',array('pagination' => $pagination));
+      $pagination = $paginator->paginate($grupos,$page,5);
+      $items = $pagination->getItems();
+      $pageCount = $pagination->getPageCount();
+
+      return $this->render('MentoresBundle:Grupo:index.html.twig',array(
+        'pageCount' => $pageCount,
+        'pagination' => $items));
     }
     return $this->redirectToRoute('adminLogin');
   }
