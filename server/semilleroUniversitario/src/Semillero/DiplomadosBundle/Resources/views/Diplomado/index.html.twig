@@ -29,7 +29,7 @@
               <th rowspan="2" style="font-size:14px"> Nombre</th>
               <th rowspan="2" style="font-size:14px"> {{ 'Cantidad de Grupos' }} </th>
               <th rowspan="2" style="font-size:14px"> Fecha de creación</th>
-              <th rowspan="2" style="text-align:center; font-size:14px">Estado</th>
+              <th rowspan="2" style="text-align:center; font-size:14px">Activo</th>
               <th rowspan="1" colspan="3" style="text-align:center; font-size:14px">Acciones</th>
             </tr>
             <tr>
@@ -48,12 +48,12 @@
                 {% if diplomado.activo %}
                 <h3 style="display:none">1</h3>
                 <span data-toggle="tooltip" data-original-title="Activo" style="color:green">
-                  <i class="glyphicon glyphicon-ok-circle"></i>
+                  <i class="label label-success">Si</i>
                 </span>
                 {% else %}
                 <h3 style="display:none">0</h3>
                 <span data-toggle="tooltip" data-original-title="Inactivo" style="color:#f16565">
-                  <i class="glyphicon glyphicon-ban-circle"></i>
+                  <i class="label label-danger">No</i>
                 </span>
                 {% endif %}
               </td>

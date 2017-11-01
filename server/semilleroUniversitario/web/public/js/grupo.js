@@ -197,7 +197,7 @@ $(document).ready(function(){
   function headerSorter(){
     $('#tableItemsGrupos').tablesorter({
       headers:{
-        4:{sorter:false},5:{sorter:false},6:{sorter:false},7:{sorter:false}
+        4:{sorter:false},6:{sorter:false},7:{sorter:false}
       }
     });
   }

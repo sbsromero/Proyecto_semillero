@@ -52,14 +52,14 @@
               <td>{{ semilla.fechaNacimiento | date('d-m-Y') }}</td>
               <td>{{ semilla.numeroCelular}}</td>
               <td>{{ semilla.grupo.diplomado.nombre}} {{ semilla.grupo.nombre}}</td>
-              <td>
+              <td align="center">
                 {% if semilla.isFacebook %}
-                <span id="tooltipActivo" data-toggle="tooltip" data-original-title="Activo" style="color:green">
-                  <i class="glyphicon glyphicon-ok-circle"></i>
+                <span id="tooltipActivo" data-toggle="tooltip" data-original-title="Si" style="color:green">
+                  <i class="label label-success">Si</i>
                 </span>
                 {% else %}
-                <span data-toggle="tooltip" data-original-title="Inactivo" style="color:#f16565">
-                  <i class="glyphicon glyphicon-ban-circle"></i>
+                <span data-toggle="tooltip" data-original-title="No" style="color:#f16565">
+                  <i class="label label-danger">No</i>
                 </span>
                 {% endif %}
               </td>

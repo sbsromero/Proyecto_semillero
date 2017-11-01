@@ -92,6 +92,24 @@ $(document).ready(function(){
     })
   }
 
+  //funcion que realiza la inactivacion de un mentor
+  $('body').on('click','.btnInactivarMentor', function(e){
+    e.preventDefault();
+    var row = $(this).parents('tr');
+    var id = row.data('id');
+    var dni = $('#dniMentor-'+id).html();
+    $.ajax({
+      type:"POST",
+      url: Routing.generate('inactivarMentor', {dni:dni}),
+      success: function(){
+        toastr.success("El estado del mentor ha sido actualizado");
+        window.setTimeout(function(){
+          window.location.href = Routing.generate('indexMentores');
+        }, 1000);
+      }
+    })
+  })
+
   //Calendario para las fechas en la vista de mentores
   $('.js-datepicker').datepicker({
     format: 'dd/mm/yyyy',
@@ -144,7 +162,8 @@ $(document).ready(function(){
   function headerSorter(){
     $('#tableItemsMentores').tablesorter({
       headers:{
-        7:{sorter:false},8:{sorter:false},9:{sorter:false},10:{sorter:false},11:{sorter:false}
+        8:{sorter:false},9:{sorter:false},10:{sorter:false},11:{sorter:false}
+        ,12:{sorter:false}
       }
     });
   }
