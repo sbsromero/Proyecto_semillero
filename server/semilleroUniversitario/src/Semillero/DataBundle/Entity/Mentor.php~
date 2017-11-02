@@ -14,8 +14,6 @@ use Semillero\DataBundle\Entity\Usuarios;
 *
 * @ORM\Table(name="mentor")
 * @ORM\Entity(repositoryClass="Semillero\DataBundle\Repository\MentorRepository")
-* @UniqueEntity("email")
-* @UniqueEntity("numeroDocumento")
 */
 class Mentor extends Usuarios
 {

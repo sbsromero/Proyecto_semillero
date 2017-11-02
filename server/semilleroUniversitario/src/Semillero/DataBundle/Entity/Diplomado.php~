@@ -4,13 +4,14 @@ namespace Semillero\DataBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Diplomado
  *
  * @ORM\Table(name="diplomado")
  * @ORM\Entity(repositoryClass="Semillero\DataBundle\Repository\DiplomadoRepository")
-  * @ORM\HasLifecycleCallbacks()
+ * @ORM\HasLifecycleCallbacks()
  */
 class Diplomado
 {
@@ -27,11 +28,13 @@ class Diplomado
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=255)
+     * @Assert\NotBlank()
+     *
      */
     private $nombre;
 
     /**
-     * @ORM\OneToMany(targetEntity="Grupo", mappedBy="id")
+     * @ORM\OneToMany(targetEntity="Grupo", mappedBy="diplomado")
      **/
     private $grupos;
 
@@ -131,7 +134,7 @@ class Diplomado
     /**
      * Get activo
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getActivo()
     {
@@ -171,7 +174,7 @@ class Diplomado
     /**
      * Get grupos
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getGrupos()
     {

@@ -26,6 +26,11 @@ class Semilla extends Usuarios
   */
     protected $grupo;
 
+    /**
+    * @ORM\OneToMany(targetEntity="semilla_actividad", mappedBy="Semilla")
+    */
+    private $semilla_actividades;
+
   /**
   * @var bool
   *
