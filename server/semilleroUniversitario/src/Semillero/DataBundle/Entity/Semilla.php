@@ -14,10 +14,12 @@ use Semillero\DataBundle\Entity\Usuarios;
 *
 * @ORM\Table(name="semilla")
 * @ORM\Entity(repositoryClass="Semillero\DataBundle\Repository\SemillaRepository")
+* @UniqueEntity("numeroDocumento",message="Documento ya registrado")
 */
 class Semilla extends Usuarios
 {
 
+  protected $discr = 'semilla';
   /**
   * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="semillas")
   * @ORM\JoinColumn(name="grupo_id", referencedColumnName="id")
@@ -445,43 +447,10 @@ class Semilla extends Usuarios
     }
 
     /**
-     * Constructor
-     */
-    public function __construct()
+    * Get discriminator
+    */
+    public function getDiscr()
     {
-        $this->semilla_actividades = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add semilla_actividades
-     *
-     * @param \Semillero\DataBundle\Entity\semilla_actividad $semillaActividades
-     * @return Semilla
-     */
-    public function addSemillaActividade(\Semillero\DataBundle\Entity\semilla_actividad $semillaActividades)
-    {
-        $this->semilla_actividades[] = $semillaActividades;
-
-        return $this;
-    }
-
-    /**
-     * Remove semilla_actividades
-     *
-     * @param \Semillero\DataBundle\Entity\semilla_actividad $semillaActividades
-     */
-    public function removeSemillaActividade(\Semillero\DataBundle\Entity\semilla_actividad $semillaActividades)
-    {
-        $this->semilla_actividades->removeElement($semillaActividades);
-    }
-
-    /**
-     * Get semilla_actividades
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getSemillaActividades()
-    {
-        return $this->semilla_actividades;
+      return $this->discr;
     }
 }

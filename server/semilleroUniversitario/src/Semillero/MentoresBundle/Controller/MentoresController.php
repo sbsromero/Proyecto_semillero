@@ -241,4 +241,22 @@ class MentoresController extends Controller
     }
     return new Response('user not loggin',Response::HTTP_NOT_FOUND);
   }
+
+  /**
+  * @Route("/mentores/inactivarMentor/{dni}", name="inactivarMentor")
+  * @Method({"POST"})
+  */
+  public function inactivarMentorAction($dni)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $mentor = $em->getRepository('DataBundle:Mentor')->findOneByNumeroDocumento($dni);
+    if($mentor->getActivo()){
+      $mentor->setActivo("false");
+    }
+    else{
+      $mentor->setActivo("true");
+    }
+    $em->flush();
+    return new Response(Response::HTTP_OK);
+  }
 }
