@@ -14,10 +14,11 @@ use Semillero\DataBundle\Entity\Usuarios;
 *
 * @ORM\Table(name="mentor")
 * @ORM\Entity(repositoryClass="Semillero\DataBundle\Repository\MentorRepository")
+* @UniqueEntity("numeroDocumento",message="Documento ya registrado")
 */
 class Mentor extends Usuarios
 {
-
+  protected $discr = 'semilla';
   /**
   * @ORM\ManyToOne(targetEntity="TipoMentor", inversedBy="mentores")
   * @ORM\JoinColumn(name="id_tipo_mentor", referencedColumnName="id")
@@ -52,44 +53,53 @@ class Mentor extends Usuarios
   {
     return $this->tipoMentor;
   }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
-    /**
-     * Add grupos
-     *
-     * @param \Semillero\DataBundle\Entity\Grupo $grupos
-     * @return Mentor
-     */
-    public function addGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
-    {
-        $this->grupos[] = $grupos;
+  /**
+  * Constructor
+  */
+  public function __construct()
+  {
+    $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
+  }
 
-        return $this;
-    }
+  /**
+  * Add grupos
+  *
+  * @param \Semillero\DataBundle\Entity\Grupo $grupos
+  * @return Mentor
+  */
+  public function addGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
+  {
+    $this->grupos[] = $grupos;
 
-    /**
-     * Remove grupos
-     *
-     * @param \Semillero\DataBundle\Entity\Grupo $grupos
-     */
-    public function removeGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
-    {
-        $this->grupos->removeElement($grupos);
-    }
+    return $this;
+  }
 
-    /**
-     * Get grupos
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getGrupos()
-    {
-        return $this->grupos;
-    }
+  /**
+  * Remove grupos
+  *
+  * @param \Semillero\DataBundle\Entity\Grupo $grupos
+  */
+  public function removeGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
+  {
+    $this->grupos->removeElement($grupos);
+  }
+
+  /**
+  * Get grupos
+  *
+  * @return \Doctrine\Common\Collections\Collection
+  */
+  public function getGrupos()
+  {
+    return $this->grupos;
+  }
+
+  /**
+  * Get discriminator
+  */
+  public function getDiscr()
+  {
+    return $this->discr;
+  }
 }

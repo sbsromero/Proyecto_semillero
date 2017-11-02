@@ -15,7 +15,6 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 * @ORM\DiscriminatorColumn(name="discr", type="string")
 * @ORM\DiscriminatorMap({"mentor" = "Mentor", "semilla" = "Semilla"})
 * @UniqueEntity("email")
-* @UniqueEntity("numeroDocumento")
 */
 class Usuarios implements AdvancedUserInterface, \Serializable
 {
@@ -54,7 +53,7 @@ class Usuarios implements AdvancedUserInterface, \Serializable
   /**
   * @var string
   *
-  * @ORM\Column(name="numeroDocumento", type="string", length=255, unique=true)
+  * @ORM\Column(name="numeroDocumento", type="string", length=255)
   * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $numeroDocumento;

@@ -14,10 +14,12 @@ use Semillero\DataBundle\Entity\Usuarios;
 *
 * @ORM\Table(name="semilla")
 * @ORM\Entity(repositoryClass="Semillero\DataBundle\Repository\SemillaRepository")
+* @UniqueEntity("numeroDocumento",message="Documento ya registrado")
 */
 class Semilla extends Usuarios
 {
 
+  protected $discr = 'semilla';
   /**
   * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="semillas")
   * @ORM\JoinColumn(name="grupo_id", referencedColumnName="id")
@@ -437,5 +439,13 @@ class Semilla extends Usuarios
     public function getGrupo()
     {
         return $this->grupo;
+    }
+
+    /**
+    * Get discriminator
+    */
+    public function getDiscr()
+    {
+      return $this->discr;
     }
 }
