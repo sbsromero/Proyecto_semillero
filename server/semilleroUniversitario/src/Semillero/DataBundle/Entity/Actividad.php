@@ -36,7 +36,7 @@ class Actividad
     private $semilla_actividad;
 
     /**
-    * @ORM\ManyToOne(targetEntity="tipoActividad", inversedBy="actividades")
+    * @ORM\ManyToOne(targetEntity="TipoActividad", inversedBy="actividades")
     * @ORM\JoinColumn(name="id_tipo_actividad", referencedColumnName="id")
     * @Assert\NotBlank(message="Seleccione un tipo de actividad")
     */
@@ -235,7 +235,7 @@ class Actividad
     /**
      * Get tipoActividad
      *
-     * @return \Semillero\DataBundle\Entity\tipoActividad 
+     * @return \Semillero\DataBundle\Entity\tipoActividad
      */
     public function getTipoActividad()
     {

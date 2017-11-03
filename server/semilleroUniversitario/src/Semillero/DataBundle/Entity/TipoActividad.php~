@@ -29,7 +29,7 @@ class TipoActividad
     private $nombre;
 
     /**
-   * @ORM\OneToMany(targetEntity="actividad", mappedBy="tipoActividad")
+   * @ORM\OneToMany(targetEntity="Actividad", mappedBy="tipoActividad")
    **/
     private $actividades;
 
@@ -65,46 +65,5 @@ class TipoActividad
     public function getNombre()
     {
         return $this->nombre;
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->actividades = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add actividades
-     *
-     * @param \Semillero\DataBundle\Entity\actividad $actividades
-     * @return TipoActividad
-     */
-    public function addActividade(\Semillero\DataBundle\Entity\actividad $actividades)
-    {
-        $this->actividades[] = $actividades;
-
-        return $this;
-    }
-
-    /**
-     * Remove actividades
-     *
-     * @param \Semillero\DataBundle\Entity\actividad $actividades
-     */
-    public function removeActividade(\Semillero\DataBundle\Entity\actividad $actividades)
-    {
-        $this->actividades->removeElement($actividades);
-    }
-
-    /**
-     * Get actividades
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getActividades()
-    {
-        return $this->actividades;
     }
 }

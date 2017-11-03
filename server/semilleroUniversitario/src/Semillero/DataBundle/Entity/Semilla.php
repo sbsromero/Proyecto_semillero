@@ -31,6 +31,11 @@ class Semilla extends Usuarios
     */
     private $semilla_actividades;
 
+    /**
+    * @ORM\OneToMany(targetEntity="Semilla_Grupo", mappedBy="Semilla")
+    */
+    private $semilla_grupos;
+
   /**
   * @var bool
   *
@@ -452,5 +457,79 @@ class Semilla extends Usuarios
     public function getDiscr()
     {
       return $this->discr;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->semilla_actividades = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->semilla_grupos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add semilla_actividades
+     *
+     * @param \Semillero\DataBundle\Entity\semilla_actividad $semillaActividades
+     * @return Semilla
+     */
+    public function addSemillaActividade(\Semillero\DataBundle\Entity\semilla_actividad $semillaActividades)
+    {
+        $this->semilla_actividades[] = $semillaActividades;
+
+        return $this;
+    }
+
+    /**
+     * Remove semilla_actividades
+     *
+     * @param \Semillero\DataBundle\Entity\semilla_actividad $semillaActividades
+     */
+    public function removeSemillaActividade(\Semillero\DataBundle\Entity\semilla_actividad $semillaActividades)
+    {
+        $this->semilla_actividades->removeElement($semillaActividades);
+    }
+
+    /**
+     * Get semilla_actividades
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSemillaActividades()
+    {
+        return $this->semilla_actividades;
+    }
+
+    /**
+     * Add semilla_grupos
+     *
+     * @param \Semillero\DataBundle\Entity\Semilla_Grupo $semillaGrupos
+     * @return Semilla
+     */
+    public function addSemillaGrupo(\Semillero\DataBundle\Entity\Semilla_Grupo $semillaGrupos)
+    {
+        $this->semilla_grupos[] = $semillaGrupos;
+
+        return $this;
+    }
+
+    /**
+     * Remove semilla_grupos
+     *
+     * @param \Semillero\DataBundle\Entity\Semilla_Grupo $semillaGrupos
+     */
+    public function removeSemillaGrupo(\Semillero\DataBundle\Entity\Semilla_Grupo $semillaGrupos)
+    {
+        $this->semilla_grupos->removeElement($semillaGrupos);
+    }
+
+    /**
+     * Get semilla_grupos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSemillaGrupos()
+    {
+        return $this->semilla_grupos;
     }
 }
