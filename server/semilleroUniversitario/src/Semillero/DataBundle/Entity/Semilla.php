@@ -24,12 +24,12 @@ class Semilla extends Usuarios
   * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="semillas")
   * @ORM\JoinColumn(name="grupo_id", referencedColumnName="id")
   */
-    protected $grupo;
+  protected $grupo;
 
-    /**
-    * @ORM\OneToMany(targetEntity="semilla_actividad", mappedBy="Semilla")
-    */
-    private $semilla_actividades;
+  /**
+  * @ORM\OneToMany(targetEntity="semilla_actividad", mappedBy="Semilla")
+  */
+  private $semilla_actividades;
 
   /**
   * @var bool
@@ -423,34 +423,74 @@ class Semilla extends Usuarios
     return $this->observaciones;
   }
 
-    /**
-     * Set grupo
-     *
-     * @param \Semillero\DataBundle\Entity\Grupo $grupo
-     * @return Semilla
-     */
-    public function setGrupo(\Semillero\DataBundle\Entity\Grupo $grupo = null)
-    {
-        $this->grupo = $grupo;
+  /**
+  * Set grupo
+  *
+  * @param \Semillero\DataBundle\Entity\Grupo $grupo
+  * @return Semilla
+  */
+  public function setGrupo(\Semillero\DataBundle\Entity\Grupo $grupo = null)
+  {
+    $this->grupo = $grupo;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * Get grupo
-     *
-     * @return \Semillero\DataBundle\Entity\Grupo
-     */
-    public function getGrupo()
-    {
-        return $this->grupo;
-    }
+  /**
+  * Get grupo
+  *
+  * @return \Semillero\DataBundle\Entity\Grupo
+  */
+  public function getGrupo()
+  {
+    return $this->grupo;
+  }
 
-    /**
-    * Get discriminator
-    */
-    public function getDiscr()
-    {
-      return $this->discr;
-    }
+  /**
+  * Get discriminator
+  */
+  public function getDiscr()
+  {
+    return $this->discr;
+  }
+  /**
+  * Constructor
+  */
+  public function __construct()
+  {
+    $this->semilla_actividades = new \Doctrine\Common\Collections\ArrayCollection();
+  }
+
+  /**
+  * Add semilla_actividades
+  *
+  * @param \Semillero\DataBundle\Entity\semilla_actividad $semillaActividades
+  * @return Semilla
+  */
+  public function addSemillaActividade(\Semillero\DataBundle\Entity\semilla_actividad $semillaActividades)
+  {
+    $this->semilla_actividades[] = $semillaActividades;
+
+    return $this;
+  }
+
+  /**
+  * Remove semilla_actividades
+  *
+  * @param \Semillero\DataBundle\Entity\semilla_actividad $semillaActividades
+  */
+  public function removeSemillaActividade(\Semillero\DataBundle\Entity\semilla_actividad $semillaActividades)
+  {
+    $this->semilla_actividades->removeElement($semillaActividades);
+  }
+
+  /**
+  * Get semilla_actividades
+  *
+  * @return \Doctrine\Common\Collections\Collection
+  */
+  public function getSemillaActividades()
+  {
+    return $this->semilla_actividades;
+  }
 }

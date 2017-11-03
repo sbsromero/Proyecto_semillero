@@ -1,3 +1,8 @@
+parametros:
+    resource: "@ParametrosBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 services:
     resource: "@ServicesBundle/Controller/"
     type:     annotation

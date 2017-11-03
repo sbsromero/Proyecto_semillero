@@ -567,6 +567,6 @@ class Usuarios implements AdvancedUserInterface, \Serializable
 
     public function getFullName()
     {
-        return $this->nombre . " " . $this->apellidos;
+      return $this->nombre . " " . $this->apellidos;
     }
   }

@@ -1,0 +1,25 @@
+{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
+{% block body %}
+{{ parent() }}
+<div class="container">
+{% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
+{% block tab_parametros %}active{% endblock %}
+{% endembed %}
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="row" style="margin:0px;margin-bottom:20px">
+      <div class="col-md-7 col-lg-7" style="float: none; margin: 0 auto;">
+        <div class="row" style="margin:0px">
+          <div class="">
+            <div class="">
+              <img src="" alt="">
+            </div>
+          </div>
+        </div>
+        texto aqui
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}
