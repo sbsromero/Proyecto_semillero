@@ -1,6 +1,7 @@
 <?php
 
 namespace Semillero\DataBundle\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,9 +37,21 @@ class Semestre
     private $activo;
 
     /**
-     * @var \Date
+     * @var \DateTime
      *
      * @ORM\Column(name="anoSemestre", type="date")
+     * @Assert\NotBlank(message="Debe ingresar un año")
+     * @Assert\Regex(
+     *     pattern="/[0-9]/",
+     *     match=false,
+     *     message="Fecha no valida"
+     * )
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 4,
+     *      minMessage = "Año no valido",
+     *      maxMessage = "Año no valido"
+     * )
      */
     private $anoSemestre;
 
@@ -48,9 +61,19 @@ class Semestre
     private $grupos;
 
     /**
-    * @ORM\OneToMany(targetEntity="Segmento", mappedBy="semestre")
+    * @ORM\ManyToMany(targetEntity="Segmento", inversedBy="semestre")
+    * @ORM\JoinTable(name="Semestre_Segmento")
     */
     private $segmentos;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->segmentos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -130,14 +153,6 @@ class Semestre
     {
         return $this->anoSemestre;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->segmentos = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add grupos
@@ -175,10 +190,10 @@ class Semestre
     /**
      * Add segmentos
      *
-     * @param \Semillero\DataBundle\Entity\Segmento $segmentos
+     * @param \Semillero\DataBundle\Entity\Semestre_Segmento $segmentos
      * @return Semestre
      */
-    public function addSegmento(\Semillero\DataBundle\Entity\Segmento $segmentos)
+    public function addSegmento(\Semillero\DataBundle\Entity\Semestre_Segmento $segmentos)
     {
         $this->segmentos[] = $segmentos;
 
@@ -188,9 +203,9 @@ class Semestre
     /**
      * Remove segmentos
      *
-     * @param \Semillero\DataBundle\Entity\Segmento $segmentos
+     * @param \Semillero\DataBundle\Entity\Semestre_Segmento $segmentos
      */
-    public function removeSegmento(\Semillero\DataBundle\Entity\Segmento $segmentos)
+    public function removeSegmento(\Semillero\DataBundle\Entity\Semestre_Segmento $segmentos)
     {
         $this->segmentos->removeElement($segmentos);
     }

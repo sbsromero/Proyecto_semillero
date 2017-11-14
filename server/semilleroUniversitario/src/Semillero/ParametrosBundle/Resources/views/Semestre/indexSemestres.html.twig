@@ -1,0 +1,80 @@
+{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
+{% block body %}
+{{ parent() }}
+<div class="container">
+{% embed "AdminBundle:Shared:navBarAdmin.html.twig" %}
+{% block tab_parametros %}active{% endblock %}
+{% endembed %}
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="row" style="margin:0px;margin-bottom:20px">
+      <div class="col-md-9">
+        <div class="form-group form-inline">
+          <i class="glyphicon glyphicon-search"></i>
+          <input type="text" id="queryBusquedaSemestre" name="" value="" class="form-control">
+          <a class="btn btn-default btnMostrarSemestres" style="border-radius:20px">Mostrar todos</a>
+        </div>
+      </div>
+      <div class="col-md-3" align="right">
+        <a class="btn btn-default btnAddSemestre" data-toggle="modal" data-target="#modalAddSemestre">Agregar Semestre</a>
+      </div>
+    </div>
+    <div class="row" style="margin:0px">
+      <div class="table-responsive" id="tabla_semestres" data-pageCount="{{pageCount}}">
+        {% if pagination | length %}
+        <table id="tableItemsSemestres" class="table table-striped table-border table-hover table-responsive tablesorter" style="font-size:14px">
+          <thead style="background-color:#f8f8f8">
+            <tr>
+              <th rowspan="2" style="font-size:14px;text-align: center">Periodo</th>
+              <th rowspan="2" style="text-align:center;font-size:14px;text-align: center"> Año</th>
+              <th rowspan="1" colspan="1" style="text-align:center;font-size:14px;text-align: center">Acciones</th>
+            </tr>
+            <tr>
+              <th rowspan="1" style="text-align:center;font-size:14px">Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for semestre in pagination %}
+            <tr class="color-cells" data-id="{{semestre.id}}">
+              <td>{{semestre.periodo}}</td>
+              <td>{{semestre.anoSemestre | date('Y')}}</td>
+              <td align="center">
+                {% if semestre.activo  %}
+                <h3 style="display:none">1</h3>
+                <span id="tooltipActivo" data-toggle="tooltip" data-original-title="Activo" style="color:green">
+                  <i class="label label-success">Activo</i>
+                </span>
+                {% else %}
+                <h3 style="display:none">0</h3>
+                <span data-toggle="tooltip" data-original-title="Inactivo" style="color:#f16565">
+                  <i class="label label-danger">Inactivo</i>
+                </span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {#% else %#}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!--Modal agregar semestre-->
+<div class="modal fade" id="modalAddSemestre">
+  <div class="modal-dialog"  style="width: 800px" role="document">
+    <div class="modal-content">
+      <div class="modal-body body-modal" id ="contentAddSemestre">
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block javascript %}
+{{parent()}}
+<script src="{{asset('public/js/parametros.js')}}"></script>
+{% endblock %}

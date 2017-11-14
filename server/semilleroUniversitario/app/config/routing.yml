@@ -2,6 +2,8 @@ parametros:
     resource: "@ParametrosBundle/Controller/"
     type:     annotation
     prefix:   /
+    options:
+        expose: true
 
 services:
     resource: "@ServicesBundle/Controller/"

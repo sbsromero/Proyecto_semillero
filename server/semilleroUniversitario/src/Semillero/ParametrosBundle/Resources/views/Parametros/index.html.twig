@@ -8,15 +8,28 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <div class="row" style="margin:0px;margin-bottom:20px">
-      <div class="col-md-7 col-lg-7" style="float: none; margin: 0 auto;">
-        <div class="row" style="margin:0px">
-          <div class="">
-            <div class="">
-              <img src="{{asset('public/images/computador-oscuro.png')}}" alt="">
-            </div>
+      <div class="col-md-7 col-lg-7" style="float: none; margin: 0 auto; background-color:#f8f8f8;-webkit-box-shadow: 0px 0px 5px 2px #999;-moz-box-shadow: 0px 0px 5px 2px #999;filter: shadow(color=#999999, direction=135, strength=2);">
+        <div class="row" style="margin:0px; display:table; width:100%; margin-bottom:30px">
+          <div class="" align="right" style="display: table-cell;vertical-align: middle;width: 50%; padding-right: 20px;">
+            <img src="{{asset('public/images/computador-oscuro.png')}}" alt="" style="height:50px">
+          </div>
+          <div class="" align="left" style="display:table-cell; vertical-align:middle;width:50%">
+            <h4>Establecer parametros</h4>
           </div>
         </div>
-        texto aqui
+        <div class="row" style="margin:0px">
+          <div class="col-md-4 text-center">
+            <a href="{{path('indexSemestres')}}" class="btn btn-default" style="border-radius:20px; width:100%">
+              Semestres
+            </a>
+          </div>
+          <div class="col-md-4 text-center">
+            <a href="{{path('indexSegmentos')}}" class="btn btn-default" style="border-radius:20px; width:100%">
+              Segmentos
+            </a>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>

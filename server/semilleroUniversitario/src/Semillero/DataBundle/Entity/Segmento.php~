@@ -46,107 +46,76 @@ class Segmento
   private $encuentros;
 
   /**
-  * @ORM\ManyToOne(targetEntity="Semestre", inversedBy="segmentos")
-  * @ORM\JoinColumn(name="semestre_id",referencedColumnName="id")
+  * @ORM\ManyToMany(targetEntity="Semestre", mappedBy="segmento")
   */
-  private $semestre;
+  private $semestres;
 
 
-  /**
-  * Get id
-  *
-  * @return integer
-  */
-  public function getId()
-  {
-    return $this->id;
-  }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->encuentros = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->semestres = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
-  /**
-  * Set numeroSegmento
-  *
-  * @param integer $numeroSegmento
-  * @return Segmento
-  */
-  public function setNumeroSegmento($numeroSegmento)
-  {
-    $this->numeroSegmento = $numeroSegmento;
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-    return $this;
-  }
+    /**
+     * Set numeroSegmento
+     *
+     * @param integer $numeroSegmento
+     * @return Segmento
+     */
+    public function setNumeroSegmento($numeroSegmento)
+    {
+        $this->numeroSegmento = $numeroSegmento;
 
-  /**
-  * Get numeroSegmento
-  *
-  * @return integer
-  */
-  public function getNumeroSegmento()
-  {
-    return $this->numeroSegmento;
-  }
+        return $this;
+    }
 
-  /**
-  * Set activo
-  *
-  * @param boolean $activo
-  * @return Segmento
-  */
-  public function setActivo($activo)
-  {
-    $this->activo = $activo;
+    /**
+     * Get numeroSegmento
+     *
+     * @return integer
+     */
+    public function getNumeroSegmento()
+    {
+        return $this->numeroSegmento;
+    }
 
-    return $this;
-  }
+    /**
+     * Set activo
+     *
+     * @param boolean $activo
+     * @return Segmento
+     */
+    public function setActivo($activo)
+    {
+        $this->activo = $activo;
 
-  /**
-  * Get activo
-  *
-  * @return boolean
-  */
-  public function getActivo()
-  {
-    return $this->activo;
-  }
-  /**
-  * Constructor
-  */
-  public function __construct()
-  {
-    $this->encuentros = new \Doctrine\Common\Collections\ArrayCollection();
-  }
+        return $this;
+    }
 
-  /**
-  * Add encuentros
-  *
-  * @param \Semillero\DataBundle\Entity\Actividad $encuentros
-  * @return Segmento
-  */
-  public function addEncuentro(\Semillero\DataBundle\Entity\Actividad $encuentros)
-  {
-    $this->encuentros[] = $encuentros;
-
-    return $this;
-  }
-
-  /**
-  * Remove encuentros
-  *
-  * @param \Semillero\DataBundle\Entity\Actividad $encuentros
-  */
-  public function removeEncuentro(\Semillero\DataBundle\Entity\Actividad $encuentros)
-  {
-    $this->encuentros->removeElement($encuentros);
-  }
-
-  /**
-  * Get encuentros
-  *
-  * @return \Doctrine\Common\Collections\Collection
-  */
-  public function getEncuentros()
-  {
-    return $this->encuentros;
-  }
+    /**
+     * Get activo
+     *
+     * @return boolean
+     */
+    public function getActivo()
+    {
+        return $this->activo;
+    }
 
     /**
      * Add grupos
@@ -182,25 +151,68 @@ class Segmento
     }
 
     /**
-     * Set semestre
+     * Add encuentros
      *
-     * @param \Semillero\DataBundle\Entity\Semestre $semestre
+     * @param \Semillero\DataBundle\Entity\Encuentro $encuentros
      * @return Segmento
      */
-    public function setSemestre(\Semillero\DataBundle\Entity\Semestre $semestre = null)
+    public function addEncuentro(\Semillero\DataBundle\Entity\Encuentro $encuentros)
     {
-        $this->semestre = $semestre;
+        $this->encuentros[] = $encuentros;
 
         return $this;
     }
 
     /**
-     * Get semestre
+     * Remove encuentros
      *
-     * @return \Semillero\DataBundle\Entity\Semestre 
+     * @param \Semillero\DataBundle\Entity\Encuentro $encuentros
      */
-    public function getSemestre()
+    public function removeEncuentro(\Semillero\DataBundle\Entity\Encuentro $encuentros)
     {
-        return $this->semestre;
+        $this->encuentros->removeElement($encuentros);
+    }
+
+    /**
+     * Get encuentros
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEncuentros()
+    {
+        return $this->encuentros;
+    }
+
+    /**
+     * Add semestres
+     *
+     * @param \Semillero\DataBundle\Entity\Semestre_Segmento $semestres
+     * @return Segmento
+     */
+    public function addSemestre(\Semillero\DataBundle\Entity\Semestre_Segmento $semestres)
+    {
+        $this->semestres[] = $semestres;
+
+        return $this;
+    }
+
+    /**
+     * Remove semestres
+     *
+     * @param \Semillero\DataBundle\Entity\Semestre_Segmento $semestres
+     */
+    public function removeSemestre(\Semillero\DataBundle\Entity\Semestre_Segmento $semestres)
+    {
+        $this->semestres->removeElement($semestres);
+    }
+
+    /**
+     * Get semestres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSemestres()
+    {
+        return $this->semestres;
     }
 }

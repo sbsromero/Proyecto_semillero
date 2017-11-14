@@ -1,0 +1,35 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="row" style="margin:0px;padding-right: 30px;padding-top: 20px;">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+    </div>
+    <div class="row" style="margin:0px">
+      <div class="page-header" align="center">
+        <h3>Agregar semestre </h3>
+      </div>
+    </div>
+    <div class="row" style="margin:0px">
+      {{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form','id':'form_add_semestre'} }) }}
+        <div class="form-group">
+          {{ form_label(form.periodo) }}
+          {{ form_widget(form.periodo, { 'attr' : {'class' : 'form-control'} }) }}
+          <span class="text-danger">{{ form_errors(form.periodo) }}</span>
+        </div>
+        <div class="form-group">
+          {{form_label(form.anoSemestre,'Año semestre')}}
+          {{ form_widget(form.anoSemestre.year,{ 'attr': {'class' : 'form-control','placeholder' : 'Año del semestre'}})}}
+          <span class="text-danger">{{ form_errors(form.anoSemestre.year) }}</span>
+        </div>
+        <div class="checkbox">
+          <label>
+          {{ form_widget(form.activo) }}Activo
+          </label>
+        </div>
+        <p align="center">
+          <a class="btn btn-success btn-crearSemestre">Agregar semestre</a>
+        </p>
+      {{ form_widget(form._token) }}
+      {{ form_end(form, {'render_rest':false}) }}
+    </div>
+  </div>
+</div>
