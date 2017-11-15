@@ -35,10 +35,10 @@ class Segmento
   */
   private $activo;
 
-  /**
-  * @ORM\OneToMany(targetEntity="Grupo",mappedBy="segmento")
-  */
-  private $grupos;
+  // /**
+  // * @ORM\OneToMany(targetEntity="Grupo",mappedBy="segmento")
+  // */
+  // private $grupos;
 
   /**
   * @ORM\OneToMany(targetEntity="Encuentro", mappedBy="segmento")
@@ -46,7 +46,7 @@ class Segmento
   private $encuentros;
 
   /**
-  * @ORM\ManyToMany(targetEntity="Semestre", mappedBy="segmento")
+  * @ORM\ManyToMany(targetEntity="Semestre", mappedBy="segmentos")
   */
   private $semestres;
 
@@ -117,28 +117,28 @@ class Segmento
         return $this->activo;
     }
 
-    /**
-     * Add grupos
-     *
-     * @param \Semillero\DataBundle\Entity\Grupo $grupos
-     * @return Segmento
-     */
-    public function addGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
-    {
-        $this->grupos[] = $grupos;
+    // /**
+    //  * Add grupos
+    //  *
+    //  * @param \Semillero\DataBundle\Entity\Grupo $grupos
+    //  * @return Segmento
+    //  */
+    // public function addGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
+    // {
+    //     $this->grupos[] = $grupos;
+    //
+    //     return $this;
+    // }
 
-        return $this;
-    }
-
-    /**
-     * Remove grupos
-     *
-     * @param \Semillero\DataBundle\Entity\Grupo $grupos
-     */
-    public function removeGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
-    {
-        $this->grupos->removeElement($grupos);
-    }
+    // /**
+    //  * Remove grupos
+    //  *
+    //  * @param \Semillero\DataBundle\Entity\Grupo $grupos
+    //  */
+    // public function removeGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
+    // {
+    //     $this->grupos->removeElement($grupos);
+    // }
 
     /**
      * Get grupos

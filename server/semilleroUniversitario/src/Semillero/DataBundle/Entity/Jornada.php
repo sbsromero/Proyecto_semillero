@@ -30,7 +30,7 @@ class Jornada
   private $nombre;
 
   /**
-  * @ORM\OneToMany(targetEntity="Grupo", mappedBy="id")
+  * @ORM\OneToMany(targetEntity="Grupo", mappedBy="jornada")
   **/
   private $grupos;
 

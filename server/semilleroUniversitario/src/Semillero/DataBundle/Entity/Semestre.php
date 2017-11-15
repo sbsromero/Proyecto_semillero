@@ -61,7 +61,7 @@ class Semestre
     private $grupos;
 
     /**
-    * @ORM\ManyToMany(targetEntity="Segmento", inversedBy="semestre")
+    * @ORM\ManyToMany(targetEntity="Segmento", inversedBy="semestres")
     * @ORM\JoinTable(name="Semestre_Segmento")
     */
     private $segmentos;

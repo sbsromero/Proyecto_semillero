@@ -29,7 +29,7 @@ class Grupo
   private $diplomado;
 
   /**
-  * @ORM\OneToMany(targetEntity="Semilla", mappedBy="Grupo")
+  * @ORM\OneToMany(targetEntity="Semilla", mappedBy="grupo")
   */
   private $semillas;
 
@@ -322,7 +322,7 @@ class Grupo
     /**
      * Get semestre
      *
-     * @return \Semillero\DataBundle\Entity\Semestre 
+     * @return \Semillero\DataBundle\Entity\Semestre
      */
     public function getSemestre()
     {
