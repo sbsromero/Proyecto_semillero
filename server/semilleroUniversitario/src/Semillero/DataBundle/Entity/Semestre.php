@@ -187,28 +187,28 @@ class Semestre
         return $this->grupos;
     }
 
-    /**
-     * Add segmentos
-     *
-     * @param \Semillero\DataBundle\Entity\Semestre_Segmento $segmentos
-     * @return Semestre
-     */
-    public function addSegmento(\Semillero\DataBundle\Entity\Semestre_Segmento $segmentos)
-    {
-        $this->segmentos[] = $segmentos;
-
-        return $this;
-    }
-
-    /**
-     * Remove segmentos
-     *
-     * @param \Semillero\DataBundle\Entity\Semestre_Segmento $segmentos
-     */
-    public function removeSegmento(\Semillero\DataBundle\Entity\Semestre_Segmento $segmentos)
-    {
-        $this->segmentos->removeElement($segmentos);
-    }
+    // /**
+    //  * Add segmentos
+    //  *
+    //  * @param \Semillero\DataBundle\Entity\Semestre_Segmento $segmentos
+    //  * @return Semestre
+    //  */
+    // public function addSegmento(\Semillero\DataBundle\Entity\Semestre_Segmento $segmentos)
+    // {
+    //     $this->segmentos[] = $segmentos;
+    //
+    //     return $this;
+    // }
+    // 
+    // /**
+    //  * Remove segmentos
+    //  *
+    //  * @param \Semillero\DataBundle\Entity\Semestre_Segmento $segmentos
+    //  */
+    // public function removeSegmento(\Semillero\DataBundle\Entity\Semestre_Segmento $segmentos)
+    // {
+    //     $this->segmentos->removeElement($segmentos);
+    // }
 
     /**
      * Get segmentos
