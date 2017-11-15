@@ -20,6 +20,7 @@ class Semilla extends Usuarios
 {
 
   protected $discr = 'semilla';
+
   /**
   * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="semillas")
   * @ORM\JoinColumn(name="grupo_id", referencedColumnName="id")
@@ -27,7 +28,7 @@ class Semilla extends Usuarios
   protected $grupo;
 
   /**
-  * @ORM\OneToMany(targetEntity="semilla_actividad", mappedBy="Semilla")
+  * @ORM\OneToMany(targetEntity="semilla_actividad", mappedBy="semilla")
   */
   private $semilla_actividades;
 

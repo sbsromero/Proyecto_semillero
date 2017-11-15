@@ -29,7 +29,7 @@ class TipoMentor
   private $nombre;
 
   /**
-  * @ORM\OneToMany(targetEntity="Mentor", mappedBy="tipoDocumento")
+  * @ORM\OneToMany(targetEntity="Mentor", mappedBy="tipoMentor")
   **/
   private $mentores;
 

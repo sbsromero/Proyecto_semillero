@@ -27,7 +27,7 @@ class Mentor extends Usuarios
   private $tipoMentor;
 
   /**
-  * @ORM\OneToMany(targetEntity="Grupo", mappedBy="Mentor")
+  * @ORM\OneToMany(targetEntity="Grupo", mappedBy="mentor")
   */
   private $grupos;
 

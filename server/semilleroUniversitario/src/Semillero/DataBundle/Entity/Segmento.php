@@ -182,29 +182,29 @@ class Segmento
     {
         return $this->encuentros;
     }
+    // 
+    // /**
+    //  * Add semestres
+    //  *
+    //  * @param \Semillero\DataBundle\Entity\Semestre_Segmento $semestres
+    //  * @return Segmento
+    //  */
+    // public function addSemestre(\Semillero\DataBundle\Entity\Semestre_Segmento $semestres)
+    // {
+    //     $this->semestres[] = $semestres;
+    //
+    //     return $this;
+    // }
 
-    /**
-     * Add semestres
-     *
-     * @param \Semillero\DataBundle\Entity\Semestre_Segmento $semestres
-     * @return Segmento
-     */
-    public function addSemestre(\Semillero\DataBundle\Entity\Semestre_Segmento $semestres)
-    {
-        $this->semestres[] = $semestres;
-
-        return $this;
-    }
-
-    /**
-     * Remove semestres
-     *
-     * @param \Semillero\DataBundle\Entity\Semestre_Segmento $semestres
-     */
-    public function removeSemestre(\Semillero\DataBundle\Entity\Semestre_Segmento $semestres)
-    {
-        $this->semestres->removeElement($semestres);
-    }
+    // /**
+    //  * Remove semestres
+    //  *
+    //  * @param \Semillero\DataBundle\Entity\Semestre_Segmento $semestres
+    //  */
+    // public function removeSemestre(\Semillero\DataBundle\Entity\Semestre_Segmento $semestres)
+    // {
+    //     $this->semestres->removeElement($semestres);
+    // }
 
     /**
      * Get semestres
