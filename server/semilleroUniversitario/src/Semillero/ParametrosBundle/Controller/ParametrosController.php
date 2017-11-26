@@ -121,6 +121,7 @@ class ParametrosController extends Controller
     return $this->redirectToRoute('adminLogin');
   }
 
+  //Metodo que inactiva un semestre
   /**
   * @Route("/semestre/inactivarSemestre/{id}", name="inactivarSemestre")
   * @Method({"POST"})
