@@ -32,7 +32,7 @@ $(document).ready(function(){
       },
       callback: function (result) {
         if(result){
-          eliminarMentor(id).done(function(){
+          eliminarMentor(id).done(function(data){
             toastr.success("Se ha eliminado el mentor de manera correcta");
             window.setTimeout(function(){
               window.location.href = Routing.generate('indexMentores');

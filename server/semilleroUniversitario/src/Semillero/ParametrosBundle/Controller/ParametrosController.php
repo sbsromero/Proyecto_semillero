@@ -58,7 +58,8 @@ class ParametrosController extends Controller
       $semestre = new Semestre();
       $form = $this->createAddSemestreForm($semestre);
       return $this->render('ParametrosBundle:Semestre:addSemestre.html.twig',array(
-        'form' => $form->createView()
+        'form' => $form->createView(),
+        'error' => false
       ));
     }
     return $this->redirectToRoute('adminLogin');
@@ -69,40 +70,76 @@ class ParametrosController extends Controller
   * @Method({"POST"})
   */
   public function crearSemestre(Request $request){
-    $semestre = new Semestre();
-    $form = $this->createAddSemestreForm($semestre);
-
-
-    // $anoSemestre = $request->request->get('semestre')['anoSemestre'];
-    // $semestreModificado = $request->request->get('semestre');
-    // $semestreModificado['anoSemestre'] = (new \DateTime("01-01-".$anoSemestre))->format('yyyy');
-    // $request->request->set('semestre',$semestreModificado);
-
-    $form->handleRequest($request);
-    // dump($request->request->all(),$form->isValid());exit();
     $em = $this->getDoctrine()->getManager();
-    $segmentos = $em->getRepository('DataBundle:Segmento')->findAll();
-    
-    dump($form->get('periodo')->isValid(),
-    $form->get('activo')->isValid(),
-    $form->get('anoSemestre')->isValid(),
-    $form->isValid());exit();
+    $semestre = new Semestre();
 
+    $semestreRequest = $request->request->get('semestre');
+    $semestreRequest['anoSemestre']['month'] = "1";
+    $semestreRequest['anoSemestre']['day'] = "1";
+
+    $request->request->set('semestre',$semestreRequest);
+
+    $form = $this->createAddSemestreForm($semestre);
+    $form->handleRequest($request);
     if($form->isValid()){
-      for ($i=0; $i < 4 ; $i++) {
-        $Semestre->addSegmento($segmentos[$i]);
-      }
-      $em = $this->getDoctrine()->getManager();
-      $em -> persist($semestre);
-      $em -> flush();
+      $periodo = $semestre->getPeriodo();
+      $año = $semestre->getAnoSemestre()->format('Y');
 
-      return new Response(Response::HTTP_OK);
+      $res = $em->getRepository('DataBundle:Semestre')->validarCreacionSemestre($periodo,$año);
+      if(empty($res)){
+        $em -> persist($semestre);
+        $em -> flush();
+        return new Response(Response::HTTP_OK);
+      }
+      return new Response($this->renderView('ParametrosBundle:Semestre:addSemestre.html.twig',array(
+        'form' =>$form->createView(),
+        'error' => true
+      )),400);
     }
+
     return new Response($this->renderView('ParametrosBundle:Semestre:addSemestre.html.twig',array(
-      'form' =>$form->createView()
+      'form' =>$form->createView(),
+      'error' => false
     )),400);
   }
 
+  /**
+  * @Route("/semestre/activarSemestre/{id}", name="activarSemestre")
+  * @Method({"POST"})
+  */
+  public function activarSemestre(Request $request,$id){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      if ($request->isXmlHttpRequest()) {
+        $em = $this->getDoctrine()->getManager();
+        $semestre = $em->getRepository('DataBundle:Semestre')->find($id);
+        $semestre->setActivo(true);
+        $em->flush();
+        return new Response(Response::HTTP_OK);
+      }
+      return $this->redirectToRoute('indexSemestres');
+    }
+    return $this->redirectToRoute('adminLogin');
+  }
+
+  /**
+  * @Route("/semestre/inactivarSemestre/{id}", name="inactivarSemestre")
+  * @Method({"POST"})
+  */
+  public function inactivarSemestre(Request $request,$id){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      if ($request->isXmlHttpRequest()) {
+        $em = $this->getDoctrine()->getManager();
+        $semestre = $em->getRepository('DataBundle:Semestre')->find($id);
+        $semestre->setActivo(false);
+        $em->flush();
+        return new Response(Response::HTTP_OK);
+      }
+      return $this->redirectToRoute('indexSemestres');
+    }
+    return $this->redirectToRoute('adminLogin');
+  }
+
+  //Crea el formulario para registrar un semestre partiendo de la entidad semestre
   private function createAddSemestreForm(Semestre $entity)
   {
     $form = $this-> createForm(new SemestreType(),$entity, array (

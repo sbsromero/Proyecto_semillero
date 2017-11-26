@@ -41,13 +41,13 @@
               <td align="center">
                 {% if semestre.activo  %}
                 <h3 style="display:none">1</h3>
-                <span id="tooltipActivo" data-toggle="tooltip" data-original-title="Activo" style="color:green">
-                  <i class="label label-success">Activo</i>
+                <span id="tooltipActivo" data-toggle="tooltip" data-original-title="Inactivar" style="color:green;cursor:pointer">
+                  <i class="label label-success inactivarSemestre">Activo</i>
                 </span>
                 {% else %}
                 <h3 style="display:none">0</h3>
-                <span data-toggle="tooltip" data-original-title="Inactivo" style="color:#f16565">
-                  <i class="label label-danger">Inactivo</i>
+                <span data-toggle="tooltip" data-original-title="Activar" style="color:#f16565;cursor:pointer">
+                  <i class="label label-danger activarSemestre">Inactivo</i>
                 </span>
                 {% endif %}
               </td>

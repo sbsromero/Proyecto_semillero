@@ -230,7 +230,7 @@ class MentoresController extends Controller
       if ($request->isXmlHttpRequest()) {
         $em = $this->getDoctrine()->getManager();
         $mentor = $em->getRepository('DataBundle:Mentor')->find($id);
-        if(empty($mentor->getGrupos())){
+        if(count($mentor->getGrupos())==0){
           $em->remove($mentor);
           $em->flush();
           return new Response(Response::HTTP_OK);

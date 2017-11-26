@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class SemestreRepository extends EntityRepository
 {
+
+  //Metodo que valida si un semestre ya ha sido creado con su respectivo periodo
+  public function validarCreacionSemestre($periodo,$ano){
+    return $this->getEntityManager()
+    ->createQuery('SELECT s from DataBundle:Semestre s WHERE s.periodo = :periodo and
+       CAST(YEAR(s.anoSemestre) as string) like :ano')
+       ->setParameter('periodo',$periodo)
+       ->setParameter('ano',$ano)
+       ->getResult();
+  }
 }
