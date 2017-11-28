@@ -215,4 +215,27 @@ class Segmento
     {
         return $this->semestres;
     }
+
+    /**
+     * Add semestres
+     *
+     * @param \Semillero\DataBundle\Entity\Semestre $semestres
+     * @return Segmento
+     */
+    public function addSemestre(\Semillero\DataBundle\Entity\Semestre $semestres)
+    {
+        $this->semestres[] = $semestres;
+
+        return $this;
+    }
+
+    /**
+     * Remove semestres
+     *
+     * @param \Semillero\DataBundle\Entity\Semestre $semestres
+     */
+    public function removeSemestre(\Semillero\DataBundle\Entity\Semestre $semestres)
+    {
+        $this->semestres->removeElement($semestres);
+    }
 }

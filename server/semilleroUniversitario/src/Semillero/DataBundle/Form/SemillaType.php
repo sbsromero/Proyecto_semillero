@@ -52,13 +52,13 @@ class SemillaType extends AbstractType
         ->add('acudienteDos')
         ->add('direccionAcudienteDos')
         ->add('telefonoAcudienteDos')
-        ->add('observaciones')
-        ->add('grupo','entity',array(
-          'class' => 'DataBundle:Grupo',
-          'choice_label' => function ($grupo) {
-            return $grupo->getFullNameGrupo()." - ".$grupo->getDiplomado()->getNombre();
-          }
-        ))
+        // ->add('observaciones')
+        // ->add('grupos','entity',array(
+        //   'class' => 'DataBundle:Grupo',
+        //   'choice_label' => function ($grupo) {
+        //     return $grupo->getDiplomado()->getNombre();
+        //   }
+        // ))
         ->add('save','submit', array('label' => 'Guardar Semilla'));
     }
 

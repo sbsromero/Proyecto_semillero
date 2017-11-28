@@ -51,7 +51,8 @@
               <td id="dniSemilla-{{semilla.id}}" value="{{semilla.numeroDocumento}}">{{ semilla.numeroDocumento}}</td>
               <td>{{ semilla.fechaNacimiento | date('d-m-Y') }}</td>
               <td>{{ semilla.numeroCelular}}</td>
-              <td>{{ semilla.grupo.diplomado.nombre}} {{ semilla.grupo.nombre}}</td>
+              <td>{{dump("cambiando semilla grupo")}}</td>
+              <!-- <td>{#{ semilla.grupo.diplomado.nombre}#} {#{ semilla.grupo.nombre}#}</td> -->
               <td align="center">
                 {% if semilla.isFacebook %}
                 <span id="tooltipActivo" data-toggle="tooltip" data-original-title="Si" style="color:green">

@@ -31,6 +31,7 @@
 							<th rowspan="2" style="font-size:14px">Jornada</th>
 							<th rowspan="2" style="font-size:14px">Fecha De Creación</th>
 							<th rowspan="2" style="font-size:14px">Mentor</th>
+              <th rowspan="2" colspan="2" style="font-size:14px">Estudiantes</th>
 							<th rowspan="2" style="font-size:14px">Activo</th>
               <th rowspan="1" colspan="3" style="text-align:center; font-size:14px">Acciones</th>
             </tr>
@@ -48,6 +49,13 @@
               <td>{{ grupo.jornada.nombre}}</td>
 	            <td>{{ grupo.fechaCreacion | date('d-m-Y') }}</td>
 							<td>{{ grupo.mentor.fullName }}</td>
+              <td align="right">{{ grupo.getSemillas() | length }}</td>
+              <td align="">
+                <a href="#">
+                  <img src="{{asset('public/images/icon-pdf.png')}}" style="height:25px" alt="">
+                </a>
+              </td>
+
 							 <td align="center">
 								 {% if grupo.activo == '1'%}
                  <h3 style="display:none">1</h3>

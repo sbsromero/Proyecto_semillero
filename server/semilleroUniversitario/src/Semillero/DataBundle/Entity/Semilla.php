@@ -22,10 +22,9 @@ class Semilla extends Usuarios
   protected $discr = 'semilla';
 
   /**
-  * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="semillas")
-  * @ORM\JoinColumn(name="grupo_id", referencedColumnName="id")
+  * @ORM\OneToMany(targetEntity="Semilla_Grupo", mappedBy="semilla")
   */
-  protected $grupo;
+  private $grupos;
 
   /**
   * @ORM\OneToMany(targetEntity="semilla_actividad", mappedBy="semilla")
@@ -123,375 +122,377 @@ class Semilla extends Usuarios
   * @ORM\Column(name="observaciones", type="string", length=255)
   */
   private $observaciones;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->semilla_actividades = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Set isFacebook
+     *
+     * @param boolean $isFacebook
+     * @return Semilla
+     */
+    public function setIsFacebook($isFacebook)
+    {
+        $this->isFacebook = $isFacebook;
 
-  /**
-  * Set isFacebook
-  *
-  * @param boolean $isFacebook
-  * @return Semilla
-  */
-  public function setIsFacebook($isFacebook)
-  {
-    $this->isFacebook = $isFacebook;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Get isFacebook
+     *
+     * @return boolean
+     */
+    public function getIsFacebook()
+    {
+        return $this->isFacebook;
+    }
 
-  /**
-  * Get isFacebook
-  *
-  * @return boolean
-  */
-  public function getIsFacebook()
-  {
-    return $this->isFacebook;
-  }
+    /**
+     * Set emailFacebook
+     *
+     * @param string $emailFacebook
+     * @return Semilla
+     */
+    public function setEmailFacebook($emailFacebook)
+    {
+        $this->emailFacebook = $emailFacebook;
 
-  /**
-  * Set emailFacebook
-  *
-  * @param string $emailFacebook
-  * @return Semilla
-  */
-  public function setEmailFacebook($emailFacebook)
-  {
-    $this->emailFacebook = $emailFacebook;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Get emailFacebook
+     *
+     * @return string
+     */
+    public function getEmailFacebook()
+    {
+        return $this->emailFacebook;
+    }
 
-  /**
-  * Get emailFacebook
-  *
-  * @return string
-  */
-  public function getEmailFacebook()
-  {
-    return $this->emailFacebook;
-  }
+    /**
+     * Set isWhatsapp
+     *
+     * @param boolean $isWhatsapp
+     * @return Semilla
+     */
+    public function setIsWhatsapp($isWhatsapp)
+    {
+        $this->isWhatsapp = $isWhatsapp;
 
-  /**
-  * Set isWhatsapp
-  *
-  * @param boolean $isWhatsapp
-  * @return Semilla
-  */
-  public function setIsWhatsapp($isWhatsapp)
-  {
-    $this->isWhatsapp = $isWhatsapp;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Get isWhatsapp
+     *
+     * @return boolean
+     */
+    public function getIsWhatsapp()
+    {
+        return $this->isWhatsapp;
+    }
 
-  /**
-  * Get isWhatsapp
-  *
-  * @return boolean
-  */
-  public function getIsWhatsapp()
-  {
-    return $this->isWhatsapp;
-  }
+    /**
+     * Set gradoEscolarActual
+     *
+     * @param string $gradoEscolarActual
+     * @return Semilla
+     */
+    public function setGradoEscolarActual($gradoEscolarActual)
+    {
+        $this->gradoEscolarActual = $gradoEscolarActual;
 
-  /**
-  * Set gradoEscolarActual
-  *
-  * @param string $gradoEscolarActual
-  * @return Semilla
-  */
-  public function setGradoEscolarActual($gradoEscolarActual)
-  {
-    $this->gradoEscolarActual = $gradoEscolarActual;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Get gradoEscolarActual
+     *
+     * @return string
+     */
+    public function getGradoEscolarActual()
+    {
+        return $this->gradoEscolarActual;
+    }
 
-  /**
-  * Get gradoEscolarActual
-  *
-  * @return string
-  */
-  public function getGradoEscolarActual()
-  {
-    return $this->gradoEscolarActual;
-  }
+    /**
+     * Set colegio
+     *
+     * @param string $colegio
+     * @return Semilla
+     */
+    public function setColegio($colegio)
+    {
+        $this->colegio = $colegio;
 
-  /**
-  * Set colegio
-  *
-  * @param string $colegio
-  * @return Semilla
-  */
-  public function setColegio($colegio)
-  {
-    $this->colegio = $colegio;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Get colegio
+     *
+     * @return string
+     */
+    public function getColegio()
+    {
+        return $this->colegio;
+    }
 
-  /**
-  * Get colegio
-  *
-  * @return string
-  */
-  public function getColegio()
-  {
-    return $this->colegio;
-  }
+    /**
+     * Set enfermedades
+     *
+     * @param string $enfermedades
+     * @return Semilla
+     */
+    public function setEnfermedades($enfermedades)
+    {
+        $this->enfermedades = $enfermedades;
 
-  /**
-  * Set enfermedades
-  *
-  * @param string $enfermedades
-  * @return Semilla
-  */
-  public function setEnfermedades($enfermedades)
-  {
-    $this->enfermedades = $enfermedades;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Get enfermedades
+     *
+     * @return string
+     */
+    public function getEnfermedades()
+    {
+        return $this->enfermedades;
+    }
 
-  /**
-  * Get enfermedades
-  *
-  * @return string
-  */
-  public function getEnfermedades()
-  {
-    return $this->enfermedades;
-  }
+    /**
+     * Set acudienteUno
+     *
+     * @param string $acudienteUno
+     * @return Semilla
+     */
+    public function setAcudienteUno($acudienteUno)
+    {
+        $this->acudienteUno = $acudienteUno;
 
-  /**
-  * Set acudienteUno
-  *
-  * @param string $acudienteUno
-  * @return Semilla
-  */
-  public function setAcudienteUno($acudienteUno)
-  {
-    $this->acudienteUno = $acudienteUno;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Get acudienteUno
+     *
+     * @return string
+     */
+    public function getAcudienteUno()
+    {
+        return $this->acudienteUno;
+    }
 
-  /**
-  * Get acudienteUno
-  *
-  * @return string
-  */
-  public function getAcudienteUno()
-  {
-    return $this->acudienteUno;
-  }
+    /**
+     * Set direccionAcudienteUno
+     *
+     * @param string $direccionAcudienteUno
+     * @return Semilla
+     */
+    public function setDireccionAcudienteUno($direccionAcudienteUno)
+    {
+        $this->direccionAcudienteUno = $direccionAcudienteUno;
 
-  /**
-  * Set direccionAcudienteUno
-  *
-  * @param string $direccionAcudienteUno
-  * @return Semilla
-  */
-  public function setDireccionAcudienteUno($direccionAcudienteUno)
-  {
-    $this->direccionAcudienteUno = $direccionAcudienteUno;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Get direccionAcudienteUno
+     *
+     * @return string
+     */
+    public function getDireccionAcudienteUno()
+    {
+        return $this->direccionAcudienteUno;
+    }
 
-  /**
-  * Get direccionAcudienteUno
-  *
-  * @return string
-  */
-  public function getDireccionAcudienteUno()
-  {
-    return $this->direccionAcudienteUno;
-  }
+    /**
+     * Set telefonoAcudienteUno
+     *
+     * @param string $telefonoAcudienteUno
+     * @return Semilla
+     */
+    public function setTelefonoAcudienteUno($telefonoAcudienteUno)
+    {
+        $this->telefonoAcudienteUno = $telefonoAcudienteUno;
 
-  /**
-  * Set telefonoAcudienteUno
-  *
-  * @param string $telefonoAcudienteUno
-  * @return Semilla
-  */
-  public function setTelefonoAcudienteUno($telefonoAcudienteUno)
-  {
-    $this->telefonoAcudienteUno = $telefonoAcudienteUno;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Get telefonoAcudienteUno
+     *
+     * @return string
+     */
+    public function getTelefonoAcudienteUno()
+    {
+        return $this->telefonoAcudienteUno;
+    }
 
-  /**
-  * Get telefonoAcudienteUno
-  *
-  * @return string
-  */
-  public function getTelefonoAcudienteUno()
-  {
-    return $this->telefonoAcudienteUno;
-  }
+    /**
+     * Set acudienteDos
+     *
+     * @param string $acudienteDos
+     * @return Semilla
+     */
+    public function setAcudienteDos($acudienteDos)
+    {
+        $this->acudienteDos = $acudienteDos;
 
-  /**
-  * Set acudienteDos
-  *
-  * @param string $acudienteDos
-  * @return Semilla
-  */
-  public function setAcudienteDos($acudienteDos)
-  {
-    $this->acudienteDos = $acudienteDos;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Get acudienteDos
+     *
+     * @return string
+     */
+    public function getAcudienteDos()
+    {
+        return $this->acudienteDos;
+    }
 
-  /**
-  * Get acudienteDos
-  *
-  * @return string
-  */
-  public function getAcudienteDos()
-  {
-    return $this->acudienteDos;
-  }
+    /**
+     * Set direccionAcudienteDos
+     *
+     * @param string $direccionAcudienteDos
+     * @return Semilla
+     */
+    public function setDireccionAcudienteDos($direccionAcudienteDos)
+    {
+        $this->direccionAcudienteDos = $direccionAcudienteDos;
 
-  /**
-  * Set direccionAcudienteDos
-  *
-  * @param string $direccionAcudienteDos
-  * @return Semilla
-  */
-  public function setDireccionAcudienteDos($direccionAcudienteDos)
-  {
-    $this->direccionAcudienteDos = $direccionAcudienteDos;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Get direccionAcudienteDos
+     *
+     * @return string
+     */
+    public function getDireccionAcudienteDos()
+    {
+        return $this->direccionAcudienteDos;
+    }
 
-  /**
-  * Get direccionAcudienteDos
-  *
-  * @return string
-  */
-  public function getDireccionAcudienteDos()
-  {
-    return $this->direccionAcudienteDos;
-  }
+    /**
+     * Set telefonoAcudienteDos
+     *
+     * @param string $telefonoAcudienteDos
+     * @return Semilla
+     */
+    public function setTelefonoAcudienteDos($telefonoAcudienteDos)
+    {
+        $this->telefonoAcudienteDos = $telefonoAcudienteDos;
 
-  /**
-  * Set telefonoAcudienteDos
-  *
-  * @param string $telefonoAcudienteDos
-  * @return Semilla
-  */
-  public function setTelefonoAcudienteDos($telefonoAcudienteDos)
-  {
-    $this->telefonoAcudienteDos = $telefonoAcudienteDos;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Get telefonoAcudienteDos
+     *
+     * @return string
+     */
+    public function getTelefonoAcudienteDos()
+    {
+        return $this->telefonoAcudienteDos;
+    }
 
-  /**
-  * Get telefonoAcudienteDos
-  *
-  * @return string
-  */
-  public function getTelefonoAcudienteDos()
-  {
-    return $this->telefonoAcudienteDos;
-  }
+    /**
+     * Set observaciones
+     *
+     * @param string $observaciones
+     * @return Semilla
+     */
+    public function setObservaciones($observaciones)
+    {
+        $this->observaciones = $observaciones;
 
-  /**
-  * Set observaciones
-  *
-  * @param string $observaciones
-  * @return Semilla
-  */
-  public function setObservaciones($observaciones)
-  {
-    $this->observaciones = $observaciones;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Get observaciones
+     *
+     * @return string
+     */
+    public function getObservaciones()
+    {
+        return $this->observaciones;
+    }
 
-  /**
-  * Get observaciones
-  *
-  * @return string
-  */
-  public function getObservaciones()
-  {
-    return $this->observaciones;
-  }
+    /**
+     * Add grupos
+     *
+     * @param \Semillero\DataBundle\Entity\Semilla_Grupo $grupos
+     * @return Semilla
+     */
+    public function addGrupo(\Semillero\DataBundle\Entity\Semilla_Grupo $grupos)
+    {
+        $this->grupos[] = $grupos;
 
-  /**
-  * Set grupo
-  *
-  * @param \Semillero\DataBundle\Entity\Grupo $grupo
-  * @return Semilla
-  */
-  public function setGrupo(\Semillero\DataBundle\Entity\Grupo $grupo = null)
-  {
-    $this->grupo = $grupo;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Remove grupos
+     *
+     * @param \Semillero\DataBundle\Entity\Semilla_Grupo $grupos
+     */
+    public function removeGrupo(\Semillero\DataBundle\Entity\Semilla_Grupo $grupos)
+    {
+        $this->grupos->removeElement($grupos);
+    }
 
-  /**
-  * Get grupo
-  *
-  * @return \Semillero\DataBundle\Entity\Grupo
-  */
-  public function getGrupo()
-  {
-    return $this->grupo;
-  }
+    /**
+     * Get grupos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGrupos()
+    {
+        return $this->grupos;
+    }
 
-  /**
-  * Get discriminator
-  */
-  public function getDiscr()
-  {
-    return $this->discr;
-  }
-  /**
-  * Constructor
-  */
-  public function __construct()
-  {
-    $this->semilla_actividades = new \Doctrine\Common\Collections\ArrayCollection();
-  }
+    /**
+     * Add semilla_actividades
+     *
+     * @param \Semillero\DataBundle\Entity\semilla_actividad $semillaActividades
+     * @return Semilla
+     */
+    public function addSemillaActividade(\Semillero\DataBundle\Entity\semilla_actividad $semillaActividades)
+    {
+        $this->semilla_actividades[] = $semillaActividades;
 
-  /**
-  * Add semilla_actividades
-  *
-  * @param \Semillero\DataBundle\Entity\semilla_actividad $semillaActividades
-  * @return Semilla
-  */
-  public function addSemillaActividade(\Semillero\DataBundle\Entity\semilla_actividad $semillaActividades)
-  {
-    $this->semilla_actividades[] = $semillaActividades;
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Remove semilla_actividades
+     *
+     * @param \Semillero\DataBundle\Entity\semilla_actividad $semillaActividades
+     */
+    public function removeSemillaActividade(\Semillero\DataBundle\Entity\semilla_actividad $semillaActividades)
+    {
+        $this->semilla_actividades->removeElement($semillaActividades);
+    }
 
-  /**
-  * Remove semilla_actividades
-  *
-  * @param \Semillero\DataBundle\Entity\semilla_actividad $semillaActividades
-  */
-  public function removeSemillaActividade(\Semillero\DataBundle\Entity\semilla_actividad $semillaActividades)
-  {
-    $this->semilla_actividades->removeElement($semillaActividades);
-  }
-
-  /**
-  * Get semilla_actividades
-  *
-  * @return \Doctrine\Common\Collections\Collection
-  */
-  public function getSemillaActividades()
-  {
-    return $this->semilla_actividades;
-  }
+    /**
+     * Get semilla_actividades
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSemillaActividades()
+    {
+        return $this->semilla_actividades;
+    }
 }

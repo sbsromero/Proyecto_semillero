@@ -179,12 +179,12 @@
 				</div>
 			</div>
 			{{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form'} }) }}
-			<div class="row" style="margin:0px">
-				<div class="col-md-6" align="center">
+			<div class="row" style="margin:0px" align="center">
+				<div class="col-md-6" style="float:none">
 					<div class="form-group">
-							{{ form_label(form.grupo) }}
-							{{ form_widget(form.grupo, { 'attr' : {'class' : 'form-control'} }) }}
-							<span class="text-danger">{{ form_errors(form.grupo) }}</span>
+							{{ form_label(form.grupos) }}
+							{{ form_widget(form.grupos, { 'attr' : {'class' : 'form-control'} }) }}
+							<span class="text-danger">{{ form_errors(form.grupos) }}</span>
 					</div>
 					<h3>OBERVACIONES</h3>
 					<div class="form-group">
