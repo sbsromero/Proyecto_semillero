@@ -108,7 +108,6 @@ class GruposController extends Controller
     #Validamos si el formulario se envio correctamente
     if($form->isValid())
     {
-      //$grupo->setActivo(0);
       $em = $this->getDoctrine()->getManager();
       $em -> persist($grupo);
       $em -> flush();
@@ -190,34 +189,21 @@ class GruposController extends Controller
   public function viewAction(Request $request,$id)
   {
     if ($request->isXmlHttpRequest()) {
-      // $Repository = $this->getDoctrine()->getRepository('DataBundle:Grupo');
-      // $grupo = $Repository->find($id);
 
       $em = $this->getDoctrine()->getManager();
       $Repository = $this->getDoctrine()->getRepository('DataBundle:Grupo');
       $grupo = $em->getRepository('DataBundle:Grupo')->find/*ById*/($id);
       if(!$grupo)
       {
-        //throw $this->createNotFoundException('El Grupo a Editar NO Existe');
         return $this->redirectToRoute('indexGrupos');
       }
       $mentor = $grupo->getMentor();
-      //$deleteForm = $this->createDeleteForm($grupo);
-      //return $this->render('MentoresBundle:Grupo:view.html.twig',array('grupo' => $grupo,'mentor' => $mentor, 'delete_form' => $deleteForm->createView()));
       return $this->render('MentoresBundle:Grupo:view.html.twig',array(
-        'grupo' => $grupo,'mentor' => $mentor));
+        'grupo' => $grupo,
+        'mentor' => $mentor));
     }
-        return $this->redirectToRoute('indexGrupos');
+    return $this->redirectToRoute('indexGrupos');
   }
-
-
-  // private function createDeleteForm($grupo)
-  // {
-  //   return $this->createFormBuilder()
-  //   ->setAction($this->generateUrl('deleteGrupos',array('id' => $grupo->getId())))
-  //   ->setMethod('DELETE')
-  //   ->getForm();
-  // }
 
   //------------------ Metodo delete, eliminar un GRUPÓ de la base de datos --------------------
 
@@ -225,38 +211,34 @@ class GruposController extends Controller
   * @Route("/grupos/delete/{id}",name="deleteGrupos")
   * @Method({"POST","DELETE"})
   */
-
   public function deleteAction(Request $request, $id)
   {
-    // $em = $this->getDoctrine()->getManager();
-    // $grupo = $em->getRepository('DataBundle:Grupo')->find($id);
-    // if(!$grupo)
-    // {
-    //   throw $this->createNotFoundException('El Grupo a eliminar NO Existe');
-    // }
-    //
-    // $form = $this->createDeleteForm($grupo);
-    // $form->handleRequest($request);
-    //
-    // if($form->isSubmitted() && $form->isValid())
-    // {
-    //
-    //   $em->remove($grupo);
-    //   $em -> flush();
-    //
-    //   $this->addFlash('mensaje','¡El grupo ha sido eliminado satisfactoriamente!');
-    //   return $this->redirectToRoute('indexGrupos', array('id' => $grupo->getId()));
-    //
-    // }
-  if($this->isGranted('IS_AUTHENTICATED_FULLY')){
-  $em = $this->getDoctrine()->getManager();
-  $grupo = $em->getRepository('DataBundle:Grupo')->find($id);
-  $em->remove($grupo);
-  $em->flush();
-  return new Response(Response::HTTP_OK);
-  return $this->redirectToRoute('indexGrupos');
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $em = $this->getDoctrine()->getManager();
+      $grupo = $em->getRepository('DataBundle:Grupo')->find($id);
 
+      if($this->existeRegistroSemillasPorGrupo($grupo)){
+        return new Response('No se pudo eliminar el grupo',Response::HTTP_NOT_FOUND);
+      }
+      else{
+        $em->remove($grupo);
+        $em->flush();
+        return new Response(Response::HTTP_OK);
+      }
+    }
+    return new Response('user not loggin',Response::HTTP_NOT_FOUND);
   }
-  return new Response('user not loggin',Response::HTTP_NOT_FOUND);
+
+  private function existeRegistroSemillasPorGrupo($grupo){
+
+    // $count = 0;
+    return (count($grupo->getSemillas())>0) ? true : false ;
+    // foreach ($grupo->getSemillas() as $semilla_grupo) {
+    //   if($semilla_grupo->getActivo())
+    //   {
+    //     $count++;
+    //   }
+    // }
+    // return ($count!=0) ? true : false ;
   }
 }

@@ -109,7 +109,7 @@ $(document).ready(function(){
               window.location.href = Routing.generate('indexDiplomados');
             }, 1000);
           }).fail(function(data){
-            toastr.error("No se puede eliminar este diplomado, tiene grupos asignados");
+            toastr.error(data.responseText);
           })
         }
       }
@@ -203,7 +203,7 @@ $(document).ready(function(){
       }
     });
   }
-  
+
   //tooltip
   $(document).tooltip({
     selector:'[data-toggle="tooltip"]',

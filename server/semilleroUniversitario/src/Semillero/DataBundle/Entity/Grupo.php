@@ -81,6 +81,7 @@ class Grupo
      */
     public function __construct()
     {
+        $this->fechaCreacion = new \DateTime();
         $this->semillas = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

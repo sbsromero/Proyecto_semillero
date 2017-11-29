@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class Semilla_GrupoRepository extends EntityRepository
 {
+
+  //Metodo que permite obtener un registro del Semilla_Grupo
+  //donde hay un grupo activo de una semilla
+  public function getGrupoAsignado($idSemilla){
+    return $this->getEntityManager()
+              ->createQuery('SELECT sg FROM DataBundle:Semilla_Grupo sg WHERE sg.activo = true
+                and sg.semilla = :idSemilla')
+              ->setParameter('idSemilla',$idSemilla)
+              ->getOneOrNullResult();
+  }
 }

@@ -197,12 +197,12 @@ class DiplomadoController extends Controller
       if($this->isGranted('IS_AUTHENTICATED_FULLY')){
         $em = $this->getDoctrine()->getManager();
         $diplomado = $em->getRepository('DataBundle:Diplomado')->find($id);
-        if(empty($diplomado->getGrupos())){
+        if(count($diplomado->getGrupos()) == 0){
           $em->remove($diplomado);
           $em->flush();
           return new Response(Response::HTTP_OK);
         }
-        return new Response('grupos assignados al diplomado',Response::HTTP_NOT_FOUND);
+        return new Response('No se puede eliminar este diplomado, tiene grupos asignados',Response::HTTP_NOT_FOUND);
       }
       return $this->redirectToRoute('adminLogin');
       // return new Response('user not loggin',Response::HTTP_NOT_FOUND);

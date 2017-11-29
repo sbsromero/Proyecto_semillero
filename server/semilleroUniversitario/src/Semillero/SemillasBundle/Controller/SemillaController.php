@@ -12,6 +12,8 @@ use Symfony\Component\Form\FormError;
 
 use Semillero\DataBundle\Entity\Semilla;
 use Semillero\DataBundle\Form\SemillaType;
+use Semillero\DataBundle\Entity\Grupo;
+use Semillero\DataBundle\Entity\Semilla_Grupo;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
@@ -95,9 +97,10 @@ class SemillaController extends Controller
     $semilla = new Semilla();
     $form = $this->createCreateForm($semilla);
     $form->handleRequest($request);
+    $idGrupo = $request->request->get('semilla_grupo');
 
     #Validamos si el formulario se envio correctamente
-    if($form->isValid())
+    if($form->isValid() && !empty($idGrupo))
     {
       $password = $form->get('password')->getData();
       $encoder = $this->container->get('security.password_encoder');
@@ -107,7 +110,14 @@ class SemillaController extends Controller
       $semilla->setActivo(true);
 
       $em = $this->getDoctrine()->getManager();
+
+      $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
+      $semilla_grupo = new Semilla_Grupo();
+      $semilla_grupo->setSemilla($semilla);
+      $semilla_grupo->setGrupo($grupo);
+
       $em -> persist($semilla);
+      $em -> persist($semilla_grupo);
       $em -> flush();
 
       $this->addFlash('mensaje','¡La semilla ha sido creado satisfactoriamente!');
@@ -115,7 +125,12 @@ class SemillaController extends Controller
       return $this->redirectToRoute('indexSemillas');
     }
     #Renderizamos al formulario si existe algun problema
-    return $this->render('SemillasBundle:Semilla:add.html.twig',array('form' =>$form->createView()));
+    $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
+    $errorSelected = empty($idGrupo) ? true : false;
+    return $this->render('SemillasBundle:Semilla:add.html.twig',array(
+      'form' =>$form->createView(),
+      'grupos' => $grupos,
+      'errorSelected' => $errorSelected));
   }
 
   //------------------ Metodo edit, editar una SEMILLA de la base de datos --------------------
@@ -135,7 +150,15 @@ class SemillaController extends Controller
       }
 
       $form = $this->createEditForm($semilla);
-      return $this->render('SemillasBundle:Semilla:edit.html.twig', array('semilla'=>$semilla, 'form'=>$form->createView()));
+      $idGrupoAsignado = $this->getGrupoAsignado($semilla)->getId();
+
+      $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
+      return $this->render('SemillasBundle:Semilla:edit.html.twig', array(
+        'semilla'=>$semilla,
+        'grupos'=>$grupos,
+        'errorSelected' => false,
+        'idGrupoAsignado' => $idGrupoAsignado,
+        'form'=>$form->createView()));
     }
     return $this->redirectToRoute('adminLogin');
   }
@@ -153,6 +176,7 @@ class SemillaController extends Controller
   public function updateAction($numeroDocumento, Request $request)
   {
     $em = $this->getDoctrine()->getManager();
+    $idGrupo = $request->request->get('semilla_grupo');
 
     $semilla = $em->getRepository('DataBundle:Semilla')->findOneByNumeroDocumento($numeroDocumento);
     if(!$semilla)
@@ -163,7 +187,7 @@ class SemillaController extends Controller
     $form = $this->createEditForm($semilla);
     $form->handleRequest($request);
 
-    if($form->isSubmitted() && $form->isValid())
+    if($form->isSubmitted() && $form->isValid() && !empty($idGrupo))
     {
 
       $password = $form->get('password')->getData();
@@ -181,11 +205,22 @@ class SemillaController extends Controller
         $semilla->setPassword($pass[0]['password']);
       }
 
+      $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
+      $this->reasignarGrupo($semilla,$grupo);
+
       $em -> flush();
       $this->addFlash('mensaje','¡La semilla ha sido modificado satisfactoriamente!');
       return $this->redirectToRoute('indexSemillas', array('numeroDocumento' => $semilla->getNumeroDocumento()));
     }
-    return $this->render('SemillasBundle:Semilla:edit.html.twig',array('semilla' => $semilla, 'form' =>$form->createView()));
+    $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
+    $idGrupoAsignado = $this->getGrupoAsignado($semilla)->getId();
+
+    return $this->render('SemillasBundle:Semilla:edit.html.twig',array(
+      'semilla' => $semilla,
+      'grupos' => $grupos,
+      'errorSelected' => true,
+      'idGrupoAsignado'=> $idGrupoAsignado,
+      'form' =>$form->createView()));
   }
 
   //------------------ Metodo view, carga una SEMILLA seleccionado por parametro NumeroDocumento --------------------
@@ -199,6 +234,7 @@ class SemillaController extends Controller
       $em = $this->getDoctrine()->getManager();
       $Repository = $this->getDoctrine()->getRepository('DataBundle:Semilla');
       $semilla = $em->getRepository('DataBundle:Semilla')->findById($id);
+      $grupo = $this->getGrupoAsignado($semilla[0]);
 
       if(!$semilla)
       {
@@ -206,7 +242,8 @@ class SemillaController extends Controller
       }
 
       return $this->render('SemillasBundle:Semilla:view.html.twig',array(
-        'semilla' => $semilla[0]
+        'semilla' => $semilla[0],
+        'grupo' => $grupo
       ));
     }
     return $this->redirectToRoute('indexSemillas');
@@ -223,13 +260,39 @@ class SemillaController extends Controller
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
       $em = $this->getDoctrine()->getManager();
       $semilla = $em->getRepository('DataBundle:Semilla')->find($id);
-      $em->remove($semilla);
-      $em->flush();
-      return new Response(Response::HTTP_OK);
-      return $this->redirectToRoute('indexSemillas');
-
+      if(count($semilla->getGrupos())>0){
+        return new Response('No es posible eliminar la semilla, tiene un grupo asignado',Response::HTTP_NOT_FOUND);
+      }
+      else{
+        $em->remove($semilla);
+        $em->flush();
+        return new Response(Response::HTTP_OK);
+      }
     }
     return new Response('user not loggin',Response::HTTP_NOT_FOUND);
+  }
+
+//Metodo que permite saber que grupo tiene asignado una semilla
+  private function getGrupoAsignado($semilla){
+    foreach ($semilla->getGrupos() as $grupo) {
+      if($grupo->getActivo()){
+        return $grupo->getGrupo();
+      }
+    }
+  }
+
+  //Metodo que permite realizar la reasignacion de un grupo a una semilla
+  private function reasignarGrupo($semilla, $grupo){
+    $em = $this->getDoctrine()->getManager();
+    $registroSG = $em->getRepository('DataBundle:Semilla_Grupo')->getGrupoAsignado($semilla->getId());
+    $registroSG->setActivo(false);
+    $registroSG->setFechaDesasignacion(new \DateTime());
+
+    $semillaGrupo = new Semilla_Grupo();
+    $semillaGrupo->setSemilla($semilla);
+    $semillaGrupo->setGrupo($grupo);
+    $em->persist($semillaGrupo);
+    $em->flush();
   }
 
 }

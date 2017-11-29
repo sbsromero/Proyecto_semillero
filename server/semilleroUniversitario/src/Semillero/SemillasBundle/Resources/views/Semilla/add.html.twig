@@ -179,7 +179,6 @@
 				</div>
 			</div>
 
-			{{dump(grupos)}}
 			<div class="row" style="margin:0px" align="center">
 				<div class="col-md-6" style="float:none">
 					<div class="form-group">
@@ -188,14 +187,14 @@
 								<option value="0">Seleccione un grupo</option>
 								{% if grupos | length %}
 									{% for grupo in grupos %}
-										<option value="{{grupo.id}}">{{grupo.getNombre()}}</option>
+										<option name="{{grupo.id}}" value="{{grupo.id}}">{{grupo.getNombre()}}</option>
 									{% endfor %}
 								{% endif %}
 							</select>
 							{% if errorSelected %}
 							<span class="text-danger">
 								<ul>
-									<li>Debe seleccionar un grupo</li>
+									<li style="text-align:left">Debe seleccionar un grupo</li>
 								</ul>
 							</span>
 							{% endif %}

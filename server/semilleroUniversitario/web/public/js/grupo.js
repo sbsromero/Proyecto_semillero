@@ -104,10 +104,10 @@ $(document).ready(function(){
           eliminarGrupo(id).done(function(){
             toastr.success("Se ha eliminado el grupo de manera correcta");
             window.setTimeout(function(){
-              window.location.href = Routing.generate('indexGrupos');
+             window.location.href = Routing.generate('indexGrupos');
             }, 1000);
           }).fail(function(data){
-            window.location.href = Routing.generate('adminLogin');
+            toastr.error(data.responseText);
           })
         }
       }
@@ -197,7 +197,7 @@ $(document).ready(function(){
   function headerSorter(){
     $('#tableItemsGrupos').tablesorter({
       headers:{
-        4:{sorter:false},6:{sorter:false},7:{sorter:false}
+        7:{sorter:false},8:{sorter:false},9:{sorter:false},10:{sorter:false}
       }
     });
   }

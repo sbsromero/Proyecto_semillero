@@ -39,7 +39,7 @@ $(document).ready(function(){
               window.location.href = Routing.generate('indexSemillas');
             }, 1000);
           }).fail(function(data){
-            window.location.href = Routing.generate('adminLogin');
+            toastr.error(data.responseText)
           })
         }
       }
@@ -154,4 +154,6 @@ $(document).ready(function(){
     selector:'[data-toggle="tooltip"]',
     placement:'top'
   });
+
+
 })

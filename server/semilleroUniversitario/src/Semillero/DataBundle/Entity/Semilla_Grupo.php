@@ -41,6 +41,13 @@ class Semilla_Grupo
     private $fechaAsignacion;
 
     /**
+    * @var \DateTime
+    *
+    * @ORM\Column(name="fecha_desasignacion", type="datetime", nullable=true)
+    */
+    private $fechaDesasignacion;
+
+    /**
     * @var bool
     *
     * @ORM\Column(name="activo", type="boolean")
@@ -49,9 +56,18 @@ class Semilla_Grupo
 
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+      $this->activo = true;
+      $this->fechaAsignacion = new \DateTime();
+    }
+
+    /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -74,7 +90,7 @@ class Semilla_Grupo
     /**
      * Get fechaAsignacion
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getFechaAsignacion()
     {
@@ -97,7 +113,7 @@ class Semilla_Grupo
     /**
      * Get activo
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getActivo()
     {
@@ -120,7 +136,7 @@ class Semilla_Grupo
     /**
      * Get semilla
      *
-     * @return \Semillero\DataBundle\Entity\Semilla 
+     * @return \Semillero\DataBundle\Entity\Semilla
      */
     public function getSemilla()
     {
@@ -143,10 +159,33 @@ class Semilla_Grupo
     /**
      * Get grupo
      *
-     * @return \Semillero\DataBundle\Entity\Grupo 
+     * @return \Semillero\DataBundle\Entity\Grupo
      */
     public function getGrupo()
     {
         return $this->grupo;
+    }
+
+    /**
+     * Set fechaDesasignacion
+     *
+     * @param \DateTime $fechaDesasignacion
+     * @return Semilla_Grupo
+     */
+    public function setFechaDesasignacion($fechaDesasignacion)
+    {
+        $this->fechaDesasignacion = $fechaDesasignacion;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaDesasignacion
+     *
+     * @return \DateTime
+     */
+    public function getFechaDesasignacion()
+    {
+        return $this->fechaDesasignacion;
     }
 }

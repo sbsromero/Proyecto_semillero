@@ -49,7 +49,15 @@
               <td>{{ grupo.jornada.nombre}}</td>
 	            <td>{{ grupo.fechaCreacion | date('d-m-Y') }}</td>
 							<td>{{ grupo.mentor.fullName }}</td>
-              <td align="right">{{ grupo.getSemillas() | length }}</td>
+              {% set semillas = 0 %}
+              <td align="right">
+                {% for semilla_grupo in grupo.getSemillas() %}
+                  {% if semilla_grupo.getActivo() %}
+                    {% set semillas = semillas +1 %}
+                  {% endif %}
+                {% endfor %}
+                {{semillas}}
+              </td>
               <td align="">
                 <a href="#">
                   <img src="{{asset('public/images/icon-pdf.png')}}" style="height:25px" alt="">
