@@ -35,6 +35,6 @@ class GrupoRepository extends EntityRepository
   //Retorna todos los grupos
   public function findAll()
   {
-    return $this->findBy(array(), array('nombre' => 'DESC'));
+    return $this->findBy(array(), array('id' => 'ASC'));
   }
 }

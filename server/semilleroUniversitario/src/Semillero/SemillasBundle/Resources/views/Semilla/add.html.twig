@@ -179,21 +179,35 @@
 				</div>
 			</div>
 
-			<!-- <div class="row" style="margin:0px" align="center">
+			{{dump(grupos)}}
+			<div class="row" style="margin:0px" align="center">
 				<div class="col-md-6" style="float:none">
 					<div class="form-group">
-							{#{ form_label(form.grupos) }#}
-							{#{ form_widget(form.grupos, { 'attr' : {'class' : 'form-control'} }) }#}
-							<span class="text-danger">{#{ form_errors(form.grupos) }#}</span>
+						<label for="semilla_grupo">Grupo</label>
+							<select name="semilla_grupo" id="semilla_grupo" class="form-control">
+								<option value="0">Seleccione un grupo</option>
+								{% if grupos | length %}
+									{% for grupo in grupos %}
+										<option value="{{grupo.id}}">{{grupo.getNombre()}}</option>
+									{% endfor %}
+								{% endif %}
+							</select>
+							{% if errorSelected %}
+							<span class="text-danger">
+								<ul>
+									<li>Debe seleccionar un grupo</li>
+								</ul>
+							</span>
+							{% endif %}
 					</div>
-					<h3>OBERVACIONES</h3>
+					<h3>OBSERVACIONES</h3>
 					<div class="form-group">
-						{#{ form_label(form.observaciones) }#}
-						{#{ form_widget(form.observaciones, {'attr': {'class': 'form-control', 'placeholder' : '¿Alguna Observación a realizar?'}}) }#}
-						<span class="text-danger">{#{ form_errors(form.observaciones) }#}</span>
+						{{ form_label(form.observaciones) }}
+						{{ form_widget(form.observaciones, {'attr': {'class': 'form-control', 'placeholder' : '¿Alguna Observación a realizar?'}}) }}
+						<span class="text-danger">{{ form_errors(form.observaciones) }}</span>
 					</div>
 				</div>
-			</div> -->
+			</div>
 			<p align="center">
 				{{ form_widget(form.save, {'label' : 'Crear Semilla', 'attr': {'class': 'btn btn-success'}}) }}
 			</p>

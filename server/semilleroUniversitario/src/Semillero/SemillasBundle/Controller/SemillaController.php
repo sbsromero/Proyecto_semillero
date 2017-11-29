@@ -66,8 +66,11 @@ class SemillaController extends Controller
       $semilla = new Semilla();
       #Variable que llama al metodo creaCreateForm, creado luego
       $form = $this-> createCreateForm($semilla);
+      $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
       return $this->render('SemillasBundle:Semilla:add.html.twig',array(
-        'form' =>$form->createView()));
+        'form' =>$form->createView(),
+        'grupos'=> $grupos,
+        'errorSelected' => false));
     }
     return $this->redirectToRoute('adminLogin');
   }
