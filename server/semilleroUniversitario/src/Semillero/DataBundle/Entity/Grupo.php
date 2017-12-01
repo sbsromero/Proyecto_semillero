@@ -18,6 +18,7 @@ class Grupo
   /**
   * @ORM\ManyToOne(targetEntity="Mentor", inversedBy="grupos")
   * @ORM\JoinColumn(name="mentor_id", referencedColumnName="id")
+  * @Assert\NotBlank(message="Seleccione mentor del grupo")
   */
   protected $mentor;
 
@@ -60,8 +61,22 @@ class Grupo
   /**
   * @ORM\ManyToOne(targetEntity="Semestre", inversedBy="grupos")
   * @ORM\JoinColumn(name="semestre_id", referencedColumnName="id")
+  * @Assert\NotBlank(message="Seleccione el semestre del grupo")
   */
   private $semestre;
+
+  /**
+  * @ORM\OneToMany(targetEntity="Segmento", mappedBy="grupo")
+  */
+  private $segmentos;
+
+  /**
+  * @var int
+  *
+  * @ORM\Column(name="cupo", type="integer")
+  * @Assert\NotBlank(message="Por favor ingrese un cupo para el grupo")
+  */
+  private $cupo;
 
   /**
   * @var \DateTime
@@ -76,216 +91,273 @@ class Grupo
   * @ORM\Column(name="activo", type="boolean")
   */
   private $activo;
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->fechaCreacion = new \DateTime();
-        $this->semillas = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+  /**
+  * Constructor
+  */
+  public function __construct()
+  {
+    $this->fechaCreacion = new \DateTime();
+    $this->semillas = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->segmentos = new \Doctrine\Common\Collections\ArrayCollection();
+  }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+  /**
+  * Get id
+  *
+  * @return integer
+  */
+  public function getId()
+  {
+    return $this->id;
+  }
 
-    /**
-     * Set nombre
-     *
-     * @param string $nombre
-     * @return Grupo
-     */
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
+  /**
+  * Set nombre
+  *
+  * @param string $nombre
+  * @return Grupo
+  */
+  public function setNombre($nombre)
+  {
+    $this->nombre = $nombre;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * Get nombre
-     *
-     * @return string
-     */
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
+  /**
+  * Get nombre
+  *
+  * @return string
+  */
+  public function getNombre()
+  {
+    return $this->nombre;
+  }
 
-    /**
-     * Set fechaCreacion
-     *
-     * @param \DateTime $fechaCreacion
-     * @return Grupo
-     */
-    public function setFechaCreacion($fechaCreacion)
-    {
-        $this->fechaCreacion = $fechaCreacion;
+  /**
+  * Set cupo
+  *
+  * @param integer $cupo
+  * @return Grupo
+  */
+  public function setCupo($cupo)
+  {
+    $this->cupo = $cupo;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * Get fechaCreacion
-     *
-     * @return \DateTime
-     */
-    public function getFechaCreacion()
-    {
-        return $this->fechaCreacion;
-    }
+  /**
+  * Get cupo
+  *
+  * @return integer
+  */
+  public function getCupo()
+  {
+    return $this->cupo;
+  }
 
-    /**
-     * Set activo
-     *
-     * @param boolean $activo
-     * @return Grupo
-     */
-    public function setActivo($activo)
-    {
-        $this->activo = $activo;
+  /**
+  * Set fechaCreacion
+  *
+  * @param \DateTime $fechaCreacion
+  * @return Grupo
+  */
+  public function setFechaCreacion($fechaCreacion)
+  {
+    $this->fechaCreacion = $fechaCreacion;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * Get activo
-     *
-     * @return boolean
-     */
-    public function getActivo()
-    {
-        return $this->activo;
-    }
+  /**
+  * Get fechaCreacion
+  *
+  * @return \DateTime
+  */
+  public function getFechaCreacion()
+  {
+    return $this->fechaCreacion;
+  }
 
-    /**
-     * Set mentor
-     *
-     * @param \Semillero\DataBundle\Entity\Mentor $mentor
-     * @return Grupo
-     */
-    public function setMentor(\Semillero\DataBundle\Entity\Mentor $mentor = null)
-    {
-        $this->mentor = $mentor;
+  /**
+  * Set activo
+  *
+  * @param boolean $activo
+  * @return Grupo
+  */
+  public function setActivo($activo)
+  {
+    $this->activo = $activo;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * Get mentor
-     *
-     * @return \Semillero\DataBundle\Entity\Mentor
-     */
-    public function getMentor()
-    {
-        return $this->mentor;
-    }
+  /**
+  * Get activo
+  *
+  * @return boolean
+  */
+  public function getActivo()
+  {
+    return $this->activo;
+  }
 
-    /**
-     * Set diplomado
-     *
-     * @param \Semillero\DataBundle\Entity\Diplomado $diplomado
-     * @return Grupo
-     */
-    public function setDiplomado(\Semillero\DataBundle\Entity\Diplomado $diplomado = null)
-    {
-        $this->diplomado = $diplomado;
+  /**
+  * Set mentor
+  *
+  * @param \Semillero\DataBundle\Entity\Mentor $mentor
+  * @return Grupo
+  */
+  public function setMentor(\Semillero\DataBundle\Entity\Mentor $mentor = null)
+  {
+    $this->mentor = $mentor;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * Get diplomado
-     *
-     * @return \Semillero\DataBundle\Entity\Diplomado
-     */
-    public function getDiplomado()
-    {
-        return $this->diplomado;
-    }
+  /**
+  * Get mentor
+  *
+  * @return \Semillero\DataBundle\Entity\Mentor
+  */
+  public function getMentor()
+  {
+    return $this->mentor;
+  }
 
-    /**
-     * Add semillas
-     *
-     * @param \Semillero\DataBundle\Entity\Semilla_Grupo $semillas
-     * @return Grupo
-     */
-    public function addSemilla(\Semillero\DataBundle\Entity\Semilla_Grupo $semillas)
-    {
-        $this->semillas[] = $semillas;
+  /**
+  * Set diplomado
+  *
+  * @param \Semillero\DataBundle\Entity\Diplomado $diplomado
+  * @return Grupo
+  */
+  public function setDiplomado(\Semillero\DataBundle\Entity\Diplomado $diplomado = null)
+  {
+    $this->diplomado = $diplomado;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * Remove semillas
-     *
-     * @param \Semillero\DataBundle\Entity\Semilla_Grupo $semillas
-     */
-    public function removeSemilla(\Semillero\DataBundle\Entity\Semilla_Grupo $semillas)
-    {
-        $this->semillas->removeElement($semillas);
-    }
+  /**
+  * Get diplomado
+  *
+  * @return \Semillero\DataBundle\Entity\Diplomado
+  */
+  public function getDiplomado()
+  {
+    return $this->diplomado;
+  }
 
-    /**
-     * Get semillas
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSemillas()
-    {
-        return $this->semillas;
-    }
+  /**
+  * Add semillas
+  *
+  * @param \Semillero\DataBundle\Entity\Semilla_Grupo $semillas
+  * @return Grupo
+  */
+  public function addSemilla(\Semillero\DataBundle\Entity\Semilla_Grupo $semillas)
+  {
+    $this->semillas[] = $semillas;
 
-    /**
-     * Set jornada
-     *
-     * @param \Semillero\DataBundle\Entity\Jornada $jornada
-     * @return Grupo
-     */
-    public function setJornada(\Semillero\DataBundle\Entity\Jornada $jornada = null)
-    {
-        $this->jornada = $jornada;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+  * Remove semillas
+  *
+  * @param \Semillero\DataBundle\Entity\Semilla_Grupo $semillas
+  */
+  public function removeSemilla(\Semillero\DataBundle\Entity\Semilla_Grupo $semillas)
+  {
+    $this->semillas->removeElement($semillas);
+  }
 
-    /**
-     * Get jornada
-     *
-     * @return \Semillero\DataBundle\Entity\Jornada
-     */
-    public function getJornada()
-    {
-        return $this->jornada;
-    }
+  /**
+  * Get semillas
+  *
+  * @return \Doctrine\Common\Collections\Collection
+  */
+  public function getSemillas()
+  {
+    return $this->semillas;
+  }
 
-    /**
-     * Set semestre
-     *
-     * @param \Semillero\DataBundle\Entity\Semestre $semestre
-     * @return Grupo
-     */
-    public function setSemestre(\Semillero\DataBundle\Entity\Semestre $semestre = null)
-    {
-        $this->semestre = $semestre;
+  /**
+  * Set jornada
+  *
+  * @param \Semillero\DataBundle\Entity\Jornada $jornada
+  * @return Grupo
+  */
+  public function setJornada(\Semillero\DataBundle\Entity\Jornada $jornada = null)
+  {
+    $this->jornada = $jornada;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * Get semestre
-     *
-     * @return \Semillero\DataBundle\Entity\Semestre
-     */
-    public function getSemestre()
-    {
-        return $this->semestre;
-    }
+  /**
+  * Get jornada
+  *
+  * @return \Semillero\DataBundle\Entity\Jornada
+  */
+  public function getJornada()
+  {
+    return $this->jornada;
+  }
+
+  /**
+  * Set semestre
+  *
+  * @param \Semillero\DataBundle\Entity\Semestre $semestre
+  * @return Grupo
+  */
+  public function setSemestre(\Semillero\DataBundle\Entity\Semestre $semestre = null)
+  {
+    $this->semestre = $semestre;
+
+    return $this;
+  }
+
+  /**
+  * Get semestre
+  *
+  * @return \Semillero\DataBundle\Entity\Semestre
+  */
+  public function getSemestre()
+  {
+    return $this->semestre;
+  }
+
+  /**
+  * Add segmentos
+  *
+  * @param \Semillero\DataBundle\Entity\Segmento $segmentos
+  * @return Grupo
+  */
+  public function addSegmento(\Semillero\DataBundle\Entity\Segmento $segmentos)
+  {
+    $this->segmentos[] = $segmentos;
+
+    return $this;
+  }
+
+  /**
+  * Remove segmentos
+  *
+  * @param \Semillero\DataBundle\Entity\Segmento $segmentos
+  */
+  public function removeSegmento(\Semillero\DataBundle\Entity\Segmento $segmentos)
+  {
+    $this->segmentos->removeElement($segmentos);
+  }
+
+  /**
+  * Get segmentos
+  *
+  * @return \Doctrine\Common\Collections\Collection
+  */
+  public function getSegmentos()
+  {
+    return $this->segmentos;
+  }
 }

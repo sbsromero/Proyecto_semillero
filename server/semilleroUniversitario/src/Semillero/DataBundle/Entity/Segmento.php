@@ -35,21 +35,16 @@ class Segmento
   */
   private $activo;
 
-  // /**
-  // * @ORM\OneToMany(targetEntity="Grupo",mappedBy="segmento")
-  // */
-  // private $grupos;
+  /**
+  * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="segmentos")
+  * @ORM\JoinColumn(name="id_grupo", referencedColumnName="id")
+  */
+  private $grupos;
 
   /**
   * @ORM\OneToMany(targetEntity="Encuentro", mappedBy="segmento")
   */
   private $encuentros;
-
-  /**
-  * @ORM\ManyToMany(targetEntity="Semestre", mappedBy="segmentos")
-  */
-  private $semestres;
-
 
     /**
      * Constructor
@@ -58,13 +53,13 @@ class Segmento
     {
         $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->encuentros = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->semestres = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -87,7 +82,7 @@ class Segmento
     /**
      * Get numeroSegmento
      *
-     * @return integer
+     * @return integer 
      */
     public function getNumeroSegmento()
     {
@@ -110,40 +105,30 @@ class Segmento
     /**
      * Get activo
      *
-     * @return boolean
+     * @return boolean 
      */
     public function getActivo()
     {
         return $this->activo;
     }
 
-    // /**
-    //  * Add grupos
-    //  *
-    //  * @param \Semillero\DataBundle\Entity\Grupo $grupos
-    //  * @return Segmento
-    //  */
-    // public function addGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
-    // {
-    //     $this->grupos[] = $grupos;
-    //
-    //     return $this;
-    // }
+    /**
+     * Set grupos
+     *
+     * @param \Semillero\DataBundle\Entity\Grupo $grupos
+     * @return Segmento
+     */
+    public function setGrupos(\Semillero\DataBundle\Entity\Grupo $grupos = null)
+    {
+        $this->grupos = $grupos;
 
-    // /**
-    //  * Remove grupos
-    //  *
-    //  * @param \Semillero\DataBundle\Entity\Grupo $grupos
-    //  */
-    // public function removeGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
-    // {
-    //     $this->grupos->removeElement($grupos);
-    // }
+        return $this;
+    }
 
     /**
      * Get grupos
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Semillero\DataBundle\Entity\Grupo 
      */
     public function getGrupos()
     {
@@ -176,66 +161,10 @@ class Segmento
     /**
      * Get encuentros
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getEncuentros()
     {
         return $this->encuentros;
-    }
-    // 
-    // /**
-    //  * Add semestres
-    //  *
-    //  * @param \Semillero\DataBundle\Entity\Semestre_Segmento $semestres
-    //  * @return Segmento
-    //  */
-    // public function addSemestre(\Semillero\DataBundle\Entity\Semestre_Segmento $semestres)
-    // {
-    //     $this->semestres[] = $semestres;
-    //
-    //     return $this;
-    // }
-
-    // /**
-    //  * Remove semestres
-    //  *
-    //  * @param \Semillero\DataBundle\Entity\Semestre_Segmento $semestres
-    //  */
-    // public function removeSemestre(\Semillero\DataBundle\Entity\Semestre_Segmento $semestres)
-    // {
-    //     $this->semestres->removeElement($semestres);
-    // }
-
-    /**
-     * Get semestres
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSemestres()
-    {
-        return $this->semestres;
-    }
-
-    /**
-     * Add semestres
-     *
-     * @param \Semillero\DataBundle\Entity\Semestre $semestres
-     * @return Segmento
-     */
-    public function addSemestre(\Semillero\DataBundle\Entity\Semestre $semestres)
-    {
-        $this->semestres[] = $semestres;
-
-        return $this;
-    }
-
-    /**
-     * Remove semestres
-     *
-     * @param \Semillero\DataBundle\Entity\Semestre $semestres
-     */
-    public function removeSemestre(\Semillero\DataBundle\Entity\Semestre $semestres)
-    {
-        $this->semestres->removeElement($semestres);
     }
 }

@@ -167,4 +167,10 @@ class Semestre
     {
         return $this->grupos;
     }
+
+    //Metodo que retorna un formato de semestre concatenado con el periodo en string
+    public function getStringSemestre()
+    {
+      return $this->anoSemestre->format('Y').' - '.$this->periodo;
+    }
 }

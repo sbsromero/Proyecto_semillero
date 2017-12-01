@@ -18,6 +18,7 @@ class Grupo
   /**
   * @ORM\ManyToOne(targetEntity="Mentor", inversedBy="grupos")
   * @ORM\JoinColumn(name="mentor_id", referencedColumnName="id")
+  * @Assert\NotBlank(message="Seleccione mentor del grupo")
   */
   protected $mentor;
 
@@ -60,8 +61,22 @@ class Grupo
   /**
   * @ORM\ManyToOne(targetEntity="Semestre", inversedBy="grupos")
   * @ORM\JoinColumn(name="semestre_id", referencedColumnName="id")
+  * @Assert\NotBlank(message="Seleccione el semestre del grupo")
   */
   private $semestre;
+
+  /**
+  * @ORM\OneToMany(targetEntity="Segmento", mappedBy="grupo")
+  */
+  private $segmentos;
+
+  /**
+  * @var int
+  *
+  * @ORM\Column(name="cupo", type="integer")
+  * @Assert\NotBlank(message="Por favor ingrese un cupo para el grupo")
+  */
+  private $cupo;
 
   /**
   * @var \DateTime
@@ -81,6 +96,7 @@ class Grupo
      */
     public function __construct()
     {
+        $this->fechaCreacion = new \DateTime();
         $this->semillas = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -115,6 +131,29 @@ class Grupo
     public function getNombre()
     {
         return $this->nombre;
+    }
+
+    /**
+     * Set cupo
+     *
+     * @param integer $cupo
+     * @return Grupo
+     */
+    public function setCupo($cupo)
+    {
+        $this->cupo = $cupo;
+
+        return $this;
+    }
+
+    /**
+     * Get cupo
+     *
+     * @return integer
+     */
+    public function getCupo()
+    {
+        return $this->cupo;
     }
 
     /**

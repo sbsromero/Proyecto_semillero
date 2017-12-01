@@ -44,6 +44,7 @@
           <tbody >
             {% for grupo in pagination %}
             <tr class="color-cells" data-id="{{grupo.id}}">
+
               <td>{{ grupo.diplomado.nombre }}</td>
               <td id="nombreGrupo-{{grupo.id}}" value="{{ grupo.nombre}}">{{grupo.diplomado.nombre}} {{ grupo.nombre}}</td>
               <td>{{ grupo.jornada.nombre}}</td>
