@@ -35,10 +35,13 @@ class Segmento
   */
   private $activo;
 
+//   /**
+//   * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="segmentos")
+//   * @ORM\JoinColumn(name="id_grupo", referencedColumnName="id")
+//   */
   /**
-  * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="segmentos")
-  * @ORM\JoinColumn(name="id_grupo", referencedColumnName="id")
-  */
+   * @ORM\ManyToMany(targetEntity="Grupo",mappedBy="segmentos")
+   */
   private $grupos;
 
   /**
@@ -166,5 +169,28 @@ class Segmento
     public function getEncuentros()
     {
         return $this->encuentros;
+    }
+
+    /**
+     * Add grupos
+     *
+     * @param \Semillero\DataBundle\Entity\Grupo $grupos
+     * @return Segmento
+     */
+    public function addGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
+    {
+        $this->grupos[] = $grupos;
+
+        return $this;
+    }
+
+    /**
+     * Remove grupos
+     *
+     * @param \Semillero\DataBundle\Entity\Grupo $grupos
+     */
+    public function removeGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
+    {
+        $this->grupos->removeElement($grupos);
     }
 }

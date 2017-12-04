@@ -29,7 +29,7 @@ class Semilla extends Usuarios
   /**
   * @ORM\OneToMany(targetEntity="semilla_actividad", mappedBy="semilla")
   */
-  private $semilla_actividades;
+  private $actividades;
 
   /**
   * @var bool
@@ -494,5 +494,38 @@ class Semilla extends Usuarios
     public function getSemillaActividades()
     {
         return $this->semilla_actividades;
+    }
+
+    /**
+     * Add actividades
+     *
+     * @param \Semillero\DataBundle\Entity\semilla_actividad $actividades
+     * @return Semilla
+     */
+    public function addActividade(\Semillero\DataBundle\Entity\semilla_actividad $actividades)
+    {
+        $this->actividades[] = $actividades;
+
+        return $this;
+    }
+
+    /**
+     * Remove actividades
+     *
+     * @param \Semillero\DataBundle\Entity\semilla_actividad $actividades
+     */
+    public function removeActividade(\Semillero\DataBundle\Entity\semilla_actividad $actividades)
+    {
+        $this->actividades->removeElement($actividades);
+    }
+
+    /**
+     * Get actividades
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getActividades()
+    {
+        return $this->actividades;
     }
 }
