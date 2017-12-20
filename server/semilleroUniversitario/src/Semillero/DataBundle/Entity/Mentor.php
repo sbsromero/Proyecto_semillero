@@ -18,7 +18,7 @@ use Semillero\DataBundle\Entity\Usuarios;
 */
 class Mentor extends Usuarios
 {
-  protected $discr = 'semilla';
+  protected $discr = 'mentor';
   /**
   * @ORM\ManyToOne(targetEntity="TipoMentor", inversedBy="mentores")
   * @ORM\JoinColumn(name="id_tipo_mentor", referencedColumnName="id")
