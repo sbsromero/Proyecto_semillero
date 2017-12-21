@@ -97,3 +97,19 @@ knp_paginator:
         pagination: 'KnpPaginatorBundle:Pagination:twitter_bootstrap_v4_pagination.html.twig'     # sliding pagination controls template
         sortable: 'KnpPaginatorBundle:Pagination:sortable_link.html.twig' # sort link template
         filtration: 'KnpPaginatorBundle:Pagination:filtration.html.twig'  # filters template
+
+knp_snappy:
+    pdf:
+        enabled:    true
+        # binary:     %kernel.root_dir%/../vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64
+        binary: /usr/bin/wkhtmltopdf
+        options:
+          - { name: 'viewport-size', value: ‘1024x768’ }
+          - { name: 'page-size', value: 'A4' }
+          # no-outline: true
+          # page-size: LETTER
+          # encoding: UTF-8
+    image:
+        enabled:    true
+        binary:     /usr/local/bin/wkhtmltoimage #"\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltoimage.exe\"" for Windows users
+        options:    []

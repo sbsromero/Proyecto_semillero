@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\FormError;
@@ -17,14 +18,14 @@ use Semillero\DataBundle\Form\GrupoType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
-* @Route("/admin")
+* @Route("/admin/grupos")
 */
 class GruposController extends Controller
 {
 
   //------------------Metodo index, carga todos los grupos registrados en la base de datos --------------------
   /**
-  * @Route("/grupos/index",name="indexGrupos")
+  * @Route("/index",name="indexGrupos")
   */
 
   public function indexAction(Request $request)
@@ -75,7 +76,7 @@ class GruposController extends Controller
 
   //------------------ Metodo add, agregar un GRUPO a la base de datos --------------------
   /**
-  * @Route("/grupos/add",name="addGrupos")
+  * @Route("/add",name="addGrupos")
   */
   public function addAction(Request $request)
   {
@@ -97,7 +98,7 @@ class GruposController extends Controller
   }
 
   /**
-  * @Route("/grupos/create",name="createGrupos")
+  * @Route("/create",name="createGrupos")
   * @Method({"POST"})
   */
   public function createAction(Request $request)
@@ -125,7 +126,7 @@ class GruposController extends Controller
   //------------------ Metodo edit, editar un GRUPO de la base de datos --------------------
 
   /**
-  * @Route("/grupos/edit/{id}",name="editGrupos")
+  * @Route("/edit/{id}",name="editGrupos")
   */
   public function editAction($id, Request $request)
   {
@@ -156,7 +157,7 @@ class GruposController extends Controller
   }
 
   /**
-  * @Route("/grupos/update/{id}",name="updateGrupos")
+  * @Route("/update/{id}",name="updateGrupos")
   * @Method({"POST","PUT"})
   */
   public function updateAction($id, Request $request)
@@ -186,7 +187,7 @@ class GruposController extends Controller
 
   //------------------ Metodo view, carga un GRUPÓ seleccionado por parametro Id --------------------
   /**
-  * @Route("/grupos/view/{id}",name="viewGrupos")
+  * @Route("/view/{id}",name="viewGrupos")
   */
   public function viewAction(Request $request,$id)
   {
@@ -210,7 +211,7 @@ class GruposController extends Controller
   //------------------ Metodo delete, eliminar un GRUPÓ de la base de datos --------------------
 
   /**
-  * @Route("/grupos/delete/{id}",name="deleteGrupos")
+  * @Route("/delete/{id}",name="deleteGrupos")
   * @Method({"POST","DELETE"})
   */
   public function deleteAction(Request $request, $id)
@@ -231,6 +232,37 @@ class GruposController extends Controller
     return new Response('user not loggin',Response::HTTP_NOT_FOUND);
   }
 
+  //Metodo que permite generar un pdf con las semillas de un grupo
+  /**
+  * @Route("/getPdfSemillas",name="getPdfSemillas")
+  */
+  public function getPdfSemillas(Request $request){
+    $idGrupo = $request->query->get('id');
+    $em = $this->getDoctrine()->getManager();
+    $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
+    $grupo_semillas = $grupo->getSemillas();
+    $semillas = array();
+    foreach ($grupo_semillas as $grupo_semilla) {
+      if($grupo_semilla->getActivo()){
+        array_push($semillas, $grupo_semilla->getSemilla());
+      }
+    }
+
+    return new PdfResponse(
+         $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('MentoresBundle:Grupo:plantillaPdfSemillas.html.twig', array(
+             'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath(),
+             'grupo' => $grupo,
+             'semillas' => $semillas,
+         ))),
+         'semillas-'.trim($grupo->getNombre()).'.pdf'
+     );
+    // return $this->render('MentoresBundle:Grupo:plantillaPdfSemillas.html.twig',array(
+    //   'grupo' => $grupo,
+    //   'semillas' => $semillas,
+    //   'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath()
+    // ));
+  }
+
   private function existeRegistroSemillasPorGrupo($grupo){
     return (count($grupo->getSemillas())>0) ? true : false ;
   }
@@ -243,4 +275,6 @@ class GruposController extends Controller
     $grupo -> addSegmento($segmentos[2]);
     $grupo -> addSegmento($segmentos[3]);
   }
+
+
 }
