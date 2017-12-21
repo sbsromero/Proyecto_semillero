@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\FormError;
 
 use Semillero\DataBundle\Entity\Grupo;
+use Semillero\DataBundle\Entity\Segmento;
 use Semillero\DataBundle\Form\GrupoType;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -109,6 +110,7 @@ class GruposController extends Controller
     if($form->isValid())
     {
       $em = $this->getDoctrine()->getManager();
+      $this->agregarSegmentos($grupo);
       $em -> persist($grupo);
       $em -> flush();
 
@@ -230,15 +232,15 @@ class GruposController extends Controller
   }
 
   private function existeRegistroSemillasPorGrupo($grupo){
-
-    // $count = 0;
     return (count($grupo->getSemillas())>0) ? true : false ;
-    // foreach ($grupo->getSemillas() as $semilla_grupo) {
-    //   if($semilla_grupo->getActivo())
-    //   {
-    //     $count++;
-    //   }
-    // }
-    // return ($count!=0) ? true : false ;
+  }
+
+  private function agregarSegmentos($grupo){
+    $em = $this->getDoctrine()->getManager();
+    $segmentos = $em->getRepository('DataBundle:Segmento')->findAll();
+    $grupo -> addSegmento($segmentos[0]);
+    $grupo -> addSegmento($segmentos[1]);
+    $grupo -> addSegmento($segmentos[2]);
+    $grupo -> addSegmento($segmentos[3]);
   }
 }
