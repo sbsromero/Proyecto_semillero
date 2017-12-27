@@ -7,7 +7,7 @@ security:
       usuarios_provider:
         entity:
           class: DataBundle:Usuarios
-          property: numeroDocumento
+          property: email
 
       admin_provider:
         entity:
@@ -43,7 +43,7 @@ security:
           form_login:
             login_path: /usuarios/login
             check_path: /usuarios/login_check
-            username_parameter: _numeroDocumento
+            username_parameter: _email
             password_parameter: _password
           logout:
             path: /usuarios/logout

@@ -29,13 +29,19 @@ class GrupoType extends AbstractType
               'query_builder' => function (EntityRepository $er){
                 return $er->createQueryBuilder('m');
               },
-              'choice_label' => 'getFullName'
+              'choice_label' => 'getFullName','placeholder'=>'Seleccione un mentor'
             ))
             ->add('diplomado','entity',array(
               'class' => 'DataBundle:Diplomado',
               'query_builder' => function(EntityRepository $er){
                 return $er->createQueryBuilder('d')->orderBy('d.id','ASC');
-              },'choice_label'=>'getNombre','placeholder'=>'Seleccione una opcion'))
+              },'choice_label'=>'getNombre','placeholder'=>'Seleccione una opción'))
+            ->add('cupo')
+            ->add('semestre','entity',array(
+              'class' => 'DataBundle:Semestre',
+              'query_builder' => function(EntityRepository $er){
+                return $er->createQueryBuilder('s')->orderBy('s.id','ASC');
+              },'choice_label'=>'getStringSemestre','placeholder'=>'Seleccione una opción'))
             ->add('activo', 'checkbox')
             ->add('save','submit', array('label' => 'Guardar Grupo'));
     }

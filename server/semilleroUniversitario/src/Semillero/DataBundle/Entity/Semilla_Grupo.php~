@@ -165,4 +165,27 @@ class Semilla_Grupo
     {
         return $this->grupo;
     }
+
+    /**
+     * Set fechaDesasignacion
+     *
+     * @param \DateTime $fechaDesasignacion
+     * @return Semilla_Grupo
+     */
+    public function setFechaDesasignacion($fechaDesasignacion)
+    {
+        $this->fechaDesasignacion = $fechaDesasignacion;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaDesasignacion
+     *
+     * @return \DateTime
+     */
+    public function getFechaDesasignacion()
+    {
+        return $this->fechaDesasignacion;
+    }
 }

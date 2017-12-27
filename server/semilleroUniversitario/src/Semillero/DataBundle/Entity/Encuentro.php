@@ -47,6 +47,8 @@ class Encuentro
   */
   private $segmento;
 
+
+
   /**
   * Get id
   *

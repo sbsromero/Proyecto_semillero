@@ -18,6 +18,7 @@ class Grupo
   /**
   * @ORM\ManyToOne(targetEntity="Mentor", inversedBy="grupos")
   * @ORM\JoinColumn(name="mentor_id", referencedColumnName="id")
+  * @Assert\NotBlank(message="Seleccione mentor del grupo")
   */
   protected $mentor;
 
@@ -60,8 +61,29 @@ class Grupo
   /**
   * @ORM\ManyToOne(targetEntity="Semestre", inversedBy="grupos")
   * @ORM\JoinColumn(name="semestre_id", referencedColumnName="id")
+  * @Assert\NotBlank(message="Seleccione el semestre del grupo")
   */
   private $semestre;
+
+  // /**
+  // * @ORM\OneToMany(targetEntity="Segmento", mappedBy="grupo")
+  // */
+
+  /**
+  * @ORM\ManyToMany(targetEntity="Segmento", inversedBy="grupos")
+  * @ORM\JoinTable(name="grupo_segmentos",
+  *      joinColumns={@ORM\JoinColumn(name="id_grupo", referencedColumnName="id")},
+  *      inverseJoinColumns={@ORM\JoinColumn(name="id_segmento", referencedColumnName="id")})
+  */
+  private $segmentos;
+
+  /**
+  * @var int
+  *
+  * @ORM\Column(name="cupo", type="integer", options={"default"= 0})
+  * @Assert\NotBlank(message="Por favor ingrese un cupo para el grupo")
+  */
+  private $cupo;
 
   /**
   * @var \DateTime
@@ -76,6 +98,7 @@ class Grupo
   * @ORM\Column(name="activo", type="boolean")
   */
   private $activo;
+
     /**
      * Constructor
      */
@@ -83,12 +106,13 @@ class Grupo
     {
         $this->fechaCreacion = new \DateTime();
         $this->semillas = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->segmentos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -111,11 +135,34 @@ class Grupo
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
         return $this->nombre;
+    }
+
+    /**
+     * Set cupo
+     *
+     * @param integer $cupo
+     * @return Grupo
+     */
+    public function setCupo($cupo)
+    {
+        $this->cupo = $cupo;
+
+        return $this;
+    }
+
+    /**
+     * Get cupo
+     *
+     * @return integer 
+     */
+    public function getCupo()
+    {
+        return $this->cupo;
     }
 
     /**
@@ -134,7 +181,7 @@ class Grupo
     /**
      * Get fechaCreacion
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getFechaCreacion()
     {
@@ -157,7 +204,7 @@ class Grupo
     /**
      * Get activo
      *
-     * @return boolean
+     * @return boolean 
      */
     public function getActivo()
     {
@@ -180,7 +227,7 @@ class Grupo
     /**
      * Get mentor
      *
-     * @return \Semillero\DataBundle\Entity\Mentor
+     * @return \Semillero\DataBundle\Entity\Mentor 
      */
     public function getMentor()
     {
@@ -203,7 +250,7 @@ class Grupo
     /**
      * Get diplomado
      *
-     * @return \Semillero\DataBundle\Entity\Diplomado
+     * @return \Semillero\DataBundle\Entity\Diplomado 
      */
     public function getDiplomado()
     {
@@ -236,7 +283,7 @@ class Grupo
     /**
      * Get semillas
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getSemillas()
     {
@@ -259,7 +306,7 @@ class Grupo
     /**
      * Get jornada
      *
-     * @return \Semillero\DataBundle\Entity\Jornada
+     * @return \Semillero\DataBundle\Entity\Jornada 
      */
     public function getJornada()
     {
@@ -282,10 +329,43 @@ class Grupo
     /**
      * Get semestre
      *
-     * @return \Semillero\DataBundle\Entity\Semestre
+     * @return \Semillero\DataBundle\Entity\Semestre 
      */
     public function getSemestre()
     {
         return $this->semestre;
+    }
+
+    /**
+     * Add segmentos
+     *
+     * @param \Semillero\DataBundle\Entity\Segmento $segmentos
+     * @return Grupo
+     */
+    public function addSegmento(\Semillero\DataBundle\Entity\Segmento $segmentos)
+    {
+        $this->segmentos[] = $segmentos;
+
+        return $this;
+    }
+
+    /**
+     * Remove segmentos
+     *
+     * @param \Semillero\DataBundle\Entity\Segmento $segmentos
+     */
+    public function removeSegmento(\Semillero\DataBundle\Entity\Segmento $segmentos)
+    {
+        $this->segmentos->removeElement($segmentos);
+    }
+
+    /**
+     * Get segmentos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSegmentos()
+    {
+        return $this->segmentos;
     }
 }
