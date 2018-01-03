@@ -268,12 +268,13 @@ class GruposController extends Controller
   }
 
   private function agregarSegmentos($grupo){
-    $em = $this->getDoctrine()->getManager();
-    $segmentos = $em->getRepository('DataBundle:Segmento')->findAll();
-    $grupo -> addSegmento($segmentos[0]);
-    $grupo -> addSegmento($segmentos[1]);
-    $grupo -> addSegmento($segmentos[2]);
-    $grupo -> addSegmento($segmentos[3]);
+    for ($i=0; $i <4 ; $i++) {
+      $segmento = new Segmento();
+      $segmento->setNumeroSegmento($i+1);
+      $segmento->setActivo(true);
+      $segmento->setGrupos($grupo);
+      $grupo->addSegmento($segmento);
+    }
   }
 
 

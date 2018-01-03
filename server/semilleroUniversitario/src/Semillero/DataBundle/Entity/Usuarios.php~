@@ -520,7 +520,7 @@ class Usuarios implements AdvancedUserInterface, \Serializable
 
   public function getUsername()
   {
-    return $this->numeroDocumento;
+    return $this->email;
   }
 
   public function isEnabled()
@@ -534,7 +534,7 @@ class Usuarios implements AdvancedUserInterface, \Serializable
     return serialize(array(
       // ...
       $this->id,
-      $this->numeroDocumento,
+      $this->email,
       $this->password,
       $this->activo
     ));
@@ -545,7 +545,7 @@ class Usuarios implements AdvancedUserInterface, \Serializable
     list (
       // ...
       $this->id,
-      $this->numeroDocumento,
+      $this->email,
       $this->password,
       $this->activo
       ) = unserialize($serialized);
