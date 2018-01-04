@@ -234,9 +234,9 @@ class GruposController extends Controller
 
   //Metodo que permite generar un pdf con las semillas de un grupo
   /**
-  * @Route("/getPdfSemillas",name="getPdfSemillas")
+  * @Route("/getPdfGrupoSemillas",name="getPdfGrupoSemillas")
   */
-  public function getPdfSemillas(Request $request){
+  public function getPdfGrupoSemillas(Request $request){
     $idGrupo = $request->query->get('id');
     $em = $this->getDoctrine()->getManager();
     $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
@@ -249,7 +249,7 @@ class GruposController extends Controller
     }
 
     return new PdfResponse(
-         $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('MentoresBundle:Grupo:plantillaPdfSemillas.html.twig', array(
+         $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('MentoresBundle:Grupo:plantillaPdfGrupoSemillas.html.twig', array(
              'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath(),
              'grupo' => $grupo,
              'semillas' => $semillas,
@@ -263,17 +263,35 @@ class GruposController extends Controller
     // ));
   }
 
+  //Metodo que permite generar un pdf con todos los grupos registrados
+  /**
+  * @Route("/getPdfGrupos",name="getPdfGrupos")
+  */
+  public function getPdfGrupos(Request $request){
+    $em = $this->getDoctrine()->getManager();
+    $grupos = $em->getRepository('DataBundle:Grupo')->findAll();
+
+    return new PdfResponse(
+      $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('MentoresBundle:Grupo:plantillaPdfGrupos.html.twig', array(
+        'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath(),
+        'grupos' => $grupos
+      ))),
+      'reporteGrupos'.'.pdf'
+    );
+  }
+
   private function existeRegistroSemillasPorGrupo($grupo){
     return (count($grupo->getSemillas())>0) ? true : false ;
   }
 
   private function agregarSegmentos($grupo){
-    $em = $this->getDoctrine()->getManager();
-    $segmentos = $em->getRepository('DataBundle:Segmento')->findAll();
-    $grupo -> addSegmento($segmentos[0]);
-    $grupo -> addSegmento($segmentos[1]);
-    $grupo -> addSegmento($segmentos[2]);
-    $grupo -> addSegmento($segmentos[3]);
+    for ($i=0; $i <4 ; $i++) {
+      $segmento = new Segmento();
+      $segmento->setNumeroSegmento($i+1);
+      $segmento->setActivo(true);
+      $segmento->setGrupo($grupo);
+      $grupo->addSegmento($segmento);
+    }
   }
 
 

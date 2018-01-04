@@ -35,14 +35,14 @@ class Segmento
   */
   private $activo;
 
-//   /**
-//   * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="segmentos")
-//   * @ORM\JoinColumn(name="id_grupo", referencedColumnName="id")
-//   */
+  // /**
+  //  * @ORM\ManyToMany(targetEntity="Grupo",mappedBy="segmentos")
+  //  */
   /**
-   * @ORM\ManyToMany(targetEntity="Grupo",mappedBy="segmentos")
-   */
-  private $grupos;
+  * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="segmentos")
+  * @ORM\JoinColumn(name="id_grupo", referencedColumnName="id")
+  */
+  private $grupo;
 
   /**
   * @ORM\OneToMany(targetEntity="Encuentro", mappedBy="segmento")
@@ -54,7 +54,6 @@ class Segmento
      */
     public function __construct()
     {
-        $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->encuentros = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -62,7 +61,7 @@ class Segmento
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -85,7 +84,7 @@ class Segmento
     /**
      * Get numeroSegmento
      *
-     * @return integer 
+     * @return integer
      */
     public function getNumeroSegmento()
     {
@@ -108,35 +107,13 @@ class Segmento
     /**
      * Get activo
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getActivo()
     {
         return $this->activo;
     }
 
-    /**
-     * Set grupos
-     *
-     * @param \Semillero\DataBundle\Entity\Grupo $grupos
-     * @return Segmento
-     */
-    public function setGrupos(\Semillero\DataBundle\Entity\Grupo $grupos = null)
-    {
-        $this->grupos = $grupos;
-
-        return $this;
-    }
-
-    /**
-     * Get grupos
-     *
-     * @return \Semillero\DataBundle\Entity\Grupo 
-     */
-    public function getGrupos()
-    {
-        return $this->grupos;
-    }
 
     /**
      * Add encuentros
@@ -164,7 +141,7 @@ class Segmento
     /**
      * Get encuentros
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getEncuentros()
     {
@@ -172,25 +149,25 @@ class Segmento
     }
 
     /**
-     * Add grupos
+     * Set grupo
      *
-     * @param \Semillero\DataBundle\Entity\Grupo $grupos
+     * @param \Semillero\DataBundle\Entity\Grupo $grupo
      * @return Segmento
      */
-    public function addGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
+    public function setGrupo(\Semillero\DataBundle\Entity\Grupo $grupo = null)
     {
-        $this->grupos[] = $grupos;
+        $this->grupo = $grupo;
 
         return $this;
     }
 
     /**
-     * Remove grupos
+     * Get grupo
      *
-     * @param \Semillero\DataBundle\Entity\Grupo $grupos
+     * @return \Semillero\DataBundle\Entity\Grupo
      */
-    public function removeGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
+    public function getGrupo()
     {
-        $this->grupos->removeElement($grupos);
+        return $this->grupo;
     }
 }
