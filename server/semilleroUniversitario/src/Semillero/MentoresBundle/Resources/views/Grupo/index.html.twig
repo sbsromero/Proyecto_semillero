@@ -14,9 +14,13 @@
           <i class="glyphicon glyphicon-search"></i>
           <input type="text" id="queryBusquedaGrupo" name="" value="" class="form-control">
           <a class="btn btn-default btnMostrarGrupos" style="border-radius:20px">Mostrar todos</a>
+          <a href="{{path('getPdfGrupos')}}">
+            <img src="{{asset('public/images/icon-pdf.png')}}" style="height:30px; padding-left:20px" alt="">
+          </a>
         </div>
       </div>
-      <div class="col-md-3" align="right">
+
+      <div class="col-md-2" align="right">
         <a class="btn btn-default btn-AddGrupo" data-toggle="modal" data-target="#modalAddGrupo">Agregar Grupo</a>
       </div>
     </div>
@@ -60,7 +64,7 @@
                 {{semillas}}
               </td>
               <td align="">
-                <a href="{{path('getPdfSemillas',{id:grupo.id})}}">
+                <a href="{{path('getPdfGrupoSemillas',{id:grupo.id})}}">
                   <img src="{{asset('public/images/icon-pdf.png')}}" style="height:25px" alt="">
                 </a>
               </td>

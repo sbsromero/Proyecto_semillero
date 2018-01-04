@@ -1,0 +1,56 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- <link rel="stylesheet" href="/public/css/bootstrap.min.css" /> -->
+  <!-- <link rel="stylesheet" href="/public/css/main.css" /> -->
+  <link rel="stylesheet" href="{{ base_dir ~ asset('public/css/bootstrap.min.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="row page-header" align="center">
+      <div class="col-md-12">
+        <img alt="logoSemillero" style="height:130px; padding:10px" src="{{base_dir ~ asset('public/images/logoSemilleroUniversitario.png')}}">
+      </div>
+    </div>
+    <div class="row">
+      {% if grupos | length %}
+      <div class="table-responsive">
+        <table class="table table-striped table-border table-hover table-responsive">
+          <thead>
+            <tr>
+              <th>Nombre diplomado</th>
+              <th>Nombre grupo</th>
+              <th>Semestre</th>
+              <th>Jornada</th>
+              <th>Mentor</th>
+              <th>Cupo</th>
+              <th>Estudiantes</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          {% for grupo in grupos %}
+          <tbody>
+            <tr>
+              <td>{{grupo.getDiplomado().getNombre()}}</td>
+              <td>{{grupo.getNombre()}}</td>
+              <td>{{grupo.getSemestre().getAnoSemestre()|date('Y')}}-{{grupo.getSemestre().getPeriodo()}}</td>
+              <td>{{grupo.getJornada().getNombre()}}</td>
+              <td>{{grupo.getMentor().getNombre()}} {{grupo.getMentor().getApellidos()}}</td>
+              <td>{{grupo.getCupo()}}</td>
+              <td>{{grupo.getSemillas()|length}}</td>
+              <td>
+                {% if grupo.getActivo() %}
+                  Activo
+                {% else %}
+                  Inactivo
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+          {% endfor %}
+        </table>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</body>

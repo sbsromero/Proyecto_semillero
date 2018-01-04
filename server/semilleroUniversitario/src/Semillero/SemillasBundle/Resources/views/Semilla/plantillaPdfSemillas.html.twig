@@ -1,0 +1,77 @@
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <link rel="stylesheet" href="/public/css/bootstrap.min.css" /> -->
+    <!-- <link rel="stylesheet" href="/public/css/main.css" /> -->
+    <link rel="stylesheet" href="{{ base_dir ~ asset('public/css/bootstrap.min.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="row page-header" align="center">
+      <div class="col-md-12">
+        <img alt="logoSemillero" style="height:130px; padding:10px" src="{{base_dir ~ asset('public/images/logoSemilleroUniversitario.png')}}">
+      </div>
+    </div>
+    <div class="row">
+      {% if semillas | length %}
+      <div class="table-responsive">
+        <table class="table table-striped table-border table-hover table-responsive">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>N° Documento</th>
+              <th>Telefono</th>
+              <th>Grupo</th>
+              <th>Acudiente</th>
+              <th>Telefono</th>
+            </tr>
+          </thead>
+          {% for semilla in semillas %}
+          <tbody>
+            <tr>
+              <td>{{loop.index}}</td>
+              <td>{{semilla.getNombre()}}</td>
+              <td>{{semilla.getApellidos()}}</td>
+              <td>{{semilla.getNumeroDocumento()}}</td>
+
+              <td>{{semilla.getNumeroTelefono()}}</td>
+              <td>
+                {% set bandera = false %}
+                {% set grupo = '' %}
+                {% for semillaGrupo in semilla.getGrupos() %}
+                  {% if semillaGrupo.getActivo() %}
+                    {% set bandera = true %}
+                    {% set grupo = semillaGrupo.getGrupo().getNombre() %}
+                  {% endif %}
+                {% endfor %}
+                {% if bandera %}
+                  {{grupo}}
+                {% else %}
+                  No asignado
+                {% endif %}
+              </td>
+              <td>
+                {% if semilla.getAcudienteUno() is empty %}
+                  {{semilla.getAcudienteDos()}}
+                {% else %}
+                  {{semilla.getAcudienteUno()}}
+                {% endif %}
+              </td>
+              <td>
+                {% if semilla.getTelefonoAcudienteUno() is empty %}
+                  {{semilla.getTelefonoAcudienteDos}}
+                {% else %}
+                  {{semilla.getTelefonoAcudienteUno()}}
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+          {% endfor %}
+        </table>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</body>

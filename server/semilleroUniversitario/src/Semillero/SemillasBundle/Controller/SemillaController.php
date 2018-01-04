@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\FormError;
@@ -270,6 +271,23 @@ class SemillaController extends Controller
       }
     }
     return new Response('user not loggin',Response::HTTP_NOT_FOUND);
+  }
+
+  //Metodo que permite realizar el pdf de todas las semillas registradas
+  /**
+  * @Route("/getPdfSemillas", name="getPdfSemillas")
+  */
+  public function getPdfSemillas(Request $request){
+    $em = $this->getDoctrine()->getManager();
+    $semillas = $em->getRepository('DataBundle:Semilla')->findAll();
+
+    return new PdfResponse(
+      $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('SemillasBundle:Semilla:plantillaPdfSemillas.html.twig', array(
+        'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath(),
+        'semillas' => $semillas
+      ))),
+      'reporteSemillas'.'.pdf'
+    );
   }
 
 //Metodo que permite saber que grupo tiene asignado una semilla
