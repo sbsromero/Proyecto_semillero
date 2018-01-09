@@ -281,6 +281,36 @@ class GruposController extends Controller
     );
   }
 
+  /**
+  * @Route("/getAsignarMentor7{id}", name="getAsignarMentor")
+  */
+  public function getAsignarMentor($id,Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      if ($request->isXmlHttpRequest()) {
+        $page= $request->query->get('pageActive');
+        $page = empty($page) ? 1 : $page;
+
+        $em = $this->getDoctrine()->getManager();
+        $grupo = $em->getRepository('DataBundle:Grupo')->find($id);
+
+        $mentores = $em->getRepository('DataBundle:Mentor')->findAll();
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($mentores, $page, 2);
+        $items = $pagination->getItems();
+        $pageCount = $pagination->getPageCount();
+
+        return $this->render('MentoresBundle:Grupo:asignarMentor.html.twig',array(
+          'grupo' => $grupo,
+          'mentores'=> $items,
+          'pageCount' => $pageCount
+        ));
+      }
+      return $this->redirectToRoute('indexGrupos');
+    }
+    return $this->redirectToRoute('adminLogin');
+  }
+
   private function existeRegistroSemillasPorGrupo($grupo){
     return (count($grupo->getSemillas())>0) ? true : false ;
   }

@@ -37,9 +37,10 @@
 							<th rowspan="2" style="font-size:14px">Mentor</th>
               <th rowspan="2" colspan="2" style="font-size:14px">Estudiantes</th>
 							<th rowspan="2" style="font-size:14px">Activo</th>
-              <th rowspan="1" colspan="3" style="text-align:center; font-size:14px">Acciones</th>
+              <th rowspan="1" colspan="4" style="text-align:center; font-size:14px">Acciones</th>
             </tr>
             <tr>
+              <th rowspan="1" style="text-align:center; font-size:14px">Asignar Mentor</th>
               <th rowspan="1" style="text-align:center; font-size:14px">Ver</th>
               <th rowspan="1" style="text-align:center; font-size:14px">Editar</th>
               <th rowspan="1" style="text-align:center; font-size:14px">Eliminar</th>
@@ -82,6 +83,15 @@
                  </span>
                  {% endif %}
  								</td>
+              <td align="center">
+                <span data-toggle="tooltip" data-original-title="Asignar mentor">
+                  <a class="btn btn-sm btn-warning btnAsignarMentor " data-toggle="modal" data-target="#modalAsignarMentor">
+                    <span>
+                      <i class="glyphicon glyphicon-user"></i>
+                    </span>
+                  </a>
+                </span>
+              </td>
               <td align="center">
                 <a class="btn btn-sm btn-info btnVerGrupo" data-toggle="modal" data-target="#modalViewGrupo">Ver</a>
               </td>
@@ -135,6 +145,16 @@
     <div class="modal-content">
       <div class="modal-body body-modal" id ="contentViewGrupo">
 
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal asignar mentor-->
+<div class="modal fade" id="modalAsignarMentor">
+  <div class="modal-dialog" style="width: 800px" role="document">
+    <div class="modal-content">
+      <div class="modal-body body-modal" id="contentAsignarMentor">
       </div>
     </div>
   </div>

@@ -47,6 +47,58 @@ $(document).ready(function(){
     })
   })
 
+  //Metodo que permite mostrar la modal para asignar un mentor
+  //a un grupo
+  $('body').on('click','.btnAsignarMentor', function(e){
+    e.preventDefault();
+    var row = $(this).parents('tr');
+    var id = row.data('id');
+    $.ajax({
+      type:"GET",
+      url: Routing.generate('getAsignarMentor',{id:id}),
+      success: function(html){
+        $('#contentAsignarMentor').html(html);
+        createPaginationMentores();
+      }
+    })
+  })
+
+  //Metodo que crea el paginador de mentores en la modal de asignar
+  //mentor a un grupo
+  var createPaginationMentores = function(){
+    var totalPages = $('#tablaMentores').attr('data-pagecount');
+    var id = $('#nombreGrupo').data('idgrupo');
+    if(totalPages != 0){
+      $('#paginationMentores').twbsPagination({
+        startPage: 1,
+        totalPages: totalPages,
+        visiblePages: 6,
+        initiateStartPageClick: false,
+        first:'Primero',
+        last: 'Último',
+        prev: '<span aria-hidden="true">&laquo;</span>',
+        next: '<span aria-hidden="true">&raquo;</span>',
+        onPageClick: function (event, page) {
+          $.ajax({
+            type: "GET",
+            url: Routing.generate('getAsignarMentor',{id:id}),
+            data:{
+              pageActive: page,
+            },
+            success:function(html){
+              $('#tablaMentores').replaceWith($(html).find('#tablaMentores'));
+            }
+          })
+        }
+      })
+    }
+  }
+
+
+  $('body').on('click','.checkAsignarMentor', function(e){
+
+  })
+
   //Actualización de grupo
   $('body').on('click','.btn-editarGrupo',function(e){
     e.preventDefault();
