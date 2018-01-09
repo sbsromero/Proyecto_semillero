@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
+
 class GrupoType extends AbstractType
 {
     /**
@@ -18,32 +19,25 @@ class GrupoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre')
-            ->add('jornada','entity',array(
-              'class' => 'DataBundle:Jornada',
-              'query_builder' => function(EntityRepository $er){
-                return $er->createQueryBuilder('j')->orderBy('j.id','ASC');
-              },'choice_label'=>'getNombre','placeholder'=>'Seleccione una opcion'))
-            ->add('mentor','entity',array(
-              'class' => 'DataBundle:Mentor',
-              'query_builder' => function (EntityRepository $er){
-                return $er->createQueryBuilder('m');
-              },
-              'choice_label' => 'getFullName','placeholder'=>'Seleccione un mentor'
-            ))
-            ->add('diplomado','entity',array(
-              'class' => 'DataBundle:Diplomado',
-              'query_builder' => function(EntityRepository $er){
-                return $er->createQueryBuilder('d')->orderBy('d.id','ASC');
-              },'choice_label'=>'getNombre','placeholder'=>'Seleccione una opción'))
-            ->add('cupo')
-            ->add('semestre','entity',array(
+          ->add('nombre')
+          ->add('cupo')
+          ->add('activo', 'checkbox')
+          ->add('diplomado','entity',array(
+            'class' => 'DataBundle:Diplomado',
+            'query_builder' => function(EntityRepository $er){
+              return $er->createQueryBuilder('d')->orderBy('d.id','ASC');
+            },'choice_label'=>'getNombre','placeholder'=>'Seleccione una opción'))
+          ->add('jornada','entity',array(
+            'class' => 'DataBundle:Jornada',
+            'query_builder' => function(EntityRepository $er){
+              return $er->createQueryBuilder('j')->orderBy('j.id','ASC');
+            },'choice_label'=>'getNombre','placeholder'=>'Seleccione una opcion'))
+          ->add('semestre','entity',array(
               'class' => 'DataBundle:Semestre',
               'query_builder' => function(EntityRepository $er){
                 return $er->createQueryBuilder('s')->orderBy('s.id','ASC');
-              },'choice_label'=>'getStringSemestre','placeholder'=>'Seleccione una opción'))
-            ->add('activo', 'checkbox')
-            ->add('save','submit', array('label' => 'Guardar Grupo'));
+                },'choice_label'=>'getStringSemestre','placeholder'=>'Seleccione una opción'))
+          ->add('save','submit', array('label' => 'Guardar Grupo'));
     }
 
     /**
@@ -61,7 +55,7 @@ class GrupoType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'grupo';
+        return 'semillero_databundle_grupo';
     }
 
 
