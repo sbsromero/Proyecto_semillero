@@ -96,7 +96,47 @@ $(document).ready(function(){
 
 
   $('body').on('click','.checkAsignarMentor', function(e){
+    var idGrupo = $('#nombreGrupo').data('idgrupo');
+    var idMentor = $(this).parents('tr').data('id');
+    var tr = $(this).parents('tr');
+    tr.attr('style','background-color: #c5e1fb !important')
+    bootbox.confirm({
+      message: "¿Esta seguro que desea asignar este mentor al grupo?",
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success'
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-danger'
+        }
+      },
+      callback: function (result) {
+        if(result){
 
+          $.ajax({
+            type: "POST",
+            url: Routing.generate('setMentor'),
+            data:{
+              idGrupo: idGrupo,
+              idMentor: idMentor
+            },
+            success: function(html){
+              console.log(html);
+              $('#modalAsignarMentor').modal('hide');
+              // window.location.href = Routing.generate("indexGrupos")
+            },
+            error: function(html){
+              toastr.error("No se pueden asignar mas grupos a este mentor");
+            }
+          })
+        }
+        else{
+          tr.attr('style','')
+        }
+      }
+    });
   })
 
   //Actualización de grupo

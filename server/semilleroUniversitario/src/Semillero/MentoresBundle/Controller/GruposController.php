@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormError;
 
 use Semillero\DataBundle\Entity\Grupo;
 use Semillero\DataBundle\Entity\Segmento;
+use Semillero\DataBundle\Entity\Mentor_Grupos;
 use Semillero\DataBundle\Form\GrupoType;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -305,6 +306,40 @@ class GruposController extends Controller
           'mentores'=> $items,
           'pageCount' => $pageCount
         ));
+      }
+      return $this->redirectToRoute('indexGrupos');
+    }
+    return $this->redirectToRoute('adminLogin');
+  }
+
+  /**
+  * @Route("/setMentor", name="setMentor")
+  * @Method({"POST"})
+  */
+  public function asignarMentor(Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      if ($request->isXmlHttpRequest()) {
+        $idGrupo = $request->request->get('idGrupo');
+        $idMentor = $request->request->get('idMentor');
+
+        $em = $this->getDoctrine()->getManager();
+
+        //Grupos asignados al mentor
+        $gruposAsignados = $em->getRepository('DataBundle:Mentor_Grupos')->gruposAsignadosPorMentor($idMentor);
+
+        //Falta validar por jornadas y cambiar el viejo por el nuevo
+
+        if(count($gruposAsignados) < 2 ){
+          $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
+          $mentor = $em->getRepository('DataBundle:Mentor')->find($idMentor);
+          $mentor_grupos = new Mentor_Grupos();
+          $mentor_grupos->setMentor($mentor);
+          $mentor_grupos->setGrupo($grupo);
+          $em->persist($mentor_grupos);
+          $em->flush();
+          return new Response(Response::HTTP_OK);
+        }
+        return new Response("error",400);
       }
       return $this->redirectToRoute('indexGrupos');
     }

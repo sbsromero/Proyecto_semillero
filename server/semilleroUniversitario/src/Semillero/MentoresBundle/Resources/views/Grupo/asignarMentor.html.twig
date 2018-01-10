@@ -21,18 +21,35 @@
             <th style="text-align:center">Asignar</th>
           </thead>
           {% for mentor in mentores %}
+
+          {% set flagSelected = false %}
+          {% for mentor_grupo in mentor.getGrupos() %}
+            {% if mentor_grupo.getGrupo().getId() == grupo.getId() %}
+              {% set flagSelected = true %}
+            {% endif %}
+          {% endfor %}
           <tbody>
             <tr data-id="{{mentor.getId()}}">
               <td>{{mentor.getNombre()}}</td>
               <td>{{mentor.getApellidos()}}</td>
               <td align="center">
-                <span data-toggle="tooltip" data-original-title="Asignar mentor">
-                  <a class="btn btn-sm checkAsignarMentor">
-                    <span>
-                      <i class="glyphicon glyphicon-unchecked"></i>
-                    </span>
-                  </a>
-                </span>
+                {% if flagSelected %}
+                  <span>
+                    <a class="btn btn-sm">
+                      <span>
+                        <i class="glyphicon glyphicon-check"></i>
+                      </span>
+                    </a>
+                  </span>
+                {% else %}
+                  <span data-toggle="tooltip" data-original-title="Asignar mentor">
+                    <a class="btn btn-sm checkAsignarMentor">
+                      <span>
+                        <i class="glyphicon glyphicon-unchecked"></i>
+                      </span>
+                    </a>
+                  </span>
+                {% endif %}
               </td>
             </tr>
           </tbody>
