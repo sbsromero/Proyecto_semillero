@@ -283,7 +283,7 @@ class GruposController extends Controller
   }
 
   /**
-  * @Route("/getAsignarMentor7{id}", name="getAsignarMentor")
+  * @Route("/getAsignarMentor/{id}", name="getAsignarMentor")
   */
   public function getAsignarMentor($id,Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
@@ -328,6 +328,8 @@ class GruposController extends Controller
         $gruposAsignados = $em->getRepository('DataBundle:Mentor_Grupos')->gruposAsignadosPorMentor($idMentor);
 
         //Falta validar por jornadas y cambiar el viejo por el nuevo
+        $mentorAsignado = $em->getRepository('DataBundle:Mentor')->getMentorAsignadoPorGrupo($idGrupo);
+        dump($mentorAsignado);exit();
 
         if(count($gruposAsignados) < 2 ){
           $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);

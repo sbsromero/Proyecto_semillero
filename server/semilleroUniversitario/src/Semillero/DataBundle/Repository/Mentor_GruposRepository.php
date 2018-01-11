@@ -21,4 +21,5 @@ class Mentor_GruposRepository extends EntityRepository
     ->setParameter('id',$idMentor)
     ->getResult();
   }
+
 }
