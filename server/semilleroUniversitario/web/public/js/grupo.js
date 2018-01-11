@@ -123,9 +123,11 @@ $(document).ready(function(){
               idMentor: idMentor
             },
             success: function(html){
-              console.log(html);
               $('#modalAsignarMentor').modal('hide');
-              // window.location.href = Routing.generate("indexGrupos")
+              toastr.success("El mentor a sido asignado al grupo");
+              setTimeout(function () {
+                window.location.href = Routing.generate("indexGrupos")
+              }, 1500);
             },
             error: function(html){
               toastr.error("No se pueden asignar mas grupos a este mentor");

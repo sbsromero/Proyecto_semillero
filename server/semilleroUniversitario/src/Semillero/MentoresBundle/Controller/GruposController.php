@@ -58,8 +58,7 @@ class GruposController extends Controller
         $valorBusqueda = "";
       }
 
-      // $grupos = $em->getRepository('DataBundle:Grupo')->getAllGrupos($valorBusqueda);
-      $grupos = $em->getRepository('DataBundle:Grupo')->findAll();
+      $grupos = $em->getRepository('DataBundle:Grupo')->getAllGrupos($valorBusqueda);
 
       $page= $request->query->get('pageActive');
       $page = empty($page) ? 1 : $page;
@@ -327,9 +326,8 @@ class GruposController extends Controller
         //Grupos asignados al mentor
         $gruposAsignados = $em->getRepository('DataBundle:Mentor_Grupos')->gruposAsignadosPorMentor($idMentor);
 
-        //Falta validar por jornadas y cambiar el viejo por el nuevo
-        $mentorAsignado = $em->getRepository('DataBundle:Mentor')->getMentorAsignadoPorGrupo($idGrupo);
-        dump($mentorAsignado);exit();
+        //Falta validar por jornadas
+        $mentorAsignado = $em->getRepository('DataBundle:Mentor_Grupos')->getMentorAsignadoPorGrupo($idGrupo);
 
         if(count($gruposAsignados) < 2 ){
           $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
@@ -337,6 +335,10 @@ class GruposController extends Controller
           $mentor_grupos = new Mentor_Grupos();
           $mentor_grupos->setMentor($mentor);
           $mentor_grupos->setGrupo($grupo);
+          if(!empty($mentorAsignado)){
+            $mentorAsignado->setFechaDesasignacion(new \Datetime());
+            $mentorAsignado->setActivo(false);
+          }
           $em->persist($mentor_grupos);
           $em->flush();
           return new Response(Response::HTTP_OK);
@@ -360,6 +362,17 @@ class GruposController extends Controller
       $segmento->setGrupo($grupo);
       $grupo->addSegmento($segmento);
     }
+  }
+
+  //Renderiza el mentor asociado a un grupo
+  public function getMentorGrupoAction($id){
+    $em = $this->getDoctrine()->getManager();
+    $mentor = $em->getRepository('DataBundle:Mentor_Grupos')->getMentorAsignadoPorGrupo($id);
+
+    if(empty($mentor)){
+      return new Response("No asignado");
+    }
+    return new Response($mentor->getMentor()->getFullName());
   }
 
 

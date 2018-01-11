@@ -18,11 +18,12 @@ class GrupoRepository extends EntityRepository
   public function getAllGrupos($querySearch)
   {
     return $this->getEntityManager()
-    ->createQuery("SELECT g FROM DataBundle:Grupo g LEFT JOIN g.jornada gj LEFT JOIN g.diplomado gd LEFT JOIN g.mentor gm WHERE upper(g.nombre)
+    ->createQuery("SELECT g FROM DataBundle:Grupo g LEFT JOIN g.jornada gj LEFT JOIN g.diplomado gd LEFT JOIN g.mentor g_m
+      LEFT JOIN g_m.mentor m WHERE upper(g.nombre)
     like upper(:querySearch)
      OR upper(gd.nombre) like upper(:querySearch)
      OR upper(gj.nombre) like upper(:querySearch)
-     OR upper(gm.nombre) like upper(:querySearch)
+     OR upper(m.nombre) like upper(:querySearch)
      OR (CAST(YEAR(g.fechaCreacion) as string) like :querySearch
      OR CAST(MONTH(g.fechaCreacion) as string) like :querySearch
      OR CAST(DAY(g.fechaCreacion) as string) like :querySearch

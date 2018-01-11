@@ -24,7 +24,7 @@
 
           {% set flagSelected = false %}
           {% for mentor_grupo in mentor.getGrupos() %}
-            {% if mentor_grupo.getGrupo().getId() == grupo.getId() %}
+            {% if mentor_grupo.getGrupo().getId() == grupo.getId() and mentor_grupo.getActivo() == true %}
               {% set flagSelected = true %}
             {% endif %}
           {% endfor %}

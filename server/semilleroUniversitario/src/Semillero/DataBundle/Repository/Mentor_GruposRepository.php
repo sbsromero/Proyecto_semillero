@@ -22,4 +22,14 @@ class Mentor_GruposRepository extends EntityRepository
     ->getResult();
   }
 
+  //Metodo que retorna el id del mentor que esta asignado al grupo que ingresa por parametro
+  public function getMentorAsignadoPorGrupo($idGrupo){
+    return $this->getEntityManager()
+    ->createQuery('SELECT m_g from DataBundle:Mentor_Grupos m_g WHERE m_g.grupo = :id and
+    m_g.activo = TRUE')
+    ->setParameter('id',$idGrupo)
+    ->getOneOrNullResult();
+  }
+
+
 }
