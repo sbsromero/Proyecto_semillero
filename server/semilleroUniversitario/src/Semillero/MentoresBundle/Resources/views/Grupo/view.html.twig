@@ -21,7 +21,9 @@
 							<dd>{{ grupo.fechaCreacion|date('d-m-Y') }}</dd>
 							<br>
 							<dt>{{'Mentor:'}}</dt>
-	            <dd>{{mentor.getFullName()}}</dd>
+	            <dd>
+								{{render(controller('MentoresBundle:Grupos:getMentorGrupo',{id:grupo.getId()}))}}
+							</dd>
 	            <br>
 	            <dt>{{'Estado'}}</dt>
 	            <dd>

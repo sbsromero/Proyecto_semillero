@@ -130,7 +130,7 @@ $(document).ready(function(){
               }, 1500);
             },
             error: function(html){
-              toastr.error("No se pueden asignar mas grupos a este mentor");
+              toastr.error(html.responseText);
             }
           })
         }

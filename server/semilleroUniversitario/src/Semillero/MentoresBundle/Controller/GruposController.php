@@ -326,24 +326,27 @@ class GruposController extends Controller
         //Grupos asignados al mentor
         $gruposAsignados = $em->getRepository('DataBundle:Mentor_Grupos')->gruposAsignadosPorMentor($idMentor);
 
-        //Falta validar por jornadas
+        //Mentor asignado al grupo
         $mentorAsignado = $em->getRepository('DataBundle:Mentor_Grupos')->getMentorAsignadoPorGrupo($idGrupo);
 
         if(count($gruposAsignados) < 2 ){
           $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
-          $mentor = $em->getRepository('DataBundle:Mentor')->find($idMentor);
-          $mentor_grupos = new Mentor_Grupos();
-          $mentor_grupos->setMentor($mentor);
-          $mentor_grupos->setGrupo($grupo);
-          if(!empty($mentorAsignado)){
-            $mentorAsignado->setFechaDesasignacion(new \Datetime());
-            $mentorAsignado->setActivo(false);
+          if(!$this->gruposMismaJornada($gruposAsignados, $grupo)){
+            $mentor = $em->getRepository('DataBundle:Mentor')->find($idMentor);
+            $mentor_grupos = new Mentor_Grupos();
+            $mentor_grupos->setMentor($mentor);
+            $mentor_grupos->setGrupo($grupo);
+            if(!empty($mentorAsignado)){
+              $mentorAsignado->setFechaDesasignacion(new \Datetime());
+              $mentorAsignado->setActivo(false);
+            }
+            $em->persist($mentor_grupos);
+            $em->flush();
+            return new Response(Response::HTTP_OK);
           }
-          $em->persist($mentor_grupos);
-          $em->flush();
-          return new Response(Response::HTTP_OK);
+          return new Response("No se puede asignar un grupo en la misma jornada",400);
         }
-        return new Response("error",400);
+        return new Response("No se pueden asignar mas grupos a este mentor",400);
       }
       return $this->redirectToRoute('indexGrupos');
     }
@@ -362,6 +365,17 @@ class GruposController extends Controller
       $segmento->setGrupo($grupo);
       $grupo->addSegmento($segmento);
     }
+  }
+
+  //Metodo que verifica si el grupo que se va asignar a un Mentor
+  //es de diferente joranda
+  private function gruposMismaJornada($mentor_grupos, $grupo){
+    foreach ($mentor_grupos as $grupos) {
+      if($grupos->getActivo() == true && $grupos->getGrupo()->getJornada()->getId() == $grupo->getJornada()->getId()){
+        return true;
+      }
+    }
+    return false;
   }
 
   //Renderiza el mentor asociado a un grupo
