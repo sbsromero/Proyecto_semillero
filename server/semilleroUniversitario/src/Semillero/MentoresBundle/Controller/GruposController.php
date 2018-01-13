@@ -58,8 +58,7 @@ class GruposController extends Controller
         $valorBusqueda = "";
       }
 
-      // $grupos = $em->getRepository('DataBundle:Grupo')->getAllGrupos($valorBusqueda);
-      $grupos = $em->getRepository('DataBundle:Grupo')->findAll();
+      $grupos = $em->getRepository('DataBundle:Grupo')->getAllGrupos($valorBusqueda);
 
       $page= $request->query->get('pageActive');
       $page = empty($page) ? 1 : $page;
