@@ -23,6 +23,7 @@ class GrupoRepository extends EntityRepository
     like upper(:querySearch)
      OR upper(gd.nombre) like upper(:querySearch)
      OR upper(gj.nombre) like upper(:querySearch)
+     OR upper(m.nombre) like upper(:querySearch)
      OR (CAST(YEAR(g.fechaCreacion) as string) like :querySearch
      OR CAST(MONTH(g.fechaCreacion) as string) like :querySearch
      OR CAST(DAY(g.fechaCreacion) as string) like :querySearch
@@ -31,6 +32,8 @@ class GrupoRepository extends EntityRepository
       CAST(YEAR(g.fechaCreacion) as string)) like :querySearch)")
     ->setParameter('querySearch','%'.$querySearch.'%');
   }
+
+
 
   //Retorna todos los grupos
   public function findAll()
