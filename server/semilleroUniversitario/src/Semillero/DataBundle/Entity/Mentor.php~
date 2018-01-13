@@ -26,8 +26,11 @@ class Mentor extends Usuarios
   */
   private $tipoMentor;
 
+  // /**
+  // * @ORM\OneToMany(targetEntity="Grupo", mappedBy="mentor")
+  // */
   /**
-  * @ORM\OneToMany(targetEntity="Grupo", mappedBy="mentor")
+  * @ORM\OneToMany(targetEntity="Mentor_Grupos", mappedBy="mentor")
   */
   private $grupos;
 
@@ -54,52 +57,44 @@ class Mentor extends Usuarios
     return $this->tipoMentor;
   }
 
-  /**
-  * Constructor
-  */
-  public function __construct()
-  {
-    $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
-  }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
-  /**
-  * Add grupos
-  *
-  * @param \Semillero\DataBundle\Entity\Grupo $grupos
-  * @return Mentor
-  */
-  public function addGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
-  {
-    $this->grupos[] = $grupos;
+    /**
+     * Add grupos
+     *
+     * @param \Semillero\DataBundle\Entity\Mentor_Grupo $grupos
+     * @return Mentor
+     */
+    public function addGrupo(\Semillero\DataBundle\Entity\Mentor_Grupo $grupos)
+    {
+        $this->grupos[] = $grupos;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-  * Remove grupos
-  *
-  * @param \Semillero\DataBundle\Entity\Grupo $grupos
-  */
-  public function removeGrupo(\Semillero\DataBundle\Entity\Grupo $grupos)
-  {
-    $this->grupos->removeElement($grupos);
-  }
+    /**
+     * Remove grupos
+     *
+     * @param \Semillero\DataBundle\Entity\Mentor_Grupo $grupos
+     */
+    public function removeGrupo(\Semillero\DataBundle\Entity\Mentor_Grupo $grupos)
+    {
+        $this->grupos->removeElement($grupos);
+    }
 
-  /**
-  * Get grupos
-  *
-  * @return \Doctrine\Common\Collections\Collection
-  */
-  public function getGrupos()
-  {
-    return $this->grupos;
-  }
-
-  /**
-  * Get discriminator
-  */
-  public function getDiscr()
-  {
-    return $this->discr;
-  }
+    /**
+     * Get grupos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGrupos()
+    {
+        return $this->grupos;
+    }
 }

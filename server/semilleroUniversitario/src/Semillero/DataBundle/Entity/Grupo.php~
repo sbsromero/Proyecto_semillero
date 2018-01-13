@@ -15,10 +15,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 */
 class Grupo
 {
+  // /**
+  // * @ORM\ManyToOne(targetEntity="Mentor", inversedBy="grupos")
+  // * @ORM\JoinColumn(name="mentor_id", referencedColumnName="id")
+  // * @Assert\NotBlank(message="Seleccione mentor del grupo")
+  // */
   /**
-  * @ORM\ManyToOne(targetEntity="Mentor", inversedBy="grupos")
-  * @ORM\JoinColumn(name="mentor_id", referencedColumnName="id")
-  * @Assert\NotBlank(message="Seleccione mentor del grupo")
+  * @ORM\OneToMany(targetEntity="Mentor_Grupos", mappedBy="mentor")
   */
   protected $mentor;
 
@@ -213,29 +216,6 @@ class Grupo
     }
 
     /**
-     * Set mentor
-     *
-     * @param \Semillero\DataBundle\Entity\Mentor $mentor
-     * @return Grupo
-     */
-    public function setMentor(\Semillero\DataBundle\Entity\Mentor $mentor = null)
-    {
-        $this->mentor = $mentor;
-
-        return $this;
-    }
-
-    /**
-     * Get mentor
-     *
-     * @return \Semillero\DataBundle\Entity\Mentor
-     */
-    public function getMentor()
-    {
-        return $this->mentor;
-    }
-
-    /**
      * Set diplomado
      *
      * @param \Semillero\DataBundle\Entity\Diplomado $diplomado
@@ -369,5 +349,38 @@ class Grupo
     public function getSegmentos()
     {
         return $this->segmentos;
+    }
+
+    /**
+     * Add mentor
+     *
+     * @param \Semillero\DataBundle\Entity\Mentor_Grupos $mentor
+     * @return Grupo
+     */
+    public function addMentor(\Semillero\DataBundle\Entity\Mentor_Grupos $mentor)
+    {
+        $this->mentor[] = $mentor;
+
+        return $this;
+    }
+
+    /**
+     * Remove mentor
+     *
+     * @param \Semillero\DataBundle\Entity\Mentor_Grupos $mentor
+     */
+    public function removeMentor(\Semillero\DataBundle\Entity\Mentor_Grupos $mentor)
+    {
+        $this->mentor->removeElement($mentor);
+    }
+
+    /**
+     * Get mentor
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMentor()
+    {
+        return $this->mentor;
     }
 }

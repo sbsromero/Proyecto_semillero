@@ -14,6 +14,9 @@
           <i class="glyphicon glyphicon-search"></i>
           <input type="text" id="queryBusquedaMentor" name="" value="" class="form-control">
           <a class="btn btn-default btnMostrarMentores" style="border-radius:20px">Mostrar todos</a>
+          <a href="{{path('getPdfMentores')}}">
+            <img src="{{asset('public/images/icon-pdf.png')}}" style="height:30px; padding-left:20px" alt="">
+          </a>
         </div>
       </div>
       <div class="col-md-3" align="right">
@@ -34,9 +37,10 @@
               <th rowspan="2" style="font-size:14px"> Número Celular</th>
               <th rowspan="2" style="font-size:14px"> {{ 'Tipo De Mentor' }} </th>
               <th rowspan="2" style="text-align:center;font-size:14px">Activo</th>
-              <th rowspan="1" colspan="4" style="text-align:center;font-size:14px">Acciones</th>
+              <th rowspan="1" colspan="5" style="text-align:center;font-size:14px">Acciones</th>
             </tr>
             <tr>
+              <th rowspan="1" style="text-align:center;font-size:14px">Histórico grupos</th>
               <th rowspan="1" style="text-align:center;font-size:14px">Ver</th>
               <th rowspan="1" style="text-align:center;font-size:14px">Editar</th>
               <th rowspan="1" style="text-align:center;font-size:14px">Eliminar</th>
@@ -65,6 +69,15 @@
                       <i class="label label-danger">No</i>
                     </span>
                   {% endif %}
+                </td>
+                <td align="center">
+                  <span data-toggle="tooltip" data-original-title="Histórico grupos">
+                    <a class="btn btn-sm btn-warning btnHistoricoMentor" data-toggle="modal" data-target="#modalViewMentor">
+                      <span>
+                        <i class="glyphicon glyphicon-th-list"></i>
+                      </span>
+                    </a>
+                  </span>
                 </td>
                 <td align="center">
                   <a class="btn btn-sm btn-info btnVerMentor" data-toggle="modal" data-target="#modalViewMentor">Ver</a>

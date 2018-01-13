@@ -149,25 +149,25 @@ class Segmento
     }
 
     /**
-     * Set grupos
+     * Set grupo
      *
-     * @param \Semillero\DataBundle\Entity\Grupo $grupos
+     * @param \Semillero\DataBundle\Entity\Grupo $grupo
      * @return Segmento
      */
-    public function setGrupos(\Semillero\DataBundle\Entity\Grupo $grupos = null)
+    public function setGrupo(\Semillero\DataBundle\Entity\Grupo $grupo = null)
     {
-        $this->grupos = $grupos;
+        $this->grupo = $grupo;
 
         return $this;
     }
 
     /**
-     * Get grupos
+     * Get grupo
      *
      * @return \Semillero\DataBundle\Entity\Grupo
      */
-    public function getGrupos()
+    public function getGrupo()
     {
-        return $this->grupos;
+        return $this->grupo;
     }
 }

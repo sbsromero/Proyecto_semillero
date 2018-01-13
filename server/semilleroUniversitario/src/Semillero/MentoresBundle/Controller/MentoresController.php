@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\FormError;
@@ -258,5 +259,22 @@ class MentoresController extends Controller
     }
     $em->flush();
     return new Response(Response::HTTP_OK);
+  }
+
+  //Metodo que permite generar un pdf con todos los mentores registrados
+  /**
+  * @Route("/getPdfMentores",name="getPdfMentores")
+  */
+  public function getPdfMentores(Request $request){
+    $em = $this->getDoctrine()->getManager();
+    $mentores = $em->getRepository('DataBundle:Mentor')->findAll();
+
+    return new PdfResponse(
+      $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('MentoresBundle:Mentor:plantillaPdfMentores.html.twig', array(
+        'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath(),
+        'mentores' => $mentores
+      ))),
+      'reporteMentores'.'.pdf'
+    );
   }
 }
