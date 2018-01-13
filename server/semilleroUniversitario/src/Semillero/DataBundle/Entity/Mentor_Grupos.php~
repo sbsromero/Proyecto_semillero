@@ -31,7 +31,7 @@ class Mentor_Grupos
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fechaDesasignacion", type="datetime")
+     * @ORM\Column(name="fechaDesasignacion", type="datetime", nullable=true)
      */
     private $fechaDesasignacion;
 
@@ -41,7 +41,7 @@ class Mentor_Grupos
      * @ORM\Column(name="activo", type="boolean")
      */
     private $activo;
-    
+
     /**
     * @ORM\ManyToOne(targetEntity="Mentor", inversedBy="grupos")
     * @ORM\JoinColumn(name="id_mentor", referencedColumnName="id")
@@ -54,6 +54,14 @@ class Mentor_Grupos
     */
     private $grupo;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->fechaAsignacion = new \DateTime();
+        $this->activo = true;
+    }
 
     /**
      * Get id

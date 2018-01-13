@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormError;
 
 use Semillero\DataBundle\Entity\Grupo;
 use Semillero\DataBundle\Entity\Segmento;
+use Semillero\DataBundle\Entity\Mentor_Grupos;
 use Semillero\DataBundle\Form\GrupoType;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -57,7 +58,8 @@ class GruposController extends Controller
         $valorBusqueda = "";
       }
 
-      $grupos = $em->getRepository('DataBundle:Grupo')->getAllGrupos($valorBusqueda);
+      // $grupos = $em->getRepository('DataBundle:Grupo')->getAllGrupos($valorBusqueda);
+      $grupos = $em->getRepository('DataBundle:Grupo')->findAll();
 
       $page= $request->query->get('pageActive');
       $page = empty($page) ? 1 : $page;
@@ -280,6 +282,78 @@ class GruposController extends Controller
     );
   }
 
+  /**
+  * @Route("/getAsignarMentor/{id}", name="getAsignarMentor")
+  */
+  public function getAsignarMentor($id,Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      if ($request->isXmlHttpRequest()) {
+        $page= $request->query->get('pageActive');
+        $page = empty($page) ? 1 : $page;
+
+        $em = $this->getDoctrine()->getManager();
+        $grupo = $em->getRepository('DataBundle:Grupo')->find($id);
+
+        $mentores = $em->getRepository('DataBundle:Mentor')->findAll();
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($mentores, $page, 2);
+        $items = $pagination->getItems();
+        $pageCount = $pagination->getPageCount();
+
+        return $this->render('MentoresBundle:Grupo:asignarMentor.html.twig',array(
+          'grupo' => $grupo,
+          'mentores'=> $items,
+          'pageCount' => $pageCount
+        ));
+      }
+      return $this->redirectToRoute('indexGrupos');
+    }
+    return $this->redirectToRoute('adminLogin');
+  }
+
+  /**
+  * @Route("/setMentor", name="setMentor")
+  * @Method({"POST"})
+  */
+  public function asignarMentor(Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      if ($request->isXmlHttpRequest()) {
+        $idGrupo = $request->request->get('idGrupo');
+        $idMentor = $request->request->get('idMentor');
+
+        $em = $this->getDoctrine()->getManager();
+
+        //Grupos asignados al mentor
+        $gruposAsignados = $em->getRepository('DataBundle:Mentor_Grupos')->gruposAsignadosPorMentor($idMentor);
+
+        //Mentor asignado al grupo
+        $mentorAsignado = $em->getRepository('DataBundle:Mentor_Grupos')->getMentorAsignadoPorGrupo($idGrupo);
+
+        if(count($gruposAsignados) < 2 ){
+          $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
+          if(!$this->gruposMismaJornada($gruposAsignados, $grupo)){
+            $mentor = $em->getRepository('DataBundle:Mentor')->find($idMentor);
+            $mentor_grupos = new Mentor_Grupos();
+            $mentor_grupos->setMentor($mentor);
+            $mentor_grupos->setGrupo($grupo);
+            if(!empty($mentorAsignado)){
+              $mentorAsignado->setFechaDesasignacion(new \Datetime());
+              $mentorAsignado->setActivo(false);
+            }
+            $em->persist($mentor_grupos);
+            $em->flush();
+            return new Response(Response::HTTP_OK);
+          }
+          return new Response("No se puede asignar un grupo en la misma jornada",400);
+        }
+        return new Response("No se pueden asignar mas grupos a este mentor",400);
+      }
+      return $this->redirectToRoute('indexGrupos');
+    }
+    return $this->redirectToRoute('adminLogin');
+  }
+
   private function existeRegistroSemillasPorGrupo($grupo){
     return (count($grupo->getSemillas())>0) ? true : false ;
   }
@@ -292,6 +366,28 @@ class GruposController extends Controller
       $segmento->setGrupo($grupo);
       $grupo->addSegmento($segmento);
     }
+  }
+
+  //Metodo que verifica si el grupo que se va asignar a un Mentor
+  //es de diferente joranda
+  private function gruposMismaJornada($mentor_grupos, $grupo){
+    foreach ($mentor_grupos as $grupos) {
+      if($grupos->getActivo() == true && $grupos->getGrupo()->getJornada()->getId() == $grupo->getJornada()->getId()){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  //Renderiza el mentor asociado a un grupo
+  public function getMentorGrupoAction($id){
+    $em = $this->getDoctrine()->getManager();
+    $mentor = $em->getRepository('DataBundle:Mentor_Grupos')->getMentorAsignadoPorGrupo($id);
+
+    if(empty($mentor)){
+      return new Response("No asignado");
+    }
+    return new Response($mentor->getMentor()->getFullName());
   }
 
 

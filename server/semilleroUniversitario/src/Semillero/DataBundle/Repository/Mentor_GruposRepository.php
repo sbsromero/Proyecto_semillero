@@ -12,4 +12,24 @@ use Doctrine\ORM\EntityRepository;
  */
 class Mentor_GruposRepository extends EntityRepository
 {
+  //Metodo que retorna todos los registros de mentor_grupo teniendo en cuenta
+  //el id del mentor
+  public function gruposAsignadosPorMentor($idMentor){
+    return $this->getEntityManager()
+    ->createQuery('SELECT m_g FROM DataBundle:Mentor_Grupos m_g where m_g.mentor = :id
+    and m_g.activo = TRUE')
+    ->setParameter('id',$idMentor)
+    ->getResult();
+  }
+
+  //Metodo que retorna el id del mentor que esta asignado al grupo que ingresa por parametro
+  public function getMentorAsignadoPorGrupo($idGrupo){
+    return $this->getEntityManager()
+    ->createQuery('SELECT m_g from DataBundle:Mentor_Grupos m_g WHERE m_g.grupo = :id and
+    m_g.activo = TRUE')
+    ->setParameter('id',$idGrupo)
+    ->getOneOrNullResult();
+  }
+
+
 }

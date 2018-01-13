@@ -35,7 +35,9 @@
               <td>{{grupo.getNombre()}}</td>
               <td>{{grupo.getSemestre().getAnoSemestre()|date('Y')}}-{{grupo.getSemestre().getPeriodo()}}</td>
               <td>{{grupo.getJornada().getNombre()}}</td>
-              <td>{{grupo.getMentor().getNombre()}} {{grupo.getMentor().getApellidos()}}</td>
+              <td>
+                {{render(controller('MentoresBundle:Grupos:getMentorGrupo',{id:grupo.getId()}))}}
+              </td>
               <td>{{grupo.getCupo()}}</td>
               <td>{{grupo.getSemillas()|length}}</td>
               <td>

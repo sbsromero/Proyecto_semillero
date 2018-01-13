@@ -57,21 +57,21 @@ class Mentor extends Usuarios
     return $this->tipoMentor;
   }
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+  /**
+  * Constructor
+  */
+  public function __construct()
+  {
+    $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
+  }
 
     /**
      * Add grupos
      *
-     * @param \Semillero\DataBundle\Entity\Mentor_Grupo $grupos
+     * @param \Semillero\DataBundle\Entity\Mentor_Grupos $grupos
      * @return Mentor
      */
-    public function addGrupo(\Semillero\DataBundle\Entity\Mentor_Grupo $grupos)
+    public function addGrupo(\Semillero\DataBundle\Entity\Mentor_Grupos $grupos)
     {
         $this->grupos[] = $grupos;
 
@@ -81,9 +81,9 @@ class Mentor extends Usuarios
     /**
      * Remove grupos
      *
-     * @param \Semillero\DataBundle\Entity\Mentor_Grupo $grupos
+     * @param \Semillero\DataBundle\Entity\Mentor_Grupos $grupos
      */
-    public function removeGrupo(\Semillero\DataBundle\Entity\Mentor_Grupo $grupos)
+    public function removeGrupo(\Semillero\DataBundle\Entity\Mentor_Grupos $grupos)
     {
         $this->grupos->removeElement($grupos);
     }

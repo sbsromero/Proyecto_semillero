@@ -47,6 +47,100 @@ $(document).ready(function(){
     })
   })
 
+  //Metodo que permite mostrar la modal para asignar un mentor
+  //a un grupo
+  $('body').on('click','.btnAsignarMentor', function(e){
+    e.preventDefault();
+    var row = $(this).parents('tr');
+    var id = row.data('id');
+    $.ajax({
+      type:"GET",
+      url: Routing.generate('getAsignarMentor',{id:id}),
+      success: function(html){
+        $('#contentAsignarMentor').html(html);
+        createPaginationMentores();
+      }
+    })
+  })
+
+  //Metodo que crea el paginador de mentores en la modal de asignar
+  //mentor a un grupo
+  var createPaginationMentores = function(){
+    var totalPages = $('#tablaMentores').attr('data-pagecount');
+    var id = $('#nombreGrupo').data('idgrupo');
+    if(totalPages != 0){
+      $('#paginationMentores').twbsPagination({
+        startPage: 1,
+        totalPages: totalPages,
+        visiblePages: 6,
+        initiateStartPageClick: false,
+        first:'Primero',
+        last: 'Último',
+        prev: '<span aria-hidden="true">&laquo;</span>',
+        next: '<span aria-hidden="true">&raquo;</span>',
+        onPageClick: function (event, page) {
+          $.ajax({
+            type: "GET",
+            url: Routing.generate('getAsignarMentor',{id:id}),
+            data:{
+              pageActive: page,
+            },
+            success:function(html){
+              $('#tablaMentores').replaceWith($(html).find('#tablaMentores'));
+            }
+          })
+        }
+      })
+    }
+  }
+
+
+  $('body').on('click','.checkAsignarMentor', function(e){
+    var idGrupo = $('#nombreGrupo').data('idgrupo');
+    var idMentor = $(this).parents('tr').data('id');
+    var tr = $(this).parents('tr');
+    tr.attr('style','background-color: #c5e1fb !important')
+    bootbox.confirm({
+      message: "¿Esta seguro que desea asignar este mentor al grupo?",
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success'
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-danger'
+        }
+      },
+      callback: function (result) {
+        if(result){
+
+          $.ajax({
+            type: "POST",
+            url: Routing.generate('setMentor'),
+            data:{
+              idGrupo: idGrupo,
+              idMentor: idMentor
+            },
+            success: function(html){
+              $('#modalAsignarMentor').modal('hide');
+              toastr.success("El mentor a sido asignado al grupo");
+              setTimeout(function () {
+                window.location.href = Routing.generate("indexGrupos")
+              }, 1500);
+            },
+            error: function(html){
+              toastr.error(html.responseText);
+            }
+          })
+        }
+        else{
+          tr.attr('style','')
+        }
+      }
+    });
+  })
+
   //Actualización de grupo
   $('body').on('click','.btn-editarGrupo',function(e){
     e.preventDefault();
