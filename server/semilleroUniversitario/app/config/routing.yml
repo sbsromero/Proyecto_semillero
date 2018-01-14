@@ -14,6 +14,8 @@ usuarios:
     resource: "@UsuariosBundle/Controller/"
     type:     annotation
     prefix:   /
+    options:
+        expose: true
 
 
 admin:
