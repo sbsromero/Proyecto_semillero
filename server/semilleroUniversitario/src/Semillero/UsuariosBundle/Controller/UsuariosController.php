@@ -42,15 +42,15 @@ class UsuariosController extends Controller
   }
 
   /**
-  * @Route("/gestionGruposAsignados", name="gestionGruposAsignados")
+  * @Route("/administracionUsuarios", name="administracionUsuarios")
   */
-  public function gestionGruposAsignados (Request $request){
+  public function administracionUsuarios (Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
       $em = $this->getDoctrine()->getManager();
       $idGrupo = $request->query->get('idGrupo');
       $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
 
-      return $this->render('UsuariosBundle:Grupos:administracionGrupos.html.twig',array(
+      return $this->render('UsuariosBundle:Grupos:administracionUsuarios.html.twig',array(
         'grupo' => $grupo
       ));
     }
@@ -70,8 +70,32 @@ class UsuariosController extends Controller
           'mentor' => $mentor
         ));
       }
-      return $this->redirectToRoute('gestionGruposAsignados');
+      return $this->redirectToRoute('administracionUsuarios');
     }
     return $this->redirectToRoute('usuariosLogin');
+  }
+
+  /**
+  * @Route("/gestionGruposAsignados", name="gestionGruposAsignados")
+  */
+  public function gestionGruposAsignados(Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $em = $this->getDoctrine()->getManager();
+      $mentor = $this->container->get('security.context')->getToken()->getUser();
+      $grupos_mentor = $em->getRepository('DataBundle:Mentor_Grupos')->gruposAsignadosPorMentor($mentor->getId());
+      $gruposActivos = array();
+
+      foreach ($grupos_mentor as $grupo_mentor) {
+        array_push($gruposActivos, $grupo_mentor->getGrupo());
+      }
+
+      return $this->render('UsuariosBundle:Grupos:gestionGrupos.html.twig',array(
+      'gruposActivos' => $gruposActivos));
+    }
+    return $this->redirectToRoute('usuariosLogin');
+  }
+
+  private function getGrupos(){
+
   }
 }
