@@ -71,6 +71,12 @@ class Administrador implements AdvancedUserInterface, \Serializable
   */
   private $activo;
 
+  /**
+  *
+  *
+  */
+  private $perfil;
+
 
   /**
   * Get id

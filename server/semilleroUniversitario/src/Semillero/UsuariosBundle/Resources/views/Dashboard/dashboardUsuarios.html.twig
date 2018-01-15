@@ -9,12 +9,10 @@
   </div>
 </div>
 
-Dashboard usuarios  (Semillas y mentores)!
-
 <div class="row" style="margin-left:0px; margin-right:0px">
   <div class="col-md-4" align="right">
     <div class="" style="height: 70%; display: flex; justify-content: center; align-items: center;">
-      <a href="{#{path('indexAdmin')}#}" style=" height: 150px; width: 150px; margin: 10px; position: relative; cursor: pointer; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <a href="{{path('indexGrupos_usuarios')}}" style=" height: 150px; width: 150px; margin: 10px; position: relative; cursor: pointer; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
         <img src="{#{asset('public/images/administracion.png')}#}" alt="" style="display:block; margin:0px auto;padding-top:10%">
         <div class="" style="position: absolute; bottom: 0; width: 100%; background-color: #8f9194; padding: 5%; text-align: center; color: #FFFFFF;">Grupos</div>
       </a>
@@ -41,7 +39,4 @@ Dashboard usuarios  (Semillas y mentores)!
 
 
 </div>
-
-{{dump(app.user)}}
-{{dump(app.user.getDiscr())}}
 {% endblock %}
