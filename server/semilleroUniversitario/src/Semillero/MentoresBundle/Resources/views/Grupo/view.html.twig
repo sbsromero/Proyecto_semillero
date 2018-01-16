@@ -1,41 +1,41 @@
 
 <div class="panel panel-default">
-	<div class="panel-body" style="padding:0px">
+	<div class="panel-header">
 		<div class="row" style="margin:0px;padding-right: 30px;padding-top: 20px;">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
 		</div>
-		<div class="row" style="margin:0px">
-			<div class="" align="center">
-				<h2 style="margin-top:10px">{{ grupo.nombre }} {{ grupo.jornada.nombre }}</h2>
-			</div>
-			<div class="col-md-4">
-				<div class="form-group">
-					<dl>
-	            <dt>{{'Nombre:'}}</dt>
-	            <dd>{{grupo.nombre }}</dd>
-	            <br>
-	            <dt>{{'Jornada:'}}</dt>
-	            <dd>{{ grupo.jornada.nombre }}</dd>
-	            <br>
-						  <dt>{{'fecha De Creacion:'}}</dt>
-							<dd>{{ grupo.fechaCreacion|date('d-m-Y') }}</dd>
-							<br>
-							<dt>{{'Mentor:'}}</dt>
-	            <dd>
-								{{render(controller('MentoresBundle:Grupos:getMentorGrupo',{id:grupo.getId()}))}}
-							</dd>
-	            <br>
-	            <dt>{{'Estado'}}</dt>
-	            <dd>
-                	{% if grupo.getActivo() == 1 %}
-						<span class="text-success">ACTIVO</span>
-									{% elseif grupo.getActivo() == 0 %}
-						<span class="text-warning">INACTIVO</span>
-                	{% endif %}
-	            </dd>
-	        </dl>
-				</div>
-			</div>
+	</div>
+	<div class="panel-body" style="padding:0px">
+		<div class="row" style="margin:0px" align="center">
+			<dl class="">
+				<dt style="margin-top:5px">Nombre:</dt>
+				<dd>{{grupo.getNombre()}}</dd>
+				<dt style="margin-top:5px">Jornada:</dt>
+				<dd>{{ grupo.jornada.nombre }}</dd>
+				<dt style="margin-top:5px">Semestre:</dt>
+				<dd>{{grupo.getSemestre().getAnoSemestre()|date('Y')}} - {{grupo.getSemestre().getPeriodo()}}</dd>
+				<dt style="margin-top:5px">Cupo:</dt>
+				<dd>{{grupo.getCupo()}}</dd>
+				{% if isAdmin == true %}
+					<dt style="margin-top:5px">Fecha creación:</dt>
+					<dd>{{grupo.getFechaCreacion()|date('d-m-Y')}}</dd>
+					<dt style="margin-top:5px">{{'Mentor:'}}</dt>
+					<dd>
+						{{render(controller('MentoresBundle:Grupos:getMentorGrupo',{id:grupo.getId()}))}}
+					</dd>
+				{% else %}
+					<dt style="margin-top:5px">Fecha asignación:</dt>
+					<dd>{{detalle.getFechaAsignacion()|date('d-m-Y')}}</dd>
+				{% endif %}
+				<dt style="margin-top:5px">Estado:</dt>
+				<dd>
+					{% if grupo.getActivo() == 1 %}
+					<span class="text-success">ACTIVO</span>
+					{% elseif grupo.getActivo() == 0 %}
+					<span class="text-warning">INACTIVO</span>
+					{% endif %}
+				</dd>
+			</dl>
   	</div>
 	</div>
 </div>

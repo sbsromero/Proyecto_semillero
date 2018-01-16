@@ -95,7 +95,27 @@ class UsuariosController extends Controller
     return $this->redirectToRoute('usuariosLogin');
   }
 
-  private function getGrupos(){
+  /**
+  * @Route("/getDetalleGrupo/{idGrupo}", name="getDetalleGrupo")
+  */
+  public function getDetalleGrupo($idGrupo, Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      if($request->isXmlHttpRequest()) {
+        $em = $this->getDoctrine()->getManager();
+        $mentor = $this->container->get('security.context')->getToken()->getUser();
+        $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
+        
+        $detalleMentor_Grupo = $em->getRepository('DataBundle:Mentor_Grupos')
+        ->getDetalleMentorGrupo($mentor->getId(),$idGrupo);
 
+        return $this->render('MentoresBundle:Grupo:view.html.twig',array(
+          'grupo' => $grupo,
+          'detalle'=> $detalleMentor_Grupo,
+          'isAdmin' => false
+        ));
+      }
+      return $this->redirectToRoute('administracionUsuarios');
+    }
+    return $this->redirectToRoute('usuariosLogin');
   }
 }

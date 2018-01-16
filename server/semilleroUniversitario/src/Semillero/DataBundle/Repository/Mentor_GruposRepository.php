@@ -31,5 +31,16 @@ class Mentor_GruposRepository extends EntityRepository
     ->getOneOrNullResult();
   }
 
+  //Metodo que retorna un detalle asociado con el mentor y grupo asociadoas
+  //para obtener la fecha de asignacion y desasigancion
+  public function getDetalleMentorGrupo($idMentor,$idGrupo){
+    return $this->getEntityManager()
+    ->createQuery('SELECT m_g from DataBundle:Mentor_Grupos m_g WHERE m_g.grupo = :idGrupo and
+    m_g.mentor =:idMentor and m_g.activo = TRUE')
+    ->setParameter('idMentor',$idMentor)
+    ->setParameter('idGrupo',$idGrupo)
+    ->getOneOrNullResult();
+  }
+
 
 }

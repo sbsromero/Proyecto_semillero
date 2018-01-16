@@ -27,8 +27,24 @@ $(document).ready(function(){
         $('#contentPersonales').html(html);
       }
     })
-
   })
+
+  $('body').on('click','.btnDetalleGrupo', function(e){
+    var row = $(this).parents('div').parents('div');
+    var id = row.data('id');
+    $.ajax({
+      url: Routing.generate('getDetalleGrupo',{idGrupo:id}),
+      success:function(html){
+        $('#contentDetalleGrupo').html(html);
+      }
+    })
+  })
+
+  //tooltip
+  $(document).tooltip({
+    selector:'[data-toggle="tooltip"]',
+    placement:'top'
+  });
 
 
 });
