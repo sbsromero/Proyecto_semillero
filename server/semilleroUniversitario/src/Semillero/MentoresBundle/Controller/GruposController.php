@@ -198,14 +198,20 @@ class GruposController extends Controller
       $em = $this->getDoctrine()->getManager();
       $Repository = $this->getDoctrine()->getRepository('DataBundle:Grupo');
       $grupo = $em->getRepository('DataBundle:Grupo')->find/*ById*/($id);
+
       if(!$grupo)
       {
         return $this->redirectToRoute('indexGrupos');
       }
-      $mentor = $grupo->getMentor();
+      $m_g = $em->getRepository('DataBundle:Mentor_Grupos')->getMentorAsignadoPorGrupo($grupo->getId());
+      $mentor = $m_g->getMentor();
+
+      $detalleMentor_Grupo = $em->getRepository('DataBundle:Mentor_Grupos')
+      ->getDetalleMentorGrupo($mentor->getId(),$grupo->getId());
       return $this->render('MentoresBundle:Grupo:view.html.twig',array(
         'grupo' => $grupo,
-        'mentor' => $mentor));
+        'detalle'=> $detalleMentor_Grupo,
+        'isAdmin' => true));
     }
     return $this->redirectToRoute('indexGrupos');
   }
