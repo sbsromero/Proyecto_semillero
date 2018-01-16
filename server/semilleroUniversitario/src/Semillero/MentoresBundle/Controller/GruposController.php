@@ -203,10 +203,14 @@ class GruposController extends Controller
         return $this->redirectToRoute('indexGrupos');
       }
       $m_g = $em->getRepository('DataBundle:Mentor_Grupos')->getMentorAsignadoPorGrupo($grupo->getId());
-      $mentor = $m_g->getMentor();
+      if(!empty($m_g)){
+        $mentor = $m_g->getMentor();
+      }
+      $idMentor = (!empty($m_g)) ? $m_g->getMentor()->getId() : null;
 
       $detalleMentor_Grupo = $em->getRepository('DataBundle:Mentor_Grupos')
-      ->getDetalleMentorGrupo($mentor->getId(),$grupo->getId());
+      ->getDetalleMentorGrupo($idMentor,$grupo->getId());
+
       return $this->render('MentoresBundle:Grupo:view.html.twig',array(
         'grupo' => $grupo,
         'detalle'=> $detalleMentor_Grupo,
