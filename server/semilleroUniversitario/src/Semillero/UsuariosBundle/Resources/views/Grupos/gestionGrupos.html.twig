@@ -15,9 +15,25 @@
         <div class="" >
           <div class="" style="background-color:#f5f5f5;height:300px; overflow-y:scroll">
             {% for grupo in gruposActivos %}
-              <div class="" align="center" style="border: 1px solid #ddd;border-radius: 2px; padding: 5px; padding-left: 20px;">
+            <div id="idGrupo" data-id="{{grupo.getId()}}" class="row" style="margin:0px auto; border: 1px solid #ddd;border-radius: 2px; padding: 5px; padding-left: 20px;">
+              <div class="col-md-10" align="center">
                 <span>{{grupo.getNombre()}}</span>
               </div>
+              <div class="col-md-1" data-toggle="tooltip" data-original-title="Detalle" align="center" style="cursor:pointer">
+                <a class="btnDetalleGrupo" data-toggle="modal" data-target="#modalDetalleGrupo">
+                  <span>
+                    <i class="glyphicon glyphicon-list"></i>
+                  </span>
+                </a>
+              </div>
+              <div class="col-md-1" data-toggle="tooltip" data-original-title="Semillas" align="center" style="cursor:pointer">
+                <a class="btnGetSemillas">
+                  <span>
+                    <i class="glyphicon glyphicon-user"></i>
+                  </span>
+                </a>
+              </div>
+            </div>
             {% endfor %}
           </div>
         </div>
@@ -26,5 +42,20 @@
     </div>
   </div>
 
+  <!--Modal ver detalle de grupo-->
+  <div class="modal fade" id="modalDetalleGrupo">
+    <div class="modal-dialog"  style="width: 500px" role="document">
+      <div class="modal-content">
+        <div class="modal-body body-modal" id ="contentDetalleGrupo">
+
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
+{% endblock %}
+{% block javascript %}
+{{parent()}}
+<script src="{{asset('public/js/usuarios_grupos.js')}}"></script>
 {% endblock %}
