@@ -25,7 +25,13 @@
 					</dd>
 				{% else %}
 					<dt style="margin-top:5px">Fecha asignación:</dt>
-					<dd>{{detalle.getFechaAsignacion()|date('d-m-Y')}}</dd>
+					<dd>
+						{% if detalle is empty %}
+							No asignado
+						{% else %}
+							{{detalle.getFechaAsignacion()|date('d-m-Y')}}
+						{% endif %}
+					</dd>
 				{% endif %}
 				<dt style="margin-top:5px">Estado:</dt>
 				<dd>
