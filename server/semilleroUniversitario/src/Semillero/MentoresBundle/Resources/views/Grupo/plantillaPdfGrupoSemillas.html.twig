@@ -24,7 +24,11 @@
       </div>
       <div class="col-xs-3">
         <p align="center"><strong>Mentor</strong></p>
-        <p align="center">{{grupo.getMentor().getNombre()}}</p>
+        {% if mentor is empty %}
+          <p align="center">No asignado</p>
+        {% else %}
+          <p align="center">{{mentor.getNombre()}}</p>
+        {% endif %}
       </div>
       <div class="col-xs-3">
         <p align="center"><strong>Estado grupo</strong></p>
