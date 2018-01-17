@@ -31,12 +31,12 @@
           <thead style="background-color:#f8f8f8">
             <tr >
               <th rowspan="2" style="font-size:14px">Diplomado</th>
-							<th rowspan="2" style="font-size:14px">Nombre</th>
-							<th rowspan="2" style="font-size:14px">Jornada</th>
-							<th rowspan="2" style="font-size:14px">Fecha De Creación</th>
-							<th rowspan="2" style="font-size:14px">Mentor</th>
+              <th rowspan="2" style="font-size:14px">Nombre</th>
+              <th rowspan="2" style="font-size:14px">Jornada</th>
+              <th rowspan="2" style="font-size:14px">Fecha De Creación</th>
+              <th rowspan="2" style="font-size:14px">Mentor</th>
               <th rowspan="2" colspan="2" style="font-size:14px">Estudiantes</th>
-							<th rowspan="2" style="font-size:14px">Activo</th>
+              <th rowspan="2" style="font-size:14px">Activo</th>
               <th rowspan="1" colspan="4" style="text-align:center; font-size:14px">Acciones</th>
             </tr>
             <tr>
@@ -53,16 +53,16 @@
               <td>{{ grupo.diplomado.nombre }}</td>
               <td id="nombreGrupo-{{grupo.id}}" value="{{ grupo.nombre}}">{{grupo.diplomado.nombre}} {{ grupo.nombre}}</td>
               <td>{{ grupo.jornada.nombre}}</td>
-	            <td>{{ grupo.fechaCreacion | date('d-m-Y') }}</td>
-							<td>{#{ dump(grupo.getMentor().getActivo())}#}
+              <td>{{ grupo.fechaCreacion | date('d-m-Y') }}</td>
+              <td>{#{ dump(grupo.getMentor().getActivo())}#}
                 {{render(controller('MentoresBundle:Grupos:getMentorGrupo',{id:grupo.getId()}))}}
               </td>
               {% set semillas = 0 %}
               <td align="right">
                 {% for semilla_grupo in grupo.getSemillas() %}
-                  {% if semilla_grupo.getActivo() %}
-                    {% set semillas = semillas +1 %}
-                  {% endif %}
+                {% if semilla_grupo.getActivo() %}
+                {% set semillas = semillas +1 %}
+                {% endif %}
                 {% endfor %}
                 {{semillas}}
               </td>
@@ -72,19 +72,19 @@
                 </a>
               </td>
 
-							 <td align="center">
-								 {% if grupo.activo == '1'%}
-                 <h3 style="display:none">1</h3>
-                 <span data-toggle="tooltip" data-original-title="Activo" style="color:green">
-                   <i class="label label-success">Si</i>
-                 </span>
-                 {% else %}
-                 <h3 style="display:none">0</h3>
-                 <span data-toggle="tooltip" data-original-title="Inactivo" style="color:#f16565">
-                   <i class="label label-danger">No</i>
-                 </span>
-                 {% endif %}
- 								</td>
+              <td align="center">
+                {% if grupo.activo == '1'%}
+                <h3 style="display:none">1</h3>
+                <span data-toggle="tooltip" data-original-title="Activo" style="color:green">
+                  <i class="label label-success">Si</i>
+                </span>
+                {% else %}
+                <h3 style="display:none">0</h3>
+                <span data-toggle="tooltip" data-original-title="Inactivo" style="color:#f16565">
+                  <i class="label label-danger">No</i>
+                </span>
+                {% endif %}
+              </td>
               <td align="center">
                 <span data-toggle="tooltip" data-original-title="Asignar mentor">
                   <a class="btn btn-sm btn-warning btnAsignarMentor " data-toggle="modal" data-target="#modalAsignarMentor">
@@ -104,19 +104,19 @@
                 <a class="btn btn-sm btn-danger btnDelGrupo">Eliminar</a>
               </td>
             </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-          {% else %}
-          <h3>No se encontraron resultados</h3>
-          {% endif %}
-        </div>
-        <div class="" align="center">
-          <ul id="paginationGrupos" class="pagination-sm"></ul>
-        </div>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <h3>No se encontraron resultados</h3>
+        {% endif %}
+      </div>
+      <div class="" align="center">
+        <ul id="paginationGrupos" class="pagination-sm"></ul>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <!--Modal agregar grupo-->
@@ -164,8 +164,8 @@
 {% endblock %}
 
 {% block javascript %}
-  {{parent()}}
-  <script src="{{asset('public/js/grupo.js')}}"></script>
-  <script src="{{asset('public/js/bootstrap-datepicker.min.js')}}"></script>
-  <script src="{{asset('public/js/bootstrap-datepicker.es.min.js')}}" charset="UTF-8"></script>
+{{parent()}}
+<script src="{{asset('public/js/grupo.js')}}"></script>
+<script src="{{asset('public/js/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{asset('public/js/bootstrap-datepicker.es.min.js')}}" charset="UTF-8"></script>
 {% endblock %}
