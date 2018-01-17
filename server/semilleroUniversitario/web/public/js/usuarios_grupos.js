@@ -19,6 +19,7 @@ $(document).ready(function(){
   //     })
   //   }
   // });
+  //Metodo que muestra toda la informacion de los datos personales del mentor
   $('body').on('click','.verDatos', function(e){
     $.ajax({
       type:"GET",
@@ -29,6 +30,7 @@ $(document).ready(function(){
     })
   })
 
+  //Metodo que muestra el detalle de un grupo
   $('body').on('click','.btnDetalleGrupo', function(e){
     var row = $(this).parents('div').parents('div');
     var id = row.data('id');
@@ -39,6 +41,40 @@ $(document).ready(function(){
       }
     })
   })
+
+  $('body').on('click','.btnAgregarEncuentro', function(e){
+    var idSegmento = $('#segmentosGrupo').val();
+    agregarEncuentro(idSegmento);
+
+  })
+
+  $('body').on('click','.btnListarEncuentros', function(e){
+    var idSegmento = $('#segmentosGrupo').val();
+    listarEncuentros(idSegmento);
+  })
+
+  function agregarEncuentro(idSegmento){
+    $.ajax({
+      type:"POST",
+      url: Routing.generate('agregarEncuentro',{idSegmento}),
+      success:function(data){
+        listarEncuentros(idSegmento);
+      },error:function(data){
+        toastr.error(data.responseText);
+      }
+    })
+  }
+
+  function listarEncuentros(idSegmento){
+    $.ajax({
+      url: Routing.generate('getEncuentros',{idSegmento: idSegmento}),
+      success:function(html){
+        $('.bodyListaEncuentros').html(html);
+        $('.bodyListaEncuentros').show();
+      },error:function(){
+      }
+    });
+  }
 
   //tooltip
   $(document).tooltip({

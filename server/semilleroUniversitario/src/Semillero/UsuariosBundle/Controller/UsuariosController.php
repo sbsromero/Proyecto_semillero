@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Semillero\DataBundle\Entity\Encuentro;
 
 /**
 * @Route("/usuarios")
@@ -104,7 +106,7 @@ class UsuariosController extends Controller
         $em = $this->getDoctrine()->getManager();
         $mentor = $this->container->get('security.context')->getToken()->getUser();
         $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
-        
+
         $detalleMentor_Grupo = $em->getRepository('DataBundle:Mentor_Grupos')
         ->getDetalleMentorGrupo($mentor->getId(),$idGrupo);
 
@@ -117,5 +119,68 @@ class UsuariosController extends Controller
       return $this->redirectToRoute('administracionUsuarios');
     }
     return $this->redirectToRoute('usuariosLogin');
+  }
+
+  //Metodo que se encarga de responder con la vista donde se listaran
+  //los encuentros relacionados a cada segmento
+  /**
+  * @Route("/gestionEncuentros/{idGrupo}", name="gestionEncuentros")
+  */
+  public function gestionEncuentros($idGrupo, Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $em = $this->getDoctrine()->getManager();
+      $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
+      $segmentos = $grupo->getSegmentos();
+
+      return $this->render('UsuariosBundle:Encuentros:administracionEncuentros.html.twig',array(
+        'grupo' => $grupo,
+        'segmentos' => $segmentos
+      ));
+    }
+    return $this->redirectToRoute('usuariosLogin');
+  }
+
+  //Metodo que retorna todos los encuentros pertenecientes a un
+  //segmento asociado a un grupo
+  /**
+  * @Route("/getEncuentros/{idSegmento}", name="getEncuentros")
+  */
+  public function getEncuentros($idSegmento, Request $request){
+    if($request->isXmlHttpRequest()) {
+      $em = $this->getDoctrine()->getManager();
+      $segmento = $em->getRepository('DataBundle:Segmento')->find($idSegmento);
+      $encuentros = $segmento->getEncuentros();
+
+      return $this->render('UsuariosBundle:Encuentros:listaEncuentros.html.twig',array(
+        'encuentros' => $encuentros
+      ));
+    }
+    return $this->redirectToRoute('gestionEncuentros');
+  }
+
+  //Metodo que agregar un encuentro a un segmento, puede agregar maximo
+  //4 encuentros por segmento
+  /**
+  * @Route("/agregarEncuentro/{idSegmento}", name="agregarEncuentro")
+  * @Method({"POST"})
+  */
+  public function agregarEncuentro($idSegmento, Request $request){
+    if($request->isXmlHttpRequest()) {
+      $em = $this->getDoctrine()->getManager();
+      $segmento = $em->getRepository('DataBundle:Segmento')->find($idSegmento);
+      $encuentros = $segmento->getEncuentros();
+      //falta validar que ese encuentro se cree un sabado
+      if(count($encuentros) < 4){
+        $encuentro = new Encuentro();
+        $encuentro->setSegmento($segmento);
+        $encuentro->setNumeroEncuentro(count($encuentros)+1);
+        $encuentro->setFechaRealizacion(new \DateTime());
+        $em->persist($encuentro);
+        $em->flush();
+        return new Response(Response::HTTP_OK);
+      }
+      return new Response("Maxima capacidad de encuentros por segmento",400);
+    }
+    return $this->redirectToRoute('gestionEncuentros');
   }
 }

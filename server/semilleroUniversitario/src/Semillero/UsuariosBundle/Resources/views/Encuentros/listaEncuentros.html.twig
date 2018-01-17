@@ -1,0 +1,9 @@
+
+{% for encuentro in encuentros %}
+<div class="row" style="margin:0px auto; border: 1px solid #ddd;border-radius: 2px;padding: 5px;padding-left: 20px;">
+  <div class="col-md-5">
+    Encuentro: {{encuentro.getNumeroEncuentro()}} <br>
+    Fecha encuentro: {{encuentro.getFechaRealizacion()|date('Y-m-d h:i:s')}}
+  </div>
+</div>
+{% endfor %}

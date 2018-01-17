@@ -18,7 +18,7 @@
             <a href="{{path('gestionGruposAsignados')}}" class="btn btn-default" style="border-radius:20px; width:100%; margin-bottom:20px">Grupos activos</a>
           </div>
           <div class="col-md-4 text-center">
-            <a class="btn btn-default" style="border-radius:20px; width:100%; margin-bottom:20px">Encuentros</a>
+            <a href="{{path('gestionEncuentros',{idGrupo:grupo.getId()})}}" class="btn btn-default" style="border-radius:20px; width:100%; margin-bottom:20px">Encuentros</a>
           </div>
           <div class="col-md-4 text-center">
             <a class="btn btn-default" style="border-radius:20px; width:100%">Actividades</a>
