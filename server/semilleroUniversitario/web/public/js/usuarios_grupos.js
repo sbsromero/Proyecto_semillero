@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
   var contadorEncuentro = 0;
+  var idEncuentro = 0;
 
   // $('body').on('click','.btn-usuariosGrupo',function(e){
   //   idGrupo = $( "#selectIdGrupo option:selected" ).val();
@@ -56,11 +57,29 @@ $(document).ready(function(){
   })
 
   $('body').on('click','.btnAgregarActividad', function(e){
-    var idEncuentro = $(this).data('id');
+    idEncuentro = $(this).data('id');
     $.ajax({
-      url: Routing.generate('agregarActividad',{idEncuentro}),
+      url: Routing.generate('agregarActividad'),
       success:function(html){
+        // $('.bodyListaEncuentros').html(html);
+        // $('.bodyListaEncuentros').show();
         $('#contentActividad').html(html);
+      }
+    })
+  })
+
+  $('body').on('click','.btnRegistrarActividad', function(e){
+    var data = $('#form_add_actividad').serializeArray();
+    data.push({name:'idEncuentro',value:idEncuentro});
+    $.ajax({
+      type: "POST",
+      url: Routing.generate('registrarActividad'),
+      data: data,
+      success: function(html){
+        // $('#contentActividad').html(html);
+      },
+      error: function(data){
+        $('#contentActividad').html(data.responseText);
       }
     })
   })

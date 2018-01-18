@@ -31,7 +31,7 @@ class Actividad
 
   /**
   * @ORM\OneToMany(targetEntity="semilla_actividad", mappedBy="actividad")
-  * @ORM\JoinColumn(name="semilla_id", referencedColumnName="id") 
+  * @ORM\JoinColumn(name="semilla_id", referencedColumnName="id")
   */
   private $semillas;
 
@@ -46,6 +46,7 @@ class Actividad
   * @var string
   *
   * @ORM\Column(name="nombre", type="string", length=255)
+  * @Assert\NotBlank(message="Ingrese un nombre para la actividad")
   */
   private $nombre;
 
@@ -53,6 +54,7 @@ class Actividad
   * @var string
   *
   * @ORM\Column(name="descripcion", type="string", length=255)
+  * @Assert\NotBlank(message="Ingrese una descripción para la actividad")
   */
   private $descripcion;
 
@@ -62,6 +64,13 @@ class Actividad
   * @ORM\Column(name="fechaRealizacion", type="datetime")
   */
   private $fechaRealizacion;
+
+  /**
+  * @var \DateTime
+  *
+  * @ORM\Column(name="fechaRegistro", type="datetime")
+  */
+  private $fechaRegistro;
 
   /**
   * @var string
@@ -76,19 +85,20 @@ class Actividad
   // * @ORM\Column(name="nota", type="integer")
   // */
   // private $nota;
-  
+
     /**
      * Constructor
      */
     public function __construct()
     {
+        $this->fechaCreacion = new \DateTime();
         $this->semillas = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -111,7 +121,7 @@ class Actividad
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -134,7 +144,7 @@ class Actividad
     /**
      * Get descripcion
      *
-     * @return string 
+     * @return string
      */
     public function getDescripcion()
     {
@@ -157,7 +167,7 @@ class Actividad
     /**
      * Get fechaRealizacion
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getFechaRealizacion()
     {
@@ -180,7 +190,7 @@ class Actividad
     /**
      * Get observacion
      *
-     * @return string 
+     * @return string
      */
     public function getObservacion()
     {
@@ -203,7 +213,7 @@ class Actividad
     /**
      * Get encuentro
      *
-     * @return \Semillero\DataBundle\Entity\Encuentro 
+     * @return \Semillero\DataBundle\Entity\Encuentro
      */
     public function getEncuentro()
     {
@@ -236,7 +246,7 @@ class Actividad
     /**
      * Get semillas
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSemillas()
     {
@@ -259,7 +269,7 @@ class Actividad
     /**
      * Get tipoActividad
      *
-     * @return \Semillero\DataBundle\Entity\TipoActividad 
+     * @return \Semillero\DataBundle\Entity\TipoActividad
      */
     public function getTipoActividad()
     {

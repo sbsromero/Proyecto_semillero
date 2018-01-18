@@ -16,7 +16,7 @@
           <p align="center">* Seleccione un segmento para listar los encuentros</p>
           <div class="row" style="margin:0px auto" align="center">
             <div class="form-group form-inline">
-              <select id="segmentosGrupo" class="form-control" style="width:10%">
+              <select id="segmentosGrupo" class="form-control" style="width:70px">
                 {% for segmento in segmentos %}
                 <option value="{{segmento.getId()}}">{{segmento.getNumeroSegmento()}}</option>
                 {% endfor %}

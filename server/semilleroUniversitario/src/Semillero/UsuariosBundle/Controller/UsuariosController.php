@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Semillero\DataBundle\Entity\Encuentro;
+use Semillero\DataBundle\Entity\Actividad;
+use Semillero\DataBundle\Form\ActividadType;
 
 /**
 * @Route("/usuarios")
@@ -195,13 +197,47 @@ class UsuariosController extends Controller
   }
 
   /**
-  * @Route("/agregarActividad/{idEncuentro}", name="agregarActividad")
+  * @Route("/agregarActividad", name="agregarActividad")
   */
-  public function agregarActividad($idEncuentro, Request $request){
+  public function agregarActividad(Request $request){
     if($request->isXmlHttpRequest()) {
-      //Falta crear el form type de actividad
-
+      $actividad = new Actividad();
+      $form = $this-> createCreateForm($actividad);
+      return $this->render('UsuariosBundle:Encuentros:agregarActividad.html.twig',array(
+        'form' =>$form->createView()));
     }
     return $this->redirectToRoute('gestionEncuentros');
+  }
+
+  /**
+  * @Route("/registrarActividad", name="registrarActividad")
+  * @Method({"POST"})
+  */
+  public function registrarActividad(Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $actividad = new Actividad();
+      $form = $this->createCreateForm($actividad);
+      $form->handleRequest($request);
+      $idEncuentro = $request->request->get('idEncuentro');
+      $em = $this->getDoctrine()->getManager();
+      $encuentro = $em->getRepository('DataBundle:Encuentro')->find($idEncuentro);
+
+      //Pentiente por asignar, fecha realizacion y guardar en la base de datos
+      if($form->isValid()){
+
+      }
+        #Renderizamos al forumlario si existe algun problema
+      return new Response($this->renderView('UsuariosBundle:Encuentros:agregarActividad.html.twig',array(
+        'form' =>$form->createView()
+      )),400);
+
+    }
+    return $this->redirectToRoute('usuariosLogin');
+  }
+
+  public function createCreateForm(Actividad $actividad)
+  {
+    $form = $this->createForm(new ActividadType,$actividad);
+    return $form;
   }
 }
