@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+  var contadorEncuentro = 0;
 
   // $('body').on('click','.btn-usuariosGrupo',function(e){
   //   idGrupo = $( "#selectIdGrupo option:selected" ).val();
@@ -44,7 +45,8 @@ $(document).ready(function(){
 
   $('body').on('click','.btnAgregarEncuentro', function(e){
     var idSegmento = $('#segmentosGrupo').val();
-    agregarEncuentro(idSegmento);
+    contadorEncuentro++;
+    agregarEncuentro(idSegmento, contadorEncuentro);
 
   })
 
@@ -53,10 +55,24 @@ $(document).ready(function(){
     listarEncuentros(idSegmento);
   })
 
+  $('body').on('click','.btnAgregarActividad', function(e){
+    var idEncuentro = $(this).data('id');
+    $.ajax({
+      url: Routing.generate('agregarActividad',{idEncuentro}),
+      success:function(html){
+        $('#contentActividad').html(html);
+      }
+    })
+  })
+
   function agregarEncuentro(idSegmento){
     $.ajax({
       type:"POST",
-      url: Routing.generate('agregarEncuentro',{idSegmento}),
+      url: Routing.generate('agregarEncuentro'),
+      data:{
+        idSegmento: idSegmento,
+        contador : contadorEncuentro
+      },
       success:function(data){
         listarEncuentros(idSegmento);
       },error:function(data){
@@ -72,6 +88,7 @@ $(document).ready(function(){
         $('.bodyListaEncuentros').html(html);
         $('.bodyListaEncuentros').show();
       },error:function(){
+        $('.bodyListaEncuentros').hide();
       }
     });
   }

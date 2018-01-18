@@ -1,9 +1,29 @@
 
 {% for encuentro in encuentros %}
 <div class="row" style="margin:0px auto; border: 1px solid #ddd;border-radius: 2px;padding: 5px;padding-left: 20px;">
-  <div class="col-md-5">
+  <div class="col-md-11">
     Encuentro: {{encuentro.getNumeroEncuentro()}} <br>
     Fecha encuentro: {{encuentro.getFechaRealizacion()|date('Y-m-d h:i:s')}}
   </div>
+  <div class="col-md-1">
+    <span data-toggle="tooltip" data-original-title="Agregar actividad">
+      <a  data-id="{{encuentro.getId()}}" data-toggle="modal" data-target="#modalActividad" class="btn btn-default btnAgregarActividad" style="border-radius:10px">
+        <span>
+          <i style="color:#337ab7" class="glyphicon glyphicon-dashboard"></i>
+        </span>
+      </a>
+    </span>
+  </div>
 </div>
 {% endfor %}
+
+<!--Modal agregar actividad a encuentro-->
+<div class="modal fade" id="modalActividad">
+  <div class="modal-dialog"  style="width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body body-modal" id ="contentActividad">
+
+      </div>
+    </div>
+  </div>
+</div>

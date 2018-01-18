@@ -161,25 +161,46 @@ class UsuariosController extends Controller
   //Metodo que agregar un encuentro a un segmento, puede agregar maximo
   //4 encuentros por segmento
   /**
-  * @Route("/agregarEncuentro/{idSegmento}", name="agregarEncuentro")
+  * @Route("/agregarEncuentro", name="agregarEncuentro")
   * @Method({"POST"})
   */
-  public function agregarEncuentro($idSegmento, Request $request){
+  public function agregarEncuentro(Request $request){
     if($request->isXmlHttpRequest()) {
       $em = $this->getDoctrine()->getManager();
+      $idSegmento = $request->request->get('idSegmento');
+      $contadorEncuentro = $request->request->get('contador');
       $segmento = $em->getRepository('DataBundle:Segmento')->find($idSegmento);
       $encuentros = $segmento->getEncuentros();
-      //falta validar que ese encuentro se cree un sabado
-      if(count($encuentros) < 4){
-        $encuentro = new Encuentro();
-        $encuentro->setSegmento($segmento);
-        $encuentro->setNumeroEncuentro(count($encuentros)+1);
-        $encuentro->setFechaRealizacion(new \DateTime());
-        $em->persist($encuentro);
-        $em->flush();
-        return new Response(Response::HTTP_OK);
+      $fechaActual = new \Datetime();
+      $fechaActual->setTimeZone(new \DateTimeZone('America/Bogota'));
+
+      //Si la fecha es un sabado, puede agregar un encuentro
+      if($fechaActual->format('N') == 6){
+        //Si hay menos de 4 encuentros por segmento y si ya se agrego uno cuadno se realizo el
+        //encuentro
+        if(count($encuentros) < 4 && $contadorEncuentro==1){
+          $encuentro = new Encuentro();
+          $encuentro->setSegmento($segmento);
+          $encuentro->setNumeroEncuentro(count($encuentros)+1);
+          $encuentro->setFechaRealizacion(new \DateTime('now', new \DateTimeZone('America/Bogota')));
+          $em->persist($encuentro);
+          $em->flush();
+          return new Response(Response::HTTP_OK);
+        }
+        return new Response("No se pudo registrar el encuentro",400);
       }
-      return new Response("Maxima capacidad de encuentros por segmento",400);
+      return new Response("No es un dia vigente para agregar un encuentro", 400);
+    }
+    return $this->redirectToRoute('gestionEncuentros');
+  }
+
+  /**
+  * @Route("/agregarActividad/{idEncuentro}", name="agregarActividad")
+  */
+  public function agregarActividad($idEncuentro, Request $request){
+    if($request->isXmlHttpRequest()) {
+      //Falta crear el form type de actividad
+
     }
     return $this->redirectToRoute('gestionEncuentros');
   }
