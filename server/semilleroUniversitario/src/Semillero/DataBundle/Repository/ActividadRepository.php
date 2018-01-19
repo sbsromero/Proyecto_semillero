@@ -12,4 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class ActividadRepository extends EntityRepository
 {
+
+  //Metdodo que retorna las actividades de un encuentro asociado
+  public function getActividadesEncuentor($idEncuentro)
+  {
+    return $this->getEntityManager()
+    ->createQuery("SELECT a FROM DataBundle:Actividad a WHERE a.encuentro =:idEncuentro")
+    ->setParameter('idEncuentro',$idEncuentro)
+    ->getResult();
+  }
 }

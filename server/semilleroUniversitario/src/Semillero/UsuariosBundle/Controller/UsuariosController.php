@@ -224,13 +224,24 @@ class UsuariosController extends Controller
 
       //Pentiente por asignar, fecha realizacion y guardar en la base de datos
       if($form->isValid()){
-
+        //Verifica si el encuentro todavia esta disponible
+        if($this->isEncuentroDisponible($encuentro)){
+          $actividad->setFechaRealizacion($encuentro->getFechaRealizacion());
+          $actividad->setEncuentro($encuentro);
+          $em->persist($actividad);
+          $em->flush();
+          $numActividades = $em->getRepository('DataBundle:Actividad')->getActividadesEncuentor($idEncuentro);
+          return new Response(json_encode(array(
+            'msg' => "La actividad ha sido registrada",
+            'numActividades' => count($numActividades)
+          )));
+        }
+        return new Response("El tiempo para registrar actividades ha culminado", 404);
       }
-        #Renderizamos al forumlario si existe algun problema
+      #Renderizamos al forumlario si existe algun problema
       return new Response($this->renderView('UsuariosBundle:Encuentros:agregarActividad.html.twig',array(
         'form' =>$form->createView()
       )),400);
-
     }
     return $this->redirectToRoute('usuariosLogin');
   }
@@ -239,5 +250,18 @@ class UsuariosController extends Controller
   {
     $form = $this->createForm(new ActividadType,$actividad);
     return $form;
+  }
+
+  //Metodo que valida si un encuentro esta disponible, esto quiere decir que
+  //si han pasado menos o 5 dias despues de que se realizo el encuentro
+  private function isEncuentroDisponible($encuentro)
+  {
+    $fechaRealizacion = $encuentro->getFechaRealizacion();
+    $currentDate = new \Datetime("now", new \DateTimeZone('America/Bogota'));
+    $diasTranscurridos = date_diff($fechaRealizacion,$currentDate)->format('%d');
+    if($diasTranscurridos <= 5){
+      return true;
+    }
+    return false;
   }
 }

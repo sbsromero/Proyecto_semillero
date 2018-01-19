@@ -75,11 +75,19 @@ $(document).ready(function(){
       type: "POST",
       url: Routing.generate('registrarActividad'),
       data: data,
-      success: function(html){
-        // $('#contentActividad').html(html);
+      success: function(data){
+        data = JSON.parse(data);
+        toastr.success(data.msg);
+        $('#numActividaes').html(data.numActividades);
+        $('#modalActividad').modal('hide');
       },
       error: function(data){
-        $('#contentActividad').html(data.responseText);
+        if(data.status == 404){
+          toastr.error(data.responseText);
+        }
+        else{
+          $('#contentActividad').html(data.responseText);
+        }
       }
     })
   })
