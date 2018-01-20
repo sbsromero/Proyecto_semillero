@@ -1,3 +1,10 @@
+actividad:
+    resource: "@ActividadBundle/Controller/"
+    type:     annotation
+    prefix:   /
+    options:
+        expose: true
+
 parametros:
     resource: "@ParametrosBundle/Controller/"
     type:     annotation

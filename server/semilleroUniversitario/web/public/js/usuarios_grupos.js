@@ -1,26 +1,7 @@
 $(document).ready(function(){
 
-  var contadorEncuentro = 0;
   var idEncuentro = 0;
 
-  // $('body').on('click','.btn-usuariosGrupo',function(e){
-  //   idGrupo = $( "#selectIdGrupo option:selected" ).val();
-  //   if(idGrupo == "" || idGrupo == undefined){
-  //     toastr.error("Debe seleccionar un grupo para continuar");
-  //   }
-  //   else{
-  //     $.ajax({
-  //       type: "GET",
-  //       url: Routing.generate('gestionGruposAsignados',{idGrupo:idGrupo}),
-  //       success: function(){
-  //
-  //       },
-  //       error: function(){
-  //
-  //       }
-  //     })
-  //   }
-  // });
   //Metodo que muestra toda la informacion de los datos personales del mentor
   $('body').on('click','.verDatos', function(e){
     $.ajax({
@@ -46,8 +27,7 @@ $(document).ready(function(){
 
   $('body').on('click','.btnAgregarEncuentro', function(e){
     var idSegmento = $('#segmentosGrupo').val();
-    contadorEncuentro++;
-    agregarEncuentro(idSegmento, contadorEncuentro);
+    agregarEncuentro(idSegmento);
 
   })
 
@@ -97,8 +77,7 @@ $(document).ready(function(){
       type:"POST",
       url: Routing.generate('agregarEncuentro'),
       data:{
-        idSegmento: idSegmento,
-        contador : contadorEncuentro
+        idSegmento: idSegmento
       },
       success:function(data){
         listarEncuentros(idSegmento);

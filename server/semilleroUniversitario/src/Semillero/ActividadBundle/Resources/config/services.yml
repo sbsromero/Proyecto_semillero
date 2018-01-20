@@ -1,0 +1,4 @@
+services:
+#    actividad.example:
+#        class: Semillero\ActividadBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

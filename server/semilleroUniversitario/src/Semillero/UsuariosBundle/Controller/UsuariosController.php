@@ -16,17 +16,6 @@ use Semillero\DataBundle\Form\ActividadType;
 */
 class UsuariosController extends Controller
 {
-  /**
-  * @Route("/dashboard", name="dashboardUsuarios")
-  */
-  public function dashboardUsuariosAction()
-  {
-    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
-      return $this->render('UsuariosBundle:Dashboard:dashboardUsuarios.html.twig');
-    }
-    return $this->redirectToRoute('usuariosLogin');
-  }
-
   //Metodo que se encarga de administrar los grupos asignados a un mentor
   /**
   * @Route("/index", name="indexGrupos_usuarios")
@@ -170,7 +159,6 @@ class UsuariosController extends Controller
     if($request->isXmlHttpRequest()) {
       $em = $this->getDoctrine()->getManager();
       $idSegmento = $request->request->get('idSegmento');
-      $contadorEncuentro = $request->request->get('contador');
       $segmento = $em->getRepository('DataBundle:Segmento')->find($idSegmento);
       $encuentros = $segmento->getEncuentros();
       $fechaActual = new \Datetime();
@@ -180,7 +168,7 @@ class UsuariosController extends Controller
       if($fechaActual->format('N') == 6){
         //Si hay menos de 4 encuentros por segmento y si ya se agrego uno cuadno se realizo el
         //encuentro
-        if(count($encuentros) < 4 && $contadorEncuentro==1){
+        if(count($encuentros) < 4 && !$this->isEncuentroRegistrado($encuentros)){
           $encuentro = new Encuentro();
           $encuentro->setSegmento($segmento);
           $encuentro->setNumeroEncuentro(count($encuentros)+1);
@@ -261,6 +249,18 @@ class UsuariosController extends Controller
     $diasTranscurridos = date_diff($fechaRealizacion,$currentDate)->format('%d');
     if($diasTranscurridos <= 5){
       return true;
+    }
+    return false;
+  }
+
+  //Metodo que valida si un encuentro ya fue registrado el dia de hoy
+  private function isEncuentroRegistrado($encuentros)
+  {
+    $diaActual = new \DateTime("now", new \DateTimeZone('America/Bogota'));
+    foreach ($encuentros as $encuentro) {
+      if($encuentro->getFechaRealizacion()->format('d-m-Y') == $diaActual->format('d-m-Y')){
+        return true;
+      }
     }
     return false;
   }

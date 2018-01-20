@@ -1,19 +1,18 @@
 {% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
 {% block body %}
-{{ parent() }}
+{{parent()}}
 <div class="container" style="margin-top:20px">
   <div class="panel panel-default">
     <div class="" style="margin-left:200px; margin-right:200px">
       <div class="panel-header" style="padding:15px; padding-bottom:0px" align="center">
         <div class="" style="width:100%; display:table; height:50px; background-color:#f5f5f5">
           <div class="" style="display:table-cell; vertical-align:middle">
-            Gestión de encuentros - Grupo: {{grupo.getNombre()}}
+            Gestión de actividades - Grupo: {{grupo.getNombre()}}
           </div>
         </div>
       </div>
       <div class="panel-body">
         <div class="">
-          <p align="center">* Seleccione un segmento para listar los encuentros</p>
           <div class="row" style="margin:0px auto" align="center">
             <div class="form-group form-inline">
               <select id="segmentosGrupo" class="form-control" style="width:70px">
@@ -21,25 +20,11 @@
                 <option value="{{segmento.getId()}}">{{segmento.getNumeroSegmento()}}</option>
                 {% endfor %}
               </select>
-              <a class="btn btn-default btnListarEncuentros">Listar</a>
-              <span data-toggle="tooltip" data-original-title="Agregar encuentro">
-                <a class="btn btn-default btnAgregarEncuentro" style="border-radius:10px">
-                  <span>
-                    <i style="color:#337ab7" class="glyphicon glyphicon-plus"></i>
-                  </span>
-                </a>
-              </span>
-              <span data-toggle="tooltip" data-original-title="Cambiar grupo">
-                <a class="btn btn-default" style="border-radius:10px">
-                  <span>
-                    <i style="color:#337ab7" class="glyphicon glyphicon-refresh"></i>
-                  </span>
-                </a>
-              </span>
+              <a class="btn btn-default btnListarActividades">Listar</a>
             </div>
           </div>
         </div>
-        <div class="bodyListaEncuentros" style="display:none">
+        <div class="bodyListaActividades" style="display:none">
         </div>
       </div>
     </div>
@@ -48,5 +33,5 @@
 {% endblock %}
 {% block javascript %}
 {{parent()}}
-<script src="{{asset('public/js/usuarios_grupos.js')}}"></script>
+<script src="{{asset('public/js/usuarios_actividades.js')}}"></script>
 {% endblock %}

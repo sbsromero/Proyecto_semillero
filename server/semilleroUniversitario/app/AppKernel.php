@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new Semillero\ServicesBundle\ServicesBundle(),
             new Semillero\ParametrosBundle\ParametrosBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+            new Semillero\ActividadBundle\ActividadBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
