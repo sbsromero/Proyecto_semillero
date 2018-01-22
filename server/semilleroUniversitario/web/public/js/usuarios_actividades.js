@@ -44,12 +44,25 @@ $(document).ready(function(){
       success: function(data){
         toastr.success("La actividad ha sido modificada");
         $('#modalEditarActividad').modal('hide');
-        $('.btnListarActividades').click();
+        setTimeout(function () {
+          $('.btnListarActividades').click();
+        },1000);
       },
       error: function(data){
         $('#contentEditarActividad').html(data.responseText);
       }
     })
+  })
+
+  $("#segmentosGrupo" ).change(function() {
+    $('.bodyListaActividades').hide();
+  });
+
+  $('body').on('click','.btnCalificarActividad', function(e){
+    idActividad = $(this).data('id');
+    console.log(idActividad);
+    segmentoGrupo = $('#segmentosGrupo').val();
+    window.location.href = Routing.generate("calificacionesUsuarios",{segmento: segmentoGrupo, idActividad:idActividad});
   })
 
   function listarActividades(idSegmento){
@@ -66,6 +79,40 @@ $(document).ready(function(){
         $('.btnListarActividades').removeAttr('disabled');
       }
     });
+  }
+
+  crearPaginadorCalificaciones();
+
+  //Metodo que crea el paginador de las semillas para la calificacion
+  //de una actividad realizada
+  function crearPaginadorCalificaciones(){
+    var totalPages = $('#tablaCalificaciones').attr('data-pagecount');
+    var idGrupo = $('#grupoCalif').data('id');
+    console.log(totalPages);
+    if(totalPages != 0){
+      $('#paginadorCalificacion').twbsPagination({
+        startPage: 1,
+        totalPages: totalPages,
+        visiblePages: 6,
+        initiateStartPageClick: false,
+        first:'Primero',
+        last: 'Último',
+        prev: '<span aria-hidden="true">&laquo;</span>',
+        next: '<span aria-hidden="true">&raquo;</span>',
+        onPageClick: function (event, page) {
+          // $.ajax({
+          //   type: "GET",
+          //   url: Routing.generate('getAsignarMentor',{id:id}),
+          //   data:{
+          //     pageActive: page,
+          //   },
+          //   success:function(html){
+          //     $('#tablaMentores').replaceWith($(html).find('#tablaMentores'));
+          //   }
+          // })
+        }
+      })
+    }
   }
 
   //tooltip

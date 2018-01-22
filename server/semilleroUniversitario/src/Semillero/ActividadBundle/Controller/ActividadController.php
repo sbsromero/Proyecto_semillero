@@ -140,11 +140,50 @@ class ActividadController extends Controller
       $encuentros = $segmento->getEncuentros();
       $actividades = $this->getActividades($encuentros);
 
-      return $this->render('ActividadBundle:Usuarios:listaActividades.html.twig',array(
-        'actividades' => $actividades
-      ));
+      if(count($actividades) > 0){
+        return $this->render('ActividadBundle:Usuarios:listaActividades.html.twig',array(
+          'actividades' => $actividades
+        ));
+      }
+      return new Response("Segmento sin actividades",400);
     }
     return $this->redirectToRoute('gestionActividadesUsuarios');
+  }
+
+  /**
+  * @Route("/usuarios/calificaciones/{segmento}/{idActividad}", name="calificacionesUsuarios")
+  */
+  public function calificaciones($segmento,$idActividad, Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $em = $this->getDoctrine()->getManager();
+      $segmento = $em->getRepository('DataBundle:Segmento')->find($segmento);
+      $grupo = $segmento->getGrupo();
+      $actividad = $em->getRepository('DataBundle:Actividad')->find($idActividad);
+
+      $grupo_semillas = $grupo->getSemillas();
+      $semillas = array();
+      foreach ($grupo_semillas as $grupo_semilla) {
+        if($grupo_semilla->getActivo()){
+          array_push($semillas, $grupo_semilla->getSemilla());
+        }
+      }
+
+      $page = 1;
+
+      $paginador = $this->get('knp_paginator');
+      $pagination = $paginador->paginate($semillas, $page, 1);
+      $items = $pagination->getItems();
+      $pageCount = $pagination->getPageCount();
+
+      return $this->render('ActividadBundle:Actividad:calificaciones.html.twig', array(
+        'actividad' => $actividad,
+        'segmento' => $segmento,
+        'grupo' => $grupo,
+        'semillas' => $semillas,
+        'pageCount' => $pageCount
+      ));
+    }
+    return $this->redirectToRoute('usuariosLogin');
   }
 
   //Metodo que crea el formulario para agregar una actividad
