@@ -17,7 +17,9 @@ class ActividadType extends AbstractType
         $builder
         ->add('nombre')
         ->add('descripcion')
-        ->add('observacion')
+        ->add('observacion','textarea',array(
+           'attr' => array('rows' => '5'),
+        ))
         ->add('tipoActividad','entity',array(
           'class' => 'DataBundle:TipoActividad',
           'query_builder' => function(EntityRepository $er){

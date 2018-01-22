@@ -16,6 +16,17 @@ use Semillero\DataBundle\Form\ActividadType;
 */
 class UsuariosController extends Controller
 {
+  /**
+  * @Route("/dashboard", name="dashboardUsuarios")
+  */
+  public function dashboardUsuariosAction()
+  {
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      return $this->render('UsuariosBundle:Dashboard:dashboardUsuarios.html.twig');
+    }
+    return $this->redirectToRoute('usuariosLogin');
+  }
+
   //Metodo que se encarga de administrar los grupos asignados a un mentor
   /**
   * @Route("/index", name="indexGrupos_usuarios")
@@ -159,6 +170,7 @@ class UsuariosController extends Controller
     if($request->isXmlHttpRequest()) {
       $em = $this->getDoctrine()->getManager();
       $idSegmento = $request->request->get('idSegmento');
+      $contadorEncuentro = $request->request->get('contador');
       $segmento = $em->getRepository('DataBundle:Segmento')->find($idSegmento);
       $encuentros = $segmento->getEncuentros();
       $fechaActual = new \Datetime();
@@ -168,7 +180,7 @@ class UsuariosController extends Controller
       if($fechaActual->format('N') == 6){
         //Si hay menos de 4 encuentros por segmento y si ya se agrego uno cuadno se realizo el
         //encuentro
-        if(count($encuentros) < 4 && !$this->isEncuentroRegistrado($encuentros)){
+        if(count($encuentros) < 4 && $contadorEncuentro==1){
           $encuentro = new Encuentro();
           $encuentro->setSegmento($segmento);
           $encuentro->setNumeroEncuentro(count($encuentros)+1);
@@ -184,62 +196,6 @@ class UsuariosController extends Controller
     return $this->redirectToRoute('gestionEncuentros');
   }
 
-  /**
-  * @Route("/agregarActividad", name="agregarActividad")
-  */
-  public function agregarActividad(Request $request){
-    if($request->isXmlHttpRequest()) {
-      $actividad = new Actividad();
-      $form = $this-> createCreateForm($actividad);
-      return $this->render('UsuariosBundle:Encuentros:agregarActividad.html.twig',array(
-        'form' =>$form->createView()));
-    }
-    return $this->redirectToRoute('gestionEncuentros');
-  }
-
-  /**
-  * @Route("/registrarActividad", name="registrarActividad")
-  * @Method({"POST"})
-  */
-  public function registrarActividad(Request $request){
-    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
-      $actividad = new Actividad();
-      $form = $this->createCreateForm($actividad);
-      $form->handleRequest($request);
-      $idEncuentro = $request->request->get('idEncuentro');
-      $em = $this->getDoctrine()->getManager();
-      $encuentro = $em->getRepository('DataBundle:Encuentro')->find($idEncuentro);
-
-      //Pentiente por asignar, fecha realizacion y guardar en la base de datos
-      if($form->isValid()){
-        //Verifica si el encuentro todavia esta disponible
-        if($this->isEncuentroDisponible($encuentro)){
-          $actividad->setFechaRealizacion($encuentro->getFechaRealizacion());
-          $actividad->setEncuentro($encuentro);
-          $em->persist($actividad);
-          $em->flush();
-          $numActividades = $em->getRepository('DataBundle:Actividad')->getActividadesEncuentor($idEncuentro);
-          return new Response(json_encode(array(
-            'msg' => "La actividad ha sido registrada",
-            'numActividades' => count($numActividades)
-          )));
-        }
-        return new Response("El tiempo para registrar actividades ha culminado", 404);
-      }
-      #Renderizamos al forumlario si existe algun problema
-      return new Response($this->renderView('UsuariosBundle:Encuentros:agregarActividad.html.twig',array(
-        'form' =>$form->createView()
-      )),400);
-    }
-    return $this->redirectToRoute('usuariosLogin');
-  }
-
-  public function createCreateForm(Actividad $actividad)
-  {
-    $form = $this->createForm(new ActividadType,$actividad);
-    return $form;
-  }
-
   //Metodo que valida si un encuentro esta disponible, esto quiere decir que
   //si han pasado menos o 5 dias despues de que se realizo el encuentro
   private function isEncuentroDisponible($encuentro)
@@ -249,18 +205,6 @@ class UsuariosController extends Controller
     $diasTranscurridos = date_diff($fechaRealizacion,$currentDate)->format('%d');
     if($diasTranscurridos <= 5){
       return true;
-    }
-    return false;
-  }
-
-  //Metodo que valida si un encuentro ya fue registrado el dia de hoy
-  private function isEncuentroRegistrado($encuentros)
-  {
-    $diaActual = new \DateTime("now", new \DateTimeZone('America/Bogota'));
-    foreach ($encuentros as $encuentro) {
-      if($encuentro->getFechaRealizacion()->format('d-m-Y') == $diaActual->format('d-m-Y')){
-        return true;
-      }
     }
     return false;
   }

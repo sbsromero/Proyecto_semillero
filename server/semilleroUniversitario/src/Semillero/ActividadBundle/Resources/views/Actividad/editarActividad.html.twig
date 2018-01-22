@@ -1,0 +1,37 @@
+<div class="panel panel-default">
+  <div class="panel-header">
+    <div class="row" style="margin:0px;padding-right: 30px;padding-top: 20px;">
+      <button type="button" class="close" data-dismiss="modal" name="button">X</button>
+    </div>
+    <div class="page-header" align="center">
+      <h4>Edición de actividad</h4>
+    </div>
+  </div>
+  {{ form_start(form, {'attr':{'role':'form','novalidate':'novalidate', 'id':'form_edit_actividad'}}) }}
+  <div class="panel-body" style="padding-top:0px;">
+    <div class="form-group">
+      {{form_label(form.nombre,'Nombre actividad')}}
+      {{form_widget(form.nombre, {'attr':{'class':'form-control','placeholder' : 'Nombre de la actividad'}})}}
+      <span class="text-danger">{{ form_errors(form.nombre) }}</span>
+    </div>
+    <div class="form-group">
+      {{form_label(form.descripcion,'Descripción')}}
+      {{form_widget(form.descripcion, {'attr':{'class':'form-control','placeholder':'Descripción de la actividad'}})}}
+      <span class="text-danger">{{ form_errors(form.descripcion) }}</span>
+    </div>
+    <div class="form-group">
+      {{form_label(form.observacion,'Observación')}}
+      {{form_widget(form.observacion, {'attr':{'class':'form-control textAreaActividad','placeholder':'Observaciónes', 'maxlength':'255'}})}}
+      <span class="text-danger">{{ form_errors(form.observacion) }}</span>
+    </div>
+    <div class="form-group">
+      {{form_label(form.tipoActividad)}}
+      {{form_widget(form.tipoActividad, {'attr':{'class':'form-control'}})}}
+      <span class="text-danger">{{ form_errors(form.tipoActividad) }}</span>
+    </div>
+    <p align="center">
+      {{form_widget(form.save,{'attr':{'class':'btn btn-success btnModificarActividad'}})}}
+    </p>
+  </div>
+  {{form_end(form) }}
+</div>

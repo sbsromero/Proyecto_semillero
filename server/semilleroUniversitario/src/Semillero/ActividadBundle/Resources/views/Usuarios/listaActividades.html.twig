@@ -1,1 +1,61 @@
-{{dump(actividades)}}
+{% for actividad in actividades %}
+<div class="row" style="margin:0px auto; border: 1px solid #ddd;border-radius: 2px;padding: 5px;padding-left: 20px;">
+  <div class="col-md-9">
+    Actividad: {{actividad.getNombre()}} <br>
+    {% set descripcion = actividad.getDescripcion() %}
+    Descripción:
+      {% if descripcion | length > 30 %}
+        {{descripcion | slice (0,30)}} ...
+      {% else %}
+        {{descripcion}}
+      {% endif %}
+  </div>
+  <div class="col-md-1" style="padding:0px;" align="center">
+    <span data-toggle="tooltip" data-original-title="Detalle actividad">
+      <a  data-id="{{actividad.getId()}}" data-toggle="modal" data-target="#modalDetalleActividad" class="btn btn-default btnDetalleActividad" style="border-radius:10px">
+        <span>
+          <i style="color:#337ab7" class="glyphicon glyphicon-eye-open"></i>
+        </span>
+      </a>
+    </span>
+  </div>
+  <div class="col-md-1" style="padding:0px;" align="center">
+    <span data-toggle="tooltip" data-original-title="Modificar actividad">
+      <a  data-id="{{actividad.getId()}}" data-toggle="modal" data-target="#modalEditarActividad" class="btn btn-default btnEditarActividad" style="border-radius:10px">
+        <span>
+          <i style="color:#337ab7" class="glyphicon glyphicon-pencil"></i>
+        </span>
+      </a>
+    </span>
+  </div>
+  <div class="col-md-1" style="padding:0px;" align="center">
+    <span data-toggle="tooltip" data-original-title="Calificar actividad">
+      <a  data-id="{{actividad.getId()}}" class="btn btn-default btnCalificarActividad" style="border-radius:10px">
+        <span>
+          <i style="color:#337ab7" class="glyphicon glyphicon-education"></i>
+        </span>
+      </a>
+    </span>
+  </div>
+</div>
+{% endfor %}
+
+<!--Modal detalle actividad-->
+<div class="modal fade" id="modalDetalleActividad">
+  <div class="modal-dialog"  style="width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body body-modal" id ="contentDetalleActividad">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal editar actividad-->
+<div class="modal fade" id="modalEditarActividad">
+  <div class="modal-dialog"  style="width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body body-modal" id ="contentEditarActividad">
+      </div>
+    </div>
+  </div>
+</div>

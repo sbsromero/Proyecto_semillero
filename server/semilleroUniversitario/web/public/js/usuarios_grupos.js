@@ -39,10 +39,8 @@ $(document).ready(function(){
   $('body').on('click','.btnAgregarActividad', function(e){
     idEncuentro = $(this).data('id');
     $.ajax({
-      url: Routing.generate('agregarActividad'),
+      url: Routing.generate('agregarActividadUsuarios'),
       success:function(html){
-        // $('.bodyListaEncuentros').html(html);
-        // $('.bodyListaEncuentros').show();
         $('#contentActividad').html(html);
       }
     })
@@ -53,12 +51,12 @@ $(document).ready(function(){
     data.push({name:'idEncuentro',value:idEncuentro});
     $.ajax({
       type: "POST",
-      url: Routing.generate('registrarActividad'),
+      url: Routing.generate('registrarActividadUsuarios'),
       data: data,
       success: function(data){
         data = JSON.parse(data);
         toastr.success(data.msg);
-        $('#numActividaes').html(data.numActividades);
+        $('#numActividades'+idEncuentro).html(data.numActividades);
         $('#modalActividad').modal('hide');
       },
       error: function(data){

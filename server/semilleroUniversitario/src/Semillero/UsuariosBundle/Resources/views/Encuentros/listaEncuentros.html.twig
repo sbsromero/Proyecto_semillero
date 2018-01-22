@@ -11,10 +11,9 @@
         <span>
           <i style="color:#337ab7" class="glyphicon glyphicon-education"></i>
         </span>
-        <span id="numActividaes">{{encuentro.getActividades()|length}}</span>
+        <span id="numActividades{{encuentro.getId()}}">{{encuentro.getActividades()|length}}</span>
       </div>
     </span>
-
   </div>
   <div class="col-md-1" style="padding:0px;" align="center">
     <span data-toggle="tooltip" data-original-title="Agregar actividad">
