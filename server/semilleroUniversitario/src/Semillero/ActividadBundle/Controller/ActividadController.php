@@ -159,19 +159,13 @@ class ActividadController extends Controller
       $segmento = $em->getRepository('DataBundle:Segmento')->find($segmento);
       $grupo = $segmento->getGrupo();
       $actividad = $em->getRepository('DataBundle:Actividad')->find($idActividad);
+      $page = $request->query->get('pageActive');
+      $pageActive = (empty($page)) ? 1 : $page ;
 
-      $grupo_semillas = $grupo->getSemillas();
-      $semillas = array();
-      foreach ($grupo_semillas as $grupo_semilla) {
-        if($grupo_semilla->getActivo()){
-          array_push($semillas, $grupo_semilla->getSemilla());
-        }
-      }
-
-      $page = 1;
+      $semillas = $em->getRepository('DataBundle:Semilla')->getSemillasPorGrupo($grupo->getId());
 
       $paginador = $this->get('knp_paginator');
-      $pagination = $paginador->paginate($semillas, $page, 1);
+      $pagination = $paginador->paginate($semillas, $pageActive, 10);
       $items = $pagination->getItems();
       $pageCount = $pagination->getPageCount();
 
@@ -179,7 +173,7 @@ class ActividadController extends Controller
         'actividad' => $actividad,
         'segmento' => $segmento,
         'grupo' => $grupo,
-        'semillas' => $semillas,
+        'semillas' => $items,
         'pageCount' => $pageCount
       ));
     }

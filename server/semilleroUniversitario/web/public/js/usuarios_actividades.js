@@ -2,11 +2,12 @@ $(document).ready(function(){
 
   var clickListar = false;
   var idActividad = 0;
+  var idSegmento = 0;
 
   $('body').on('click','.btnListarActividades', function(e){
     $(this).attr('disabled',true);
     if(!clickListar){
-      var idSegmento = $('#segmentosGrupo').val();
+      idSegmento = $('#segmentosGrupo').val();
       listarActividades(idSegmento);
       clickListar = true;
     }else{
@@ -81,14 +82,14 @@ $(document).ready(function(){
     });
   }
 
-  crearPaginadorCalificaciones();
 
+  crearPaginadorCalificaciones();
   //Metodo que crea el paginador de las semillas para la calificacion
   //de una actividad realizada
   function crearPaginadorCalificaciones(){
     var totalPages = $('#tablaCalificaciones').attr('data-pagecount');
-    var idGrupo = $('#grupoCalif').data('id');
-    console.log(totalPages);
+    idSegmento = $('#segmento').data('id');
+    idActividad = $('#actividad').data('id');
     if(totalPages != 0){
       $('#paginadorCalificacion').twbsPagination({
         startPage: 1,
@@ -100,16 +101,16 @@ $(document).ready(function(){
         prev: '<span aria-hidden="true">&laquo;</span>',
         next: '<span aria-hidden="true">&raquo;</span>',
         onPageClick: function (event, page) {
-          // $.ajax({
-          //   type: "GET",
-          //   url: Routing.generate('getAsignarMentor',{id:id}),
-          //   data:{
-          //     pageActive: page,
-          //   },
-          //   success:function(html){
-          //     $('#tablaMentores').replaceWith($(html).find('#tablaMentores'));
-          //   }
-          // })
+          $.ajax({
+            type: "GET",
+            url: Routing.generate("calificacionesUsuarios",{segmento: idSegmento, idActividad:idActividad}),
+            data:{
+              pageActive: page,
+            },
+            success:function(html){
+              $('#tablaCalificaciones').replaceWith($(html).find('#tablaCalificaciones'));
+            }
+          })
         }
       })
     }

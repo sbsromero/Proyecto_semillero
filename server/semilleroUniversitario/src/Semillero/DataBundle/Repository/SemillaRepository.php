@@ -51,6 +51,15 @@ class SemillaRepository extends EntityRepository
       ->setParameter('querySearch','%'.$querySearch.'%');
     }
 
+    //Metodo que retorna todas las semillas pertenecientes a un grupo y que esten activos
+    public function getSemillasPorGrupo($idGrupo){
+      return $this->getEntityManager()
+      ->createQuery("SELECT s FROM DataBundle:Semilla s JOIN s.grupos s_g WHERE s_g.grupo = :idGrupo
+      and s_g.activo = TRUE")
+      ->setParameter('idGrupo',$idGrupo)
+      ->getResult();
+    }
+
     // //Retorna todas las semillas
     public function findAll()
     {
