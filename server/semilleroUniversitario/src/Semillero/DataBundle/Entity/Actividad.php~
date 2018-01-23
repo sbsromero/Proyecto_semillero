@@ -75,7 +75,7 @@ class Actividad
   /**
   * @var string
   *
-  * @ORM\Column(name="observacion", type="string", length=255)
+  * @ORM\Column(name="observacion", type="string", length=255, nullable=true)
   */
   private $observacion;
 
@@ -91,7 +91,7 @@ class Actividad
      */
     public function __construct()
     {
-        $this->fechaCreacion = new \DateTime();
+        $this->fechaRegistro = new \DateTime('now', new \DateTimeZone('America/Bogota'));
         $this->semillas = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

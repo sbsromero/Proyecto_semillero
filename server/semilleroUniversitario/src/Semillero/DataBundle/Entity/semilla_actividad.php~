@@ -30,7 +30,7 @@ class semilla_actividad
 
   /**
   * @ORM\ManyToOne(targetEntity="Actividad", inversedBy="semillas")
-  * @ORM\JoinColumn(name="actividad_id", referencedColumnName="id") 
+  * @ORM\JoinColumn(name="actividad_id", referencedColumnName="id")
   */
   private $actividad;
 
@@ -62,11 +62,18 @@ class semilla_actividad
   */
   private $notaAsistencia;
 
+  /**
+  * @var int
+  *
+  * @ORM\Column(name="nota_actividad", type="integer")
+  */
+  private $notaActividad;
+
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -89,7 +96,7 @@ class semilla_actividad
     /**
      * Get asistio
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getAsistio()
     {
@@ -112,7 +119,7 @@ class semilla_actividad
     /**
      * Get fechaRealizacion
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getFechaRealizacion()
     {
@@ -135,7 +142,7 @@ class semilla_actividad
     /**
      * Get observacion
      *
-     * @return string 
+     * @return string
      */
     public function getObservacion()
     {
@@ -158,7 +165,7 @@ class semilla_actividad
     /**
      * Get notaAsistencia
      *
-     * @return integer 
+     * @return integer
      */
     public function getNotaAsistencia()
     {
@@ -181,7 +188,7 @@ class semilla_actividad
     /**
      * Get semilla
      *
-     * @return \Semillero\DataBundle\Entity\Semilla 
+     * @return \Semillero\DataBundle\Entity\Semilla
      */
     public function getSemilla()
     {
@@ -204,7 +211,7 @@ class semilla_actividad
     /**
      * Get actividad
      *
-     * @return \Semillero\DataBundle\Entity\Actividad 
+     * @return \Semillero\DataBundle\Entity\Actividad
      */
     public function getActividad()
     {

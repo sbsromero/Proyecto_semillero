@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Semillero\DataBundle\Entity\Actividad;
+use Semillero\DataBundle\Entity\semilla_actividad;
 use Semillero\DataBundle\Form\ActividadType;
 
 class ActividadController extends Controller
@@ -180,6 +181,45 @@ class ActividadController extends Controller
     return $this->redirectToRoute('usuariosLogin');
   }
 
+  /**
+  * @Route("/usuarios/guardarCalificaciones/{idActividad}", name="guardarCalificaciones")
+  * @Method({"POST"})
+  */
+  public function guardarCalificaciones($idActividad, Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $semilla_actividad = new semilla_actividad();
+      $registros = $request->request->all();
+      $semillas = array();
+
+      foreach ($registros as $registro => $value) {
+        # code...
+        $idSemilla = substr($registro,2,4);
+        //verificar si existe asistencia
+        $asistencia = $this->buscarAsistencia($registros,$idSemilla);
+        $semillas[$idSemilla] = array(
+          'nota' => $registros[$registro],
+          'asistencia' => $asistencia
+        );
+        $bandera = ($asistencia == true) ? $asistencia : false;
+
+        // if($asistencia){
+        //   unset($registros['a-'.$idSemilla]);
+        // }
+
+      }
+      dump("semillas",$semillas);exit();
+      // dump("algo",$idActividad,$registros);exit();
+    }
+    return $this->redirectToRoute('usuariosLogin');
+  }
+
+  private function buscarAsistencia($registros, $idSemilla){
+    $idSemilla = 'a-'.$idSemilla;
+    if(array_key_exists($idSemilla,$registros)){
+      return true;
+    }
+    return false;
+  }
   //Metodo que crea el formulario para agregar una actividad
   private function createCreateForm(Actividad $actividad)
   {

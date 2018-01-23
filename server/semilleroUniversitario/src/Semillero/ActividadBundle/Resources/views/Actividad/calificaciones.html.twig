@@ -55,38 +55,40 @@
           </div>
 
           <div class="table-responsive" id="tablaCalificaciones" data-pageCount="{{pageCount}}">
-            <table id="tableSemillasCalificacion" class="table table-striped table-border table-hover table-responsive">
-              <thead style="background-color:#f5f5f5">
-                <tr>
-                  <th style="border-right: 2px solid #fff; width: 120px; text-align:center">Identificación</th>
-                  <th style="border-right: 2px solid #fff; text-align:center">Nombre</th>
-                  <th style="border-right: 2px solid #fff; width: 100px; text-align:center">Nota</th>
-                  <th style="width: 100px; text-align:center">Asistencia</th>
-                </tr>
-              </thead>
-              {% if semillas | length %}
-              <tbody>
-                {% for semilla in semillas %}
+            <form id="formGuardarCalificaciones" action="{{path('guardarCalificaciones',{'idActividad':actividad.getId()})}}" method="post">
+              <table id="tableSemillasCalificacion" class="table table-striped table-border table-hover table-responsive">
+                <thead style="background-color:#f5f5f5">
+                  <tr>
+                    <th style="border-right: 2px solid #fff; width: 120px; text-align:center">Identificación</th>
+                    <th style="border-right: 2px solid #fff; text-align:center">Nombre</th>
+                    <th style="border-right: 2px solid #fff; width: 100px; text-align:center">Nota</th>
+                    <th style="width: 100px; text-align:center">Asistencia</th>
+                  </tr>
+                </thead>
+                {% if semillas | length %}
+                <tbody>
+                  {% for semilla in semillas %}
                   <tr>
                     <td style="border-right: 2px solid #fff">{{semilla.getNumeroDocumento()}}</td>
                     <td style="border-right: 2px solid #fff">{{semilla.getFullName()}}</td>
                     <td align="center" style="border-right: 2px solid #fff">
-                      <input type="text" name="" value="" style="width:50px">
+                      <input type="text" name="n-{{semilla.getId()}}" value="" style="width:50px">
                     </td>
                     <td align="center">
-                      <input type="checkbox" name="" value="">
+                      <input type="checkbox" name="a-{{semilla.getId()}}">
                     </td>
                   </tr>
-                {% endfor %}
-              </tbody>
-              {% endif %}
-            </table>
-
+                  {% endfor %}
+                </tbody>
+                {% endif %}
+              </table>
+              <div class="">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <!-- <a type="submit" id="btnGuardarCalificaciones" class="btn btn-success">Guardar</a> -->
+              </div>
+            </form>
           </div>
 
-          <div class="">
-            <a href="#" class="btn btn-success">Guardar</a>
-          </div>
 
         </div>
       </div>

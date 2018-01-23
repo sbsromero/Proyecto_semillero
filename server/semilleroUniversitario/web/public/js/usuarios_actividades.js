@@ -61,7 +61,6 @@ $(document).ready(function(){
 
   $('body').on('click','.btnCalificarActividad', function(e){
     idActividad = $(this).data('id');
-    console.log(idActividad);
     segmentoGrupo = $('#segmentosGrupo').val();
     window.location.href = Routing.generate("calificacionesUsuarios",{segmento: segmentoGrupo, idActividad:idActividad});
   })
@@ -81,6 +80,20 @@ $(document).ready(function(){
       }
     });
   }
+
+  // $('body').on('click','#btnGuardarCalificaciones',function(e){
+  //   $('#formGuardarCalificaciones').submit( function(e) {
+  //     e.preventDefault();
+  //     $.ajax({
+  //       url: Routing.generate('guardarCalificaciones',{idActividad:idActividad}),
+  //       success: function(){
+  //
+  //       }
+  //     })
+  //   });
+  //
+  // })
+
 
 
   crearPaginadorCalificaciones();
