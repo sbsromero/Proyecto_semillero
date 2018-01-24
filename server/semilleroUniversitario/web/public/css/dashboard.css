@@ -2,7 +2,7 @@ html, body, .dashboard {
     height: 100%;
 }
 
-.container, .dashboard {
+.dashboard {
     height: 70%;
     display: flex;
     justify-content: center;
