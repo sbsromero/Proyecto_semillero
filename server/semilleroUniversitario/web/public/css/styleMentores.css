@@ -9,3 +9,28 @@
 .text-muted{
   margin-top: 20px;
 }
+
+/*************************
+Responsive design
+*/
+/**Resolución celular portrait**/
+@media (min-width: 320px) and (max-width: 480px) {
+}
+
+/*Resolución celular landscape*/
+@media (min-width: 481px) and (max-width: 767px) {
+}
+
+/*@media screen and (min-device-width : 375px) {
+	.form-signin{
+		width: 350px !important;
+	}
+}*/
+
+/*Resolución tables*/
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px){
+}
+
+/**Resolución tables landscape*/
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+}
