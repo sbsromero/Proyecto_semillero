@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 * @ORM\DiscriminatorMap({"mentor" = "Mentor", "semilla" = "Semilla"})
 * @UniqueEntity("email")
 */
-class Usuarios implements AdvancedUserInterface, \Serializable
+abstract class Usuarios implements AdvancedUserInterface, \Serializable
 {
   /**
   * @var int
@@ -562,7 +562,7 @@ class Usuarios implements AdvancedUserInterface, \Serializable
 
     public function getRoles()
     {
-      return array('ROLE_USER');
+      return array('ROLE_'.strtoupper($this->getDiscr()));
     }
 
     public function getFullName()

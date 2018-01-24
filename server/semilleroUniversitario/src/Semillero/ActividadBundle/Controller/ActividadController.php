@@ -10,12 +10,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Semillero\DataBundle\Entity\Actividad;
 use Semillero\DataBundle\Entity\semilla_actividad;
 use Semillero\DataBundle\Form\ActividadType;
+use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
 
 class ActividadController extends Controller
 {
 
   /**
   * @Route("/usuarios/gestionActividades/{idGrupo}", name="gestionActividadesUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function gestionActividades ($idGrupo, Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
@@ -33,6 +35,7 @@ class ActividadController extends Controller
 
   /**
   * @Route("/usuarios/agregarActividad", name="agregarActividadUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function agregarActividad(Request $request){
     if($request->isXmlHttpRequest()) {
@@ -47,6 +50,7 @@ class ActividadController extends Controller
   //Metodo que hace el renderizado de una actividad que se va a editar
   /**
   * @Route("/usuarios/editarActividad/{idActividad}", name="editarActividadUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function editarActividad($idActividad, Request $request){
     if($request->isXmlHttpRequest()) {
@@ -62,6 +66,7 @@ class ActividadController extends Controller
 
   /**
   * @Route("/usuarios/modificarActividad/{idActividad}", name="modificarActividadUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function modiciarActividadUsuarios($idActividad, Request $request){
     if($request->isXmlHttpRequest()) {
@@ -82,6 +87,7 @@ class ActividadController extends Controller
 
   /**
   * @Route("/usuarios/registrarActividad", name="registrarActividadUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   * @Method({"POST"})
   */
   public function registrarActividad(Request $request){
@@ -119,6 +125,7 @@ class ActividadController extends Controller
 
   /**
   * @Route("/usuarios/getDetalleActividad/{idActividad}", name="getDetalleActividadUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function getDetalleActividad($idActividad, Request $request){
     if($request->isXmlHttpRequest()) {
@@ -133,6 +140,7 @@ class ActividadController extends Controller
 
   /**
   * @Route("/usuarios/getListActividades{idSegmento}", name="getListActividadesUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function getListActividades($idSegmento,Request $request){
     if($request->isXmlHttpRequest()) {
@@ -153,6 +161,7 @@ class ActividadController extends Controller
 
   /**
   * @Route("/usuarios/calificaciones/{segmento}/{idActividad}", name="calificacionesUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function calificaciones($segmento,$idActividad, Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
@@ -196,6 +205,7 @@ class ActividadController extends Controller
 
   /**
   * @Route("/usuarios/guardarCalificaciones/{idActividad}/{idGrupo}", name="guardarCalificaciones")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   * @Method({"POST"})
   */
   public function guardarCalificaciones($idActividad, $idGrupo,Request $request){

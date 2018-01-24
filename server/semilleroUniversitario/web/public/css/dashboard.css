@@ -1,0 +1,42 @@
+html, body, .dashboard {
+    height: 100%;
+}
+
+.container, .dashboard {
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dashboard > .dashboard-button {
+    height: 150px;
+    width: 150px;
+    position: relative;
+    cursor: pointer;
+}
+
+.dashboard > .dashboard-button-grey {
+    background-color: #a7a9ac;
+    margin: 10px;
+}
+
+.dashboard > .dashboard-button-orange {
+   background-color: #faa74a;
+}
+
+.dashboard-button > .dashboard-text {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #8f9194;
+    padding: 5%;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.dashboard-button > .dashboard-image {
+    display: block;
+    margin: auto;
+    padding-top: 5%;
+}

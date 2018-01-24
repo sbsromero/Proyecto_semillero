@@ -1,0 +1,40 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('public/css/dashboard.css') }}" />
+{% endblock %}
+
+
+{% block body %}
+<div class="" style="webkit-box-shadow: 0px 10px 5px 7px rgba(0,0,0,0.08); -moz-box-shadow: 0px 10px 5px 7px rgba(0,0,0,0.08); box-shadow: 0px 10px 5px 7px rgba(0,0,0,0.08); border-bottom: 10px solid; padding: 30px 0px 30px 0px; background-color: #e7e7e7; margin-bottom: 40px;">
+  <div class="" style="position: absolute; right: 10px; top: 15px;">
+    <h4>
+      <a href="{{path('usuariosLogout')}}">Cerrar sesión</a>
+    </h4>
+  </div>
+</div>
+{% if is_expr_granted("hasAnyRole('ROLE_SEMILLA')") %}
+<div class="row" style="margin:0px">
+  <div class="dashboard">
+    <a href="{#{ path("homeIntern") }#}" class="dashboard-button dashboard-button-grey">
+      <img src="{#{ asset('public/images/grua.png') }#}" class="dashboard-image">
+      <div class="dashboard-text">Administración</div>
+    </a>
+  </div>
+</div>
+{% else %}
+<div class="row" style="margin:0px">
+  <div class="dashboard">
+    <a href="{{ path("indexGrupos_usuarios") }}" class="dashboard-button dashboard-button-grey">
+      <img src="{#{ asset('public/images/grua.png') }#}" class="dashboard-image">
+      <div class="dashboard-text">Administración</div>
+    </a>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+{% block javascript %}
+{{parent()}}
+<script src="{{asset('public/js/usuarios_grupos.js')}}"></script>
+{% endblock %}
