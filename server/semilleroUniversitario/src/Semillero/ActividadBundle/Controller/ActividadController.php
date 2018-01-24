@@ -187,39 +187,49 @@ class ActividadController extends Controller
   */
   public function guardarCalificaciones($idActividad, Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
-      $semilla_actividad = new semilla_actividad();
+
       $registros = $request->request->all();
       $semillas = array();
 
       foreach ($registros as $registro => $value) {
-        # code...
         $idSemilla = substr($registro,2,4);
-        //verificar si existe asistencia
-        $asistencia = $this->buscarAsistencia($registros,$idSemilla);
-        $semillas[$idSemilla] = array(
-          'nota' => $registros[$registro],
-          'asistencia' => $asistencia
-        );
-        $bandera = ($asistencia == true) ? $asistencia : false;
 
-        // if($asistencia){
-        //   unset($registros['a-'.$idSemilla]);
-        // }
+        $ambosValores = $this->contarValores($registros,$idSemilla);
+        $asistencia = ($ambosValores == true ) ? $ambosValores : false;
 
+        if(substr($registro,0,1) == 'n'){
+          $semillas[$idSemilla] = array(
+            'nota' => $registros[$registro],
+            'asistencia' => $asistencia
+          );
+        }
       }
-      dump("semillas",$semillas);exit();
-      // dump("algo",$idActividad,$registros);exit();
+      $this->registrarCalificaciones($semillas);
     }
     return $this->redirectToRoute('usuariosLogin');
   }
 
-  private function buscarAsistencia($registros, $idSemilla){
-    $idSemilla = 'a-'.$idSemilla;
-    if(array_key_exists($idSemilla,$registros)){
+  private function registrarCalificaciones($semillas){
+    $semilla_actividad = new semilla_actividad();
+    $em = $this->getDoctrine()->getManager();
+    foreach ($semillas as $idSemilla => $value) {
+      $semilla = $em->getRepository('DataBundle:Semilla')->find($idSemilla);
+
+      $semilla_actividad->setSemilla($semilla);
+    }
+  }
+
+  //Metodo que cuenta la cantidad de registros por el id en este caso
+  //(n-id, a-id) para saber si tiene nota y asitencia
+  private function contarValores($registros, $idSemilla){
+    $nota = 'n-'.$idSemilla;
+    $asistencia = 'a-'.$idSemilla;
+    if(array_key_exists($nota,$registros) && array_key_exists($asistencia,$registros)){
       return true;
     }
     return false;
   }
+
   //Metodo que crea el formulario para agregar una actividad
   private function createCreateForm(Actividad $actividad)
   {

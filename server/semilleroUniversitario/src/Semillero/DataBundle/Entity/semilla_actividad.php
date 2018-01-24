@@ -51,7 +51,7 @@ class semilla_actividad
   /**
   * @var string
   *
-  * @ORM\Column(name="observacion", type="string", length=255)
+  * @ORM\Column(name="observacion", type="string", length=255, nullable=true)
   */
   private $observacion;
 
@@ -234,7 +234,7 @@ class semilla_actividad
     /**
      * Get notaActividad
      *
-     * @return integer 
+     * @return integer
      */
     public function getNotaActividad()
     {
