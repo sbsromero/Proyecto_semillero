@@ -3,7 +3,7 @@
 {{ parent() }}
 <div class="container" style="margin-top:20px">
   <div class="panel panel-default">
-    <div class="" style="margin-left:200px; margin-right:200px">
+    <div class="panelAdministracionUsuarios">
       <div class="panel-header" style="padding:15px; padding-bottom:0px" align="center">
         <div class="" style="width:100%; display:table; height:50px; background-color:#f5f5f5">
           <div class="" style="display:table-cell; vertical-align:middle">
@@ -45,7 +45,7 @@
     </div>
   </div>
 </div>
-{{include('/shared/footerUsuarios.html.twig')}}
+{#{include('/shared/footerUsuarios.html.twig')}#}
 {% endblock %}
 {% block javascript %}
 {{parent()}}

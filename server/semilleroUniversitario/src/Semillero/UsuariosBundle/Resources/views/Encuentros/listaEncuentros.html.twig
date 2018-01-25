@@ -1,11 +1,11 @@
 
 {% for encuentro in encuentros %}
-<div class="row" style="margin:0px auto; border: 1px solid #ddd;border-radius: 2px;padding: 5px;padding-left: 20px;">
-  <div class="col-md-10">
+<div class="row" style="margin:0px auto; border: 1px solid #ddd;border-radius: 2px;padding: 5px">
+  <div class="col-md-10 col-xs-7 col-sm-10">
     Encuentro: {{encuentro.getNumeroEncuentro()}} <br>
     Fecha encuentro: {{encuentro.getFechaRealizacion()|date('Y-m-d h:i:s')}}
   </div>
-  <div class="col-md-1" style="padding:0px;" align="center">
+  <div class="col-md-1 col-xs-3 col-sm-1" style="padding:0px;" align="center">
     <span data-toggle="tooltip" data-original-title="Actividades registradas">
       <div class="" style="display: inline-block;padding: 6px 12px;text-align: center;border: 1px solid #cccccc;border-radius: 10px">
         <span>
@@ -15,7 +15,7 @@
       </div>
     </span>
   </div>
-  <div class="col-md-1" style="padding:0px;" align="center">
+  <div class="col-md-1 col-xs-2 col-sm-1" style="padding:0px;" align="center">
     <span data-toggle="tooltip" data-original-title="Agregar actividad">
       <a  data-id="{{encuentro.getId()}}" data-toggle="modal" data-target="#modalActividad" class="btn btn-default btnAgregarActividad" style="border-radius:10px">
         <span>
@@ -29,7 +29,7 @@
 
 <!--Modal agregar actividad a encuentro-->
 <div class="modal fade" id="modalActividad">
-  <div class="modal-dialog"  style="width: 500px" role="document">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body body-modal" id ="contentActividad">
 

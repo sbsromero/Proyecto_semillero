@@ -10,15 +10,149 @@
   margin-top: 20px;
 }
 
+.panelAdministracionUsuarios{
+  margin-left:200px;
+  margin-right:200px;
+}
+#segmentosGrupo{
+  display: inline !important;
+}
+
+#modalPersonales > .modal-dialog{
+   width: 800px;
+}
+
+#modalDetalleGrupo > .modal-dialog{
+  width: 500px;
+}
+
+#modalActividad > .modal-dialog{
+  width: 500px
+}
+
+#modalDetalleActividad > .modal-dialog{
+  width: 500px
+}
+
+#modalEditarActividad > .modal-dialog{
+  width: 500px;
+}
+
+#padCalRight{
+  padding-right:2px;
+}
+
+#padCalifLeft{
+  padding-left:2px;
+}
 /*************************
 Responsive design
 */
 /**Resolución celular portrait**/
 @media (min-width: 320px) and (max-width: 480px) {
+  .rowContainer{
+    width: 100% !important;
+  }
+
+  .textBienvenido{
+    font-size:16px;
+  }
+
+  .panel-body{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .panelAdministracionUsuarios{
+    margin-left:0px !important;
+    margin-right:0px !important;
+  }
+
+  #modalPersonales > .modal-dialog{
+     width: 100%;
+     margin: 0px auto !important;
+  }
+
+  #modalDetalleGrupo > .modal-dialog{
+    width: 100%;
+    margin: 0px auto !important;
+  }
+
+  #modalActividad > .modal-dialog{
+    width: 100%;
+    margin: 0px auto !important;
+  }
+
+  #modalDetalleActividad > .modal-dialog{
+    width: 100%;
+    margin: 0px auto !important;
+  }
+  #modalEditarActividad > .modal-dialog{
+    width: 100%;
+    margin: 0px auto !important;
+  }
+
+  #padCalRight{
+    padding-right:15px !important;
+  }
+
+  #padCalifLeft{
+    padding-left:15px !important;
+  }
+
+  #btnGuardarCalificaciones{
+    margin-bottom: 10px !important;
+  }
 }
 
 /*Resolución celular landscape*/
 @media (min-width: 481px) and (max-width: 767px) {
+  .rowContainer{
+    width: 100% !important;
+  }
+
+  .panel-body{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .panelAdministracionUsuarios{
+    margin-left:10px !important;
+    margin-right:10px !important;
+  }
+
+  #modalPersonales > .modal-dialog{
+     width: 100%;
+     margin: 0px auto !important;
+  }
+  #modalDetalleGrupo > .modal-dialog{
+    width: 100%;
+    margin: 0px auto !important;
+  }
+
+  #modalActividad > .modal-dialog{
+    width: 100%;
+    margin: 0px auto !important;
+  }
+  #modalDetalleActividad > .modal-dialog{
+    width: 100%;
+    margin: 0px auto !important;
+  }
+  #modalEditarActividad > .modal-dialog{
+    width: 100%;
+    margin: 0px auto !important;
+  }
+
+  #padCalRight{
+    padding-right:15px !important;
+  }
+
+  #padCalifLeft{
+    padding-left:15px !important;
+  }
+  #btnGuardarCalificaciones{
+    margin-bottom: 10px !important;
+  }
 }
 
 /*@media screen and (min-device-width : 375px) {
@@ -33,4 +167,16 @@ Responsive design
 
 /**Resolución tables landscape*/
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  .panelAdministracionUsuarios{
+    margin-left:10px !important;
+    margin-right:10px !important;
+  }
+
+  #padCalRight{
+    padding-right:15px !important;
+  }
+
+  #padCalifLeft{
+    padding-left:15px !important;
+  }
 }

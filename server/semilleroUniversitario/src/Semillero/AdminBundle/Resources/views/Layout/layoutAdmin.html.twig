@@ -4,7 +4,7 @@
 <div class="container">
   <div class="navbar navbar-default" style="margin:0px">
     <div class="row" style="margin-left:0px; margin-right:0px; height:130px">
-      <div class="col-md-1">
+      <div class="col-md-1 col-xs-2">
         <div class="" style="display: table;height: 130px;overflow: hidden;">
           <div class="" style="display: table-cell; vertical-align: middle">
             {% set referer = app.request.headers.get('referer') %}
@@ -16,10 +16,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-10" align="center">
+      <div class="col-md-10 col-xs-8" align="center">
         <img alt="logoSemillero" style="height:130px; padding:10px" src="{{asset('public/images/logoSemilleroUniversitario.png')}}">
       </div>
-      <div class="col-md-1">
+      <div class="col-md-1 col-xs-2">
         <div class="" style="display: table;height: 130px;overflow: hidden;">
           <div class="" style="display: table-cell; vertical-align: middle">
             {% set role = app.user.getRoles()[0] %}
