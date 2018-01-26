@@ -13,8 +13,7 @@ class ServiceController extends Controller
 
   //Metodo que permite generar un pdf con las semillas de un grupo
   /**
-  * @PreAuthorize("hasRole('ROLE_MENTOR')")
-  * @Route("/usuarios/getPdfGrupoSemillas",name="getPdfGrupoSemillas")
+  * @Route("/getPdfGrupoSemillas",name="getPdfGrupoSemillas")
   */
   public function getPdfGrupoSemillas(Request $request){
     $idGrupo = $request->query->get('id');
