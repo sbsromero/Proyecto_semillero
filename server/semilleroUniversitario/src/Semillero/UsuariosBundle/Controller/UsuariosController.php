@@ -179,17 +179,18 @@ class UsuariosController extends Controller
     if($request->isXmlHttpRequest()) {
       $em = $this->getDoctrine()->getManager();
       $idSegmento = $request->request->get('idSegmento');
-      $contadorEncuentro = $request->request->get('contador');
+      $contadorEncuentro = false;
       $segmento = $em->getRepository('DataBundle:Segmento')->find($idSegmento);
       $encuentros = $segmento->getEncuentros();
       $fechaActual = new \Datetime();
       $fechaActual->setTimeZone(new \DateTimeZone('America/Bogota'));
+      $contadorEncuentro = $this->encuentroRegistroHoy($encuentros,$fechaActual);
 
       //Si la fecha es un sabado, puede agregar un encuentro
       if($fechaActual->format('N') == 4){
         //Si hay menos de 4 encuentros por segmento y si ya se agrego uno cuadno se realizo el
         //encuentro
-        if(count($encuentros) < 4 && $contadorEncuentro==1){
+        if(count($encuentros) < 4 && !$contadorEncuentro){
           $encuentro = new Encuentro();
           $encuentro->setSegmento($segmento);
           $encuentro->setNumeroEncuentro(count($encuentros)+1);
@@ -214,6 +215,16 @@ class UsuariosController extends Controller
     $diasTranscurridos = date_diff($fechaRealizacion,$currentDate)->format('%d');
     if($diasTranscurridos <= 5){
       return true;
+    }
+    return false;
+  }
+
+  //Metodo que valida si ya se registro un encuentro el dia sabado
+  private function encuentroRegistroHoy($encuentros,$fecha){
+    foreach ($encuentros as $encuentro) {
+      if($encuentro->getFechaRealizacion()->format('d-m-y') == $fecha->format('d-m-y')){
+        return true;
+      }
     }
     return false;
   }
