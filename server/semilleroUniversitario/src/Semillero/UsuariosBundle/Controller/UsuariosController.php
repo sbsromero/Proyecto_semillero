@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Semillero\DataBundle\Entity\Encuentro;
 use Semillero\DataBundle\Entity\Actividad;
 use Semillero\DataBundle\Form\ActividadType;
+use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
 
 /**
 * @Route("/usuarios")
@@ -30,6 +31,7 @@ class UsuariosController extends Controller
   //Metodo que se encarga de administrar los grupos asignados a un mentor
   /**
   * @Route("/index", name="indexGrupos_usuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function indexGrupos (Request $request)
   {
@@ -47,6 +49,7 @@ class UsuariosController extends Controller
 
   /**
   * @Route("/administracionUsuarios", name="administracionUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function administracionUsuarios (Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
@@ -63,6 +66,7 @@ class UsuariosController extends Controller
 
   /**
   * @Route("/datosPersonales",name="verDatosPersonales")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function verDatosPersonales(Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
@@ -81,6 +85,7 @@ class UsuariosController extends Controller
 
   /**
   * @Route("/gestionGruposAsignados", name="gestionGruposAsignados")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function gestionGruposAsignados(Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
@@ -101,6 +106,7 @@ class UsuariosController extends Controller
 
   /**
   * @Route("/getDetalleGrupo/{idGrupo}", name="getDetalleGrupo")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function getDetalleGrupo($idGrupo, Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
@@ -127,6 +133,7 @@ class UsuariosController extends Controller
   //los encuentros relacionados a cada segmento
   /**
   * @Route("/gestionEncuentros/{idGrupo}", name="gestionEncuentros")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function gestionEncuentros($idGrupo, Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
@@ -146,6 +153,7 @@ class UsuariosController extends Controller
   //segmento asociado a un grupo
   /**
   * @Route("/getEncuentros/{idSegmento}", name="getEncuentros")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function getEncuentros($idSegmento, Request $request){
     if($request->isXmlHttpRequest()) {
@@ -164,6 +172,7 @@ class UsuariosController extends Controller
   //4 encuentros por segmento
   /**
   * @Route("/agregarEncuentro", name="agregarEncuentro")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   * @Method({"POST"})
   */
   public function agregarEncuentro(Request $request){

@@ -10,12 +10,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Semillero\DataBundle\Entity\Actividad;
 use Semillero\DataBundle\Entity\semilla_actividad;
 use Semillero\DataBundle\Form\ActividadType;
+use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
 
 class ActividadController extends Controller
 {
 
   /**
   * @Route("/usuarios/gestionActividades/{idGrupo}", name="gestionActividadesUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function gestionActividades ($idGrupo, Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
@@ -33,6 +35,7 @@ class ActividadController extends Controller
 
   /**
   * @Route("/usuarios/agregarActividad", name="agregarActividadUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function agregarActividad(Request $request){
     if($request->isXmlHttpRequest()) {
@@ -47,6 +50,7 @@ class ActividadController extends Controller
   //Metodo que hace el renderizado de una actividad que se va a editar
   /**
   * @Route("/usuarios/editarActividad/{idActividad}", name="editarActividadUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function editarActividad($idActividad, Request $request){
     if($request->isXmlHttpRequest()) {
@@ -62,6 +66,7 @@ class ActividadController extends Controller
 
   /**
   * @Route("/usuarios/modificarActividad/{idActividad}", name="modificarActividadUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function modiciarActividadUsuarios($idActividad, Request $request){
     if($request->isXmlHttpRequest()) {
@@ -82,6 +87,7 @@ class ActividadController extends Controller
 
   /**
   * @Route("/usuarios/registrarActividad", name="registrarActividadUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   * @Method({"POST"})
   */
   public function registrarActividad(Request $request){
@@ -119,6 +125,7 @@ class ActividadController extends Controller
 
   /**
   * @Route("/usuarios/getDetalleActividad/{idActividad}", name="getDetalleActividadUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function getDetalleActividad($idActividad, Request $request){
     if($request->isXmlHttpRequest()) {
@@ -133,6 +140,7 @@ class ActividadController extends Controller
 
   /**
   * @Route("/usuarios/getListActividades{idSegmento}", name="getListActividadesUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function getListActividades($idSegmento,Request $request){
     if($request->isXmlHttpRequest()) {
@@ -153,6 +161,7 @@ class ActividadController extends Controller
 
   /**
   * @Route("/usuarios/calificaciones/{segmento}/{idActividad}", name="calificacionesUsuarios")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function calificaciones($segmento,$idActividad, Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
@@ -165,6 +174,18 @@ class ActividadController extends Controller
 
       $semillas = $em->getRepository('DataBundle:Semilla')->getSemillasPorGrupo($grupo->getId());
 
+      //Metodo que recupera los registros de semilla actividad de una actividad
+      $semillas_actividad = $em->getRepository('DataBundle:semilla_actividad')->getCalificacionesSemillas($idActividad);
+      $calificaciones = array();
+      if(!empty($semillas_actividad)){
+        foreach ($semillas_actividad as $registro) {
+          $calificaciones[$registro->getSemilla()->getId()] = array(
+            'nota' => $registro->getNotaActividad(),
+            'asistencia' => $registro->getNotaAsistencia()
+          );
+        }
+      }
+
       $paginador = $this->get('knp_paginator');
       $pagination = $paginador->paginate($semillas, $pageActive, 10);
       $items = $pagination->getItems();
@@ -175,6 +196,7 @@ class ActividadController extends Controller
         'segmento' => $segmento,
         'grupo' => $grupo,
         'semillas' => $items,
+        'calificaciones' => $calificaciones,
         'pageCount' => $pageCount
       ));
     }
@@ -182,13 +204,16 @@ class ActividadController extends Controller
   }
 
   /**
-  * @Route("/usuarios/guardarCalificaciones/{idActividad}", name="guardarCalificaciones")
+  * @Route("/usuarios/guardarCalificaciones/{idActividad}/{idGrupo}", name="guardarCalificaciones")
+  * @PreAuthorize("hasRole('ROLE_MENTOR')")
   * @Method({"POST"})
   */
-  public function guardarCalificaciones($idActividad, Request $request){
+  public function guardarCalificaciones($idActividad, $idGrupo,Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
 
+      $em = $this->getDoctrine()->getManager();
       $registros = $request->request->all();
+      $actividad = $em->getRepository('DataBundle:Actividad')->find($idActividad);
       $semillas = array();
 
       foreach ($registros as $registro => $value) {
@@ -204,19 +229,55 @@ class ActividadController extends Controller
           );
         }
       }
-      $this->registrarCalificaciones($semillas);
+      $this->registrarCalificaciones($semillas,$actividad);
+      return $this->redirectToRoute('gestionActividadesUsuarios',array('idGrupo'=> $idGrupo));
     }
     return $this->redirectToRoute('usuariosLogin');
   }
 
-  private function registrarCalificaciones($semillas){
-    $semilla_actividad = new semilla_actividad();
+  //Metodo que permite guardar en la base de datos los registros de
+  //las calificaciones obtenidas por los estudiantes en una actividad
+  private function registrarCalificaciones($semillas,$actividad){
     $em = $this->getDoctrine()->getManager();
     foreach ($semillas as $idSemilla => $value) {
-      $semilla = $em->getRepository('DataBundle:Semilla')->find($idSemilla);
 
-      $semilla_actividad->setSemilla($semilla);
+      $semilla_actividad = $this->existeRegistroCalificaion($idSemilla,$actividad->getId());
+      $flagAgregar = true;
+
+      if(count($semilla_actividad) == 0){
+        $semilla_actividad = new semilla_actividad();
+      }else{
+        $semilla_actividad = $semilla_actividad[0];
+        $flagAgregar = false;
+      }
+
+      $asistencia = ($value['asistencia'] == true ) ? $value['asistencia']: false ;
+      $notaActividad = ($value['nota']);
+      $notaAsistencia = ($asistencia == true ) ? 3 : 0 ;
+      $notaActividad = (empty($notaActividad)) ? 0 : $notaActividad;
+      $semilla = $em->getRepository('DataBundle:Semilla')->find($idSemilla);
+      $semilla_actividad->setAsistio($asistencia);
+      $semilla_actividad->setNotaAsistencia($notaAsistencia);
+      $semilla_actividad->setNotaActividad($notaActividad);
+      if($flagAgregar){
+        $semilla_actividad->setSemilla($semilla);
+        $semilla_actividad->setActividad($actividad);
+        $semilla_actividad->setFechaRealizacion($actividad->getEncuentro()->getFechaRealizacion());
+        $em->persist($semilla_actividad);
+      }
+      $em->flush();
     }
+    $sucessMessage ="Se han guardado las calificaciones";
+    $this->addFlash('msjCalificaciones',$sucessMessage);
+  }
+
+  //Metodo que verifica si ya se ha guardado para una semilla
+  //una calificacion en una actividad
+
+  private function existeRegistroCalificaion($idSemilla,$idActividad){
+    $em = $this->getDoctrine()->getManager();
+    $semilla_actividad = $em->getRepository('DataBundle:semilla_actividad')->getRegistroDetalleActividad($idSemilla,$idActividad);
+    return $semilla_actividad;
   }
 
   //Metodo que cuenta la cantidad de registros por el id en este caso

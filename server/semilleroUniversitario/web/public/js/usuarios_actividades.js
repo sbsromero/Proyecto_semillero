@@ -81,21 +81,6 @@ $(document).ready(function(){
     });
   }
 
-  // $('body').on('click','#btnGuardarCalificaciones',function(e){
-  //   $('#formGuardarCalificaciones').submit( function(e) {
-  //     e.preventDefault();
-  //     $.ajax({
-  //       url: Routing.generate('guardarCalificaciones',{idActividad:idActividad}),
-  //       success: function(){
-  //
-  //       }
-  //     })
-  //   });
-  //
-  // })
-
-
-
   crearPaginadorCalificaciones();
   //Metodo que crea el paginador de las semillas para la calificacion
   //de una actividad realizada
@@ -134,5 +119,11 @@ $(document).ready(function(){
     selector:'[data-toggle="tooltip"]',
     placement:'top'
   });
+
+  //Mensaje de cuando se registran las calificaciones
+  if($('#msjCalificaciones').val()!="" && $('#msjCalificaciones').val()!= undefined){
+    toastr.success($('#msjCalificaciones').val());
+    $('#msjCalificaciones').val("");
+    }
 
 });
