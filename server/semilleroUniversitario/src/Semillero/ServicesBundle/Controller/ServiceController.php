@@ -16,6 +16,8 @@ class ServiceController extends Controller
   * @Route("/getPdfGrupoSemillas",name="getPdfGrupoSemillas")
   */
   public function getPdfGrupoSemillas(Request $request){
+    dump("cambio, vamos a ver");
+    exit();
     $idGrupo = $request->query->get('id');
     $em = $this->getDoctrine()->getManager();
     $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
