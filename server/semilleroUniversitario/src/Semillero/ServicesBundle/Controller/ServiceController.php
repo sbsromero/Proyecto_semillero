@@ -33,8 +33,7 @@ class ServiceController extends Controller
     $nombreArchivo = str_replace(' ','_',$this->quitar_tildes($grupo->getNombre()));
     dump("cambio, vamos a ver");
     dump($this->get('kernel')->getRootDir().'/../web'. $request->getBasePath(),$grupo,$mentor,$semillas);
-    exit();
-    return new PdfResponse(
+    new PdfResponse(
          $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('MentoresBundle:Grupo:plantillaPdfGrupoSemillas.html.twig', array(
              'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath(),
              'grupo' => $grupo,
@@ -43,6 +42,8 @@ class ServiceController extends Controller
          ))),
          'semillas_'.$nombreArchivo.'.pdf'
      );
+     dump("Fallo");
+     exit();
     // return $this->render('MentoresBundle:Grupo:plantillaPdfSemillas.html.twig',array(
     //   'grupo' => $grupo,
     //   'semillas' => $semillas,
