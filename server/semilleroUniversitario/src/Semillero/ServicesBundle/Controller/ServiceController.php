@@ -16,8 +16,6 @@ class ServiceController extends Controller
   * @Route("/getPdfGrupoSemillas",name="getPdfGrupoSemillas")
   */
   public function getPdfGrupoSemillas(Request $request){
-    dump("cambio, vamos a ver");
-    exit();
     $idGrupo = $request->query->get('id');
     $em = $this->getDoctrine()->getManager();
     $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
@@ -33,6 +31,8 @@ class ServiceController extends Controller
     }
     // $nombreArchivo = str_replace(' ','_',$grupo->getNombre());
     $nombreArchivo = str_replace(' ','_',$this->quitar_tildes($grupo->getNombre()));
+    dump("cambio, vamos a ver",$grupo_semillas,$nombreArchivo);
+    exit();
     return new PdfResponse(
          $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('MentoresBundle:Grupo:plantillaPdfGrupoSemillas.html.twig', array(
              'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath(),
