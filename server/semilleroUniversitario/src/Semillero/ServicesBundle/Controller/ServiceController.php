@@ -34,8 +34,8 @@ class ServiceController extends Controller
     // dump("cambio, vamos a ver");
     // dump($this->get('kernel')->getRootDir().'/../web'.$request->getBasePath(),$grupo,$mentor,$semillas);
     // dump("datos de html");
-    dump("datos html");exit();
-    dump("Nombre grupo",$grupo->getNombre(),"Jornada",$grupo.getJornada().getNombre(),"Mentor",$mentor.getNombre());
+    dump("datos html");
+    dump("Nombre grupo",$grupo->getNombre(),"Jornada",$grupo->getJornada()->getNombre(),"Mentor",$mentor->getNombre());
     dump("Estado grupo",$grupo->getActivo(),"semilla",count($semillas));
     exit();
     return new PdfResponse(
