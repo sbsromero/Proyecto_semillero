@@ -37,6 +37,7 @@ class ServiceController extends Controller
     dump("datos html");
     dump("Nombre grupo",$grupo->getNombre(),"Jornada",$grupo->getJornada()->getNombre(),"Mentor",$mentor->getNombre());
     dump("Estado grupo",$grupo->getActivo(),"semilla",count($semillas));
+    dump($this->get('kernel')->getRootDir().'/../web'.$request->getBasePath());
     exit();
     return new PdfResponse(
          $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('MentoresBundle:Grupo:plantillaPdfGrupoSemillas.html.twig', array(
