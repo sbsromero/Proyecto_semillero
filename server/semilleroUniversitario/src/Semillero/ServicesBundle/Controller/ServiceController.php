@@ -34,12 +34,12 @@ class ServiceController extends Controller
     // dump("cambio, vamos a ver");
     // dump($this->get('kernel')->getRootDir().'/../web'.$request->getBasePath(),$grupo,$mentor,$semillas);
     // dump("datos de html");
-    dump("datos html");
-    dump("Nombre grupo",$grupo->getNombre(),"Jornada",$grupo->getJornada()->getNombre(),"Mentor",$mentor->getNombre());
-    dump("Estado grupo",$grupo->getActivo(),"semilla",count($semillas));
-    dump($this->get('kernel')->getRootDir().'/../web'.$request->getBasePath());
-    exit();
-    return new PdfResponse(
+    // dump("datos html");
+    // dump("Nombre grupo",$grupo->getNombre(),"Jornada",$grupo->getJornada()->getNombre(),"Mentor",$mentor->getNombre());
+    // dump("Estado grupo",$grupo->getActivo(),"semilla",count($semillas));
+    // dump($this->get('kernel')->getRootDir().'/../web'.$request->getBasePath());
+    // exit();
+    $algo = new PdfResponse(
          $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('MentoresBundle:Grupo:plantillaPdfGrupoSemillas.html.twig', array(
              'base_dir' => $this->get('kernel')->getRootDir().'/../web'.$request->getBasePath(),
              'grupo' => $grupo,
@@ -48,7 +48,7 @@ class ServiceController extends Controller
          ))),
          'semillas_'.$nombreArchivo.'.pdf'
      );
-     dump("Fallo");
+     dump("Fallo",$algo);
      exit();
     // return $this->render('MentoresBundle:Grupo:plantillaPdfSemillas.html.twig',array(
     //   'grupo' => $grupo,
