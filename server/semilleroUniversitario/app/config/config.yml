@@ -144,3 +144,6 @@ jms_security_extra:
             #connection: # the doctrine connection name
             #table_name: seed_table
             #seed_provider: # service id of your own seed provider implementation
+
+web_profiler:
+    toolbar: true
