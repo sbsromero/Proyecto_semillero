@@ -114,6 +114,34 @@ $(document).ready(function(){
     }
   }
 
+  function validarInputs(){
+    var arrNumber = new Array();
+    $('input[type=text]').each(function(){
+      var elemento = this;
+      arrNumber.push(elemento.value);
+    })
+    notasInvalidas = false;
+    for (var i = 0; i < arrNumber.length; i++) {
+      if(arrNumber[i] < 0 && arrNumber[i] > 3 || arrNumber[i].indexOf('.')!= -1
+      || arrNumber[i].length > 1 || arrNumber[i] == "" || isNaN(arrNumber[i])){
+        notasInvalidas = true;
+        break;
+      }
+    }
+    return (notasInvalidas) ? true : false ;
+  }
+
+  $('body').on('click', '#btnGuardarCalificaciones', function(e){
+    e.preventDefault();
+    if(validarInputs()){
+      toastr.error("Notas invalidas, el rango esta de 0 a 3");
+    }
+    else{
+      $('#formGuardarCalificaciones').submit();
+    }
+
+  })
+
   //tooltip
   $(document).tooltip({
     selector:'[data-toggle="tooltip"]',
@@ -124,6 +152,6 @@ $(document).ready(function(){
   if($('#msjCalificaciones').val()!="" && $('#msjCalificaciones').val()!= undefined){
     toastr.success($('#msjCalificaciones').val());
     $('#msjCalificaciones').val("");
-    }
+  }
 
 });

@@ -187,7 +187,7 @@ class UsuariosController extends Controller
       $contadorEncuentro = $this->encuentroRegistroHoy($encuentros,$fechaActual);
 
       //Si la fecha es un sabado, puede agregar un encuentro
-      if($fechaActual->format('N') == 4){
+      if($fechaActual->format('N') == 6){
         //Si hay menos de 4 encuentros por segmento y si ya se agrego uno cuadno se realizo el
         //encuentro
         if(count($encuentros) < 4 && !$contadorEncuentro){
