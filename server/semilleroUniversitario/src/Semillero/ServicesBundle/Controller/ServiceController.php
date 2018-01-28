@@ -30,7 +30,15 @@ class ServiceController extends Controller
         array_push($semillas, $grupo_semilla->getSemilla());
       }
     }
-    return new Response("almenos entro 2 veces");
+    $nombreArchivo = str_replace(' ','_',$this->quitar_tildes($grupo->getNombre()));
+    return $this->render('MentoresBundle:Grupo:plantillaPdfGrupoSemillas.html.twig',array(
+      'grupo' => $grupo,
+      'mentor' => $mentor,
+      'semillas' => $semillas,
+      'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath(),
+      'base_dir' => null
+    ));
+    // return new Response("almenos entro 2 veces");
   }
   //Metodo que permite generar un pdf con las semillas de un grupo
   // /**
