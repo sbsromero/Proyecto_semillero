@@ -11,6 +11,12 @@ use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
 class ServiceController extends Controller
 {
 
+  /**
+  * @Route("/getPdfGrupoSemillasPrueba/{id}", name="getPdfGrupoSemillas")
+  */
+  public function getPdfGrupoSemillasPrueba(Request $request){
+    return new Response("almenos entro");
+  }
   //Metodo que permite generar un pdf con las semillas de un grupo
   // /**
   // * @Route("/getPdfGrupoSemillas", name="getPdfGrupoSemillas")
