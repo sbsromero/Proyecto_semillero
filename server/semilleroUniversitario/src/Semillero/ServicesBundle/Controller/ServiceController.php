@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use JMS\SecurityExtraBundle\Annotation\PreAuthorize;
+use Symfony\Component\HttpFoundation\Response;
 
 class ServiceController extends Controller
 {
