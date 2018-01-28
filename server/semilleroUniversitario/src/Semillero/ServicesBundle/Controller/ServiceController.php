@@ -13,7 +13,7 @@ class ServiceController extends Controller
 {
 
   /**
-  * @Route("/getPdfGrupoSemillasPrueba/{id}", name="getPdfGrupoSemillasPrueba")
+  * @Route("/usuarios/getPdfGrupoSemillasPrueba/{id}", name="getPdfGrupoSemillasPrueba")
   */
   public function getPdfGrupoSemillasPrueba($id, Request $request){
     // $idGrupo = $request->query->get('id');
