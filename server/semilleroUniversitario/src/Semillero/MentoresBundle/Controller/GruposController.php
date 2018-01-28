@@ -261,21 +261,36 @@ class GruposController extends Controller
         array_push($semillas, $grupo_semilla->getSemilla());
       }
     }
-    return new PdfResponse(
-         $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('MentoresBundle:Grupo:plantillaPdfGrupoSemillas.html.twig', array(
-             'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath(),
-             'grupo' => $grupo,
-             'mentor' => $mentor,
-             'semillas' => $semillas,
-         ))),
-         'semillas-'.trim($grupo->getNombre()).'.pdf'
-     );
-    // return $this->render('MentoresBundle:Grupo:plantillaPdfSemillas.html.twig',array(
-    //   'grupo' => $grupo,
-    //   'semillas' => $semillas,
-    //   'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath()
-    // ));
+    // $nombreArchivo = str_replace(' ','_',$grupo->getNombre());
+    $nombreArchivo = str_replace(' ','_',$this->quitar_tildes($grupo->getNombre()));
+    // dump("cambio, vamos a ver");
+    // dump($this->get('kernel')->getRootDir().'/../web'.$request->getBasePath(),$grupo,$mentor,$semillas);
+    // dump("datos de html");
+    // dump("datos html");
+    // dump("Nombre grupo",$grupo->getNombre(),"Jornada",$grupo->getJornada()->getNombre(),"Mentor",$mentor->getNombre());
+    // dump("Estado grupo",$grupo->getActivo(),"semilla",count($semillas));
+    // dump($this->get('kernel')->getRootDir().'/../web'.$request->getBasePath());
+    // exit();
+    // $algo = new PdfResponse(
+    //      $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('MentoresBundle:Grupo:plantillaPdfGrupoSemillas.html.twig', array(
+    //          'base_dir' => $this->get('kernel')->getRootDir().'/../web'.$request->getBasePath(),
+    //          'grupo' => $grupo,
+    //          'mentor' => $mentor,
+    //          'semillas' => $semillas,
+    //      ))),
+    //      'semillas_'.$nombreArchivo.'.pdf'
+    //  );
+    //  dump("Fallo",$algo);
+    //  exit();
+    return $this->render('MentoresBundle:Grupo:plantillaPdfGrupoSemillas.html.twig',array(
+      'grupo' => $grupo,
+      'mentor' => $mentor,
+      'semillas' => $semillas,
+      'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath(),
+      'base_dir' => null
+    ));
   }
+  
   function quitar_tildes($cadena) {
     $no_permitidas= array ("á","é","í","ó","ú","Á","É","Í","Ó","Ú","ñ","À","Ã","Ì","Ò","Ù","Ã™","Ã ","Ã¨","Ã¬","Ã²","Ã¹","ç","Ç","Ã¢","ê","Ã®","Ã´","Ã»","Ã‚","ÃŠ","ÃŽ","Ã”","Ã›","ü","Ã¶","Ã–","Ã¯","Ã¤","«","Ò","Ã","Ã„","Ã‹");
     $permitidas= array ("a","e","i","o","u","A","E","I","O","U","n","N","A","E","I","O","U","a","e","i","o","u","c","C","a","e","i","o","u","A","E","I","O","U","u","o","O","i","a","e","U","I","A","E");
