@@ -243,7 +243,7 @@ class GruposController extends Controller
     return new Response('user not loggin',Response::HTTP_NOT_FOUND);
   }
 
-  Metodo que permite generar un pdf con las semillas de un grupo
+  //Metodo que permite generar un pdf con las semillas de un grupo
   /**
   * @Route("/getPdfGrupoSemillas",name="getPdfGrupoSemillas")
   */
