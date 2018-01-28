@@ -15,11 +15,12 @@ class ServiceController extends Controller
   /**
   * @Route("/getPdfGrupoSemillasPrueba/{id}", name="getPdfGrupoSemillasPrueba")
   */
-  public function getPdfGrupoSemillasPrueba(Request $request){
-    $idGrupo = $request->query->get('id');
+  public function getPdfGrupoSemillasPrueba($id, Request $request){
+    // $idGrupo = $request->query->get('id');
+    // $idGrupo = $id
     $em = $this->getDoctrine()->getManager();
-    $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
-    $m_g = $em->getRepository('DataBundle:Mentor_Grupos')->getMentorAsignadoPorGrupo($idGrupo);
+    $grupo = $em->getRepository('DataBundle:Grupo')->find($id);
+    $m_g = $em->getRepository('DataBundle:Mentor_Grupos')->getMentorAsignadoPorGrupo($id);
     $mentor = (empty($m_g)) ? null : $m_g->getMentor();
 
     $grupo_semillas = $grupo->getSemillas();
