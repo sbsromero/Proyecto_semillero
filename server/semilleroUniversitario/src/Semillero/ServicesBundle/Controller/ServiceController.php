@@ -13,7 +13,7 @@ class ServiceController extends Controller
 {
 
   /**
-  * @Route("/usuarios/getPdfGrupoSemillasPrueba/{id}", name="getPdfGrupoSemillasPrueba")
+  * @Route("/getPdfGrupoSemillas/{id}", name="getPdfGrupoSemillas")
   */
   public function getPdfGrupoSemillasPrueba($id, Request $request){
     // $idGrupo = $request->query->get('id');
@@ -31,13 +31,17 @@ class ServiceController extends Controller
       }
     }
     $nombreArchivo = str_replace(' ','_',$this->quitar_tildes($grupo->getNombre()));
-    return $this->render('MentoresBundle:Grupo:plantillaPdfGrupoSemillas.html.twig',array(
-      'grupo' => $grupo,
-      'mentor' => $mentor,
-      'semillas' => $semillas,
-      'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath(),
-      'base_dir' => null
-    ));
+
+    return new PdfResponse(
+         $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('MentoresBundle:Grupo:plantillaPdfGrupoSemillas.html.twig', array(
+             'base_dir' => $this->get('kernel')->getRootDir().'/../web'.$request->getBasePath(),
+             'grupo' => $grupo,
+             'mentor' => $mentor,
+             'semillas' => $semillas,
+         ))),
+         'semillas_'.$nombreArchivo.'.pdf'
+     );
+
     // return new Response("almenos entro 2 veces");
   }
   //Metodo que permite generar un pdf con las semillas de un grupo
