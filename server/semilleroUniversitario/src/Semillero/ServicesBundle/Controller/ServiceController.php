@@ -54,7 +54,8 @@ class ServiceController extends Controller
       'grupo' => $grupo,
       'mentor' => $mentor,
       'semillas' => $semillas,
-      'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath()
+      'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath(),
+      'base_dir' => null
     ));
   }
 
