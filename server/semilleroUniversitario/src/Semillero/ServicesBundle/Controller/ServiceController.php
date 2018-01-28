@@ -13,7 +13,7 @@ class ServiceController extends Controller
 
   //Metodo que permite generar un pdf con las semillas de un grupo
   /**
-  * @Route("/usuarios/getPdfGrupoSemillas",name="getPdfGrupoSemillas")
+  * @Route("/getPdfGrupoSemillas",name="getPdfGrupoSemillas")
   */
   public function getPdfGrupoSemillas(Request $request){
     $idGrupo = $request->query->get('id');
@@ -39,22 +39,23 @@ class ServiceController extends Controller
     // dump("Estado grupo",$grupo->getActivo(),"semilla",count($semillas));
     // dump($this->get('kernel')->getRootDir().'/../web'.$request->getBasePath());
     // exit();
-    $algo = new PdfResponse(
-         $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('MentoresBundle:Grupo:plantillaPdfGrupoSemillas.html.twig', array(
-             'base_dir' => $this->get('kernel')->getRootDir().'/../web'.$request->getBasePath(),
-             'grupo' => $grupo,
-             'mentor' => $mentor,
-             'semillas' => $semillas,
-         ))),
-         'semillas_'.$nombreArchivo.'.pdf'
-     );
-     dump("Fallo",$algo);
-     exit();
-    // return $this->render('MentoresBundle:Grupo:plantillaPdfSemillas.html.twig',array(
-    //   'grupo' => $grupo,
-    //   'semillas' => $semillas,
-    //   'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath()
-    // ));
+    // $algo = new PdfResponse(
+    //      $this->get('knp_snappy.pdf')->getOutputFromHtml($this->renderView('MentoresBundle:Grupo:plantillaPdfGrupoSemillas.html.twig', array(
+    //          'base_dir' => $this->get('kernel')->getRootDir().'/../web'.$request->getBasePath(),
+    //          'grupo' => $grupo,
+    //          'mentor' => $mentor,
+    //          'semillas' => $semillas,
+    //      ))),
+    //      'semillas_'.$nombreArchivo.'.pdf'
+    //  );
+    //  dump("Fallo",$algo);
+    //  exit();
+    return $this->render('MentoresBundle:Grupo:plantillaPdfSemillas.html.twig',array(
+      'grupo' => $grupo,
+      'mentor' => $mentor,
+      'semillas' => $semillas,
+      'base_dir' => $this->get('kernel')->getRootDir().'/../web'. $request->getBasePath()
+    ));
   }
 
   function quitar_tildes($cadena) {
