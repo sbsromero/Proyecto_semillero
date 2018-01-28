@@ -16,6 +16,19 @@ class ServiceController extends Controller
   * @Route("/getPdfGrupoSemillasPrueba/{id}", name="getPdfGrupoSemillasPrueba")
   */
   public function getPdfGrupoSemillasPrueba(Request $request){
+    $idGrupo = $request->query->get('id');
+    $em = $this->getDoctrine()->getManager();
+    $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
+    $m_g = $em->getRepository('DataBundle:Mentor_Grupos')->getMentorAsignadoPorGrupo($idGrupo);
+    $mentor = (empty($m_g)) ? null : $m_g->getMentor();
+
+    $grupo_semillas = $grupo->getSemillas();
+    $semillas = array();
+    foreach ($grupo_semillas as $grupo_semilla) {
+      if($grupo_semilla->getActivo()){
+        array_push($semillas, $grupo_semilla->getSemilla());
+      }
+    }
     return new Response("almenos entro");
   }
   //Metodo que permite generar un pdf con las semillas de un grupo
