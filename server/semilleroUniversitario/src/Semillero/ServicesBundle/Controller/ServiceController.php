@@ -29,7 +29,7 @@ class ServiceController extends Controller
         array_push($semillas, $grupo_semilla->getSemilla());
       }
     }
-    return new Response("almenos entro");
+    return new Response("almenos entro 2 veces");
   }
   //Metodo que permite generar un pdf con las semillas de un grupo
   // /**
