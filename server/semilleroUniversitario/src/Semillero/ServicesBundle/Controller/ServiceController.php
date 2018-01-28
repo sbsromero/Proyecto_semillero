@@ -50,7 +50,7 @@ class ServiceController extends Controller
     //  );
     //  dump("Fallo",$algo);
     //  exit();
-    return $this->render('MentoresBundle:Grupo:plantillaPdfSemillas.html.twig',array(
+    return $this->render('MentoresBundle:Grupo:plantillaPdfGrupoSemillas.html.twig',array(
       'grupo' => $grupo,
       'mentor' => $mentor,
       'semillas' => $semillas,
