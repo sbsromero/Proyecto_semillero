@@ -1,0 +1,9 @@
+{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
+
+{% block body %}
+{{parent()}}
+<div class="container">
+    {% embed "UsuariosBundle:Shared:navBarSemillas.html.twig" %}
+    {% endembed %}
+</div>
+{% endblock %}

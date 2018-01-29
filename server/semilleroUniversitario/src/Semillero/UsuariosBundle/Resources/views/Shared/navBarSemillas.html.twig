@@ -1,0 +1,39 @@
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid" style="padding:0px">
+    <div class="collapse navbar-collapse" style="padding:0px">
+      {% if is_expr_granted("hasAnyRole('ROLE_SEMILLA')") %}
+      <ul class="nav navbar-nav">
+        <li class="{% block tab_informacion %}{% endblock %}">
+          <a href="{{path('informacionPersonal')}}">Información personal
+          </a>
+        </li>
+        <li class="{% block tab_gestion %}{% endblock %}">
+          <a href="{#{ path('gestionAcademica') }#}">Gestión academica</a>
+        </li>
+        {% else %}
+        <ul class="nav navbar-nav navbar-right" style="margin:0px auto">
+          {% endif %}
+          <li class="{% block tab_salir %}{% endblock %}">
+            <a href="{{ path('usuariosLogout') }}" style="color:#337ab7">Cerrar sesión</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- <nav class="navbar navbar-default">
+  <div class="navbar-header">
+  <div id="navbarCollapse" class="collapse navbar-collapse">
+  <ul class="nav navbar-nav">
+  <li class="{#% block tab_informacion %#}{#% endblock %#}">
+  <a href="{#{path('informacionPersonal')}#}">Información personal
+</a>
+</li>
+<li class="{#% block tab_gestion %#}{#% endblock %#}">
+<a href="{#{ path('gestionAcademica') }#}">Gestión academica</a>
+</li>
+</ul>
+</div>
+</div>
+</nav> -->

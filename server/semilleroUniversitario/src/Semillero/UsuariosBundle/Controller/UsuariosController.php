@@ -23,7 +23,16 @@ class UsuariosController extends Controller
   public function dashboardUsuariosAction()
   {
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
-      return $this->render('UsuariosBundle:Dashboard:dashboardUsuarios.html.twig');
+      $user = $this->container
+       ->get('security.context')
+       ->getToken()
+       ->getUser();
+
+      $role = $user->getRoles()[0];
+      if($role == "ROLE_SEMILLA"){
+        return $this->redirectToRoute('indexSemillasUsuarios');
+      }
+      return $this->redirectToRoute("indexGrupos_usuarios");
     }
     return $this->redirectToRoute('usuariosLogin');
   }
@@ -227,5 +236,28 @@ class UsuariosController extends Controller
       }
     }
     return false;
+  }
+
+  //DESDE AQUI SE HACE TODA LA GESTION DE LA SEMILLA CUANDO INGRESA AL SISTEMA PARA REVISAR
+  //SUS DATOS PERSONALES INFORMACION ACADEMICA
+  /**
+  * @Route("/indexSemillas", name="indexSemillasUsuarios")
+  * @PreAuthorize("hasRole('ROLE_SEMILLA')")
+  */
+  public function indexSemillasUsuarios(Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      return $this->render('UsuariosBundle:Semillas:indexSemillas.html.twig');
+    }
+    return $this->redirectToRoute('usuariosLogin');
+  }
+  /**
+  * @Route("/informacionPersonal", name="informacionPersonal")
+  * @PreAuthorize("hasRole('ROLE_SEMILLA')")
+  */
+  public function informacionPersonal (Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      return $this->render('UsuariosBundle:Semillas:informacionPersonal.html.twig');
+    }
+    return $this->redirectToRoute('usuariosLogin');
   }
 }

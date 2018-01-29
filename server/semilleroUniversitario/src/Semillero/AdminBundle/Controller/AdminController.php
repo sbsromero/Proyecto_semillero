@@ -12,14 +12,6 @@ class AdminController extends Controller
 {
 
   /**
-  * @Route("/dashboard", name="dashboardAdmin")
-  */
-  public function dashboardAdmin()
-  {
-    return $this->render('AdminBundle:Admin:dashboardAdmin.html.twig');
-  }
-
-  /**
   * @Route("/administracion", name="indexAdmin")
   */
   public function administracion()

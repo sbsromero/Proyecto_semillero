@@ -18,14 +18,11 @@ use Semillero\DataBundle\Entity\Semilla_Grupo;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
-/**
-* @Route("/admin")
-*/
 class SemillaController extends Controller
 {
   //------------------Metodo index, carga todos las semillas registrados en la base de datos --------------------
   /**
-  * @Route("/semillas/index",name="indexSemillas")
+  * @Route("/admin/semillas/index",name="indexSemillas")
   */
 
   public function indexAction(Request $request)
@@ -59,7 +56,7 @@ class SemillaController extends Controller
 
   //------------------ Metodo add, agregar una SEMILLA a la base de datos --------------------
   /**
-  * @Route("/semillas/add",name="addSemillas")
+  * @Route("/admin/semillas/add",name="addSemillas")
   */
 
   public function addAction()
@@ -89,7 +86,7 @@ class SemillaController extends Controller
   }
 
   /**
-  * @Route("/semillas/create",name="createSemillas")
+  * @Route("/admin/semillas/create",name="createSemillas")
   * @Method({"POST"})
   */
 
@@ -137,7 +134,7 @@ class SemillaController extends Controller
   //------------------ Metodo edit, editar una SEMILLA de la base de datos --------------------
 
   /**
-  * @Route("/semillas/edit/{numeroDocumento}",name="editSemillas")
+  * @Route("/admin/semillas/edit/{numeroDocumento}",name="editSemillas")
   */
   public function editAction($numeroDocumento)
   {
@@ -171,7 +168,7 @@ class SemillaController extends Controller
   }
 
   /**
-  * @Route("/semillas/update/{numeroDocumento}",name="updateSemillas")
+  * @Route("/admin/semillas/update/{numeroDocumento}",name="updateSemillas")
   * @Method({"POST","PUT"})
   */
   public function updateAction($numeroDocumento, Request $request)
@@ -227,7 +224,7 @@ class SemillaController extends Controller
   //------------------ Metodo view, carga una SEMILLA seleccionado por parametro NumeroDocumento --------------------
 
   /**
-  * @Route("/semillas/view/{id}",name="viewSemillas")
+  * @Route("/admin/semillas/view/{id}",name="viewSemillas")
   */
   public function viewAction(Request $request,$id)
   {
@@ -253,7 +250,7 @@ class SemillaController extends Controller
   //------------------ Metodo delete, eliminar una SEMILLA de la base de datos --------------------
 
   /**
-  * @Route("/semillas/delete/{id}",name="deleteSemillas")
+  * @Route("/admin/semillas/delete/{id}",name="deleteSemillas")
   * @Method({"POST","DELETE"})
   */
   public function deleteAction(Request $request, $id)
@@ -275,7 +272,7 @@ class SemillaController extends Controller
 
   //Metodo que permite realizar el pdf de todas las semillas registradas
   /**
-  * @Route("/getPdfSemillas", name="getPdfSemillas")
+  * @Route("/admin/getPdfSemillas", name="getPdfSemillas")
   */
   public function getPdfSemillas(Request $request){
     $em = $this->getDoctrine()->getManager();

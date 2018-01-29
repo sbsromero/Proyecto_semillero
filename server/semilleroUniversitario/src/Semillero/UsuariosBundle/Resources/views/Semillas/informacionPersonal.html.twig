@@ -1,0 +1,11 @@
+{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
+
+{% block body %}
+{{parent()}}
+<div class="container">
+    {% embed "UsuariosBundle:Shared:navBarSemillas.html.twig" %}
+    {% block tab_informacion %}active{% endblock %}
+    {% endembed %}
+</div>
+Je suis sebas
+{% endblock %}

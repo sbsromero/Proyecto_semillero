@@ -103,6 +103,25 @@ Responsive design
   #btnGuardarCalificaciones{
     margin-bottom: 10px !important;
   }
+
+  .collapse{
+    display: block;
+  }
+
+  .navbar-right{
+    float: right!important;
+  }
+
+  .container-fluid>.navbar-collapse, .container-fluid>.navbar-header, .container>.navbar-collapse, .container>.navbar-header{
+    margin-left: 0px!important;
+    margin-right: 0px!important;
+  }
+
+  .navbar-nav{
+    margin-left: 0px!important;
+    margin-right: 0px!important;
+    margin-top: 0px!important;
+  }
 }
 
 /*Resolución celular landscape*/
@@ -152,6 +171,25 @@ Responsive design
   }
   #btnGuardarCalificaciones{
     margin-bottom: 10px !important;
+  }
+
+  .collapse{
+    display: block;
+  }
+
+  .navbar-right{
+    float: right!important;
+  }
+
+  .navbar-nav{
+    margin-left: 0px!important;
+    margin-right: 0px!important;
+    margin-top: 0px!important;
+  }
+
+  .container-fluid>.navbar-collapse, .container-fluid>.navbar-header, .container>.navbar-collapse, .container>.navbar-header{
+    margin-left: 0px!important;
+    margin-right: 0px!important;
   }
 }
 
