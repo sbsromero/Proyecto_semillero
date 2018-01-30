@@ -284,6 +284,7 @@ class UsuariosController extends Controller
 
   /**
   * @Route("/getCambiarClave", name="getCambiarClave")
+  * @PreAuthorize("hasRole('ROLE_SEMILLA')")
   */
   public function vistaCambiarClave(Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
@@ -294,6 +295,7 @@ class UsuariosController extends Controller
 
   /**
   * @Route("/cambiarClave", name="cambiarClave")
+  * @PreAuthorize("hasRole('ROLE_SEMILLA')")
   * @Method({"POST"})
   */
   public function cambiarClave(Request $request){
@@ -320,6 +322,23 @@ class UsuariosController extends Controller
     $semilla->setPassword($NuevaClave);
     $em->flush();
     return new Response(Response::HTTP_OK);
+  }
+
+  /**
+  * @Route("/gestionAcademica", name="gestionAcademica")
+  * @PreAuthorize("hasRole('ROLE_SEMILLA')")
+  */
+  public function gestionAcademica(){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $em = $this->getDoctrine()->getManager();
+      $semilla = $this->container->get('security.context')->getToken()->getUser();
+      $grupo = $this->getGrupoAsignado($semilla);
+
+      return $this->render('UsuariosBundle:Semillas:gestionAcademica.html.twig',array(
+        'grupo' => $grupo
+      ));
+    }
+    return $this->redirectToRoute('usuariosLogin');
   }
 
   //Metodo que permite saber que grupo tiene asignado una semilla

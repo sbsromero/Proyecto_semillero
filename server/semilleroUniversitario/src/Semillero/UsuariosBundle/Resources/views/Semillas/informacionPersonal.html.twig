@@ -7,25 +7,28 @@
     {% block tab_informacion %}active{% endblock %}
     {% endembed %}
 </div>
+
 <div class="container" style="margin-top:20px">
   <div class="panel panel-default">
-    <div class="panel-body">
       <div class="panelAdministracionUsuarios">
-        <div class="" style="width:100%; text-align:center; display:table; height:50px; background-color:#f5f5f5; margin-bottom:20px">
-          <div class="" style="display:table-cell; vertical-align: middle">
-            Información personal
+        <div class="panel-header" style="padding:15px; padding-bottom:0px" align="center">
+          <div class="" style="width:100%; text-align:center; display:table; height:50px; background-color:#f5f5f5">
+            <div class="" style="display:table-cell; vertical-align: middle">
+              Información personal
+            </div>
           </div>
         </div>
-        <div class="row" style="margin:0px auto; width:50%">
-          <div class="col-md-12 col-xs-12 text-center">
-            <a class="btn btn-default verDatos" data-toggle="modal" data-target="#modalDatosPersonalesSemilla" style="border-radius:20px; width:100%; margin-bottom:20px">Datos personales</a>
-          </div>
-          <div class="col-md-12 col-xs-12 text-center">
-            <a class="btn btn-default cambiarClave" style="border-radius:20px; width:100%; margin-bottom:20px">Cambiar clave</a>
+        <div class="panel-body">
+          <div class="row" style="margin:0px auto; width:50%">
+            <div class="col-md-12 col-xs-12 text-center">
+              <a class="btn btn-default verDatos" data-toggle="modal" data-target="#modalDatosPersonalesSemilla" style="border-radius:20px; width:100%; margin-bottom:20px">Datos personales</a>
+            </div>
+            <div class="col-md-12 col-xs-12 text-center">
+              <a class="btn btn-default cambiarClave" style="border-radius:20px; width:100%; margin-bottom:20px">Cambiar clave</a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
   </div>
 </div>
 <!--Modal datos personales-->

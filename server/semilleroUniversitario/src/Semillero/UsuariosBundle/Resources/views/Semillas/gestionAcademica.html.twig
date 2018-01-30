@@ -1,0 +1,48 @@
+{% extends 'AdminBundle:Layout:layoutAdmin.html.twig' %}
+
+{% block body %}
+{{parent()}}
+<div class="container">
+    {% embed "UsuariosBundle:Shared:navBarSemillas.html.twig" %}
+    {% block tab_gestion %}active{% endblock %}
+    {% endembed %}
+</div>
+<div class="container" style="margin-top:20px">
+  <div class="panel panel-default">
+    <div class="panelAdministracionUsuarios">
+      <div class="panel-header" style="padding:15px; padding-bottom:0px" align="center">
+        <div class="" style="width:100%; text-align:center; display:table; height:50px; background-color:#f5f5f5">
+          <div class="" style="display:table-cell; vertical-align: middle">
+            Gestión academica
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="row" style="margin:0px auto; margin:0px;background-color: #f5f5f5" align="center">
+          <div class="row" style="margin:0px; width:80%">
+            <label for="">Grupo : </label>
+            <input type="text" name="" value="{{grupo.getNombre()}}" style="padding-left:10px;width:90%" readonly>
+          </div>
+        </div>
+        <div class="row" style="margin:0px; auto; margin-top:20px">
+          <table class="table table-responsive">
+            <thead>
+              <tr style="background-color: #e6e6e6;">
+                <th style="text-align:center;border: 1px solid #d3d3d3;width:50px">Encuentro</th>
+                <th style="text-align:center;border: 1px solid #d3d3d3;width:120px">Fecha</th>
+                <th style="text-align:center;border: 1px solid #d3d3d3;">Actividad</th>
+                <th style="text-align:center;border: 1px solid #d3d3d3;width:60px">Nota</th>
+                <th style="text-align:center;border: 1px solid #d3d3d3;width:60px">Detalle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
