@@ -260,4 +260,34 @@ class UsuariosController extends Controller
     }
     return $this->redirectToRoute('usuariosLogin');
   }
+
+  /**
+  * @Route("/verDatosPersonalesSemilla",name="verDatosPersonalesSemilla")
+  * @PreAuthorize("hasRole('ROLE_SEMILLA')")
+  */
+  public function verDatosPersonalesSemilla(Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      if ($request->isXmlHttpRequest()) {
+        $em = $this->getDoctrine()->getManager();
+        $semilla = $this->container->get('security.context')->getToken()->getUser();
+        $grupo = $this->getGrupoAsignado($semilla);
+
+        return $this->render('SemillasBundle:Semilla:view.html.twig',array(
+          'semilla' => $semilla,
+          'grupo' => $grupo
+        ));
+      }
+      return $this->redirectToRoute('informacionPersonal');
+    }
+    return $this->redirectToRoute('usuariosLogin');
+  }
+
+//Metodo que permite saber que grupo tiene asignado una semilla
+  private function getGrupoAsignado($semilla){
+    foreach ($semilla->getGrupos() as $grupo) {
+      if($grupo->getActivo()){
+        return $grupo->getGrupo();
+      }
+    }
+  }
 }

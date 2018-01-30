@@ -16,6 +16,14 @@ class SecurityController extends Controller
   public function loginUsersAction()
   {
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $user = $this->container
+       ->get('security.context')
+       ->getToken()
+       ->getUser();
+       $role = $user->getRoles()[0];
+       if($role == "ROLE_SEMILLA"){
+         return $this->redirectToRoute('indexSemillasUsuarios');
+       }
       return $this->redirectToRoute("indexGrupos_usuarios");
     }
     $authenticationUtils = $this->get('security.authentication_utils');
