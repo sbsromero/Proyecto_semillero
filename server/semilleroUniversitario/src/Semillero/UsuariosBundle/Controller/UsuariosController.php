@@ -282,7 +282,47 @@ class UsuariosController extends Controller
     return $this->redirectToRoute('usuariosLogin');
   }
 
-//Metodo que permite saber que grupo tiene asignado una semilla
+  /**
+  * @Route("/getCambiarClave", name="getCambiarClave")
+  */
+  public function vistaCambiarClave(Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      return $this->render('UsuariosBundle:Semillas:cambiarClave.html.twig');
+    }
+    return $this->redirectToRoute('usuariosLogin');
+  }
+
+  /**
+  * @Route("/cambiarClave", name="cambiarClave")
+  * @Method({"POST"})
+  */
+  public function cambiarClave(Request $request){
+    $em = $this->getDoctrine()->getManager();
+    $semilla = $this->container->get('security.context')->getToken()->getUser();
+    $claveActual = $request->request->get('claveActual');
+    $nuevaClave = $request->request->get('nuevaClave');
+    $confirmacion = $request->request->get('confirmacion');
+
+    $encoder = $this->container->get('security.password_encoder');
+    $valid = $encoder->isPasswordValid($semilla, $nuevaClave);
+    if($valid){
+      return new Response("La contraseña debe ser diferente a la actual", 400);
+    }
+    if(strlen($nuevaClave) < 6){
+      return new Response("La contraseña debe tener de 6 a 12 caracteres", 400);
+    }
+    if($nuevaClave != $confirmacion){
+      return new Response("Las contraseñas no coinciden", 400);
+    }
+
+    $encriptarNuevaClave = $this->container->get('security.password_encoder');
+    $NuevaClave = $encriptarNuevaClave->encodePassword($semilla, $nuevaClave);
+    $semilla->setPassword($NuevaClave);
+    $em->flush();
+    return new Response(Response::HTTP_OK);
+  }
+
+  //Metodo que permite saber que grupo tiene asignado una semilla
   private function getGrupoAsignado($semilla){
     foreach ($semilla->getGrupos() as $grupo) {
       if($grupo->getActivo()){
