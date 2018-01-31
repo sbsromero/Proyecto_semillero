@@ -10,3 +10,7 @@ services:
     pagination.service:
       class: Semillero\ServicesBundle\Services\PaginationService
       arguments: []
+    service_actividades:
+      class: Semillero\ServicesBundle\Controller\ServiceController
+      arguments: []
+      # arguments: ['@security.context', '@doctrine', '@service_container']

@@ -139,7 +139,7 @@ class ActividadController extends Controller
   }
 
   /**
-  * @Route("/usuarios/getListActividades{idSegmento}", name="getListActividadesUsuarios")
+  * @Route("/usuarios/getListActividades/{idSegmento}", name="getListActividadesUsuarios")
   * @PreAuthorize("hasRole('ROLE_MENTOR')")
   */
   public function getListActividades($idSegmento,Request $request){

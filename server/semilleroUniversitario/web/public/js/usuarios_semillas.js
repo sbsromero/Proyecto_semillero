@@ -16,7 +16,7 @@ $(document).ready(function(){
     $.ajax({
       url: Routing.generate('getCambiarClave'),
       success: function(html){
-        $('.panel-body').html(html);
+        $('.panelAdministracionUsuarios').html(html);
       }
     })
   })
