@@ -71,4 +71,16 @@ $(document).ready(function(){
       }
     }
   })
+
+  //Accion que permite visualizar todo el detalle de una actividad seleccionada
+  $('body').on('click','.btnDetalleActividad', function(e){
+    idActividad = $(this).data('id');
+    $.ajax({
+      url: Routing.generate('getDetalleActividadUsuarios',{idActividad:idActividad}),
+      success:function(html){
+        $('#contentDetalleActividad').html(html);
+      }
+    })
+  })
+
 });

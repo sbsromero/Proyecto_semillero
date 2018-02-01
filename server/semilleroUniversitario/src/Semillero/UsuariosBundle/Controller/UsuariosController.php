@@ -87,7 +87,8 @@ class UsuariosController extends Controller
           'mentor' => $mentor
         ));
       }
-      return $this->redirectToRoute('administracionUsuarios');
+      // return $this->redirectToRoute('administracionUsuarios');
+      return $this->redirectToRoute('indexGrupos_usuarios');
     }
     return $this->redirectToRoute('usuariosLogin');
   }
@@ -133,7 +134,7 @@ class UsuariosController extends Controller
           'isAdmin' => false
         ));
       }
-      return $this->redirectToRoute('administracionUsuarios');
+      return $this->redirectToRoute('indexGrupos_usuarios');
     }
     return $this->redirectToRoute('usuariosLogin');
   }
@@ -174,7 +175,8 @@ class UsuariosController extends Controller
         'encuentros' => $encuentros
       ));
     }
-    return $this->redirectToRoute('gestionEncuentros');
+    // return $this->redirectToRoute('gestionEncuentros');
+    return $this->redirectToRoute('indexGrupos_usuarios');
   }
 
   //Metodo que agregar un encuentro a un segmento, puede agregar maximo

@@ -61,7 +61,7 @@ class ActividadController extends Controller
         'form' => $form->createView()
       ));
     }
-    return $this->redirectToRoute('gestionActividadesUsuarios');
+    return $this->redirectToRoute('indexGrupos_usuarios');
   }
 
   /**
@@ -125,17 +125,26 @@ class ActividadController extends Controller
 
   /**
   * @Route("/usuarios/getDetalleActividad/{idActividad}", name="getDetalleActividadUsuarios")
-  * @PreAuthorize("hasRole('ROLE_MENTOR')")
+  * @PreAuthorize("hasAnyRole('ROLE_MENTOR','ROLE_SEMILLA')")
   */
   public function getDetalleActividad($idActividad, Request $request){
-    if($request->isXmlHttpRequest()) {
-      $em = $this->getDoctrine()->getManager();
-      $actividad = $em->getRepository('DataBundle:Actividad')->find($idActividad);
-      return $this->render('ActividadBundle:Actividad:detalleActividad.html.twig', array(
-        'actividad' => $actividad
-      ));
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $user = $this->container->get('security.context')->getToken()->getUser();
+      $role = $user->getRoles()[0];
+
+      if($request->isXmlHttpRequest()) {
+        $em = $this->getDoctrine()->getManager();
+        $actividad = $em->getRepository('DataBundle:Actividad')->find($idActividad);
+        return $this->render('ActividadBundle:Actividad:detalleActividad.html.twig', array(
+          'actividad' => $actividad
+        ));
+      }
+      if($role == "ROLE_MENTOR"){
+        return $this->redirectToRoute('indexGrupos_usuarios');
+      }
+      return $this->redirectToRoute('gestionAcademica');
     }
-    return $this->redirectToRoute('gestionActividadesUsuarios');
+    return $this->redirectToRoute('usuariosLogin');
   }
 
   /**
@@ -156,7 +165,7 @@ class ActividadController extends Controller
       }
       return new Response("Segmento sin actividades",400);
     }
-    return $this->redirectToRoute('gestionActividadesUsuarios');
+    return $this->redirectToRoute('indexGrupos_usuarios');
   }
 
   /**

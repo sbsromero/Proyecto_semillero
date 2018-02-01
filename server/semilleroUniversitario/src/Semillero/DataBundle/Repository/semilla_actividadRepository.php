@@ -22,7 +22,7 @@ class semilla_actividadRepository extends EntityRepository
   }
 
   //Metodo que retorna un registro para saber la nota de una semilla
-  //en una cativida que tenga el idsemilla e idactividad
+  //en una activida que tenga el idsemilla e idactividad
   public function getRegistroDetalleActividad($idSemilla,$idActividad){
     return $this->getEntityManager()
     ->createQuery("SELECT s_a FROM DataBundle:semilla_actividad s_a where s_a.semilla =:idSemilla

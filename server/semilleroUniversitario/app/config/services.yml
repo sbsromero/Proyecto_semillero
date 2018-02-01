@@ -12,5 +12,5 @@ services:
       arguments: []
     service_actividades:
       class: Semillero\ServicesBundle\Controller\ServiceController
-      arguments: []
+      arguments: [@doctrine.orm.entity_manager]
       # arguments: ['@security.context', '@doctrine', '@service_container']

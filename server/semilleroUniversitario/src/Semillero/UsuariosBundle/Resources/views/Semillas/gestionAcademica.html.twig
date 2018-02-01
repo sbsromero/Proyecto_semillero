@@ -49,18 +49,16 @@
                         {{actividad.getDescripcion()}}
                       {% endif %}
                     </td>
-                    <td>
-                      {{dump(app.user.getId())}}
-                      {#{render(controller('ServicesBundle:Default:getNotaActividad',{idGrupo:grupo.getId(), idSemillas: app.user.getId()}))}#}
+                    <td align="center">
+                      {{render(controller('ServicesBundle:Service:getNotaActividadSemilla',{idSemilla: app.user.getId(), idActividad: actividad.getId()}))}}
                     </td>
                     <td style="text-align:center">
                       <span data-toggle="tooltip" data-original-title="Detalles">
-                        <div class="" style="display: inline-block;padding: 6px 12px;text-align: center;border: 1px solid #cccccc;border-radius: 10px">
+                        <a data-id="{{actividad.getId()}}" data-toggle="modal" data-target="#modalDetalleActividad" class="btn btn-default btnDetalleActividad" style="border-radius: 10px">
                           <span>
                             <i style="color:#337ab7" class="glyphicon glyphicon-eye-open"></i>
                           </span>
-                          <span id="numActividades{#{encuentro.getId()}#}">{#{encuentro.getActividades()|length}#}</span>
-                        </div>
+                        </a>
                       </span>
                     </td>
                   </tr>
@@ -75,4 +73,17 @@
     </div>
   </div>
 </div>
+<!--Modal detalle actividad-->
+<div class="modal fade" id="modalDetalleActividad">
+  <div class="modal-dialog"  role="document">
+    <div class="modal-content">
+      <div class="modal-body body-modal" id ="contentDetalleActividad">
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block javascript %}
+{{parent()}}
+<script src="{{asset('public/js/usuarios_semillas.js')}}"></script>
 {% endblock %}
