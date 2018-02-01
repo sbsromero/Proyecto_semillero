@@ -330,17 +330,23 @@ class UsuariosController extends Controller
   * @Route("/gestionAcademica", name="gestionAcademica")
   * @PreAuthorize("hasRole('ROLE_SEMILLA')")
   */
-  public function gestionAcademica(){
+  public function gestionAcademica(Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
       $em = $this->getDoctrine()->getManager();
       $semilla = $this->container->get('security.context')->getToken()->getUser();
       $grupo = $this->getGrupoAsignado($semilla);
       $actividades = $this->get('service_actividades')->getlistaActividades($em,$grupo);
 
+      $page= $request->query->get('pageActive');
+      $page = empty($page) ? 1 : $page;
+
+      $paginator = $this->get('knp_paginator');
+      $pagination = $paginator->paginate($actividades,$page,10);
+      $items = $pagination->getItems();
 
       return $this->render('UsuariosBundle:Semillas:gestionAcademica.html.twig',array(
         'grupo' => $grupo,
-        'actividades' => $actividades
+        'actividades' => $items
       ));
     }
     return $this->redirectToRoute('usuariosLogin');
