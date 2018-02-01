@@ -41,16 +41,18 @@ class ServiceController extends Controller
      );
   }
 
-  public function getlistaActividades($grupo){
-      $em = $this->getDoctrine()->getManager();
+  //Metodo que recupera todas las actividades asociadas a un grupo.
+  public function getlistaActividades($em, $grupo){
       $segmentos = $grupo->getSegmentos();
       $listActividades = array();
       foreach ($segmentos as $segmento) {
         $encuentros = $segmento->getEncuentros();
-        foreach ($encuentros as $encuentro) {
-          $this->getActividades($encuentros);
+        if(count($encuentros)!=0){
+          $aux = $this->getActividades($encuentros);
+          $listActividades = array_merge($listActividades,$aux);
         }
       }
+      return $listActividades;
   }
 
   private function quitar_tildes($cadena) {
@@ -62,7 +64,7 @@ class ServiceController extends Controller
 
   //Metodo que obtiene todas las actividades registradas en un grupo por encuentros
   private function getActividades($encuentros){
-    // $listActividades = array();
+    $listActividades = array();
     foreach ($encuentros as $encuentro) {
       $actividades = $encuentro->getActividades();
       foreach ($actividades as $actividad) {

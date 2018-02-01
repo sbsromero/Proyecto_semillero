@@ -333,12 +333,12 @@ class UsuariosController extends Controller
       $em = $this->getDoctrine()->getManager();
       $semilla = $this->container->get('security.context')->getToken()->getUser();
       $grupo = $this->getGrupoAsignado($semilla);
-      // $actividades = ;
-      $actividades = $this->get('service_actividades')->getlistaActividades($grupo);
+      $actividades = $this->get('service_actividades')->getlistaActividades($em,$grupo);
 
 
       return $this->render('UsuariosBundle:Semillas:gestionAcademica.html.twig',array(
-        'grupo' => $grupo
+        'grupo' => $grupo,
+        'actividades' => $actividades
       ));
     }
     return $this->redirectToRoute('usuariosLogin');

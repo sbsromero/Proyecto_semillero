@@ -36,6 +36,36 @@
               </tr>
             </thead>
             <tbody>
+              {% if actividades | length %}
+                {% for actividad in actividades %}
+                  <tr>
+                    <td>{{actividad.getEncuentro().getNumeroEncuentro()}}</td>
+                    <td>{{actividad.getEncuentro().getFechaRealizacion()|date('Y-m-d')}}</td>
+
+                    <td>{{actividad.getNombre()}} /
+                      {% if actividad.getDescripcion() | length > 25%}
+                        {{actividad.getDescripcion()}}...
+                      {% else %}
+                        {{actividad.getDescripcion()}}
+                      {% endif %}
+                    </td>
+                    <td>
+                      {{dump(app.user.getId())}}
+                      {#{render(controller('ServicesBundle:Default:getNotaActividad',{idGrupo:grupo.getId(), idSemillas: app.user.getId()}))}#}
+                    </td>
+                    <td style="text-align:center">
+                      <span data-toggle="tooltip" data-original-title="Detalles">
+                        <div class="" style="display: inline-block;padding: 6px 12px;text-align: center;border: 1px solid #cccccc;border-radius: 10px">
+                          <span>
+                            <i style="color:#337ab7" class="glyphicon glyphicon-eye-open"></i>
+                          </span>
+                          <span id="numActividades{#{encuentro.getId()}#}">{#{encuentro.getActividades()|length}#}</span>
+                        </div>
+                      </span>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% endif %}
               <tr>
               </tr>
             </tbody>
