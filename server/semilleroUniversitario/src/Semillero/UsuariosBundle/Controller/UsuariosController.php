@@ -343,10 +343,13 @@ class UsuariosController extends Controller
       $paginator = $this->get('knp_paginator');
       $pagination = $paginator->paginate($actividades,$page,10);
       $items = $pagination->getItems();
+      $pageCount = $pagination->getPageCount();
+
 
       return $this->render('UsuariosBundle:Semillas:gestionAcademica.html.twig',array(
         'grupo' => $grupo,
-        'actividades' => $items
+        'actividades' => $items,
+        'pageCount' => $pageCount
       ));
     }
     return $this->redirectToRoute('usuariosLogin');

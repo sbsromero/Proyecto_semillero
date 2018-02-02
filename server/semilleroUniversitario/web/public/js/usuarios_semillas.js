@@ -83,4 +83,37 @@ $(document).ready(function(){
     })
   })
 
+
+  //Metodo que crea el paginador de mentores en la modal de asignar
+  //mentor a un grupo
+  var paginadorGestionAcademica = function(){
+    var totalPages = $('#tabla_actividades').attr('data-pagecount');
+    // var id = $('#nombreGrupo').data('idgrupo');
+    if(totalPages != 0){
+      $('#paginationGestionAcademica').twbsPagination({
+        startPage: 1,
+        totalPages: totalPages,
+        visiblePages: 3,
+        initiateStartPageClick: false,
+        first:'Primero',
+        last: 'Último',
+        prev: '<span aria-hidden="true">&laquo;</span>',
+        next: '<span aria-hidden="true">&raquo;</span>',
+        onPageClick: function (event, page) {
+          $.ajax({
+            type: "GET",
+            url: Routing.generate('gestionAcademica'),
+            data:{
+              pageActive: page,
+            },
+            success:function(html){
+              $('#tabla_actividades').replaceWith($(html).find('#tabla_actividades'));
+            }
+          })
+        }
+      })
+    }
+  }
+paginadorGestionAcademica();
+
 });
