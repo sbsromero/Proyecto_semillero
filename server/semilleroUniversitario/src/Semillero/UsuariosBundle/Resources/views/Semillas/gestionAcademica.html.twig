@@ -21,55 +21,56 @@
         <div class="row" style="margin:0px auto; margin:0px;background-color: #f5f5f5" align="center">
           <div class="row" style="margin:0px; width:80%">
             <label for="">Grupo : </label>
-            <input type="text" name="" value="{{grupo.getNombre()}}" style="padding-left:10px;width:90%" readonly>
+            <input id="titulo_grupo" type="text" name="" value="{{grupo.getNombre()}}" style="padding-left:10px;width:90%" readonly>
           </div>
         </div>
         <div class="row" style="margin:0px; auto; margin-top:20px">
           <div class="table-responsive" id="tabla_actividades" data-pagecount="{{pageCount}}">
-          </div>
-          <table class="table table-responsive">
-            <thead>
-              <tr style="background-color: #e6e6e6;">
-                <th style="text-align:center;border: 1px solid #d3d3d3;width:50px">Encuentro</th>
-                <th style="text-align:center;border: 1px solid #d3d3d3;width:120px">Fecha</th>
-                <th style="text-align:center;border: 1px solid #d3d3d3;">Actividad</th>
-                <th style="text-align:center;border: 1px solid #d3d3d3;width:60px">Nota</th>
-                <th style="text-align:center;border: 1px solid #d3d3d3;width:60px">Detalle</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% if actividades | length %}
+            <table class="table table-responsive">
+              <thead>
+                <tr style="background-color: #e6e6e6;">
+                  <th style="text-align:center;border: 1px solid #d3d3d3;width:50px">Encuentro</th>
+                  <th style="text-align:center;border: 1px solid #d3d3d3;width:120px">Fecha</th>
+                  <th style="text-align:center;border: 1px solid #d3d3d3;">Actividad</th>
+                  <th style="text-align:center;border: 1px solid #d3d3d3;width:60px">Nota</th>
+                  <th style="text-align:center;border: 1px solid #d3d3d3;width:60px">Detalle</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if actividades | length %}
                 {% for actividad in actividades %}
-                  <tr>
-                    <td>{{actividad.getEncuentro().getNumeroEncuentro()}}</td>
-                    <td>{{actividad.getEncuentro().getFechaRealizacion()|date('Y-m-d')}}</td>
+                <tr>
+                  <td>{{actividad.getEncuentro().getNumeroEncuentro()}}</td>
+                  <td>{{actividad.getEncuentro().getFechaRealizacion()|date('Y-m-d')}}</td>
 
-                    <td>{{actividad.getNombre()}} /
-                      {% if actividad.getDescripcion() | length > 25%}
-                        {{actividad.getDescripcion()}}...
-                      {% else %}
-                        {{actividad.getDescripcion()}}
-                      {% endif %}
-                    </td>
-                    <td align="center">
-                      {{render(controller('ServicesBundle:Service:getNotaActividadSemilla',{idSemilla: app.user.getId(), idActividad: actividad.getId()}))}}
-                    </td>
-                    <td style="text-align:center">
-                      <span data-toggle="tooltip" data-original-title="Detalles">
-                        <a data-id="{{actividad.getId()}}" data-toggle="modal" data-target="#modalDetalleActividad" class="btn btn-default btnDetalleActividad" style="border-radius: 10px">
-                          <span>
-                            <i style="color:#337ab7" class="glyphicon glyphicon-eye-open"></i>
-                          </span>
-                        </a>
-                      </span>
-                    </td>
-                  </tr>
+                  <td>{{actividad.getNombre()}} /
+                    {% if actividad.getDescripcion() | length > 25%}
+                    {{actividad.getDescripcion()}}...
+                    {% else %}
+                    {{actividad.getDescripcion()}}
+                    {% endif %}
+                  </td>
+                  <td align="center">
+                    {{render(controller('ServicesBundle:Service:getNotaActividadSemilla',{idSemilla: app.user.getId(), idActividad: actividad.getId()}))}}
+                  </td>
+                  <td style="text-align:center">
+                    <span data-toggle="tooltip" data-original-title="Detalles">
+                      <a data-id="{{actividad.getId()}}" data-toggle="modal" data-target="#modalDetalleActividad" class="btn btn-default btnDetalleActividad" style="border-radius: 10px">
+                        <span>
+                          <i style="color:#337ab7" class="glyphicon glyphicon-eye-open"></i>
+                        </span>
+                      </a>
+                    </span>
+                  </td>
+                </tr>
                 {% endfor %}
-              {% endif %}
-              <tr>
-              </tr>
-            </tbody>
-          </table>
+                {% endif %}
+                <tr>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
           <div class="" align="center">
             <ul id="paginationGestionAcademica" class="pagination-sm"></ul>
           </div>

@@ -122,6 +122,24 @@ Responsive design
     margin-right: 0px!important;
     margin-top: 0px!important;
   }
+
+  /*Responsive para usuarios semillas*/
+  #row_cambiar_clave{
+    width: 100% !important;
+  }
+  #row_cambiar_clave > table > tbody > tr > td{
+    padding-left: 10px !important;
+  }
+
+  #titulo_grupo{
+    width: 100% !important;
+    text-align: center !important;
+    margin-bottom: 10px !important;
+  }
+
+  #informacion_personal{
+    width: 100% !important;
+  }
 }
 
 /*Resolución celular landscape*/
@@ -190,6 +208,36 @@ Responsive design
   .container-fluid>.navbar-collapse, .container-fluid>.navbar-header, .container>.navbar-collapse, .container>.navbar-header{
     margin-left: 0px!important;
     margin-right: 0px!important;
+  }
+
+  /*Responsive usuarios semillas*/
+  #row_cambiar_clave{
+    width: 100% !important;
+  }
+
+  #row_cambiar_clave > table > tbody > tr > td{
+    padding-left: 10px !important;
+  }
+
+  #row_cambiar_clave > table > tbody > tr > td > input{
+    margin: 0px !important;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    width: 100% !important;
+  }
+
+  #column_inputs{
+    padding-right: 5px !important;
+  }
+
+  #titulo_grupo{
+    width: 100% !important;
+    text-align: center !important;
+    margin-bottom: 10px !important;
+  }
+
+  #informacion_personal{
+    width: 100% !important;
   }
 }
 
