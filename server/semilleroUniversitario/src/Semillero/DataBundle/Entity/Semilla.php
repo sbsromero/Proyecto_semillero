@@ -56,6 +56,7 @@ class Semilla extends Usuarios
   * @var string
   *
   * @ORM\Column(name="gradoEscolarActual", type="string", length=255)
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $gradoEscolarActual;
 
@@ -63,6 +64,7 @@ class Semilla extends Usuarios
   * @var string
   *
   * @ORM\Column(name="colegio", type="string", length=255)
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $colegio;
 
@@ -70,14 +72,15 @@ class Semilla extends Usuarios
   * @var string
   *
   * @ORM\Column(name="enfermedades", type="string", length=255)
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $enfermedades;
-
 
   /**
   * @var string
   *
   * @ORM\Column(name="acudienteUno", type="string", length=255)
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $acudienteUno;
 
@@ -85,6 +88,7 @@ class Semilla extends Usuarios
   * @var string
   *
   * @ORM\Column(name="direccionAcudienteUno", type="string", length=255)
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $direccionAcudienteUno;
 
@@ -92,6 +96,7 @@ class Semilla extends Usuarios
   * @var string
   *
   * @ORM\Column(name="telefonoAcudiente", type="string", length=255)
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $telefonoAcudienteUno;
 
@@ -116,12 +121,12 @@ class Semilla extends Usuarios
   */
   private $telefonoAcudienteDos;
 
-  /**
-  * @var string
-  *
-  * @ORM\Column(name="observaciones", type="string", length=255)
-  */
-  private $observaciones;
+  // /**
+  // * @var string
+  // *
+  // * @ORM\Column(name="observaciones", type="string", length=255)
+  // */
+  // private $observaciones;
     /**
      * Constructor
      */
@@ -407,28 +412,28 @@ class Semilla extends Usuarios
         return $this->telefonoAcudienteDos;
     }
 
-    /**
-     * Set observaciones
-     *
-     * @param string $observaciones
-     * @return Semilla
-     */
-    public function setObservaciones($observaciones)
-    {
-        $this->observaciones = $observaciones;
-
-        return $this;
-    }
-
-    /**
-     * Get observaciones
-     *
-     * @return string
-     */
-    public function getObservaciones()
-    {
-        return $this->observaciones;
-    }
+    // /**
+    //  * Set observaciones
+    //  *
+    //  * @param string $observaciones
+    //  * @return Semilla
+    //  */
+    // public function setObservaciones($observaciones)
+    // {
+    //     $this->observaciones = $observaciones;
+    //
+    //     return $this;
+    // }
+    //
+    // /**
+    //  * Get observaciones
+    //  *
+    //  * @return string
+    //  */
+    // public function getObservaciones()
+    // {
+    //     return $this->observaciones;
+    // }
 
     /**
      * Add grupos
@@ -522,7 +527,7 @@ class Semilla extends Usuarios
     /**
      * Get actividades
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getActividades()
     {

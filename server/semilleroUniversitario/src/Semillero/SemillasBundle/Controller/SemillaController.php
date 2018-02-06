@@ -69,7 +69,7 @@ class SemillaController extends Controller
       $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
       return $this->render('SemillasBundle:Semilla:add.html.twig',array(
         'form' =>$form->createView(),
-        'grupos'=> $grupos,
+        // 'grupos'=> $grupos,
         'errorSelected' => false));
     }
     return $this->redirectToRoute('adminLogin');
@@ -98,7 +98,8 @@ class SemillaController extends Controller
     $idGrupo = $request->request->get('semilla_grupo');
 
     #Validamos si el formulario se envio correctamente
-    if($form->isValid() && !empty($idGrupo))
+    // if($form->isValid() && !empty($idGrupo))
+    if($form->isValid())
     {
       $password = $form->get('password')->getData();
       $encoder = $this->container->get('security.password_encoder');
@@ -109,25 +110,25 @@ class SemillaController extends Controller
 
       $em = $this->getDoctrine()->getManager();
 
-      $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
-      $semilla_grupo = new Semilla_Grupo();
-      $semilla_grupo->setSemilla($semilla);
-      $semilla_grupo->setGrupo($grupo);
+      // $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
+      // $semilla_grupo = new Semilla_Grupo();
+      // $semilla_grupo->setSemilla($semilla);
+      // $semilla_grupo->setGrupo($grupo);
 
       $em -> persist($semilla);
-      $em -> persist($semilla_grupo);
+      // $em -> persist($semilla_grupo);
       $em -> flush();
 
-      $this->addFlash('mensaje','¡La semilla ha sido creado satisfactoriamente!');
+      // $this->addFlash('mensaje','La semilla ha sido creado satisfactoriamente');
 
       return $this->redirectToRoute('indexSemillas');
     }
     #Renderizamos al formulario si existe algun problema
-    $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
-    $errorSelected = empty($idGrupo) ? true : false;
+    // $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
+    // $errorSelected = empty($idGrupo) ? true : false;
     return $this->render('SemillasBundle:Semilla:add.html.twig',array(
       'form' =>$form->createView(),
-      'grupos' => $grupos,
+      // 'grupos' => $grupos,
       'errorSelected' => $errorSelected));
   }
 

@@ -74,7 +74,7 @@
 					<div class="form-group">
 						{{ form_label(form.gradoEscolarActual) }}
 						{{ form_widget(form.gradoEscolarActual, {'attr': {'class': 'form-control', 'placeholder' : 'Grado escolar actual'}}) }}
-						<span class="text-danger">{{ form_errors(form.gradoEscolarActual) }}</span>
+						<span class="text-danger">{{ form_errors(form.eps) }}</span>
 					</div>
 				</div>
 
@@ -173,9 +173,44 @@
 				</div>
 			</div>
 
+			<div class="row" style="margin:0px">
+				<div class="page-header" align="center">
+					<h3>SELECCIÓN DE GRUPO</h3>
+				</div>
+			</div>
+
+			<div class="row" style="margin:0px" align="center">
+				<div class="col-md-6" style="float:none">
+					<div class="form-group">
+						<label for="semilla_grupo">Grupo</label>
+							<select name="semilla_grupo" id="semilla_grupo" class="form-control">
+								<option value="0">Seleccione un grupo</option>
+								{% if grupos | length %}
+									{% for grupo in grupos %}
+										<option name="{{grupo.id}}" value="{{grupo.id}}">{{grupo.getNombre()}}</option>
+									{% endfor %}
+								{% endif %}
+							</select>
+							{% if errorSelected %}
+							<span class="text-danger">
+								<ul>
+									<li style="text-align:left">Debe seleccionar un grupo</li>
+								</ul>
+							</span>
+							{% endif %}
+					</div>
+					<h3>OBSERVACIONES</h3>
+					<div class="form-group">
+						{{ form_label(form.observaciones) }}
+						{{ form_widget(form.observaciones, {'attr': {'class': 'form-control', 'placeholder' : '¿Alguna Observación a realizar?'}}) }}
+						<span class="text-danger">{{ form_errors(form.observaciones) }}</span>
+					</div>
+				</div>
+			</div>
 			<p align="center">
 				{{ form_widget(form.save, {'label' : 'Crear Semilla', 'attr': {'class': 'btn btn-success'}}) }}
 			</p>
+
 			{{ form_end(form) }}
 		</div>
 	</div>

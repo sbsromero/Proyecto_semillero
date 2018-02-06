@@ -52,7 +52,7 @@ class SemillaType extends AbstractType
         ->add('acudienteDos')
         ->add('direccionAcudienteDos')
         ->add('telefonoAcudienteDos')
-        ->add('observaciones')
+        // ->add('observaciones')
         // ->add('grupos','entity',array(
         //   'class' => 'DataBundle:Grupo',
         //   'choice_label' => function ($grupo) {

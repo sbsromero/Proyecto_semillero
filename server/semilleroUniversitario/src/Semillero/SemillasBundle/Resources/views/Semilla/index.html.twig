@@ -37,9 +37,10 @@
               <th rowspan="2" style="font-size:14px"> Número Celular</th>
               <th rowspan="2" style="font-size:14px"> {{ 'Grupo' }} </th>
               <th rowspan="2" style="text-align:center;font-size:14px"> FaceBook</th>
-              <th rowspan="1" colspan="3" style="text-align:center;font-size:14px">Acciones</th>
+              <th rowspan="1" colspan="4" style="text-align:center;font-size:14px">Acciones</th>
             </tr>
             <tr>
+              <th rowspan="1" style="text-align:center;font-size:14px">Asignar grupo</th>
               <th rowspan="1" style="text-align:center;font-size:14px">Ver</th>
               <th rowspan="1" style="text-align:center;font-size:14px">Editar</th>
               <th rowspan="1" style="text-align:center;font-size:14px">Eliminar</th>
@@ -76,6 +77,15 @@
                 </span>
                 {% endif %}
               </td>
+              <td align="center">
+                <span data-toggle="tooltip" data-original-title="Asignar grupo">
+                  <a class="btn btn-sm btn-warning btnAsignarGrupo " data-toggle="modal" data-target="#modalAsignarGrupo">
+                    <span>
+                        <img style="height:14px; width:14px" src="{{asset('public/images/ic_group_add.png')}}" alt="">
+                    </span>
+                  </a>
+                </span>
+              </td>
               <td>
                 <a class="btn btn-sm btn-info btnVerSemilla" data-toggle="modal" data-target="#modalViewSemilla">Ver</a>
               </td>
@@ -107,6 +117,16 @@
     <div class="modal-content">
       <div class="modal-body body-modal" id ="contentViewSemilla">
 
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal asignar grupo-->
+<div class="modal fade" id="modalAsignarGrupo">
+  <div class="modal-dialog" style="width: 800px" role="document">
+    <div class="modal-content">
+      <div class="modal-body body-modal" id="contentAsignarGrupo">
       </div>
     </div>
   </div>
