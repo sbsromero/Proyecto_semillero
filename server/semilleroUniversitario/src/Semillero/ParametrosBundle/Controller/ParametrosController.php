@@ -149,52 +149,5 @@ class ParametrosController extends Controller
     return $form;
   }
 
-  /**
-  * @Route("/segmentos/index",name="indexSegmentos")
-  */
-  public function indexSegmentos(Request $request)
-  {
-    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
-      $em = $this->getDoctrine()->getManager();
-      $segmentos = $em->getRepository('DataBundle:Segmento')->findAll();
-
-      $page= $request->query->get('pageActive');
-      $page = empty($page) ? 1 : $page;
-
-      $paginator = $this->get('knp_paginator');
-      $pagination = $paginator->paginate($segmentos,$page,5);
-      $items = $pagination->getItems();
-      $pageCount = $pagination->getPageCount();
-
-      return $this->render('ParametrosBundle:Segmentos:indexSegmentos.html.twig', array(
-        'pageCount' => $pageCount,
-        'pagination' => $items
-      ));
-    }
-    return $this->redirectToRoute('adminLogin');
-  }
-
-  /**
-  * @Route("/segmentos/add", name="addSegmento")
-  */
-  public function addSegmento(Request $request)
-  {
-    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
-      $segmento = new Segmento();
-      $form = $this->createAddSegmentoForm($segmento);
-      return $this->render('ParametrosBundle:Segmentos:addSegmento.html.twig',array(
-        'form' =>$form->createView()));
-    }
-    return $this->redirectToRoute('adminLogin');
-  }
-
-  private function createAddSegmentoForm(Segmento $entity)
-  {
-    $form = $this-> createForm(new SegmentoType(),$entity, array (
-      'method' => 'POST'
-    ));
-    return $form;
-  }
-
 
 }

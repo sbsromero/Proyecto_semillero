@@ -291,7 +291,7 @@ $(document).ready(function(){
   function headerSorter(){
     $('#tableItemsGrupos').tablesorter({
       headers:{
-        7:{sorter:false},8:{sorter:false},9:{sorter:false},10:{sorter:false}
+        7:{sorter:false},8:{sorter:false},9:{sorter:false},10:{sorter:false},11:{sorter:false}
       }
     });
   }
