@@ -43,7 +43,7 @@ class DiplomadoController extends Controller
         $page = empty($page) ? 1 : $page;
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($diplomados,$page,5);
+        $pagination = $paginator->paginate($diplomados,$page,10);
         $items = $pagination->getItems();
         $pageCount = $pagination->getPageCount();
         return $this->render('DiplomadosBundle:Diplomado:index.html.twig',array(

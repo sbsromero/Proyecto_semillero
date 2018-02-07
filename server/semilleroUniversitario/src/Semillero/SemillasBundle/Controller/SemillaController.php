@@ -43,7 +43,7 @@ class SemillaController extends Controller
       $page = empty($page) ? 1 : $page;
 
       $paginator = $this->get('knp_paginator');
-      $pagination = $paginator->paginate($semillas,$page,5);
+      $pagination = $paginator->paginate($semillas,$page,10);
       $items = $pagination->getItems();
       $pageCount = $pagination->getPageCount();
 
