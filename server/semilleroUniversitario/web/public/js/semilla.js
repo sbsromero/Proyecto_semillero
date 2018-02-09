@@ -147,8 +147,38 @@ $(document).ready(function(){
     }
     headerSorter();
   }
-
   crearPaginadorSemillas();
+
+  //Metodo que crea el paginador de las semillas
+  var crearPaginadorAsignarGrupo = function(){
+    var totalPages = $('#tablaAsignarGrupo').attr('data-pageCount');
+    if(totalPages != 0){
+      $('#paginationAsignarGrupo').twbsPagination({
+        startPage: 1,
+        totalPages: totalPages,
+        visiblePages: 6,
+        initiateStartPageClick: false,
+        first:'Primero',
+        last: 'Último',
+        prev: '<span aria-hidden="true">&laquo;</span>',
+        next: '<span aria-hidden="true">&raquo;</span>',
+        onPageClick: function (event, page) {
+          $.ajax({
+            type: "GET",
+            url: Routing.generate(''),
+            data:{
+              pageActive: page,
+            },
+            success:function(html){
+              $('#tablaAsignarGrupo').replaceWith($(html).find('#tablaAsignarGrupo'));
+            }
+          })
+        }
+      })
+    }
+  }
+
+  crearPaginadorAsignarGrupo();
 
   //Metodo que implementa el ordenamiento en las cabeceras de la tabla de semillas
   function headerSorter(){
