@@ -1,5 +1,15 @@
 $(document).ready(function(){
 
+  //Permite visualizar la modal en la cual se asignara un grupo a una semilla
+  $('body').on('click','.btnAsignarGrupo', function(e){
+    $.ajax({
+      url: Routing.generate('getAsignarGrupo'),
+      success: function(html){
+        $('#contentAsignarGrupo').html(html);
+      }
+    })
+  })
+
   //Permite visualizar en modal los detalles de una semilla
   $('body').on("click",'.btnVerSemilla',function(e){
     var row = $(this).parents('tr');

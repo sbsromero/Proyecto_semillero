@@ -33,6 +33,12 @@ class GrupoRepository extends EntityRepository
     ->setParameter('querySearch','%'.$querySearch.'%');
   }
 
+  //Metodo que retorna todos los grupos que estan activos
+  public function getGruposActivos(){
+    return $this->getEntityManager()
+    ->createQuery("SELECT g FROM DataBundle:Grupo g where g.activo = true")
+    ->getResult();
+  }
 
 
   //Retorna todos los grupos

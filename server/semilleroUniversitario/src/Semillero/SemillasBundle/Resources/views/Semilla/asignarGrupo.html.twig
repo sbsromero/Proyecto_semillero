@@ -1,0 +1,51 @@
+<div class="panel panel-default">
+  <div class="panel-header">
+    <div class="row" style="margin:0px;padding-right: 30px;padding-top: 20px;">
+      <button type="button" class="close" data-dismiss="modal" name="button">X</button>
+    </div>
+    <div class="page-header" align="center">
+      <h3>Asignación de grupo</h3>
+    </div>
+  </div>
+  <div class="panel-body">
+    {% if grupos | length %}
+    <div class="row" style="margin:0px">
+      <div class="table-responsive" id="tablaAsignarGrupo" data-pagecount="{#{pageCount}#}">
+        <table class="table table-striped table-border table-hover table-responsive">
+          <thead>
+            <th>Diplomado</th>
+            <th>Nombre</th>
+            <th>Jornada</th>
+            <th>Semestre</th>
+            <th>Cupo</th>
+            <th style="text-align:center">Asignar</th>
+          </thead>
+          <tbody>
+            {% for grupo in grupos %}
+            <tr data-id="{{grupo.getId()}}">
+              <td>{{grupo.getDiplomado().getNombre()}}</td>
+              <td>{{grupo.getNombre()}}</td>
+              <td>{{grupo.getJornada().getNombre()}}</td>
+              <td>{{grupo.getSemestre().getAnoSemestre()|date('Y')}} - {{grupo.getSemestre().getPeriodo()}}</td>
+              <td>{{grupo.getCupo()}}</td>
+              <td align="center">
+                <span data-toggle="tooltip" data-original-title="Asignar semilla">
+                  <a class="btn btn-sm checkAsignarMentor">
+                    <span>
+                      <i class="glyphicon glyphicon-unchecked"></i>
+                    </span>
+                  </a>
+                </span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div align="center">
+        <ul id="paginationAsignarGrupo" class="pagination-sm"></ul>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>

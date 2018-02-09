@@ -258,7 +258,7 @@ class GruposController extends Controller
         $mentores = $em->getRepository('DataBundle:Mentor')->findAll();
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($mentores, $page, 2);
+        $pagination = $paginator->paginate($mentores, $page, 10);
         $items = $pagination->getItems();
         $pageCount = $pagination->getPageCount();
 

@@ -43,7 +43,7 @@ class SemillaController extends Controller
       $page = empty($page) ? 1 : $page;
 
       $paginator = $this->get('knp_paginator');
-      $pagination = $paginator->paginate($semillas,$page,10);
+      $pagination = $paginator->paginate($semillas,$page,5);
       $items = $pagination->getItems();
       $pageCount = $pagination->getPageCount();
 
@@ -286,6 +286,23 @@ class SemillaController extends Controller
       ))),
       'reporteSemillas'.'.pdf'
     );
+  }
+
+  /**
+  * @Route("/admin/mentores/getAsignarGrupo",name="getAsignarGrupo")
+  */
+  public function getAsignarGrupo(Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      if ($request->isXmlHttpRequest()) {
+        $em = $this->getDoctrine()->getManager();
+        $grupos = $em->getRepository('DataBundle:Grupo')->getGruposActivos();
+        return $this->render('SemillasBundle:Semilla:asignarGrupo.html.twig',array(
+          'grupos' => $grupos
+        ));
+      }
+      return $this->redirectToRoute('indexSemillas');
+    }
+    return $this->redirectToRoute('adminLogin');
   }
 
 //Metodo que permite saber que grupo tiene asignado una semilla
