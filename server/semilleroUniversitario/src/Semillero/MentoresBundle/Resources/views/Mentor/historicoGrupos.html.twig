@@ -1,0 +1,62 @@
+<div class="panel panel-default">
+  <div class="panel-header">
+    <div class="row" style="margin:0px;padding-right: 30px;padding-top: 20px;">
+      <button type="button" class="close" data-dismiss="modal" name="button">X</button>
+    </div>
+    <div class="page-header" align="center">
+      <h4>Historico de grupos</h4>
+    </div>
+  </div>
+
+  <div class="panel-body" style="padding:0px;height: 250px;overflow-y: auto;">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Joranda</th>
+          <th>Semestre</th>
+          <th>Cupo</th>
+          <th>Fecha asignación</th>
+          <th>Fecha desasignación</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for historico_grupo in historicoGrupos %}
+
+        <tr data-id="{{historico_grupo.getGrupo().getId()}}">
+          <td>
+            {{historico_grupo.getGrupo().getNombre()}}
+          </td>
+          <td>
+            {{historico_grupo.getGrupo().getJornada().getNombre()}}
+          </td>
+          <td>
+            {{historico_grupo.getGrupo().getSemestre().getAnoSemestre()|date('Y')}}-{{historico_grupo.getGrupo().getSemestre().getPeriodo()}}
+          </td>
+          <td>
+            {{historico_grupo.getGrupo().getCupo()}}
+          </td>
+          <td>
+            {{historico_grupo.getFechaAsignacion()|date('Y-m-d')}}
+          </td>
+          <td>
+            {% if historico_grupo.getFechaDesasignacion() %}
+              {{historico_grupo.getFechaDesasignacion()|date('Y-m-d h:i:s a')}}
+            {% else %}
+              Asignado
+            {% endif %}
+          </td>
+          <td>
+            {% if historico_grupo.getActivo() %}
+              Activo
+            {% else %}
+              Inactivo
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

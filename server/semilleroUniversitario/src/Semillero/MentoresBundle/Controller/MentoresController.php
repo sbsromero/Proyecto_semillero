@@ -277,4 +277,24 @@ class MentoresController extends Controller
       'reporteMentores'.'.pdf'
     );
   }
+
+  /**
+  * @Route("/mentores/historicoGruposMentor/{id}", name="historicoGruposMentor")
+  */
+  public function getHistoricoGruposMentores($id, Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      if ($request->isXmlHttpRequest()) {
+        $em = $this->getDoctrine()->getManager();
+        $historicoGrupos = $em->getRepository('DataBundle:Mentor_Grupos')->getHistoricoGrupos($id);
+
+        return $this->render('MentoresBundle:Mentor:historicoGrupos.html.twig', array(
+          'historicoGrupos' => $historicoGrupos
+        ));
+      }
+      return $this->redirectToRoute('indexMentores');
+    }
+    return $this->redirectToRoute('adminLogin');
+
+    dump("Historico grupos mentores");exit();
+  }
 }

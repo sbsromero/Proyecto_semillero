@@ -1,5 +1,17 @@
 $(document).ready(function(){
 
+  //Permite visualizar el historico de grupos por los que se a pasado un mentor
+  $('body').on('click','.btnHistoricoMentor', function(e){
+    var row = $(this).parents('tr');
+    var id = row.data('id');
+    $.ajax({
+      url: Routing.generate('historicoGruposMentor',{id:id}),
+      success: function(html){
+        $('#contentHistorico').html(html);
+      }
+    })
+  })
+
   //Permite visualizar en modal los detalles de un mentor
   $('body').on('click','.btnVerMentor',function(e){
     var row = $(this).parents('tr');

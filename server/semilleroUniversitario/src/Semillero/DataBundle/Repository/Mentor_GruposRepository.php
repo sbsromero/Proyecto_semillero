@@ -42,5 +42,13 @@ class Mentor_GruposRepository extends EntityRepository
     ->getOneOrNullResult();
   }
 
+  //Metodo que retorna todo el historial de grupos que han sido asignados a un mentor
+  public function getHistoricoGrupos($idMentor){
+    return $this->getEntityManager()
+    ->createQuery("SELECT m_g from DataBundle:Mentor_Grupos m_g WHERE m_g.mentor =:idMentor")
+    ->setParameter('idMentor',$idMentor)
+    ->getResult();
+  }
+
 
 }
