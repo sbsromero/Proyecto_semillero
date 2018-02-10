@@ -334,11 +334,22 @@ class SemillaController extends Controller
       $semilla = $em->getRepository('DataBundle:Semilla')->find($idSemilla);
       $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
 
+      $grupoAsignado = $em->getRepository('DataBundle:Semilla_Grupo')->getGrupoAsignado($idSemilla);
+
       //Si tiene cupo disponible agrega la semilla al grupo
       if($this->cupoDisponible($em, $idSemilla, $idGrupo)){
+        if(!empty($grupoAsignado)){
+          $grupoAsignado->setActivo(false);
+          $grupoAsignado->setFechaDesasignacion(new \Datetime("now", new \DateTimeZone('America/Bogota')));
+          $em->flush();
+        }
         $semilla_grupo = new Semilla_Grupo();
         $semilla_grupo->setSemilla($semilla);
         $semilla_grupo->setGrupo($grupo);
+        $semilla_grupo->setFechaAsignacion(new \Datetime("now", new \DateTimeZone('America/Bogota')));
+        $em->persist($semilla_grupo);
+        $em->flush();
+        return new Response(Response::HTTP_OK);
       }
       return new Response("No hay cupos diponibles para este grupo",400);
     }
