@@ -289,13 +289,18 @@ class SemillaController extends Controller
   }
 
   /**
-  * @Route("/admin/mentores/getAsignarGrupo",name="getAsignarGrupo")
+  * @Route("/admin/mentores/getAsignarGrupo/{idSemilla}",name="getAsignarGrupo")
   */
-  public function getAsignarGrupo(Request $request){
+  public function getAsignarGrupo($idSemilla, Request $request){
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
       if ($request->isXmlHttpRequest()) {
         $em = $this->getDoctrine()->getManager();
         $grupos = $em->getRepository('DataBundle:Grupo')->getGruposActivos();
+
+        $idGrupoAsignado = $em->getRepository('DataBundle:Semilla_Grupo')->getGrupoAsignado($idSemilla);
+        if(!empty($idGrupoAsignado)){
+          $idGrupoAsignado = $idGrupoAsignado->getGrupo()->getId();
+        }
 
         $page= $request->query->get('pageActive');
         $page = empty($page) ? 1 : $page;
@@ -307,12 +312,44 @@ class SemillaController extends Controller
 
         return $this->render('SemillasBundle:Semilla:asignarGrupo.html.twig',array(
           'pageCount' => $pageCount,
-          'grupos' => $items
+          'grupos' => $items,
+          'idGrupoAsignado' => $idGrupoAsignado
         ));
       }
       return $this->redirectToRoute('indexSemillas');
     }
     return $this->redirectToRoute('adminLogin');
+  }
+
+  /**
+  * @Route("/admin/mentores/asignarGrupo", name="asignarGrupo")
+  * @Method({"POST"})
+  */
+  public function asignarGrupo(Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      $idGrupo = $request->request->get('idGrupo');
+      $idSemilla = $request->request->get('idSemilla');
+      $em = $this->getDoctrine()->getManager();
+
+      $semilla = $em->getRepository('DataBundle:Semilla')->find($idSemilla);
+      $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
+
+      //Si tiene cupo disponible agrega la semilla al grupo
+      if($this->cupoDisponible($em, $idSemilla, $idGrupo)){
+        $semilla_grupo = new Semilla_Grupo();
+        $semilla_grupo->setSemilla($semilla);
+        $semilla_grupo->setGrupo($grupo);
+      }
+      return new Response("No hay cupos diponibles para este grupo",400);
+    }
+    return $this->redirectToRoute('adminLogin');
+
+  }
+
+  private function cupoDisponible($em,$idSemilla,$idGrupo){
+    $cantidadSemillas = $em->getRepository('DataBundle:Semilla_Grupo')->getCantidadSemillasPorGrupo($idGrupo);
+    $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
+    return ($cantidadSemillas[1] < $grupo->getCupo()) ? true : false;
   }
 
 //Metodo que permite saber que grupo tiene asignado una semilla

@@ -22,4 +22,13 @@ class Semilla_GrupoRepository extends EntityRepository
               ->setParameter('idSemilla',$idSemilla)
               ->getOneOrNullResult();
   }
+
+  //Metodo que retorna toda la cantidad de semillas que estan registradas en un grupo
+  public function getCantidadSemillasPorGrupo($idGrupo){
+    return $this->getEntityManager()
+      ->createQuery('SELECT COUNT(sg.semilla) from DataBundle:Semilla_Grupo sg WHERE
+        sg.activo = true and sg.grupo =:idGrupo')
+      ->setParameter('idGrupo',$idGrupo)
+      ->getOneOrNullResult();
+  }
 }

@@ -1,11 +1,15 @@
 $(document).ready(function(){
 
+  var idSemilla;
   //Permite visualizar la modal en la cual se asignara un grupo a una semilla
   $('body').on('click','.btnAsignarGrupo', function(e){
+    var row = $(this).parents('tr');
+    idSemilla = row.data('id');
     $.ajax({
-      url: Routing.generate('getAsignarGrupo'),
+      url: Routing.generate('getAsignarGrupo',{idSemilla:idSemilla}),
       success: function(html){
         $('#contentAsignarGrupo').html(html);
+        crearPaginadorAsignarGrupo(idSemilla);
       }
     })
   })
@@ -150,7 +154,7 @@ $(document).ready(function(){
   crearPaginadorSemillas();
 
   //Metodo que crea el paginador de las semillas
-  var crearPaginadorAsignarGrupo = function(){
+  var crearPaginadorAsignarGrupo = function(id){
     var totalPages = $('#tablaAsignarGrupo').attr('data-pageCount');
     if(totalPages != 0){
       $('#paginationAsignarGrupo').twbsPagination({
@@ -165,7 +169,7 @@ $(document).ready(function(){
         onPageClick: function (event, page) {
           $.ajax({
             type: "GET",
-            url: Routing.generate(''),
+            url: Routing.generate('getAsignarGrupo',{idSemilla:id}),
             data:{
               pageActive: page,
             },
@@ -178,7 +182,52 @@ $(document).ready(function(){
     }
   }
 
-  crearPaginadorAsignarGrupo();
+  //Metodo que permite asignar una semilla a un grupo
+  $('body').on('click','.checkAsignarSemilla', function(e){
+    var row = $(this).parents('tr');
+    var idGrupo = row.data('id');
+    var tr = $(this).parents('tr');
+    tr.attr('style','background-color: #c5e1fb !important')
+    bootbox.confirm({
+      message: "¿Esta seguro que desea asignar esta semilla al grupo?",
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success'
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-danger'
+        }
+      },
+      callback: function (result) {
+        if(result){
+          $.ajax({
+            type: "POST",
+            url: Routing.generate('asignarGrupo'),
+            data:{
+              idGrupo: idGrupo,
+              idSemilla: idSemilla
+            },
+            success: function(html){
+              $('#modalAsignarGrupo').modal('hide');
+              toastr.success("la semilla fue asignada al grupo");
+              setTimeout(function () {
+                window.location.href = Routing.generate("indexSemillas")
+              }, 1500);
+            },
+            error: function(html){
+              toastr.error(html.responseText);
+            }
+          })
+        }
+        else{
+          tr.attr('style','')
+        }
+      }
+    });
+  });
+
 
   //Metodo que implementa el ordenamiento en las cabeceras de la tabla de semillas
   function headerSorter(){

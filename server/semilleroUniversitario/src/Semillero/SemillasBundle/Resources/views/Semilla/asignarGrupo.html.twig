@@ -29,13 +29,23 @@
               <td>{{grupo.getSemestre().getAnoSemestre()|date('Y')}} - {{grupo.getSemestre().getPeriodo()}}</td>
               <td>{{grupo.getCupo()}}</td>
               <td align="center">
+                {% if idGrupoAsignado == grupo.getId() %}
+                <span>
+                  <a class="btn btn-sm">
+                    <span>
+                      <i class="glyphicon glyphicon-check"></i>
+                    </span>
+                  </a>
+                </span>
+                {% else %}
                 <span data-toggle="tooltip" data-original-title="Asignar semilla">
-                  <a class="btn btn-sm checkAsignarMentor">
+                  <a class="btn btn-sm checkAsignarSemilla">
                     <span>
                       <i class="glyphicon glyphicon-unchecked"></i>
                     </span>
                   </a>
                 </span>
+                {% endif %}
               </td>
             </tr>
             {% endfor %}

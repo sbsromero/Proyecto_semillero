@@ -4,16 +4,17 @@
       <button type="button" class="close" data-dismiss="modal" name="button">X</button>
     </div>
     <div class="page-header" align="center">
-      <h4>Historico de grupos</h4>
+      <h3>Histórico de grupos</h3>
     </div>
   </div>
 
-  <div class="panel-body" style="padding:0px;height: 250px;overflow-y: auto;">
+  <div class="panel-body" style="height: 250px;overflow-y: auto;">
     <table class="table table-striped">
       <thead>
         <tr>
+          <th>Diplomado</th>
           <th>Nombre</th>
-          <th>Joranda</th>
+          <th>Jornada</th>
           <th>Semestre</th>
           <th>Cupo</th>
           <th>Fecha asignación</th>
@@ -25,6 +26,9 @@
         {% for historico_grupo in historicoGrupos %}
 
         <tr data-id="{{historico_grupo.getGrupo().getId()}}">
+          <td>
+            {{historico_grupo.getGrupo().getDiplomado().getNombre()}}
+          </td>
           <td>
             {{historico_grupo.getGrupo().getNombre()}}
           </td>
