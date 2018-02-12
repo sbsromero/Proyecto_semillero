@@ -97,6 +97,18 @@ $(document).ready(function(){
     })
   })
 
+  //Permite visualizar el historico de grupos por los que se a pasado un mentor
+  $('body').on('click','.btnHistoricoSemilla', function(e){
+    var row = $(this).parents('tr');
+    var id = row.data('id');
+    $.ajax({
+      url: Routing.generate('historicoGruposSemillas',{id:id}),
+      success: function(html){
+        $('#contentHistoricoSemilla').html(html);
+      }
+    })
+  })
+
   //funcion que realiza el llamado al metodo de eliminar la semilla
   function eliminarSemilla(id)
   {

@@ -4,6 +4,7 @@
 <div class="container">
   <div class="navbar navbar-default" style="margin:0px">
     <div class="row" style="margin-left:0px; margin-right:0px; height:130px">
+      {% if is_granted('IS_AUTHENTICATED_FULLY') %}
       <div class="col-md-1 col-xs-2">
         <div class="" style="display: table;height: 130px;overflow: hidden;">
           <div class="" style="display: table-cell; vertical-align: middle">
@@ -16,20 +17,22 @@
           </div>
         </div>
       </div>
+
       <div class="col-md-10 col-xs-8" align="center">
         <img alt="logoSemillero" style="height:130px; padding:10px" src="{{asset('public/images/logoSemilleroUniversitario.png')}}">
       </div>
+
       <div class="col-md-1 col-xs-2">
         <div class="" style="display: table;height: 130px;overflow: hidden;">
           <div class="" style="display: table-cell; vertical-align: middle">
-            {% set role = app.user.getRoles()[0] %}
-            {% if role == "ROLE_ADMIN"%}
-              <a href="{{ path('indexAdmin') }}">
-            {% elseif role == "ROLE_MENTOR" %}
-              <a href="{{ path('indexGrupos_usuarios')}}">
-            {% else %}
-              <a href="{{path('informacionPersonal')}}">
-            {% endif %}
+              {% set role = app.user.getRoles()[0] %}
+              {% if role == "ROLE_ADMIN"%}
+                <a href="{{ path('indexAdmin') }}">
+              {% elseif role == "ROLE_MENTOR" %}
+                <a href="{{ path('indexGrupos_usuarios')}}">
+              {% else %}
+                <a href="{{path('informacionPersonal')}}">
+              {% endif %}
               <span>
                 <i class="glyphicon glyphicon-home" style="color: #000; width: 60px; font-size: 22px;"></i>
               </span>
@@ -37,6 +40,11 @@
           </div>
         </div>
       </div>
+      {% else %}
+        <div class="col-md-12 col-xs-8" align="center">
+          <img alt="logoSemillero" style="height:130px; padding:10px" src="{{asset('public/images/logoSemilleroUniversitario.png')}}">
+        </div>
+      {% endif %}
     </div>
   </div>
 </div>

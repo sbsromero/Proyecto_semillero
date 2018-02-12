@@ -65,20 +65,18 @@ class SemillaController extends Controller
       #Creamos nuestro objeto semilla para poder acceder a cada una de las propiedades y metodos de nuestra entidad (semilla)
       $semilla = new Semilla();
       #Variable que llama al metodo creaCreateForm, creado luego
-      $form = $this-> createCreateForm($semilla);
+      $form = $this-> createCreateForm($semilla,'createSemillas');
       $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
       return $this->render('SemillasBundle:Semilla:add.html.twig',array(
-        'form' =>$form->createView(),
-        // 'grupos'=> $grupos,
-        'errorSelected' => false));
+        'form' =>$form->createView()));
     }
     return $this->redirectToRoute('adminLogin');
   }
 
-  private function createCreateForm(Semilla $entity)
+  private function createCreateForm(Semilla $entity, $url)
   {
     $form = $this-> createForm(new SemillaType(),$entity, array (
-      'action' => $this->generateUrl('createSemillas'),
+      'action' => $this->generateUrl($url),
       'method' => 'POST'
     ));
 
@@ -93,12 +91,23 @@ class SemillaController extends Controller
   public function createAction(Request $request)
   {
     $semilla = new Semilla();
-    $form = $this->createCreateForm($semilla);
+    $form = $this->createCreateForm($semilla,'createSemillas');
+    $em = $this->getDoctrine()->getManager();
+
+    $emailExistente = $em->getRepository('DataBundle:Usuarios')->findByEmail($request->request->get('semilla')['email']);
+    $documentoExistente = $em->getRepository('DataBundle:Usuarios')->findByNumeroDocumento($request->request->get('semilla')['numeroDocumento']);;
+
     $form->handleRequest($request);
+
+    if(!empty($emailExistente)){
+      $form->get('email')->addError(new FormError('El email ya se encuentra registrado'));
+    }
+    if(!empty($documentoExistente)){
+      $form->get('numeroDocumento')->addError(new FormError('Documento ya registrado'));
+    }
     $idGrupo = $request->request->get('semilla_grupo');
 
     #Validamos si el formulario se envio correctamente
-    // if($form->isValid() && !empty($idGrupo))
     if($form->isValid())
     {
       $password = $form->get('password')->getData();
@@ -108,28 +117,16 @@ class SemillaController extends Controller
       $semilla->setPassword($encoded);
       $semilla->setActivo(true);
 
-      $em = $this->getDoctrine()->getManager();
-
-      // $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
-      // $semilla_grupo = new Semilla_Grupo();
-      // $semilla_grupo->setSemilla($semilla);
-      // $semilla_grupo->setGrupo($grupo);
-
       $em -> persist($semilla);
-      // $em -> persist($semilla_grupo);
       $em -> flush();
 
-      // $this->addFlash('mensaje','La semilla ha sido creado satisfactoriamente');
-
+      $this->addFlash('mensajeSemilla','La semilla ha sido creado satisfactoriamente');
       return $this->redirectToRoute('indexSemillas');
     }
     #Renderizamos al formulario si existe algun problema
-    // $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
-    // $errorSelected = empty($idGrupo) ? true : false;
     return $this->render('SemillasBundle:Semilla:add.html.twig',array(
       'form' =>$form->createView(),
-      // 'grupos' => $grupos,
-      'errorSelected' => $errorSelected));
+    ));
   }
 
   //------------------ Metodo edit, editar una SEMILLA de la base de datos --------------------
@@ -354,7 +351,81 @@ class SemillaController extends Controller
       return new Response("No hay cupos diponibles para este grupo",400);
     }
     return $this->redirectToRoute('adminLogin');
+  }
 
+  /**
+  * @Route("/admin/semillas/historicoGruposSemillas/{id}", name="historicoGruposSemillas")
+  */
+  public function historicoGruposSemillas($id, Request $request){
+    if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+      if ($request->isXmlHttpRequest()) {
+        $em = $this->getDoctrine()->getManager();
+        $historicoGrupos = $em->getRepository('DataBundle:Semilla_Grupo')->getHistoricoGrupos($id);
+
+        return $this->render('SemillasBundle:Semilla:historicoGrupos.html.twig', array(
+          'historicoGrupos' => $historicoGrupos
+        ));
+      }
+      return $this->redirectToRoute('indexMentores');
+    }
+    return $this->redirectToRoute('adminLogin');
+  }
+
+  /** Registro de semillas para cualquier usuario, diferente a administrador y mentor*/
+  /**
+  * @Route("/semilleroUniversitario/registrarse", name="registrarSemilla")
+  */
+  public function registroSemillas(){
+    $semilla = new Semilla();
+    $form = $this-> createCreateForm($semilla,'guardarSemilla');
+    $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
+    return $this->render('SemillasBundle:Semilla:add.html.twig',array(
+      'form' =>$form->createView(),
+      'grupos'=>$grupos));
+  }
+
+  /**
+  * @Route("/semilleroUniversitario/registrarSemilla", name="guardarSemilla")
+  * @Method({"POST"})
+  */
+  public function registrarSemilla(Request $request){
+
+    $semilla = new Semilla();
+    $form = $this->createCreateForm($semilla,'guardarSemilla');
+    $em = $this->getDoctrine()->getManager();
+
+    $emailExistente = $em->getRepository('DataBundle:Usuarios')->findByEmail($request->request->get('semilla')['email']);
+    $documentoExistente = $em->getRepository('DataBundle:Usuarios')->findByNumeroDocumento($request->request->get('semilla')['numeroDocumento']);;
+
+    $form->handleRequest($request);
+
+    if(!empty($emailExistente)){
+      $form->get('email')->addError(new FormError('El email ya se encuentra registrado'));
+    }
+    if(!empty($documentoExistente)){
+      $form->get('numeroDocumento')->addError(new FormError('Documento ya registrado'));
+    }
+    $idGrupo = $request->request->get('semilla_grupo');
+
+    #Validamos si el formulario se envio correctamente
+    if($form->isValid())
+    {
+      $password = $form->get('password')->getData();
+      $encoder = $this->container->get('security.password_encoder');
+      $encoded = $encoder->encodePassword($semilla, $password);
+
+      $semilla->setPassword($encoded);
+      $semilla->setActivo(true);
+
+      $em -> persist($semilla);
+      $em -> flush();
+      // $this->addFlash('mensajeSemilla','La semilla ha sido creado satisfactoriamente');
+      return $this->redirectToRoute('usuariosLogin');
+    }
+    #Renderizamos al formulario si existe algun problema
+    return $this->render('SemillasBundle:Semilla:add.html.twig',array(
+      'form' =>$form->createView(),
+    ));
   }
 
   private function cupoDisponible($em,$idSemilla,$idGrupo){

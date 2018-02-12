@@ -31,4 +31,13 @@ class Semilla_GrupoRepository extends EntityRepository
       ->setParameter('idGrupo',$idGrupo)
       ->getOneOrNullResult();
   }
+
+  //Metodo que retorna todo el historial de grupos que han sido asignados a una semilla
+  public function getHistoricoGrupos($idSemilla){
+    return $this->getEntityManager()
+    ->createQuery("SELECT s_g from DataBundle:Semilla_Grupo s_g WHERE s_g.semilla =:idSemilla")
+    ->setParameter('idSemilla',$idSemilla)
+    ->getResult();
+  }
+
 }

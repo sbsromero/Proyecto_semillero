@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 * @ORM\InheritanceType("SINGLE_TABLE")
 * @ORM\DiscriminatorColumn(name="discr", type="string")
 * @ORM\DiscriminatorMap({"mentor" = "Mentor", "semilla" = "Semilla"})
-* @UniqueEntity("email")
+* @UniqueEntity(fields={"email"},message="El email ya se encuentra registrado")
 */
 abstract class Usuarios implements AdvancedUserInterface, \Serializable
 {

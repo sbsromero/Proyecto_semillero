@@ -135,11 +135,15 @@
 			<div class="col-md-4">
 				<div class="form-group">
 					<dl>
-						<h4><dt>Observaciones:</dt></h4>
-						<dd>{{semilla.observaciones}}</dd>
-						<br>
-						<h4><dt>Grupo:</dt></h4>
-						<dd>{{grupo.getNombre()}}</dd>
+						<!-- <h4><dt>Observaciones:</dt></h4>
+						<dd>{#{semilla.observaciones}#}</dd>
+						<br> -->
+						<dt>Grupo asignado:</dt>
+						{% if grupo is empty %}
+							<dd>Sin asignar</dd>
+						{% else %}
+							<dd>{{grupo.getNombre()}}</dd>
+						{% endif %}
 					</dl>
 				</div>
 			</div>

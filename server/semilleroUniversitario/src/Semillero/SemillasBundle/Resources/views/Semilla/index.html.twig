@@ -40,7 +40,7 @@
               <th rowspan="1" colspan="5" style="text-align:center;font-size:14px">Acciones</th>
             </tr>
             <tr>
-              <th rowspan="1" style="text-align:center;font-size:14px">Historial grupos</th>
+              <th rowspan="1" style="text-align:center;font-size:14px">Histórico grupos</th>
               <th rowspan="1" style="text-align:center;font-size:14px">Asignar grupo</th>
               <th rowspan="1" style="text-align:center;font-size:14px">Ver</th>
               <th rowspan="1" style="text-align:center;font-size:14px">Editar</th>
@@ -78,11 +78,11 @@
                 </span>
                 {% endif %}
               </td>
-              <td>
-                <span>
-                  <a href="#">
+              <td align="center">
+                <span data-toggle="tooltip" data-original-title="Historico grupos">
+                  <a class="btn btn-sm btn-warning btnHistoricoSemilla" data-toggle="modal" data-target="#modalHistoricoSemilla">
                     <span>
-                      <i></i>
+                      <i class="glyphicon glyphicon-th-list"></i>
                     </span>
                   </a>
                 </span>
@@ -137,6 +137,17 @@
   <div class="modal-dialog" style="width: 800px" role="document">
     <div class="modal-content">
       <div class="modal-body body-modal" id="contentAsignarGrupo">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal visualizar mentor-->
+<div class="modal fade" id="modalHistoricoSemilla">
+  <div class="modal-dialog"  style="width: 800px" role="document">
+    <div class="modal-content">
+      <div class="modal-body body-modal" id ="contentHistoricoSemilla">
+
       </div>
     </div>
   </div>

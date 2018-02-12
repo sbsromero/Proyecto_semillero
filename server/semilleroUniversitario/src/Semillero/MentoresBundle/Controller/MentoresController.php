@@ -97,7 +97,19 @@ class MentoresController extends Controller
   {
     $mentor = new Mentor();
     $form = $this->createCreateForm($mentor);
+    $em = $this->getDoctrine()->getManager();
+
+    $emailExistente = $em->getRepository('DataBundle:Usuarios')->findByEmail($request->request->get('mentor')['email']);
+    $documentoExistente = $em->getRepository('DataBundle:Usuarios')->findByNumeroDocumento($request->request->get('mentor')['numeroDocumento']);;
+
     $form->handleRequest($request);
+
+    if(!empty($emailExistente)){
+      $form->get('email')->addError(new FormError('El email ya se encuentra registrado'));
+    }
+    if(!empty($documentoExistente)){
+      $form->get('numeroDocumento')->addError(new FormError('Documento ya registrado'));
+    }
 
     #Validamos si el formulario se envio correctamente
     if($form->isValid())
@@ -109,7 +121,6 @@ class MentoresController extends Controller
       $mentor->setPassword($encoded);
       $mentor->setActivo(true);
 
-      $em = $this->getDoctrine()->getManager();
       $em -> persist($mentor);
       $em -> flush();
 
@@ -294,7 +305,5 @@ class MentoresController extends Controller
       return $this->redirectToRoute('indexMentores');
     }
     return $this->redirectToRoute('adminLogin');
-
-    dump("Historico grupos mentores");exit();
   }
 }
