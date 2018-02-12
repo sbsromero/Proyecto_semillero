@@ -38,7 +38,7 @@
                   <option value="">Seleccione un grupo</option>
                   {% if gruposPorMentor | length %}
                   {% for grupo_mentor in gruposPorMentor %}
-                  <option value="{{grupo_mentor.getGrupo().getId()}}">{{grupo_mentor.getGrupo().getNombre()}} - {{grupo_mentor.getGrupo().getJornada().getNombre()}}</option>
+                  <option value="{{grupo_mentor.getGrupo().getId()}}">{{grupo_mentor.getGrupo().getDiplomado().getNombre()}} - {{grupo_mentor.getGrupo().getNombre()}} - {{grupo_mentor.getGrupo().getJornada().getNombre()}}</option>
                   {% endfor %}
                   {% endif %}
                 </select>

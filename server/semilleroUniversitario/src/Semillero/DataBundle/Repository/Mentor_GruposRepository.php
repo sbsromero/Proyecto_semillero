@@ -16,8 +16,8 @@ class Mentor_GruposRepository extends EntityRepository
   //el id del mentor
   public function gruposAsignadosPorMentor($idMentor){
     return $this->getEntityManager()
-    ->createQuery('SELECT m_g FROM DataBundle:Mentor_Grupos m_g where m_g.mentor = :id
-    and m_g.activo = TRUE')
+    ->createQuery('SELECT m_g FROM DataBundle:Mentor_Grupos m_g INNER JOIN m_g.grupo g where m_g.mentor = :id
+    and m_g.activo = TRUE and g.activo = TRUE')
     ->setParameter('id',$idMentor)
     ->getResult();
   }

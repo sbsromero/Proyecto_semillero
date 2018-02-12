@@ -64,10 +64,10 @@
           <td>{{semilla.getTipoDocumento().getNombre()}}</td>
           <td>{{semilla.getNumeroDocumento()}}</td>
           <td>{{semilla.getDireccion()}}</td>
-          <td>{#{dump(semilla.getAcudienteUno())}#}</td>
-          <td>{#{dump("telefono 1")}#}</td>
-          <td>{#{dump(semilla.getAcudienteDos)}#}</td>
-          <td>{#{dump("telefono 2")}#}</td>
+          <td>{{semilla.getAcudienteUno()}}</td>
+          <td>{{semilla.getTelefonoAcudienteUno()}}</td>
+          <td>{{semilla.getAcudienteDos}}</td>
+          <td>{{semilla.getTelefonoAcudienteDos()}}</td>
         </tr>
         {% endfor %}
       </table>

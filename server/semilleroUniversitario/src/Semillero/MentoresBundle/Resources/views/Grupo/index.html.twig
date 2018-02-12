@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div class="col-md-2" align="right">
+      <div class="col-md-3" align="right">
         <a class="btn btn-default btn-AddGrupo" data-toggle="modal" data-target="#modalAddGrupo">Agregar Grupo</a>
       </div>
     </div>
@@ -54,7 +54,7 @@
               <td id="nombreGrupo-{{grupo.id}}" value="{{ grupo.nombre}}">{{grupo.diplomado.nombre}} {{ grupo.nombre}}</td>
               <td>{{ grupo.jornada.nombre}}</td>
               <td>{{ grupo.fechaCreacion | date('d-m-Y') }}</td>
-              <td>{#{ dump(grupo.getMentor().getActivo())}#}
+              <td>
                 {{render(controller('MentoresBundle:Grupos:getMentorGrupo',{id:grupo.getId()}))}}
               </td>
               {% set semillas = 0 %}
