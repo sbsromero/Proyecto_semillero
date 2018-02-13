@@ -146,14 +146,14 @@ class SemillaController extends Controller
       }
 
       $form = $this->createEditForm($semilla);
-      $idGrupoAsignado = $this->getGrupoAsignado($semilla)->getId();
+      // $idGrupoAsignado = $this->getGrupoAsignado($semilla)->getId();
 
       $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
       return $this->render('SemillasBundle:Semilla:edit.html.twig', array(
         'semilla'=>$semilla,
         'grupos'=>$grupos,
-        'errorSelected' => false,
-        'idGrupoAsignado' => $idGrupoAsignado,
+        // 'errorSelected' => false,
+        // 'idGrupoAsignado' => $idGrupoAsignado,
         'form'=>$form->createView()));
     }
     return $this->redirectToRoute('adminLogin');
@@ -172,7 +172,6 @@ class SemillaController extends Controller
   public function updateAction($numeroDocumento, Request $request)
   {
     $em = $this->getDoctrine()->getManager();
-    $idGrupo = $request->request->get('semilla_grupo');
 
     $semilla = $em->getRepository('DataBundle:Semilla')->findOneByNumeroDocumento($numeroDocumento);
     if(!$semilla)
@@ -183,7 +182,7 @@ class SemillaController extends Controller
     $form = $this->createEditForm($semilla);
     $form->handleRequest($request);
 
-    if($form->isSubmitted() && $form->isValid() && !empty($idGrupo))
+    if($form->isValid())
     {
 
       $password = $form->get('password')->getData();
@@ -201,21 +200,15 @@ class SemillaController extends Controller
         $semilla->setPassword($pass[0]['password']);
       }
 
-      $grupo = $em->getRepository('DataBundle:Grupo')->find($idGrupo);
-      $this->reasignarGrupo($semilla,$grupo);
-
       $em -> flush();
-      $this->addFlash('mensaje','¡La semilla ha sido modificado satisfactoriamente!');
-      return $this->redirectToRoute('indexSemillas', array('numeroDocumento' => $semilla->getNumeroDocumento()));
+      $this->addFlash('mensajeSemilla','La semilla ha sido modificado satisfactoriamente');
+      return $this->redirectToRoute('indexSemillas');
     }
     $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
-    $idGrupoAsignado = $this->getGrupoAsignado($semilla)->getId();
 
     return $this->render('SemillasBundle:Semilla:edit.html.twig',array(
       'semilla' => $semilla,
       'grupos' => $grupos,
-      'errorSelected' => true,
-      'idGrupoAsignado'=> $idGrupoAsignado,
       'form' =>$form->createView()));
   }
 

@@ -335,16 +335,17 @@ class UsuariosController extends Controller
       $em = $this->getDoctrine()->getManager();
       $semilla = $this->container->get('security.context')->getToken()->getUser();
       $grupo = $this->getGrupoAsignado($semilla);
-      $actividades = $this->get('service_actividades')->getlistaActividades($em,$grupo);
+      $items = null; $pageCount=0;
 
-      $page= $request->query->get('pageActive');
-      $page = empty($page) ? 1 : $page;
-
-      $paginator = $this->get('knp_paginator');
-      $pagination = $paginator->paginate($actividades,$page,10);
-      $items = $pagination->getItems();
-      $pageCount = $pagination->getPageCount();
-
+      if(!empty($grupo)){
+        $actividades = $this->get('service_actividades')->getlistaActividades($em,$grupo);
+        $page= $request->query->get('pageActive');
+        $page = empty($page) ? 1 : $page;
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($actividades,$page,10);
+        $items = $pagination->getItems();
+        $pageCount = $pagination->getPageCount();
+      }
 
       return $this->render('UsuariosBundle:Semillas:gestionAcademica.html.twig',array(
         'grupo' => $grupo,

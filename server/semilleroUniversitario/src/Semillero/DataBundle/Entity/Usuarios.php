@@ -119,7 +119,6 @@ abstract class Usuarios implements AdvancedUserInterface, \Serializable
   * @var string
   *
   * @ORM\Column(name="password", type="string", length=255)
-  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $password;
 
@@ -145,6 +144,12 @@ abstract class Usuarios implements AdvancedUserInterface, \Serializable
   * @ORM\Column(name="activo", type="boolean")
   */
   private $activo;
+
+  /**
+  * @ORM\Column(name="ruta_imagen", type="string", nullable=true)
+  * @Assert\File( maxSize = "2M",mimeTypes={ "image/jpeg", "image/png"}, mimeTypesMessage = "Archivos válidos JPG, PNG")
+  */
+  private $urlImage;
 
   /**
   * Get id
@@ -577,4 +582,28 @@ abstract class Usuarios implements AdvancedUserInterface, \Serializable
       return $this->discr;
     }
 
-  }
+  
+    /**
+     * Set urlImage
+     *
+     * @param string $urlImage
+     *
+     * @return Usuarios
+     */
+    public function setUrlImage($urlImage)
+    {
+        $this->urlImage = $urlImage;
+
+        return $this;
+    }
+
+    /**
+     * Get urlImage
+     *
+     * @return string
+     */
+    public function getUrlImage()
+    {
+        return $this->urlImage;
+    }
+}

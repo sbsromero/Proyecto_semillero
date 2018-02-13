@@ -21,7 +21,9 @@
         <div class="row" style="margin:0px auto; margin:0px;background-color: #f5f5f5" align="center">
           <div class="row" style="margin:0px; width:80%">
             <label for="">Grupo : </label>
+            {% if grupo is not empty %}
             <input id="titulo_grupo" type="text" name="" value="{{grupo.getNombre()}}" style="padding-left:10px;width:90%" readonly>
+            {% endif %}
           </div>
         </div>
         <div class="row" style="margin:0px; auto; margin-top:20px">
@@ -70,7 +72,7 @@
               </tbody>
             </table>
           </div>
-          
+
           <div class="" align="center">
             <ul id="paginationGestionAcademica" class="pagination-sm"></ul>
           </div>
