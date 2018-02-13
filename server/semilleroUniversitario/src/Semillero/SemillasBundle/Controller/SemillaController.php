@@ -381,7 +381,8 @@ class SemillaController extends Controller
     $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
     return $this->render('SemillasBundle:Semilla:add.html.twig',array(
       'form' =>$form->createView(),
-      'grupos'=>$grupos));
+      'grupos'=>$grupos,
+      'errorSelected' =>false));
   }
 
   /**
@@ -396,6 +397,8 @@ class SemillaController extends Controller
 
     $emailExistente = $em->getRepository('DataBundle:Usuarios')->findByEmail($request->request->get('semilla')['email']);
     $documentoExistente = $em->getRepository('DataBundle:Usuarios')->findByNumeroDocumento($request->request->get('semilla')['numeroDocumento']);;
+    $grupoId = $request->request->get('grupo_id');
+    $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
 
     $form->handleRequest($request);
 
@@ -405,26 +408,33 @@ class SemillaController extends Controller
     if(!empty($documentoExistente)){
       $form->get('numeroDocumento')->addError(new FormError('Documento ya registrado'));
     }
-    $idGrupo = $request->request->get('semilla_grupo');
 
     #Validamos si el formulario se envio correctamente
-    if($form->isValid())
+    if($form->isValid() && !empty($grupoId))
     {
-      $password = $form->get('password')->getData();
-      $encoder = $this->container->get('security.password_encoder');
-      $encoded = $encoder->encodePassword($semilla, $password);
+      if($grupoId != "0"){
+        $password = $form->get('password')->getData();
+        $encoder = $this->container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($semilla, $password);
 
-      $semilla->setPassword($encoded);
-      $semilla->setActivo(true);
+        $grupoAspirante = $em->getRepository('DataBundle:Grupo')->find($grupoId);
 
-      $em -> persist($semilla);
-      $em -> flush();
-      // $this->addFlash('mensajeSemilla','La semilla ha sido creado satisfactoriamente');
-      return $this->redirectToRoute('usuariosLogin');
+        $semilla->setPassword($encoded);
+        $semilla->setActivo(true);
+        $semilla->setGrupoAspirante($grupoAspirante);
+
+        $em -> persist($semilla);
+        $em -> flush();
+        // $this->addFlash('mensajeSemilla','La semilla ha sido creado satisfactoriamente');
+        return $this->redirectToRoute('usuariosLogin');
+      }
     }
+    $errorSelected = empty($grupoId) ? true : false;
     #Renderizamos al formulario si existe algun problema
     return $this->render('SemillasBundle:Semilla:add.html.twig',array(
       'form' =>$form->createView(),
+      'grupos'=>$grupos,
+      'errorSelected'=>$errorSelected
     ));
   }
 

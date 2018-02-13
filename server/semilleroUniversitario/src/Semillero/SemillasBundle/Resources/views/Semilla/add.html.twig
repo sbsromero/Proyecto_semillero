@@ -187,14 +187,21 @@
 					<div class="col-md-offset-3 col-md-6">
 						<div class="form-group">
 							<label for="semilla_grupo">Grupo</label>
-							<select name="semilla_grupo" id="semilla_grupo" class="form-control">
-								<option value="0">Seleccione un grupo</option>
+							<select name="grupo_id" id="semilla_grupo" class="form-control">
+								<option value="">Seleccione un grupo</option>
 								{% if grupos | length %}
 									{% for grupo in grupos %}
-										<option name="{{grupo.id}}" value="{{grupo.id}}">{{grupo.getDiplomado().getNombre()}} - {{grupo.getNombre()}}</option>
+										<option name="grupo_id" value="{{grupo.id}}">{{grupo.getDiplomado().getNombre()}} - {{grupo.getNombre()}}</option>
 									{% endfor %}
 								{% endif %}
 							</select>
+							{% if errorSelected %}
+							<span class="text-danger">
+								<ul>
+									<li style="text-align:left">Debe seleccionar un grupo</li>
+								</ul>
+							</span>
+							{% endif %}
 						</div>
 					</div>
 				</div>

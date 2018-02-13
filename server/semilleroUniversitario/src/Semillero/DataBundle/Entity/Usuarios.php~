@@ -14,9 +14,9 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 * @ORM\InheritanceType("SINGLE_TABLE")
 * @ORM\DiscriminatorColumn(name="discr", type="string")
 * @ORM\DiscriminatorMap({"mentor" = "Mentor", "semilla" = "Semilla"})
-* @UniqueEntity("email")
+* @UniqueEntity(fields={"email"},message="El email ya se encuentra registrado")
 */
-class Usuarios implements AdvancedUserInterface, \Serializable
+abstract class Usuarios implements AdvancedUserInterface, \Serializable
 {
   /**
   * @var int
@@ -119,6 +119,7 @@ class Usuarios implements AdvancedUserInterface, \Serializable
   * @var string
   *
   * @ORM\Column(name="password", type="string", length=255)
+  * @Assert\NotBlank(message="Este campo no puede ser vacio")
   */
   private $password;
 
@@ -562,7 +563,7 @@ class Usuarios implements AdvancedUserInterface, \Serializable
 
     public function getRoles()
     {
-      return array('ROLE_USER');
+      return array('ROLE_'.strtoupper($this->getDiscr()));
     }
 
     public function getFullName()

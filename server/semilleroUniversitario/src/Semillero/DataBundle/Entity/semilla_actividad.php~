@@ -51,7 +51,7 @@ class semilla_actividad
   /**
   * @var string
   *
-  * @ORM\Column(name="observacion", type="string", length=255)
+  * @ORM\Column(name="observacion", type="string", length=255, nullable=true)
   */
   private $observacion;
 
@@ -216,5 +216,28 @@ class semilla_actividad
     public function getActividad()
     {
         return $this->actividad;
+    }
+
+    /**
+     * Set notaActividad
+     *
+     * @param integer $notaActividad
+     * @return semilla_actividad
+     */
+    public function setNotaActividad($notaActividad)
+    {
+        $this->notaActividad = $notaActividad;
+
+        return $this;
+    }
+
+    /**
+     * Get notaActividad
+     *
+     * @return integer
+     */
+    public function getNotaActividad()
+    {
+        return $this->notaActividad;
     }
 }

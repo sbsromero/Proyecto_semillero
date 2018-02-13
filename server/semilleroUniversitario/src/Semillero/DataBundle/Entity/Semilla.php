@@ -121,6 +121,12 @@ class Semilla extends Usuarios
   */
   private $telefonoAcudienteDos;
 
+  /**
+  * @ORM\ManyToOne(targetEntity="Grupo")
+  * @ORM\JoinColumn(name="id_grupo_aspirante", referencedColumnName="id")
+  */
+  private $grupoAspirante;
+
   // /**
   // * @var string
   // *
@@ -532,5 +538,29 @@ class Semilla extends Usuarios
     public function getActividades()
     {
         return $this->actividades;
+    }
+
+    /**
+     * Set grupoAspirante
+     *
+     * @param \Semillero\DataBundle\Entity\Grupo $grupoAspirante
+     *
+     * @return Semilla
+     */
+    public function setGrupoAspirante(\Semillero\DataBundle\Entity\Grupo $grupoAspirante = null)
+    {
+        $this->grupoAspirante = $grupoAspirante;
+
+        return $this;
+    }
+
+    /**
+     * Get grupoAspirante
+     *
+     * @return \Semillero\DataBundle\Entity\Grupo
+     */
+    public function getGrupoAspirante()
+    {
+        return $this->grupoAspirante;
     }
 }
