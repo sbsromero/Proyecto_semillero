@@ -1,3 +1,7 @@
 .textAreaActividad{
   resize: none
 }
+
+.image-profile{
+  display: none !important;
+}
