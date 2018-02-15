@@ -8,7 +8,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SecurityController extends Controller
 {
-
+  /**
+  * @route("/", name="homepage")
+  */
+  public function redirigirFormularioSemillas(){
+    return $this->redirectToRoute('registrarSemilla');
+  }
   //--------------Metodos de inicio de sesion para los usuarios (mentor, semillas)------------------
   /**
   * @Route("/usuarios/login", name="usuariosLogin")
