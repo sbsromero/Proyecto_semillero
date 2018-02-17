@@ -117,6 +117,18 @@ class SemillaController extends Controller
       $semilla->setPassword($encoded);
       $semilla->setActivo(true);
 
+      $numeroDocumento = $semilla->getNumeroDocumento();
+      $ruta = "public/uploads/".$numeroDocumento."/";
+
+      $imageProfile = $request->files->get('semilla')['urlImage'];
+      if(!empty($imageProfile)){
+        $fileName = $numeroDocumento.'.'.$imageProfile->guessExtension();
+        $semilla->setUrlImage($ruta.$fileName);
+        $imageProfile->move(
+          $ruta,
+          $fileName
+        );
+      }
       $em -> persist($semilla);
       $em -> flush();
 
