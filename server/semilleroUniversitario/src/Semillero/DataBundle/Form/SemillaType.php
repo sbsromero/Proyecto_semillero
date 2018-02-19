@@ -19,7 +19,7 @@ class SemillaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('urlImage',FileType::class, array('attr'=>array('multiple'=>'multiple')))
+        ->add('urlImage',FileType::class)
         ->add('nombre')
         ->add('apellidos')
         ->add('tipoDocumento','entity',array(

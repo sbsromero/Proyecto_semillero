@@ -3,16 +3,19 @@
 	<div class="panel-body" style="padding:0px">
 		<div class="row" style="margin:0px;padding-right: 30px;padding-top: 20px;">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-
 		</div>
 		<div class="row" style="margin:0px">
-			<!-- <div class="" align="center">
-				<h2 style="margin-top:10px">{#{ mentor.nombre }#} {#{ mentor.apellidos }#}</h2>
-			</div> -->
-			<div class="col-md-4" align="center">
-				<div class="" style="background: grey; height: 150px; width: 40%;">
-					imagen
-				</div>
+			<div class="col-md-4 col-xs-12">
+				<dd align="center">
+					<div align="center" style="height: 160px;margin-bottom: 20px;">
+						{% if mentor.getUrlImage() %}
+						{% set url = mentor.getUrlImage() %}
+						{% else %}
+						{% set url = 'public/images/image-profile.png' %}
+						{% endif %}
+						<img class="image_profile" src="{{asset(url)}}" style="width:100%;height:100%" alt="image-profile.png">
+					</div>
+				</dd>
 			</div>
 			<div class="col-md-4">
 				<div class="form-group">

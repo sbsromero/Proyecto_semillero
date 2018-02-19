@@ -15,8 +15,10 @@ use Semillero\DataBundle\Entity\Semilla;
 use Semillero\DataBundle\Form\SemillaType;
 use Semillero\DataBundle\Entity\Grupo;
 use Semillero\DataBundle\Entity\Semilla_Grupo;
+use Symfony\Component\HttpFoundation\File\File;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class SemillaController extends Controller
 {
@@ -151,6 +153,15 @@ class SemillaController extends Controller
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
       $em = $this->getDoctrine()->getManager();
       $semilla = $em->getRepository('DataBundle:Semilla')->findOneByNumeroDocumento($numeroDocumento);
+      $ruta = $semilla->getUrlImage();
+      $accessor = PropertyAccess::createPropertyAccessor();
+
+      if(file_exists($ruta)){
+        $accessor->setValue($semilla,'urlImage',new File($ruta));
+      }
+      else{
+        $accessor->setValue($semilla,'urlImage',new File('public/images/image-profile.png'));
+      }
 
       if(!$semilla)
       {
@@ -158,14 +169,11 @@ class SemillaController extends Controller
       }
 
       $form = $this->createEditForm($semilla);
-      // $idGrupoAsignado = $this->getGrupoAsignado($semilla)->getId();
 
       $grupos = $this->getDoctrine()->getManager()->getRepository('DataBundle:Grupo')->findAll();
       return $this->render('SemillasBundle:Semilla:edit.html.twig', array(
         'semilla'=>$semilla,
         'grupos'=>$grupos,
-        // 'errorSelected' => false,
-        // 'idGrupoAsignado' => $idGrupoAsignado,
         'form'=>$form->createView()));
     }
     return $this->redirectToRoute('adminLogin');
@@ -184,11 +192,20 @@ class SemillaController extends Controller
   public function updateAction($numeroDocumento, Request $request)
   {
     $em = $this->getDoctrine()->getManager();
-
     $semilla = $em->getRepository('DataBundle:Semilla')->findOneByNumeroDocumento($numeroDocumento);
+    $ruta = $semilla->getUrlImage();
+    $accessor = PropertyAccess::createPropertyAccessor();
+
     if(!$semilla)
     {
       throw $this->createNotFoundException('La SEMILLA a Editar NO Existe');
+    }
+
+    if(file_exists($ruta)){
+      $accessor->setValue($semilla,'urlImage',new File($ruta));
+    }
+    else{
+      $accessor->setValue($semilla,'urlImage',new File('public/images/image-profile.png'));
     }
 
     $form = $this->createEditForm($semilla);
@@ -212,6 +229,19 @@ class SemillaController extends Controller
         $semilla->setPassword($pass[0]['password']);
       }
 
+      $numeroDocumento = $semilla->getNumeroDocumento();
+      $ruta = "public/uploads/".$numeroDocumento."/";
+
+      $imageProfile = $request->files->get('semilla')['urlImage'];
+
+      if(!empty($imageProfile)){
+        $fileName = $numeroDocumento.'.'.$imageProfile->guessExtension();
+        $semilla->setUrlImage($ruta.$fileName);
+        $imageProfile->move(
+          $ruta,
+          $fileName
+        );
+      }
       $em -> flush();
       $this->addFlash('mensajeSemilla','La semilla ha sido modificado satisfactoriamente');
       return $this->redirectToRoute('indexSemillas');
@@ -427,6 +457,19 @@ class SemillaController extends Controller
         $semilla->setPassword($encoded);
         $semilla->setActivo(true);
         $semilla->setGrupoAspirante($grupoAspirante);
+
+        $numeroDocumento = $semilla->getNumeroDocumento();
+        $ruta = "public/uploads/".$numeroDocumento."/";
+
+        $imageProfile = $request->files->get('semilla')['urlImage'];
+        if(!empty($imageProfile)){
+          $fileName = $numeroDocumento.'.'.$imageProfile->guessExtension();
+          $semilla->setUrlImage($ruta.$fileName);
+          $imageProfile->move(
+            $ruta,
+            $fileName
+          );
+        }
 
         $em -> persist($semilla);
         $em -> flush();

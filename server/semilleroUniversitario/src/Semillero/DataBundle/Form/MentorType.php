@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class MentorType extends AbstractType
 {
@@ -18,6 +19,7 @@ class MentorType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
       $builder
+      ->add('urlImage',FileType::class)
       ->add('nombre')
       ->add('apellidos')
       ->add('tipoDocumento','entity',array(

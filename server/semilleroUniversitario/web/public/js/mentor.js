@@ -57,6 +57,25 @@ $(document).ready(function(){
     });
   })
 
+  //Cuando se va a cargar una imagen
+  $('body').on('click','.btn-camera', function(e){
+    $('.image-profile').click();
+    $(".image-profile").change(function() {
+      readURL(this);
+    });
+  })
+
+  //Permite leer el archivo que se va a cargar
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        $('.image_profile').attr('src', e.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
   //Permite realizar la busqueda en la pestaña de mentores
   $('body').on('keyup','#queryBusquedaMentor',function(e){
     e.preventDefault();

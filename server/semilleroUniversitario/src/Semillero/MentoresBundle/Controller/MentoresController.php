@@ -13,8 +13,10 @@ use Symfony\Component\Form\FormError;
 
 use Semillero\DataBundle\Entity\Mentor;
 use Semillero\DataBundle\Form\MentorType;
+use Symfony\Component\HttpFoundation\File\File;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 
 /**
@@ -121,6 +123,19 @@ class MentoresController extends Controller
       $mentor->setPassword($encoded);
       $mentor->setActivo(true);
 
+      $numeroDocumento = $mentor->getNumeroDocumento();
+      $ruta = "public/uploads/".$numeroDocumento."/";
+
+      $imageProfile = $request->files->get('mentor')['urlImage'];
+      if(!empty($imageProfile)){
+        $fileName = $numeroDocumento.'.'.$imageProfile->guessExtension();
+        $mentor->setUrlImage($ruta.$fileName);
+        $imageProfile->move(
+          $ruta,
+          $fileName
+        );
+      }
+
       $em -> persist($mentor);
       $em -> flush();
 
@@ -142,10 +157,19 @@ class MentoresController extends Controller
     if($this->isGranted('IS_AUTHENTICATED_FULLY')){
       $em = $this->getDoctrine()->getManager();
       $mentor = $em->getRepository('DataBundle:Mentor')->findOneByNumeroDocumento($numeroDocumento);
+      $ruta = $mentor->getUrlImage();
+      $accessor = PropertyAccess::createPropertyAccessor();
 
       if(!$mentor)
       {
         return $this->redirectToRoute('indexMentores');
+      }
+
+      if(file_exists($ruta)){
+        $accessor->setValue($mentor,'urlImage',new File($ruta));
+      }
+      else{
+        $accessor->setValue($mentor,'urlImage',new File('public/images/image-profile.png'));
       }
 
       $form = $this->createEditForm($mentor);
@@ -167,18 +191,26 @@ class MentoresController extends Controller
   public function updateAction($numeroDocumento, Request $request)
   {
     $em = $this->getDoctrine()->getManager();
-
     $mentor = $em->getRepository('DataBundle:Mentor')->findOneByNumeroDocumento($numeroDocumento);
+    $ruta = $mentor->getUrlImage();
+    $accessor = PropertyAccess::createPropertyAccessor();
+
     if(!$mentor)
     {
       throw $this->createNotFoundException('El Mentor a Editar NO Existe');
     }
 
+    if(file_exists($ruta)){
+      $accessor->setValue($mentor,'urlImage',new File($ruta));
+    }
+    else{
+      $accessor->setValue($mentor,'urlImage',new File('public/images/image-profile.png'));
+    }
+
     $form = $this->createEditForm($mentor);
     $form->handleRequest($request);
-    // dump($mentor,$numeroDocumento,$request->request->all(),$form->isValid());exit();
 
-    if($form->isSubmitted() && $form->isValid())
+    if($form->isValid())
     {
       $password = $form->get('password')->getData();
 
@@ -195,8 +227,22 @@ class MentoresController extends Controller
         $mentor->setPassword($pass[0]['password']);
       }
 
+      $numeroDocumento = $mentor->getNumeroDocumento();
+      $ruta = "public/uploads/".$numeroDocumento."/";
+
+      $imageProfile = $request->files->get('mentor')['urlImage'];
+
+      if(!empty($imageProfile)){
+        $fileName = $numeroDocumento.'.'.$imageProfile->guessExtension();
+        $mentor->setUrlImage($ruta.$fileName);
+        $imageProfile->move(
+          $ruta,
+          $fileName
+        );
+      }
+
       $em -> flush();
-      $this->addFlash('mensajeMentor','¡El mentor ha sido modificado satisfactoriamente!');
+      $this->addFlash('mensajeMentor','El mentor ha sido modificado satisfactoriamente');
       return $this->redirectToRoute('indexMentores');
     }
     return $this->render('MentoresBundle:Mentor:edit.html.twig',array('mentor' => $mentor, 'form' =>$form->createView()));

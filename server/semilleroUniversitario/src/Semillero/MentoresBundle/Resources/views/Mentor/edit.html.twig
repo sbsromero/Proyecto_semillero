@@ -20,6 +20,19 @@
 			</div>
 			{{ form_start(form, { 'attr' : {'novalidate': 'novalidate','role' : 'form'} }) }}
 			<div class="row" style="margin:0px">
+				<div class="col-md-offset-4 col-md-4" align="center">
+					<div class="" align="center" style="background: grey;height: 160px;width: 50%;margin-bottom: 20px;position:relative">
+						<img class="image_profile" src="{{asset('public/images/image-profile.png')}}" style="width:100%;height:100%; position:absolute; left:0" alt="image-profile.png">
+						<a class="btn btn-sm btn-default btn-camera" style="position: absolute;right: 0;bottom: 0;">
+							<span>
+								<i class="glyphicon glyphicon-camera"></i>
+							</span>
+						</a>
+					</div>
+					{{form_widget(form.urlImage,{'attr':{'class':'image-profile'}})}}
+				</div>
+			</div>
+			<div class="row" style="margin:0px">
 				<div class="col-md-6">
 					<div class="form-group">
 						{{ form_label(form.nombre)  }}
