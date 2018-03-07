@@ -198,7 +198,7 @@ class UsuariosController extends Controller
       $contadorEncuentro = $this->encuentroRegistroHoy($encuentros,$fechaActual);
 
       //Si la fecha es un sabado, puede agregar un encuentro
-      if($fechaActual->format('N') == 6){
+      // if($fechaActual->format('N') == 6){
         //Si hay menos de 4 encuentros por segmento y si ya se agrego uno cuadno se realizo el
         //encuentro
         if(count($encuentros) < 4 && !$contadorEncuentro){
@@ -211,7 +211,7 @@ class UsuariosController extends Controller
           return new Response(Response::HTTP_OK);
         }
         return new Response("No se pudo registrar el encuentro",400);
-      }
+      // }
       return new Response("No es un dia vigente para agregar un encuentro", 400);
     }
     return $this->redirectToRoute('gestionEncuentros');
